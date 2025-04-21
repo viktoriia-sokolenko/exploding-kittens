@@ -5,6 +5,7 @@
 ## Contributors
 
 - Paula Eyituoyo Fregene
+- Viktoriia Sokolenko
 - Ethan Joshua Pineda-Pardo
 
 ## Dependencies
