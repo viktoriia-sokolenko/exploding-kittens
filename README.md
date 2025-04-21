@@ -4,7 +4,7 @@ sqe/course-project-20242510-team-05/actions/workflows/main.yml/badge.svg)
 
 ## Contributors
 - Paula Eyituoyo Fregene
-- PERSON
+- Viktoriia Sokolenko
 
 ## Dependencies
 - JDK 11
