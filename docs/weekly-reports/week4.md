@@ -18,27 +18,16 @@
 # Part 3. Individual Progress of the Week :coffee:
 
 ### Team member: Paula Eyituoyo Fregene
-#### PR created:
+
+### PR done and approved
 - [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/10)
 - [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/11)
 
-### PR done and approved
-- link to PR
-- link to PR
-
 ### Other people's PR reviewed by you
 - [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/9)
-- link to PR
 
 
 ### Team member: Ethan Joshua Pineda-Pardo
-#### PR created:
-- link to PR
-- link to PR
-
-### PR done and approved
-- link to PR
-- link to PR
 
 ### Other people's PR reviewed by you
 - [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/6)
@@ -55,5 +44,5 @@
 - [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/9)
 
 ### Other people's PR reviewed by you
-- link to PR
-- link to PR
+- [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/10)
+- [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/11)
