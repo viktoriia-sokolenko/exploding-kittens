@@ -12,15 +12,15 @@
 
 **Item Progress**:
 1. [done] SetUp Spotbugs and Checkstyle, Document Use Cases, Discuss Exploding Kitten Requirements and Necessities
-2. [not started] N/A
-3. [80% done] Start Implementing Game SetUp
+2. [not started] Start Implementing Game SetUp
+3. [80% done] N/A
 
 # Part 3. Individual Progress of the Week :coffee:
 
 ### Team member: Paula Eyituoyo Fregene
 #### PR created:
 - [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/10)
-- link to PR
+- [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/11)
 
 ### PR done and approved
 - link to PR
@@ -41,6 +41,7 @@
 - link to PR
 
 ### Other people's PR reviewed by you
+- [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/6)
 - [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/7)
 - [link to PR](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/8)
 
