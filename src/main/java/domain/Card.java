@@ -12,4 +12,15 @@ public class Card {
     public CardType getCardType() {
         return cardType;
     }
+
+    public @Override boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Card other = (Card) obj;
+        return cardType == other.cardType;
+    }
 }

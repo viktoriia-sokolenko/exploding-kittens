@@ -23,4 +23,12 @@ public class CardTest {
         Card card = new Card(type);
         assertTrue(card.equals(card));
     }
+
+    @Test
+    public void Equals_CompareWithSameTypeCard_ReturnsTrue() {
+        CardType type = CardType.NORMAL;
+        Card card1 = new Card(type);
+        Card card2 = new Card(type);
+        assertTrue(card1.equals(card2));
+    }
 }
