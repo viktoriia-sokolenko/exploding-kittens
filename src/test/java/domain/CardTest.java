@@ -38,4 +38,12 @@ public class CardTest {
         Card card = new Card(type);
         assertFalse(card.equals(null));
     }
+
+    @Test
+    public void Equals_CompareWithDifferentClass_ReturnsFalse() {
+        CardType type = CardType.NORMAL;
+        Card card = new Card(type);
+        Object obj = new Object();
+        assertFalse(card.equals(obj));
+    }
 }
