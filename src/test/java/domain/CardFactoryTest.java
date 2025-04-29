@@ -11,4 +11,11 @@ public class CardFactoryTest {
         CardFactory factory = new CardFactory();
         assertThrows(NullPointerException.class, () -> factory.createCard(null));
     }
+
+    @Test
+    public void CreateCard_WithExplodingKittenCardType_CreatesCard() {
+        CardFactory factory = new CardFactory();
+        Card expoldingKittenCard = factory.createCard(CardType.EXPLODING_KITTEN);
+        assertTrue(expoldingKittenCard instanceof ExpoldingKittenCard);
+    }
 }
