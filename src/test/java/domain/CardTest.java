@@ -56,4 +56,15 @@ public class CardTest {
 		assertEquals(card1.hashCode(), card2.hashCode());
 	}
 
+	@Test
+	// Note: This test doesn't actually assert anything because different hash codes
+	// are allowed but not guaranteed for unequal objects
+	// We're just verifying the method runs without errors
+	public void HashCode_DifferentCards_MayReturnDifferentHashCode() {
+		Card card1 = new Card(CardType.NORMAL);
+		Card card2 = new Card(CardType.EXPLODING_KITTEN);
+		int hashCode1 = card1.hashCode();
+		int hashCode2 = card2.hashCode();
+	}
+
 }
