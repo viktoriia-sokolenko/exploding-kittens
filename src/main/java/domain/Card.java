@@ -8,4 +8,8 @@ public class Card {
     public Card(CardType cardType) {
         this.cardType = Objects.requireNonNull(cardType, String.format("Card type cannot be null"));
     }
+
+    public CardType getCardType() {
+        return cardType;
+    }
 }

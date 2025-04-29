@@ -14,6 +14,6 @@ public class CardTest {
     public void Constructor_WithValidCardType_CreatesCard() {
         CardType type = CardType.EXPLODING_KITTEN;
         Card card = new Card(type);
-        assertEquals(type, card.getType());
+        assertEquals(type, card.getCardType());
     }
 }
