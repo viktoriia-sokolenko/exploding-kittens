@@ -16,4 +16,11 @@ public class CardTest {
         Card card = new Card(type);
         assertEquals(type, card.getCardType());
     }
+
+    @Test
+    public void Equals_CompareWithItself_ReturnsTrue() {
+        CardType type = CardType.NORMAL;
+        Card card = new Card(type);
+        assertTrue(card.equals(card));
+    }
 }
