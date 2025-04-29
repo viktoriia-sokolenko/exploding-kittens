@@ -22,7 +22,7 @@ public class CardTest {
     public void Equals_CompareWithItself_ReturnsTrue() {
         CardType type = CardType.NORMAL;
         Card card = new Card(type);
-        assertTrue(card.equals(card));
+        assertEquals(card, card);
     }
 
     @Test
@@ -30,14 +30,14 @@ public class CardTest {
         CardType type = CardType.NORMAL;
         Card card1 = new Card(type);
         Card card2 = new Card(type);
-        assertTrue(card1.equals(card2));
+        assertEquals(card1, card2);
     }
 
     @Test
     public void Equals_CompareWithNull_ReturnsFalse() {
         CardType type = CardType.NORMAL;
         Card card = new Card(type);
-        assertFalse(card.equals(null));
+        assertNotEquals(null, card);
     }
 
     @Test
@@ -45,6 +45,6 @@ public class CardTest {
         CardType type = CardType.NORMAL;
         Card card = new Card(type);
         Object obj = new Object();
-        assertFalse(card.equals(obj));
+        assertNotEquals(card, obj);
     }
 }
