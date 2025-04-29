@@ -47,4 +47,13 @@ public class CardTest {
 		Object obj = new Object();
 		assertNotEquals(card, obj);
 	}
+
+	@Test
+	public void HashCode_SameCards_ReturnsSameHashCode() {
+		CardType type = CardType.NORMAL;
+		Card card1 = new Card(type);
+		Card card2 = new Card(type);
+		assertEquals(card1.hashCode(), card2.hashCode());
+	}
+
 }

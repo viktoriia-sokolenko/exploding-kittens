@@ -23,6 +23,7 @@ public class Card {
 		Card other = (Card) obj;
 		return cardType == other.cardType;
 	}
+
 }
 
 
