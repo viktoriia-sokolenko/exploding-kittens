@@ -31,4 +31,11 @@ public class CardTest {
         Card card2 = new Card(type);
         assertTrue(card1.equals(card2));
     }
+
+    @Test
+    public void Equals_CompareWithNull_ReturnsFalse() {
+        CardType type = CardType.NORMAL;
+        Card card = new Card(type);
+        assertFalse(card.equals(null));
+    }
 }
