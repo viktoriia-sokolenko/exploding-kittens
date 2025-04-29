@@ -18,4 +18,11 @@ public class CardFactoryTest {
         Card expoldingKittenCard = factory.createCard(CardType.EXPLODING_KITTEN);
         assertTrue(expoldingKittenCard instanceof ExpoldingKittenCard);
     }
+
+    @Test
+    public void CreateCard_WithDefuseCardType_CreatesCard() {
+        CardFactory factory = new CardFactory();
+        Card defuseCard = factory.createCard(CardType.DEFUSE);
+        assertTrue(defuseCard instanceof DefuseCard);
+    }
 }
