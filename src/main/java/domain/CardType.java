@@ -1,0 +1,14 @@
+package domain;
+
+public enum CardType {
+    NORMAL,
+    EXPLODING_KITTEN,
+    DEFUSE,
+    ATTACK,
+    SKIP,
+    FAVOR,
+    SHUFFLE,
+    SEE_THE_FUTURE,
+    ALTER_THE_FUTURE,
+    NUKE
+}
