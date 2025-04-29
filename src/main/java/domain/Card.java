@@ -24,6 +24,10 @@ public class Card {
 		return cardType == other.cardType;
 	}
 
+	public @Override int hashCode() {
+		return Objects.hash(cardType);
+	}
+
 }
 
 
