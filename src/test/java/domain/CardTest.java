@@ -62,7 +62,7 @@ public class CardTest {
 		Card card2 = new Card(CardType.EXPLODING_KITTEN);
 		int hashCode1 = card1.hashCode();
 		int hashCode2 = card2.hashCode();
-        assertNotEquals(hashCode1, hashCode2);
+		assertNotEquals(hashCode1, hashCode2);
 	}
 
 }
