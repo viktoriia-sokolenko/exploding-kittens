@@ -16,13 +16,13 @@ public class CardFactoryTest {
     public void CreateCard_WithExplodingKittenCardType_CreatesCard() {
         CardFactory factory = new CardFactory();
         Card expoldingKittenCard = factory.createCard(CardType.EXPLODING_KITTEN);
-        assertTrue(expoldingKittenCard instanceof ExpoldingKittenCard);
+        assertInstanceOf(ExpoldingKittenCard.class, expoldingKittenCard);
     }
 
     @Test
     public void CreateCard_WithDefuseCardType_CreatesCard() {
         CardFactory factory = new CardFactory();
         Card defuseCard = factory.createCard(CardType.DEFUSE);
-        assertTrue(defuseCard instanceof DefuseCard);
+        assertInstanceOf(DefuseCard.class, defuseCard);
     }
 }

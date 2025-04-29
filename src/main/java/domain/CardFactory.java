@@ -6,6 +6,8 @@ public class CardFactory {
         switch (type) {
             case EXPLODING_KITTEN:
                 return new ExpoldingKittenCard();
+            case DEFUSE:
+                return new DefuseCard();
             default: return null;
         }
     }
