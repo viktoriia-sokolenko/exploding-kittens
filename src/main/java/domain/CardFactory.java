@@ -5,4 +5,3 @@ public class CardFactory {
         throw new NullPointerException();
     }
 }
-
