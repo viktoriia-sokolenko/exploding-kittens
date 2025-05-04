@@ -13,12 +13,12 @@
 |             | System under test (pre-state)                                      | Expected output / state transition                   | Implemented?       |
 |-------------|--------------------------------------------------------------------|------------------------------------------------------|--------------------|
 | Test Case 1 | `index < 0` (empty list)                                           | `IndexOutOfBoundsException`                          | :white_check_mark: |
-| Test Case 2 | `index < 0` (non-empty list)                                       | `IndexOutOfBoundsException`                          |                    |
+| Test Case 2 | `index < 0` (non-empty list)                                       | `IndexOutOfBoundsException`                          | :white_check_mark: |
 | Test Case 3 | `index == 0` (front of deck) (empty list)                          | Card inserted at top; deck `size` increments by 1    |                    |
 | Test Case 4 | `index == 0` (front of deck) (non-empty list)                      | Card inserted at top; deck `size` increments by 1    |                    |
 | Test Case 5 | `index == size` (exactly last position / bottom)  (non-empty list) | Card appended at bottom; deck `size` increments by 1 |                    |
-| Test Case 6 | `index > size` (empty list)                                        | `IndexOutOfBoundsException`                          |                    |
-| Test Case 7 | `index > size` (non-empty list)                                    | `IndexOutOfBoundsException`                          |                    |
+| Test Case 6 | `index > size` (empty list)                                        | `IndexOutOfBoundsException`                          | :white_check_mark: |
+| Test Case 7 | `index > size` (non-empty list)                                    | `IndexOutOfBoundsException`                          | :white_check_mark: |
 | Test Case 8 | `c == null` (empty list)                                           | `NullPointerException`                               |                    |
 | Test Case 9 | `c == null` (non-empty list)                                       | `NullPointerException`                               |                    |
 
