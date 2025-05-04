@@ -34,7 +34,7 @@ public class DeckTest {
 		Card actualCard = deck.draw();
 
 		assertEquals(card, actualCard);
-		assertEquals(0, cardList.size());
+		assertEquals(0, deck.getDeckSize());
 
 	}
 
@@ -49,7 +49,7 @@ public class DeckTest {
 		Card actualCard = deck.draw();
 		assertEquals(card2, actualCard);
 
-		assertEquals(1, cardList.size());
+		assertEquals(1, deck.getDeckSize());
 
 	}
 
@@ -84,4 +84,22 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 
 	}
+
+	@Test
+	public void InsertAt_IndexGreaterThanZeroOnEmptyList_ThrowsIndexOutOfBoundsException() {
+		Card card = new Card(CardType.NORMAL);
+		List<Card> emptyCardList = new ArrayList<>();
+		Deck deck = new Deck(emptyCardList);
+		int index = 1;
+
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
+
+		String expectedMessage = "Index out of bounds";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(expectedMessage, actualMessage);
+
+	}
+
+
 }
