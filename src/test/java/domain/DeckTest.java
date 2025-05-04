@@ -124,9 +124,8 @@ public class DeckTest {
 	public void InsertAt_NullCardOnEmptyList_ThrowsNullPointerException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
-		Card card = null;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(0, card));
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(0, null));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
