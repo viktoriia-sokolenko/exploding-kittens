@@ -1,6 +1,5 @@
 package domain;
 
-import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,9 +17,7 @@ public class DeckTest {
 
 		String expectedMessage = "Deck is empty";
 
-		Exception exception = assertThrows(NoSuchElementException.class, () -> {
-			deck.draw();
-		});
+		Exception exception = assertThrows(NoSuchElementException.class, deck::draw);
 
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
@@ -38,6 +35,21 @@ public class DeckTest {
 
 		assertEquals(card, actualCard);
 		assertEquals(0, cardList.size());
+
+	}
+
+	@Test
+	public void Draw_WithTwoCards_ReturnsCardWithSizeOne() {
+		Card card1 = new Card(CardType.NORMAL);
+		Card card2 = new Card(CardType.NORMAL);
+		List<Card> cardList = new ArrayList<>(List.of(card1, card2));
+
+		Deck deck = new Deck(cardList);
+
+		Card actualCard = deck.draw();
+		assertEquals(card2, actualCard);
+
+		assertEquals(1, cardList.size());
 
 	}
 }
