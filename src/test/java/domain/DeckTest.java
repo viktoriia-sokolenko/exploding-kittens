@@ -136,15 +136,9 @@ public class DeckTest {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
 
-		Exception exception = assertThrows(
-				IndexOutOfBoundsException.class,
+		assertThrows(NullPointerException.class,
 				() -> deck.insertAt(0, null)
 		);
-
-		String expectedMessage = "Index out of bounds";
-		String actualMessage = exception.getMessage();
-
-		assertEquals(expectedMessage, actualMessage);
 
 	}
 
@@ -156,16 +150,8 @@ public class DeckTest {
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card1, card2));
 		Deck deck = new Deck(nonEmptyCardList);
 
-		Exception exception = assertThrows(
-				IndexOutOfBoundsException.class,
+		assertThrows(NullPointerException.class,
 				() -> deck.insertAt(0, null)
 		);
-
-		String expectedMessage = "Index out of bounds";
-		String actualMessage = exception.getMessage();
-
-		assertEquals(expectedMessage, actualMessage);
-
 	}
-
 }

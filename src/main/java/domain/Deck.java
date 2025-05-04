@@ -3,11 +3,13 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class Deck {
 	private List<Card> deck;
 
 	public Deck(List<Card> cardList) {
+		Objects.requireNonNull(cardList, "List of Cards cannot be null");
 		this.deck = new ArrayList<>(cardList);
 	}
 
@@ -20,7 +22,8 @@ public class Deck {
 	}
 
 	public void insertAt(int index, Card card) {
-		if (index < 0 || index > this.deck.size() || card == null) {
+		Objects.requireNonNull(card, "Card type cannot be null");
+		if (index < 0 || index > this.deck.size()) {
 			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
 
