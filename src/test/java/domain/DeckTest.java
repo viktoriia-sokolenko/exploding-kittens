@@ -54,7 +54,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void InsertAt_EmptyDeck_ThrowsIndexOutOfBoundsException() {
+	public void InsertAt_IndexLessThanZero_ThrowsIndexOutOfBoundsException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
 		Card card = new Card(CardType.NORMAL);
