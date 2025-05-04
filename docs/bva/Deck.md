@@ -19,7 +19,7 @@
 | Test Case 5 | `index == size` (exactly last position / bottom)  (non-empty list) | Card appended at bottom; deck `size` increments by 1 |                    |
 | Test Case 6 | `index > size` (empty list)                                        | `IndexOutOfBoundsException`                          | :white_check_mark: |
 | Test Case 7 | `index > size` (non-empty list)                                    | `IndexOutOfBoundsException`                          | :white_check_mark: |
-| Test Case 8 | `c == null` (empty list)                                           | `NullPointerException`                               |                    |
+| Test Case 8 | `c == null` (empty list)                                           | `NullPointerException`                               | :white_check_mark: |
 | Test Case 9 | `c == null` (non-empty list)                                       | `NullPointerException`                               |                    |
 
 ### Method under test: `shuffle()`

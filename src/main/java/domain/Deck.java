@@ -20,7 +20,7 @@ public class Deck {
 	}
 
 	public void insertAt(int index, Card card) {
-		if (index < 0 || index > this.deck.size()) {
+		if (index < 0 || index > this.deck.size() || card == null) {
 			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
 
