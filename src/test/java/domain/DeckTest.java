@@ -52,4 +52,20 @@ public class DeckTest {
 		assertEquals(1, cardList.size());
 
 	}
+
+	@Test
+	public void InsertAt_EmptyDeck_ThrowsIndexOutOfBoundsException() {
+		List<Card> emptyCardList = new ArrayList<>();
+		Deck deck = new Deck(emptyCardList);
+		Card card = new Card(CardType.NORMAL);
+		int index = -1;
+
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
+
+		String expectedMessage = "Index out of bounds";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(expectedMessage, actualMessage);
+
+	}
 }

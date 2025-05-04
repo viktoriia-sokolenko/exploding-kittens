@@ -10,13 +10,13 @@
 
 ### Method under test: `insertAt(int index, Card c)`
 
-|             | System under test (pre-state)                    | Expected output / state transition                   | Implemented? |
-|-------------|--------------------------------------------------|------------------------------------------------------|--------------|
-| Test Case 1 | `index < 0`                                      | `IndexOutOfBoundsException`                          |              |
-| Test Case 2 | `index == 0` (front of deck)                     | Card inserted at top; deck `size` increments by 1    |              |
-| Test Case 3 | `index == size` (exactly last position / bottom) | Card appended at bottom; deck `size` increments by 1 |              |
-| Test Case 4 | `index > size`                                   | `IndexOutOfBoundsException`                          |              |
-| Test Case 5 | `c == null`                                      | `NullPointerException`                               |              |
+|             | System under test (pre-state)                    | Expected output / state transition                   | Implemented?       |
+|-------------|--------------------------------------------------|------------------------------------------------------|--------------------|
+| Test Case 1 | `index < 0`                                      | `IndexOutOfBoundsException`                          | :white_check_mark: |
+| Test Case 2 | `index == 0` (front of deck)                     | Card inserted at top; deck `size` increments by 1    |                    |
+| Test Case 3 | `index == size` (exactly last position / bottom) | Card appended at bottom; deck `size` increments by 1 |                    |
+| Test Case 4 | `index > size`                                   | `IndexOutOfBoundsException`                          |                    |
+| Test Case 5 | `c == null`                                      | `NullPointerException`                               |                    |
 
 ### Method under test: `shuffle()`
 
