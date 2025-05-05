@@ -351,6 +351,18 @@ public class DeckTest {
 		EasyMock.verify(random);
 	}
 
+	@Test
+	public void ShuffleDeck_EmptyList_OrderRemainTheSame() {
+		List<Card> cardList = new ArrayList<>();
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
 
+		Deck deck = new Deck(cardList, random);
+
+		deck.shuffleDeck();
+
+		assertEquals(0, deck.getDeckSize());
+		EasyMock.verify(random);
+	}
 
 }
