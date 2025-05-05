@@ -304,4 +304,19 @@ public class DeckTest {
 		EasyMock.verify(rand);
 	}
 
+	@Test
+	public void ShuffleDeck_OneCardinDeck() {
+		Card card = new Card(CardType.NORMAL);
+		List<Card> cardList = new ArrayList<>(List.of(card));
+		Random rand  = EasyMock.createMock(Random.class);
+		EasyMock.replay(rand);
+
+		Deck deck = new Deck(cardList);
+		deck.shuffleDeck(rand);
+
+		assertEquals(1, deck.getDeckSize());
+		assertEquals(card, deck.peekTop());
+		EasyMock.verify(rand);
+	}
+
 }
