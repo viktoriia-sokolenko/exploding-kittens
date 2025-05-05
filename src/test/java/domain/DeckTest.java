@@ -1,15 +1,28 @@
 package domain;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DeckTest {
+
+	static Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
+		return Stream.of(
+				List.of(new Card(CardType.NORMAL), new Card(CardType.ATTACK)),
+				List.of(new Card(CardType.DEFUSE), new Card(CardType.SKIP)),
+				List.of(new Card(CardType.FAVOR), new Card(CardType.EXPLODING_KITTEN)),
+				List.of(new Card(CardType.SHUFFLE), new Card(CardType.ALTER_THE_FUTURE)),
+				List.of(new Card(CardType.SEE_THE_FUTURE), new Card(CardType.NUKE))
+		);
+	}
 
 	@Test
 	public void PeekTop_EmptyDeck_ThrowsIllegalOperationException() {
@@ -36,6 +49,17 @@ public class DeckTest {
 
 		assertEquals(expectedCard, actualCard);
 
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	void PeakTop_DeckWithTwoCards_ReturnsCardInIndexOne(List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		Card expectedCard = cards.get(1);
+		Card actualCard = deck.peekTop();
+
+		assertEquals(expectedCard, actualCard);
 	}
 
 	@Test
