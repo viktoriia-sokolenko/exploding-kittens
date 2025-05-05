@@ -1,5 +1,6 @@
 package domain;
 
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -7,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,7 +32,10 @@ public class DeckTest {
 	@Test
 	public void PeekTop_EmptyDeck_ThrowsIllegalOperationException() {
 		List<Card> emptyCardList = new ArrayList<>();
-		Deck deck = new Deck(emptyCardList);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(emptyCardList, random);
 
 		String expectedMessage = "Deck is empty";
 
@@ -38,6 +43,8 @@ public class DeckTest {
 
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
+
+		EasyMock.verify(random);
 	}
 
 	@Test
@@ -46,21 +53,29 @@ public class DeckTest {
 		Card expectedCard = new Card(cardType);
 		List<Card> cardList = new ArrayList<>(List.of(expectedCard));
 
-		Deck deck = new Deck(cardList);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(cardList, random);
 		Card actualCard = deck.peekTop();
 
 		assertEquals(expectedCard, actualCard);
+		EasyMock.verify(random);
 	}
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
 	public void PeakTop_DeckWithTwoCards_ReturnsCardInIndexOne(List<Card> cards) {
-		Deck deck = new Deck(cards);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(cards, random);
 
 		Card expectedCard = cards.get(1);
 		Card actualCard = deck.peekTop();
 
 		assertEquals(expectedCard, actualCard);
+		EasyMock.verify(random);
 	}
 
 	@Test
@@ -68,17 +83,24 @@ public class DeckTest {
 		Card card1 = new Card(CardType.SEE_THE_FUTURE);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
-		Deck deck = new Deck(List.of(card1, card2, card3));
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(List.of(card1, card2, card3), random);
 
 		Card actualCard = deck.peekTop();
 
 		assertEquals(card3, actualCard);
+		EasyMock.verify(random);
 	}
 
 	@Test
 	public void Draw_WithEmptyDeck_ThrowsNoSuchElementException() {
 		List<Card> emptyCardList = new ArrayList<>();
-		Deck deck = new Deck(emptyCardList);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(emptyCardList, random);
 
 		String expectedMessage = "Deck is empty";
 
@@ -86,6 +108,7 @@ public class DeckTest {
 
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
+		EasyMock.verify(random);
 	}
 
 	@Test
@@ -93,26 +116,33 @@ public class DeckTest {
 		CardType cardType = CardType.NORMAL;
 		Card card = new Card(cardType);
 		List<Card> cardList = new ArrayList<>(List.of(card));
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
 
-		Deck deck = new Deck(cardList);
+		Deck deck = new Deck(cardList, random);
 
 		Card actualCard = deck.draw();
 
 		assertEquals(card, actualCard);
 		assertEquals(0, deck.getDeckSize());
+		EasyMock.verify(random);
 	}
 
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
 	public void DrawAndGetDeckSize_WithTwoCards(List<Card> cards) {
-		Deck deck = new Deck(cards);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(cards, random);
 
 		Card expectedCard = cards.get(1);
 		Card actualCard = deck.draw();
 
 		assertEquals(expectedCard, actualCard);
 		assertEquals(1, deck.getDeckSize());
+		EasyMock.verify(random);
 	}
 
 	@Test
@@ -120,24 +150,31 @@ public class DeckTest {
 		Card card1 = new Card(CardType.SEE_THE_FUTURE);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
-		Deck deck = new Deck(List.of(card1, card2, card3));
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
 
+		Deck deck = new Deck(List.of(card1, card2, card3), random);
 		Card actualCard = deck.draw();
 
 		assertEquals(card3, actualCard);
 		assertEquals(2, deck.getDeckSize());
+		EasyMock.verify(random);
 	}
 
 	@Test
 	public void GetDeckSize_DeckWithTwoCards_ReturnsTwo() {
 		Card card1 = new Card(CardType.SEE_THE_FUTURE);
 		Card card2 = new Card(CardType.NORMAL);
-		Deck deck = new Deck(List.of(card1, card2));
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(List.of(card1, card2), random);
 
 		int expectedSize = 2;
 		int actualSize = deck.getDeckSize();
 
 		assertEquals(expectedSize, actualSize);
+		EasyMock.verify(random);
 	}
 
 	@Test
@@ -145,136 +182,175 @@ public class DeckTest {
 		Card card1 = new Card(CardType.NORMAL);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
-		Deck deck = new Deck(List.of(card1, card2, card3));
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(List.of(card1, card2, card3), random);
 
 		int expectedSize = 3;
 		int actualSize = deck.getDeckSize();
 
 		assertEquals(expectedSize, actualSize);
+		EasyMock.verify(random);
 	}
 
 	@Test
-	public void InsertAt_IndexLessThanZeroOnEmptyList_ThrowsIndexOutOfBoundsException() {
+	public void InsertCardAt_IndexLessThanZeroOnEmptyList_ThrowsIndexOutOfBoundsException() {
 		List<Card> emptyCardList = new ArrayList<>();
-		Deck deck = new Deck(emptyCardList);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(emptyCardList, random);
 		Card card = new Card(CardType.NORMAL);
 		int index = -1;
 
 		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card));
+				() -> deck.insertCardAt(card, index));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
+		EasyMock.verify(random);
 	}
 
 	@Test
-	public void InsertAt_IndexLessThanZeroOnNonEmptyList_ThrowsIndexOutOfBoundsException() {
+	public void InsertCardAt_IndexLessThanZeroOnNonEmptyList_ThrowsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card));
-		Deck deck = new Deck(nonEmptyCardList);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(nonEmptyCardList, random);
 		int index = -1;
 
 		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card));
+				() -> deck.insertCardAt(card, index));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
+		EasyMock.verify(random);
 	}
 
 	@Test
-	public void InsertAt_IndexGreaterThanZeroOnEmptyList_ThrowsIndexOutOfBoundsException() {
+	public void InsertCardAt_IndexGreaterThanZeroOnEmptyList_ThrowsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		List<Card> emptyCardList = new ArrayList<>();
-		Deck deck = new Deck(emptyCardList);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(emptyCardList, random);
 		int index = 1;
 
 		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card));
+				() -> deck.insertCardAt(card, index));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
+		EasyMock.verify(random);
 	}
 
 	@Test
-	public void InsertAt_IndexGreaterThanZeroOnNonEmptyList_ThrowsIndexOutOfBoundsException() {
+	public void InsertCardAt_IndexGreaterThanZeroOnNonEmptyList_ThrowsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		Card card1 = new Card(CardType.EXPLODING_KITTEN);
 		Card card2 = new Card(CardType.DEFUSE);
-
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card1, card2));
-		Deck deck = new Deck(nonEmptyCardList);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(nonEmptyCardList, random);
 		int index = 3;
 
 		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card));
+				() -> deck.insertCardAt(card, index));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
+		EasyMock.verify(random);
 	}
 
 	@Test
-	public void InsertAt_NullCardOnEmptyList_ThrowsNullPointerException() {
+	public void InsertCardAt_NullCardOnEmptyList_ThrowsNullPointerException() {
 		List<Card> emptyCardList = new ArrayList<>();
-		Deck deck = new Deck(emptyCardList);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
 
-		assertThrows(NullPointerException.class, () -> deck.insertAt(0, null));
+		Deck deck = new Deck(emptyCardList, random);
+
+		assertThrows(NullPointerException.class, () -> deck.insertCardAt(null, 0));
+		EasyMock.verify(random);
 	}
 
 	@Test
-	public void InsertAt_NullCardOnNonEmptyList_ThrowsNullPointerException() {
+	public void InsertCardAt_NullCardOnNonEmptyList_ThrowsNullPointerException() {
 		Card card1 = new Card(CardType.NORMAL);
 		Card card2 = new Card(CardType.FAVOR);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
 
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card1, card2));
-		Deck deck = new Deck(nonEmptyCardList);
+		Deck deck = new Deck(nonEmptyCardList, random);
 
-		assertThrows(NullPointerException.class, () -> deck.insertAt(0, null));
+		assertThrows(NullPointerException.class, () -> deck.insertCardAt(null, 0));
+		EasyMock.verify(random);
 	}
 
 	@Test
-	public void InsertAt_IndexEqualsZeroOnEmptyList() {
+	public void InsertCardAt_IndexEqualsZeroOnEmptyList() {
 		Card card = new Card(CardType.EXPLODING_KITTEN);
 		int index = 0;
 		List<Card> cardList = new ArrayList<>();
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
 
-		Deck deck = new Deck(cardList);
-		deck.insertAt(index, card);
+		Deck deck = new Deck(cardList, random);
+		deck.insertCardAt(card, index);
 
 		assertEquals(1, deck.getDeckSize());
 		assertEquals(card, deck.peekTop());
+		EasyMock.verify(random);
 	}
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void InsertAt_IndexIsZeroOnNonEmptyList(List<Card> cards) {
+	public void InsertCardAt_IndexIsZeroOnNonEmptyList(List<Card> cards) {
 		Card card = new Card(CardType.NORMAL);
-		Deck deck = new Deck(cards);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(cards, random);
 
 		int index = 0;
-		deck.insertAt(index, card);
+		deck.insertCardAt(card, index);
 
 		assertEquals(3, deck.getDeckSize());
+		EasyMock.verify(random);
 	}
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void InsertAt_IndexIsTwoOnNonEmptyListWithTwoElements(List<Card> cards) {
+	public void InsertCardAt_IndexIsTwoOnNonEmptyListWithTwoElements(List<Card> cards) {
 		Card card = new Card(CardType.NORMAL);
-		Deck deck = new Deck(cards);
+		Random random = EasyMock.createMock(Random.class);
+		EasyMock.replay(random);
+
+		Deck deck = new Deck(cards, random);
 
 		int index = 2;
-		deck.insertAt(index, card);
+		deck.insertCardAt(card, index);
 
 		assertEquals(card, deck.peekTop());
 		assertEquals(3, deck.getDeckSize());
+		EasyMock.verify(random);
 	}
+
+
 
 }

@@ -32,7 +32,7 @@ it.
 | Test Case 3 | Deck has **> 1** cards `[card1, card2]`            | Returns `2`;                       | :white_check_mark: |
 | Test Case 4 | Deck has **> 1** cards `[card1, card2.1, card2.2]` | Returns `3`;                       | :white_check_mark: |
 
-### Method under test: `insertAt(int index, Card card)`
+### Method under test: `insertCardAt(Card card, Index index)`
 
 |             | System under test (pre-state)                                                       | Expected output / state transition                                          | Implemented?       |
 |-------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|--------------------|
@@ -46,7 +46,7 @@ it.
 | Test Case 8 | `card == null` (empty list)    `[]`                                                 | `NullPointerException`                                                      | :white_check_mark: |
 | Test Case 9 | `card == null` (non-empty list) `[card1, card2]`                                    | `NullPointerException`                                                      | :white_check_mark: |
 
-### Method under test: `shuffle()`
+### Method under test: `shuffleDeck()`
 
 |             | System under test         | Expected output                                                                           | Implemented? |
 |-------------|---------------------------|-------------------------------------------------------------------------------------------|--------------|
