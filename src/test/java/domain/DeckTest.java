@@ -313,14 +313,15 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void InsertCardAt_IndexIsZeroOnNonEmptyDeck(List<Card> cards) {
-		Card card = new Card(CardType.NORMAL);
+	public void InsertCardAtAndGetCardAt_IndexIsZeroOnNonEmptyDeck(List<Card> cards) {
+		Card actualCard = new Card(CardType.NORMAL);
 		int index = 0;
 
 		Deck deck = new Deck(cards);
 
-		deck.insertCardAt(card, index);
+		deck.insertCardAt(actualCard, index);
 
+		assertEquals(actualCard, deck.getCardAt(index));
 		assertEquals(3, deck.getDeckSize());
 	}
 
