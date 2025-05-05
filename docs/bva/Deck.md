@@ -23,6 +23,19 @@ it.
 | Test Case 3 | Deck has **> 1** cards `[card1, card2]`                           | Returns `card2`;                           | :white_check_mark: |
 | Test Case 4 | Deck has **> 1** cards and Duplicated `[card1, card2.1, card2.2]` | Returns `card2.2`;                         | :white_check_mark: |
 
+### Method under test: `getCardAtIndex(int index)`
+
+|             | System under test                                      | Expected output / state transition | Implemented? |
+|-------------|--------------------------------------------------------|------------------------------------|--------------|
+| Test Case 1 | `index < 0` (empty list)     `[]`                      | `IndexOutOfBoundsException`        |              |
+| Test Case 2 | `index < 0` (non-empty list) `[card1]`                 | `IndexOutOfBoundsException`        |              |
+| Test Case 3 | `index == 0`  (empty list)  `[]`                       | `IndexOutOfBoundsException`        |              |
+| Test Case 4 | `index == 0` (non-empty list)  `[card1, card2]`        | `Returns `card1`                   |              |
+| Test Case 5 | `index == 1` (non-empty list)  `[card1, card2, card3]` | `Returns `card2`                   |              |
+| Test Case 6 | `index == size`  (non-empty list) `[card1, card2]`     | `IndexOutOfBoundsException`        |              |
+| Test Case 7 | `index > 0` (empty list)   `[]`                        | `IndexOutOfBoundsException`        |              |
+| Test Case 8 | `index > size` (non-empty list) `[card1, card2]`       | `IndexOutOfBoundsException`        |              |
+
 ### Method under test: `getDeckSize()`
 
 |             | System under test                                  | Expected output / state transition | Implemented?       |
@@ -46,15 +59,14 @@ it.
 | Test Case 8 | `card == null` (empty list)    `[]`                                                 | `NullPointerException`                                                      | :white_check_mark: |
 | Test Case 9 | `card == null` (non-empty list) `[card1, card2]`                                    | `NullPointerException`                                                      | :white_check_mark: |
 
-### Method under test: `shuffleDeck()`
+### Method under test: `shuffleDeck(Random rand)`
 
-|             | System under test         | Expected output                                                                           | Implemented?       |
-|-------------|---------------------------|-------------------------------------------------------------------------------------------|--------------------|
-| Test Case 1 | Deck size **0** `[]`      | Order remains unchanged (idempotent) `[]`                                                 | :white_check_mark: |
-| Test Case 2 | Deck size **1** `[card1]` | Order remains unchanged (idempotent) `[card1]`                                            |                    |
-| Test Case 3 | Deck size **> 1**         | Order changes _or_ remains statistically different over many runs; deck content invariant |                    |
-
-// Need to figure how shuffle should work
+|             | System under test               | Expected output                                                                           | Implemented?       |
+|-------------|---------------------------------|-------------------------------------------------------------------------------------------|--------------------|
+| Test Case 1 | Deck size **0** `[]`            | Order remains unchanged (idempotent) `[]`                                                 | :white_check_mark: |
+| Test Case 2 | Deck size **1** `[card1]`       | Order remains unchanged (idempotent) `[card1]`                                            |                    |
+| Test Case 3 | Deck size **> 1**               | Order changes _or_ remains statistically different over many runs; deck content invariant |                    |
+| Test Case 3 | Deck size **> 1** and duplicate | Order changes _or_ remains statistically different over many runs; deck content invariant |                    |
 
 ### Method under test: `giveCardToPlayer(Player p)`
 
