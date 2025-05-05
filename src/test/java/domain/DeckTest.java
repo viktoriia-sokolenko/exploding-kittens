@@ -234,15 +234,16 @@ public class DeckTest {
 		assertThrows(NullPointerException.class, () -> deck.insertAt(0, null));
 	}
 
-//	@Test
-//	public void InsertAt_IndexEqualsZeroOnEmptyList_CardInsertsAtTop() {
-//		Card card = new Card(CardType.ATTACK);
-//		int index = 0;
-//		List<Card> cardList = new ArrayList<>();
-//
-//		Deck deck = new Deck(cardList);
-//		deck.insertAt(index, card);
-//
-//		assertEquals(1, deck.getDeckSize());
-//	}
+	@Test
+	public void InsertAt_IndexEqualsZeroOnEmptyList() {
+		Card card = new Card(CardType.EXPLODING_KITTEN);
+		int index = 0;
+		List<Card> cardList = new ArrayList<>();
+
+		Deck deck = new Deck(cardList);
+		deck.insertAt(index, card);
+
+		assertEquals(1, deck.getDeckSize());
+		assertEquals(card,deck.peekTop());
+	}
 }
