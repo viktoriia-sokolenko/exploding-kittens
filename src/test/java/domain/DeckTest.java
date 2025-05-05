@@ -15,13 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DeckTest {
 
 	static Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
-		return Stream.of(
-				List.of(new Card(CardType.NORMAL), new Card(CardType.ATTACK)),
-				List.of(new Card(CardType.DEFUSE), new Card(CardType.SKIP)),
-				List.of(new Card(CardType.FAVOR), new Card(CardType.EXPLODING_KITTEN)),
-				List.of(new Card(CardType.SHUFFLE), new Card(CardType.ALTER_THE_FUTURE)),
-				List.of(new Card(CardType.SEE_THE_FUTURE), new Card(CardType.NUKE))
-		);
+		return Stream.of(List.of(new Card(CardType.NORMAL), new Card(CardType.ATTACK)), List.of(new Card(CardType.DEFUSE), new Card(CardType.SKIP)), List.of(new Card(CardType.FAVOR), new Card(CardType.EXPLODING_KITTEN)), List.of(new Card(CardType.SHUFFLE), new Card(CardType.ALTER_THE_FUTURE)), List.of(new Card(CardType.SEE_THE_FUTURE), new Card(CardType.NUKE)));
 	}
 
 	@Test
@@ -63,6 +57,18 @@ public class DeckTest {
 	}
 
 	@Test
+	void PeakTop_DeckWithThreeCardsAndDuplicate_ReturnsLastCard() {
+		Card card1 = new Card(CardType.SEE_THE_FUTURE);
+		Card card2 = new Card(CardType.NORMAL);
+		Card card3 = new Card(CardType.NORMAL);
+		Deck deck = new Deck(List.of(card1, card2, card3));
+
+		Card actualCard = deck.peekTop();
+
+		assertEquals(card3, actualCard);
+	}
+
+	@Test
 	public void Draw_WithEmptyDeck_ThrowsNoSuchElementException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
@@ -90,6 +96,7 @@ public class DeckTest {
 
 	}
 
+
 	@Test
 	public void DrawAndGetDeckSize_WithTwoCards() {
 		Card card1 = new Card(CardType.NORMAL);
@@ -112,10 +119,7 @@ public class DeckTest {
 		Card card = new Card(CardType.NORMAL);
 		int index = -1;
 
-		Exception exception = assertThrows(
-				IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card)
-		);
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -131,9 +135,7 @@ public class DeckTest {
 		Deck deck = new Deck(nonEmptyCardList);
 		int index = -1;
 
-		Exception exception = assertThrows(
-				IndexOutOfBoundsException.class, () -> deck.insertAt(index, card)
-		);
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -149,10 +151,7 @@ public class DeckTest {
 		Deck deck = new Deck(emptyCardList);
 		int index = 1;
 
-		Exception exception = assertThrows(
-				IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card)
-		);
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -171,10 +170,7 @@ public class DeckTest {
 		Deck deck = new Deck(nonEmptyCardList);
 		int index = 3;
 
-		Exception exception = assertThrows(
-				IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card)
-		);
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -188,9 +184,7 @@ public class DeckTest {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
 
-		assertThrows(NullPointerException.class,
-				() -> deck.insertAt(0, null)
-		);
+		assertThrows(NullPointerException.class, () -> deck.insertAt(0, null));
 
 	}
 
@@ -202,9 +196,7 @@ public class DeckTest {
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card1, card2));
 		Deck deck = new Deck(nonEmptyCardList);
 
-		assertThrows(NullPointerException.class,
-				() -> deck.insertAt(0, null)
-		);
+		assertThrows(NullPointerException.class, () -> deck.insertAt(0, null));
 	}
 
 //	@Test

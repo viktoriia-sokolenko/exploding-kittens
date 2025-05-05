@@ -21,7 +21,7 @@ it.
 | Test Case 1 | Deck **empty** `[]`                                               | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: |
 | Test Case 2 | Deck has **exactly 1** card `[Card1]`                             | Returns `Card1`;                           | :white_check_mark: |
 | Test Case 3 | Deck has **> 1** cards `[Card1, Card2]`                           | Returns `Card2`;                           | :white_check_mark: |
-| Test Case 4 | Deck has **> 1** cards and Duplicated `[Card1, Card2.1, Card2.2]` | Returns `Card2.2`;                         |                    |
+| Test Case 4 | Deck has **> 1** cards and Duplicated `[Card1, Card2.1, Card2.2]` | Returns `Card2.2`;                         | :white_check_mark: |
 
 ### Method under test: `getDeckSize()`
 
