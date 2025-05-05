@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class Deck {
-	private List<Card> deck;
+	private final List<Card> deck;
 
 	public Deck(List<Card> cardList) {
 		Objects.requireNonNull(cardList, "List of Cards cannot be null");
@@ -23,13 +23,18 @@ public class Deck {
 
 	public void insertAt(int index, Card card) {
 		Objects.requireNonNull(card, "Card type cannot be null");
-		if (index < 0 || index > this.deck.size()) {
+		if (isIndexOutOfBounds(index)) {
 			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
+		this.deck.add(index, card);
 
 	}
 
-	public int getDeckSize(){
+	public int getDeckSize() {
 		return this.deck.size();
+	}
+
+	private boolean isIndexOutOfBounds(int index) {
+		return index < 0 || index > this.deck.size();
 	}
 }
