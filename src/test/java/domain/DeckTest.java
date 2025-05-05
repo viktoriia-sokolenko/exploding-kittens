@@ -154,8 +154,8 @@ public class DeckTest {
 		Card card = new Card(CardType.NORMAL);
 		int index = -1;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card));
+		Exception exception =
+				assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -170,8 +170,8 @@ public class DeckTest {
 		Deck deck = new Deck(nonEmptyCardList);
 		int index = -1;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card));
+		Exception exception =
+				assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -186,8 +186,8 @@ public class DeckTest {
 		Deck deck = new Deck(emptyCardList);
 		int index = 1;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card));
+		Exception exception =
+				assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -205,8 +205,8 @@ public class DeckTest {
 		Deck deck = new Deck(nonEmptyCardList);
 		int index = 3;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.insertAt(index, card));
+		Exception exception =
+				assertThrows(IndexOutOfBoundsException.class, () -> deck.insertAt(index, card));
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
