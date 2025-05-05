@@ -5,7 +5,8 @@ cards without specifying the Card Type (i.e `[card1, card2]`), that means that t
 that uses all the different Card Types into a list of two different Cards and performs _Parameterized Tests_ based on
 it.
 
-Also, unless specified that I am dealing with  `Duplicates` states, each cards listed below are from different CardTypes.
+Also, unless specified that I am dealing with  `Duplicates` states, each cards listed below are from different
+CardTypes.
 
 ### Method under test: `draw()`
 
@@ -27,16 +28,16 @@ Also, unless specified that I am dealing with  `Duplicates` states, each cards l
 
 ### Method under test: `getCardAt(int index)`
 
-|             | System under test                                      | Expected output / state transition | Implemented? |
-|-------------|--------------------------------------------------------|------------------------------------|--------------|
-| Test Case 1 | `index < 0` (empty list)     `[]`                      | `IndexOutOfBoundsException`        |              |
-| Test Case 2 | `index < 0` (non-empty list) `[card1]`                 | `IndexOutOfBoundsException`        |              |
-| Test Case 3 | `index == 0`  (empty list)  `[]`                       | `IndexOutOfBoundsException`        |              |
-| Test Case 4 | `index == 0` (non-empty list)  `[card1, card2]`        | `Returns `card1`                   |              |
-| Test Case 5 | `index == 1` (non-empty list)  `[card1, card2, card3]` | `Returns `card2`                   |              |
-| Test Case 6 | `index == size`  (non-empty list) `[card1, card2]`     | `IndexOutOfBoundsException`        |              |
-| Test Case 7 | `index > 0` (empty list)   `[]`                        | `IndexOutOfBoundsException`        |              |
-| Test Case 8 | `index > size` (non-empty list) `[card1, card2]`       | `IndexOutOfBoundsException`        |              |
+|             | System under test                                      | Expected output / state transition | Implemented?       |
+|-------------|--------------------------------------------------------|------------------------------------|--------------------|
+| Test Case 1 | `index < 0` (empty list)     `[]`                      | `IndexOutOfBoundsException`        | :white_check_mark: |
+| Test Case 2 | `index < 0` (non-empty list) `[card1]`                 | `IndexOutOfBoundsException`        |                    |
+| Test Case 3 | `index == 0`  (empty list)  `[]`                       | `IndexOutOfBoundsException`        |                    |
+| Test Case 4 | `index == 0` (non-empty list)  `[card1, card2]`        | `Returns `card1`                   |                    |
+| Test Case 5 | `index == 1` (non-empty list)  `[card1, card2, card3]` | `Returns `card2`                   |                    |
+| Test Case 6 | `index == size`  (non-empty list) `[card1, card2]`     | `IndexOutOfBoundsException`        |                    |
+| Test Case 7 | `index > 0` (empty list)   `[]`                        | `IndexOutOfBoundsException`        | :white_check_mark: |
+| Test Case 8 | `index > size` (non-empty list) `[card1, card2]`       | `IndexOutOfBoundsException`        |                    |
 
 ### Method under test: `getDeckSize()`
 

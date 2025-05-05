@@ -95,6 +95,23 @@ public class DeckTest {
 	}
 
 	@Test
+	public void GetCardAt_GreaterThanZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
+		List<Card> emptyCardList = new ArrayList<>();
+		Deck deck = new Deck(emptyCardList);
+		int index = 1;
+
+		Exception exception = assertThrows(IndexOutOfBoundsException.class,
+				() -> deck.getCardAt(index));
+
+		String expectedMessage = "Index out of bounds";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(expectedMessage, actualMessage);
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+
+	@Test
 	public void Draw_WithEmptyDeck_ThrowsNoSuchElementException() {
 		List<Card> emptyCardList = new ArrayList<>();
 
@@ -303,13 +320,13 @@ public class DeckTest {
 
 		assertEquals(card, deck.peekTop());
 		assertEquals(3, deck.getDeckSize());
-		
+
 	}
 
 	@Test
 	public void ShuffleDeck_EmptyDeck_OrderRemainTheSame() {
 		List<Card> cardList = new ArrayList<>();
-		Random rand  = EasyMock.createMock(Random.class);
+		Random rand = EasyMock.createMock(Random.class);
 		EasyMock.replay(rand);
 
 		Deck deck = new Deck(cardList);
@@ -324,7 +341,7 @@ public class DeckTest {
 	public void ShuffleDeck_OneCardinDeck() {
 		Card card = new Card(CardType.NORMAL);
 		List<Card> cardList = new ArrayList<>(List.of(card));
-		Random rand  = EasyMock.createMock(Random.class);
+		Random rand = EasyMock.createMock(Random.class);
 		EasyMock.replay(rand);
 
 		Deck deck = new Deck(cardList);

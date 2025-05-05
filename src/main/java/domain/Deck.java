@@ -14,7 +14,7 @@ public class Deck {
 		if (isIndexOutOfBounds(index)) {
 			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
-
+		return this.deck.get(index);
 	}
 
 	public Card peekTop() {
