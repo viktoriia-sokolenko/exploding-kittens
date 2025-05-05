@@ -195,7 +195,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void InsertCardAt_IndexLessThanZeroOnEmptyList_ThrowsIndexOutOfBoundsException() {
+	public void InsertCardAt_IndexLessThanZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Random random = EasyMock.createMock(Random.class);
 		EasyMock.replay(random);
@@ -215,7 +215,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void InsertCardAt_IndexLessThanZeroOnNonEmptyList_ThrowsIndexOutOfBoundsException() {
+	public void InsertCardAt_IndexLessThanZeroOnNonEmptyDeck_ThrowsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card));
 		Random random = EasyMock.createMock(Random.class);
@@ -235,7 +235,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void InsertCardAt_IndexGreaterThanZeroOnEmptyList_ThrowsIndexOutOfBoundsException() {
+	public void InsertCardAt_IndexGreaterThanZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		List<Card> emptyCardList = new ArrayList<>();
 		Random random = EasyMock.createMock(Random.class);
@@ -255,7 +255,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void InsertCardAt_IndexGreaterThanZeroOnNonEmptyList_ThrowsIndexOutOfBoundsException() {
+	public void InsertCardAt_IndexGreaterThanZeroOnNonEmptyDeck_ThrowsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		Card card1 = new Card(CardType.EXPLODING_KITTEN);
 		Card card2 = new Card(CardType.DEFUSE);
@@ -277,7 +277,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void InsertCardAt_NullCardOnEmptyList_ThrowsNullPointerException() {
+	public void InsertCardAt_NullCardOnEmptyDeck_ThrowsNullPointerException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Random random = EasyMock.createMock(Random.class);
 		EasyMock.replay(random);
@@ -289,7 +289,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void InsertCardAt_NullCardOnNonEmptyList_ThrowsNullPointerException() {
+	public void InsertCardAt_NullCardOnNonEmptyDeck_ThrowsNullPointerException() {
 		Card card1 = new Card(CardType.NORMAL);
 		Card card2 = new Card(CardType.FAVOR);
 		Random random = EasyMock.createMock(Random.class);
@@ -303,7 +303,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void InsertCardAt_IndexEqualsZeroOnEmptyList() {
+	public void InsertCardAt_IndexEqualsZeroOnEmptyDeck() {
 		Card card = new Card(CardType.EXPLODING_KITTEN);
 		int index = 0;
 		List<Card> cardList = new ArrayList<>();
@@ -320,7 +320,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void InsertCardAt_IndexIsZeroOnNonEmptyList(List<Card> cards) {
+	public void InsertCardAt_IndexIsZeroOnNonEmptyDeck(List<Card> cards) {
 		Card card = new Card(CardType.NORMAL);
 		Random random = EasyMock.createMock(Random.class);
 		EasyMock.replay(random);
@@ -336,7 +336,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void InsertCardAt_IndexIsTwoOnNonEmptyListWithTwoElements(List<Card> cards) {
+	public void InsertCardAt_IndexIsTwoOnNonEmptyDeckWithTwoElements(List<Card> cards) {
 		Card card = new Card(CardType.NORMAL);
 		Random random = EasyMock.createMock(Random.class);
 		EasyMock.replay(random);
@@ -352,7 +352,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void ShuffleDeck_EmptyList_OrderRemainTheSame() {
+	public void ShuffleDeck_EmptyDeck_OrderRemainTheSame() {
 		List<Card> cardList = new ArrayList<>();
 		Random random = EasyMock.createMock(Random.class);
 		EasyMock.replay(random);
