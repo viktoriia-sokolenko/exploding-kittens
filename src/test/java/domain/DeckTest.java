@@ -10,6 +10,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DeckTest {
+
+	@Test
+	public void PeekTop_EmptyDeck_ThrowsIllegalOperationException() {
+		List<Card> emptyCardList = new ArrayList<>();
+		Deck deck = new Deck(emptyCardList);
+
+		String expectedMessage = "Deck is empty";
+
+		Exception exception = assertThrows(NoSuchElementException.class, deck::peekTop);
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+
+	}
+
 	@Test
 	public void Draw_WithEmptyDeck_ThrowsNoSuchElementException() {
 		List<Card> emptyCardList = new ArrayList<>();
@@ -24,7 +39,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void Draw_WithOneCard_ReturnsCardWithSizeNowZero() {
+	public void DrawAndGetDeckSize_WithOneCard() {
 		CardType cardType = CardType.NORMAL;
 		Card card = new Card(cardType);
 		List<Card> cardList = new ArrayList<>(List.of(card));
@@ -39,9 +54,9 @@ public class DeckTest {
 	}
 
 	@Test
-	public void Draw_WithTwoCards_ReturnsCardWithSizeOne() {
+	public void DrawAndGetDeckSize_WithTwoCards() {
 		Card card1 = new Card(CardType.NORMAL);
-		Card card2 = new Card(CardType.NORMAL);
+		Card card2 = new Card(CardType.SEE_THE_FUTURE);
 		List<Card> cardList = new ArrayList<>(List.of(card1, card2));
 
 		Deck deck = new Deck(cardList);
@@ -112,8 +127,8 @@ public class DeckTest {
 	@Test
 	public void InsertAt_IndexGreaterThanZeroOnNonEmptyList_ThrowsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
-		Card card1 = new Card(CardType.NORMAL);
-		Card card2 = new Card(CardType.NORMAL);
+		Card card1 = new Card(CardType.EXPLODING_KITTEN);
+		Card card2 = new Card(CardType.DEFUSE);
 
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card1, card2));
 		Deck deck = new Deck(nonEmptyCardList);
@@ -145,7 +160,7 @@ public class DeckTest {
 	@Test
 	public void InsertAt_NullCardOnNonEmptyList_ThrowsNullPointerException() {
 		Card card1 = new Card(CardType.NORMAL);
-		Card card2 = new Card(CardType.NORMAL);
+		Card card2 = new Card(CardType.FAVOR);
 
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card1, card2));
 		Deck deck = new Deck(nonEmptyCardList);
@@ -154,4 +169,16 @@ public class DeckTest {
 				() -> deck.insertAt(0, null)
 		);
 	}
+
+//	@Test
+//	public void InsertAt_IndexEqualsZeroOnEmptyList_CardInsertsAtTop() {
+//		Card card = new Card(CardType.ATTACK);
+//		int index = 0;
+//		List<Card> cardList = new ArrayList<>();
+//
+//		Deck deck = new Deck(cardList);
+//		deck.insertAt(index, card);
+//
+//		assertEquals(1, deck.getDeckSize());
+//	}
 }

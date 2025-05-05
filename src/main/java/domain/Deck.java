@@ -13,6 +13,13 @@ public class Deck {
 		this.deck = new ArrayList<>(cardList);
 	}
 
+	public Card peekTop() {
+		if (deck.isEmpty()) {
+			throw new NoSuchElementException("Deck is empty");
+		}
+		return deck.get(0);
+	}
+
 	public Card draw() {
 		if (this.deck.isEmpty()) {
 			throw new NoSuchElementException("Deck is empty");
