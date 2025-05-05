@@ -32,7 +32,7 @@ CardTypes.
 |-------------|--------------------------------------------------------|------------------------------------|--------------------|
 | Test Case 1 | `index < 0` (empty list)     `[]`                      | `IndexOutOfBoundsException`        | :white_check_mark: |
 | Test Case 2 | `index < 0` (non-empty list) `[card1]`                 | `IndexOutOfBoundsException`        |                    |
-| Test Case 3 | `index == 0`  (empty list)  `[]`                       | `IndexOutOfBoundsException`        |                    |
+| Test Case 3 | `index == 0`  (empty list)  `[]`                       | `IndexOutOfBoundsException`        | :white_check_mark: |
 | Test Case 4 | `index == 0` (non-empty list)  `[card1, card2]`        | `Returns `card1`                   |                    |
 | Test Case 5 | `index == 1` (non-empty list)  `[card1, card2, card3]` | `Returns `card2`                   |                    |
 | Test Case 6 | `index == size`  (non-empty list) `[card1, card2]`     | `IndexOutOfBoundsException`        |                    |

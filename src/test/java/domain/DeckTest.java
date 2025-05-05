@@ -110,6 +110,22 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
+	@Test
+	public void GetCardAt_ZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
+		List<Card> emptyCardList = new ArrayList<>();
+		Deck deck = new Deck(emptyCardList);
+		int index = 0;
+
+		Exception exception = assertThrows(IndexOutOfBoundsException.class,
+				() -> deck.getCardAt(index));
+
+		String expectedMessage = "Index out of bounds";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(expectedMessage, actualMessage);
+		assertEquals(expectedMessage, actualMessage);
+	}
+
 
 	@Test
 	public void Draw_WithEmptyDeck_ThrowsNoSuchElementException() {

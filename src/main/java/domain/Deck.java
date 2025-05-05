@@ -11,7 +11,7 @@ public class Deck {
 	}
 
 	public Card getCardAt(int index) {
-		if (isIndexOutOfBounds(index)) {
+		if (isIndexOutOfBounds(index) || isIndexEqualToDeckSize(index)) {
 			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
 		return this.deck.get(index);
@@ -55,5 +55,9 @@ public class Deck {
 
 	private boolean isIndexOutOfBounds(int index) {
 		return index < 0 || index > this.deck.size();
+	}
+
+	private boolean isIndexEqualToDeckSize(int index) {
+		return this.deck.size() == index;
 	}
 }
