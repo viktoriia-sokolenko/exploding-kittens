@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTest {
 
@@ -97,17 +96,15 @@ public class DeckTest {
 	}
 
 
-	@Test
-	public void DrawAndGetDeckSize_WithTwoCards() {
-		Card card1 = new Card(CardType.NORMAL);
-		Card card2 = new Card(CardType.SEE_THE_FUTURE);
-		List<Card> cardList = new ArrayList<>(List.of(card1, card2));
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void DrawAndGetDeckSize_WithTwoCards(List<Card> cards) {
+		Deck deck = new Deck(cards);
 
-		Deck deck = new Deck(cardList);
-
+		Card expectedCard = cards.get(1);
 		Card actualCard = deck.draw();
-		assertEquals(card2, actualCard);
 
+		assertEquals(expectedCard, actualCard);
 		assertEquals(1, deck.getDeckSize());
 
 	}
