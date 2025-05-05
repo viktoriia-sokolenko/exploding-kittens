@@ -34,17 +34,17 @@ it.
 
 ### Method under test: `insertAt(int index, Card card)`
 
-|             | System under test (pre-state)                                             | Expected output / state transition                                       | Implemented?       |
-|-------------|---------------------------------------------------------------------------|--------------------------------------------------------------------------|--------------------|
-| Test Case 1 | `index < 0` (empty list)     `[]`                                         | `IndexOutOfBoundsException`                                              | :white_check_mark: |
-| Test Case 2 | `index < 0` (non-empty list) `[card1]`                                    | `IndexOutOfBoundsException`                                              | :white_check_mark: |
-| Test Case 3 | `index == 0` (front of deck) (empty list)  `[]`                           | Card inserted at top; deck `size` increments by 1 `[card]`               | :white_check_mark: |
-| Test Case 4 | `index == 0` (front of deck) (non-empty list)  `[card1, card2]`           | Card inserted at top; deck `size` increments by 1 `[card, card1, card2]` | :white_check_mark: |
-| Test Case 5 | `index == size` (exactly last position / bottom)  (non-empty list) [card1 | Card appended at bottom; deck `size` increments by 1                     |                    |
-| Test Case 6 | `index > size` (empty list)   `[]`                                        | `IndexOutOfBoundsException`                                              | :white_check_mark: |
-| Test Case 7 | `index > size` (non-empty list) `[card1, card2]`                          | `IndexOutOfBoundsException`                                              | :white_check_mark: |
-| Test Case 8 | `card == null` (empty list)    `[]`                                       | `NullPointerException`                                                   | :white_check_mark: |
-| Test Case 9 | `card == null` (non-empty list) `[card1, card2]`                          | `NullPointerException`                                                   | :white_check_mark: |
+|             | System under test (pre-state)                                                       | Expected output / state transition                                          | Implemented?       |
+|-------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|--------------------|
+| Test Case 1 | `index < 0` (empty list)     `[]`                                                   | `IndexOutOfBoundsException`                                                 | :white_check_mark: |
+| Test Case 2 | `index < 0` (non-empty list) `[card1]`                                              | `IndexOutOfBoundsException`                                                 | :white_check_mark: |
+| Test Case 3 | `index == 0` (front of deck) (empty list)  `[]`                                     | Card inserted at top; deck `size` increments by 1 `[card]`                  | :white_check_mark: |
+| Test Case 4 | `index == 0` (front of deck) (non-empty list)  `[card1, card2]`                     | Card inserted at top; deck `size` increments by 1 `[card, card1, card2]`    | :white_check_mark: |
+| Test Case 5 | `index == size` (exactly last position / bottom)  (non-empty list) `[card1, card2]` | Card appended at bottom; deck `size` increments by 1 `[card1, card2, card]` | :white_check_mark: |
+| Test Case 6 | `index > size` (empty list)   `[]`                                                  | `IndexOutOfBoundsException`                                                 | :white_check_mark: |
+| Test Case 7 | `index > size` (non-empty list) `[card1, card2]`                                    | `IndexOutOfBoundsException`                                                 | :white_check_mark: |
+| Test Case 8 | `card == null` (empty list)    `[]`                                                 | `NullPointerException`                                                      | :white_check_mark: |
+| Test Case 9 | `card == null` (non-empty list) `[card1, card2]`                                    | `NullPointerException`                                                      | :white_check_mark: |
 
 ### Method under test: `shuffle()`
 
