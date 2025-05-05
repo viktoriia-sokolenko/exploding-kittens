@@ -1,16 +1,15 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 public class Deck {
+	private final Random rand;
 	private final List<Card> deck;
 
-	public Deck(List<Card> cardList) {
+	public Deck(List<Card> cardList, Random rand) {
 		Objects.requireNonNull(cardList, "List of Cards cannot be null");
 		this.deck = new ArrayList<>(cardList);
+		this.rand = rand;
 	}
 
 	public Card peekTop() {
@@ -28,7 +27,7 @@ public class Deck {
 		return this.deck.remove(this.deck.size() - 1);
 	}
 
-	public void insertAt(int index, Card card) {
+	public void insertCardAt(Card card, int index) {
 		Objects.requireNonNull(card, "Card type cannot be null");
 		if (isIndexOutOfBounds(index)) {
 			throw new IndexOutOfBoundsException("Index out of bounds");
@@ -39,6 +38,16 @@ public class Deck {
 
 	public int getDeckSize() {
 		return this.deck.size();
+	}
+
+	public void shuffleDeck() {
+		for (int deckIndex = deck.size() - 1; deckIndex > 0; deckIndex--) {
+			int indexToSwap = rand.nextInt(deckIndex + 1);
+			Card temporaryCard = deck.get(indexToSwap);
+			deck.set(indexToSwap, deck.get(deckIndex));
+			deck.set(deckIndex, temporaryCard);
+		}
+
 	}
 
 	private boolean isIndexOutOfBounds(int index) {
