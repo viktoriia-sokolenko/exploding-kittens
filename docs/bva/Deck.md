@@ -12,7 +12,7 @@ it.
 | Test Case 1 | Deck **empty** `[]`                                               | `NoSuchElementException` (“Deck is empty”)                      | :white_check_mark: |
 | Test Case 2 | Deck has **exactly 1** card `[Card1]`                             | Returns `Card1`; deck `size = 0` []                             | :white_check_mark: |
 | Test Case 3 | Deck has **> 1** cards `[Card1, Card2]`                           | Returns `Card2`; deck `size` decrements by 1 [Card1]            | :white_check_mark: |
-| Test Case 4 | Deck has **> 1** cards and Duplicates `[Card1, Card2.1, Card2.2]` | Returns `Card2.2`; deck `size` decrements by 1 [Card1, Card2.2] |                    |
+| Test Case 4 | Deck has **> 1** cards and Duplicates `[Card1, Card2.1, Card2.2]` | Returns `Card2.2`; deck `size` decrements by 1 [Card1, Card2.2] | :white_check_mark: |
 
 ### Method under test: `peekTop()`
 
@@ -25,13 +25,12 @@ it.
 
 ### Method under test: `getDeckSize()`
 
-|             | System under test                              | Expected output / state transition | Implemented?       |
-|-------------|------------------------------------------------|------------------------------------|--------------------|
-| Test Case 1 | Deck **empty** `[]`                            | Returns `0`;                       | :white_check_mark: |
-| Test Case 2 | Deck has **exactly 1** card `[Card1]`          | Returns `1`;                       | :white_check_mark: |
-| Test Case 3 | Deck has **> 1** cards `[Card1, Card2]`        | Returns `2`;                       |                    |
-| Test Case 4 | Deck has **> 1** cards `[Card1, Card1]`        | Returns `2`;                       |                    |
-| Test Case 5 | Deck has **> 1** cards `[Card1, Card2, Card3]` | Returns `3`;                       |                    |
+|             | System under test                                  | Expected output / state transition | Implemented?       |
+|-------------|----------------------------------------------------|------------------------------------|--------------------|
+| Test Case 1 | Deck **empty** `[]`                                | Returns `0`;                       | :white_check_mark: |
+| Test Case 2 | Deck has **exactly 1** card `[Card1]`              | Returns `1`;                       | :white_check_mark: |
+| Test Case 3 | Deck has **> 1** cards `[Card1, Card2]`            | Returns `2`;                       |                    |
+| Test Case 4 | Deck has **> 1** cards `[Card1, Card2.1, Card2.2]` | Returns `3`;                       |                    |
 
 ### Method under test: `insertAt(int index, Card card)`
 
@@ -46,20 +45,6 @@ it.
 | Test Case 7 | `index > size` (non-empty list) `[Card1, Card2]`                   | `IndexOutOfBoundsException`                          | :white_check_mark: |
 | Test Case 8 | `card == null` (empty list)    `[]`                                | `NullPointerException`                               | :white_check_mark: |
 | Test Case 9 | `card == null` (non-empty list) `[Card1, Card2]`                   | `NullPointerException`                               | :white_check_mark: |
-
-NEED MORE CARDS CASES FOR THE DIFFERENT CARDS
-
-- Card Cases:
-- NORMAL,
-- EXPLODING_KITTEN,
-- DEFUSE,
-- ATTACK,
-- SKIP,
-- FAVOR,
-- SHUFFLE,
-- SEE_THE_FUTURE,
-- ALTER_THE_FUTURE,
-- NUKE
 
 ### Method under test: `shuffle()`
 
