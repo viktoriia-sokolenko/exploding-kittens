@@ -255,7 +255,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void InsertCardAt_IndexGreaterThanZeroOnNonEmptyDeck_ThrowsIndexOutOfBoundsException() {
+	public void InsertCardAt_IndexEqualsThreeOnDeckWithTwo_ThrowsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		Card card1 = new Card(CardType.EXPLODING_KITTEN);
 		Card card2 = new Card(CardType.DEFUSE);
