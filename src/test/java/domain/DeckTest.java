@@ -32,7 +32,6 @@ public class DeckTest {
 
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
-
 	}
 
 	@Test
@@ -45,12 +44,11 @@ public class DeckTest {
 		Card actualCard = deck.peekTop();
 
 		assertEquals(expectedCard, actualCard);
-
 	}
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	void PeakTop_DeckWithTwoCards_ReturnsCardInIndexOne(List<Card> cards) {
+	public void PeakTop_DeckWithTwoCards_ReturnsCardInIndexOne(List<Card> cards) {
 		Deck deck = new Deck(cards);
 
 		Card expectedCard = cards.get(1);
@@ -60,7 +58,7 @@ public class DeckTest {
 	}
 
 	@Test
-	void PeakTop_DeckWithThreeCardsAndDuplicate_ReturnsLastCard() {
+	public void PeakTop_DeckWithThreeCardsAndDuplicate_ReturnsLastCard() {
 		Card card1 = new Card(CardType.SEE_THE_FUTURE);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
@@ -96,7 +94,6 @@ public class DeckTest {
 
 		assertEquals(card, actualCard);
 		assertEquals(0, deck.getDeckSize());
-
 	}
 
 
@@ -110,11 +107,10 @@ public class DeckTest {
 
 		assertEquals(expectedCard, actualCard);
 		assertEquals(1, deck.getDeckSize());
-
 	}
 
 	@Test
-	void DrawAndGetDeckSize_DeckWithThreeCardsAndDuplicate() {
+	public void DrawAndGetDeckSize_DeckWithThreeCardsAndDuplicate() {
 		Card card1 = new Card(CardType.SEE_THE_FUTURE);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
@@ -127,7 +123,7 @@ public class DeckTest {
 	}
 
 	@Test
-	void GetDeckSize_DeckWithTwoCards_ReturnsTwo() {
+	public void GetDeckSize_DeckWithTwoCards_ReturnsTwo() {
 		Card card1 = new Card(CardType.SEE_THE_FUTURE);
 		Card card2 = new Card(CardType.NORMAL);
 		Deck deck = new Deck(List.of(card1, card2));
@@ -139,7 +135,7 @@ public class DeckTest {
 	}
 
 	@Test
-	void GetDeckSize_DeckWithThreeCardsThatHaveDuplicates_ReturnsThree() {
+	public void GetDeckSize_DeckWithThreeCardsThatHaveDuplicates_ReturnsThree() {
 		Card card1 = new Card(CardType.NORMAL);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
@@ -165,7 +161,6 @@ public class DeckTest {
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
-
 	}
 
 	@Test
@@ -182,7 +177,6 @@ public class DeckTest {
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
-
 	}
 
 	@Test
@@ -199,7 +193,6 @@ public class DeckTest {
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
-
 	}
 
 	@Test
@@ -219,7 +212,6 @@ public class DeckTest {
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
-
 	}
 
 	@Test
@@ -228,7 +220,6 @@ public class DeckTest {
 		Deck deck = new Deck(emptyCardList);
 
 		assertThrows(NullPointerException.class, () -> deck.insertAt(0, null));
-
 	}
 
 	@Test
@@ -254,4 +245,17 @@ public class DeckTest {
 		assertEquals(1, deck.getDeckSize());
 		assertEquals(card, deck.peekTop());
 	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void InsertAt_IndexIsZeroOnNonEmptyList(List<Card> cards) {
+		Card card = new Card(CardType.NORMAL);
+		Deck deck = new Deck(cards);
+
+		int index = 0;
+		deck.insertAt(index, card);
+
+		assertEquals(3, deck.getDeckSize());
+	}
+
 }
