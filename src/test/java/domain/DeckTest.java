@@ -26,6 +26,19 @@ public class DeckTest {
 	}
 
 	@Test
+	public void PeekTop_DeckWithOneCard_ReturnsTheOnlyCard() {
+		CardType cardType = CardType.NORMAL;
+		Card expectedCard = new Card(cardType);
+		List<Card> cardList = new ArrayList<>(List.of(expectedCard));
+
+		Deck deck = new Deck(cardList);
+		Card actualCard = deck.peekTop();
+
+		assertEquals(expectedCard, actualCard);
+
+	}
+
+	@Test
 	public void Draw_WithEmptyDeck_ThrowsNoSuchElementException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);

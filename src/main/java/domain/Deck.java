@@ -17,7 +17,7 @@ public class Deck {
 		if (deck.isEmpty()) {
 			throw new NoSuchElementException("Deck is empty");
 		}
-		return deck.get(0);
+		return this.deck.get(deck.size() - 1);
 	}
 
 	public Card draw() {

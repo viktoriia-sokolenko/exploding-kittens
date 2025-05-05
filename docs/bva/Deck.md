@@ -13,7 +13,7 @@
 |             | System under test                              | Expected output / state transition         | Implemented?       |
 |-------------|------------------------------------------------|--------------------------------------------|--------------------|
 | Test Case 1 | Deck **empty** `[]`                            | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: |
-| Test Case 2 | Deck has **exactly 1** card `[Card1]`          | Returns `Card1`;                           |                    |
+| Test Case 2 | Deck has **exactly 1** card `[Card1]`          | Returns `Card1`;                           | :white_check_mark: |
 | Test Case 3 | Deck has **> 1** cards `[Card1, Card2]`        | Returns `Card2`;                           |                    |
 | Test Case 4 | Deck has **> 1** cards `[Card1, Card2, Card3]` | Returns `Card3`;                           |                    |
 
