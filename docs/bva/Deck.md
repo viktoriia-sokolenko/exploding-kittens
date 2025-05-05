@@ -30,7 +30,7 @@ it.
 | Test Case 1 | Deck **empty** `[]`                                | Returns `0`;                       | :white_check_mark: |
 | Test Case 2 | Deck has **exactly 1** card `[Card1]`              | Returns `1`;                       | :white_check_mark: |
 | Test Case 3 | Deck has **> 1** cards `[Card1, Card2]`            | Returns `2`;                       | :white_check_mark: |
-| Test Case 4 | Deck has **> 1** cards `[Card1, Card2.1, Card2.2]` | Returns `3`;                       |                    |
+| Test Case 4 | Deck has **> 1** cards `[Card1, Card2.1, Card2.2]` | Returns `3`;                       | :white_check_mark: |
 
 ### Method under test: `insertAt(int index, Card card)`
 

@@ -135,6 +135,19 @@ public class DeckTest {
 	}
 
 	@Test
+	void GetDeckSize_DeckWithThreeCardsThatHaveDuplicates_ReturnsThree() {
+		Card card1 = new Card(CardType.NORMAL);
+		Card card2 = new Card(CardType.NORMAL);
+		Card card3 = new Card(CardType.NORMAL);
+		Deck deck = new Deck(List.of(card1, card2, card3));
+
+		int expectedSize = 3;
+		int actualSize = deck.getDeckSize();
+
+		assertEquals(expectedSize, actualSize);
+	}
+
+	@Test
 	public void InsertAt_IndexLessThanZeroOnEmptyList_ThrowsIndexOutOfBoundsException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
