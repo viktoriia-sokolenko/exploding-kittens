@@ -3,13 +3,11 @@ package domain;
 import java.util.*;
 
 public class Deck {
-	private final Random rand;
 	private final List<Card> deck;
 
-	public Deck(List<Card> cardList, Random rand) {
+	public Deck(List<Card> cardList) {
 		Objects.requireNonNull(cardList, "List of Cards cannot be null");
 		this.deck = new ArrayList<>(cardList);
-		this.rand = rand;
 	}
 
 	public Card peekTop() {
@@ -40,7 +38,7 @@ public class Deck {
 		return this.deck.size();
 	}
 
-	public void shuffleDeck() {
+	public void shuffleDeck(Random rand) {
 		for (int deckIndex = deck.size() - 1; deckIndex > 0; deckIndex--) {
 			int indexToSwap = rand.nextInt(deckIndex + 1);
 			Card temporaryCard = deck.get(indexToSwap);
