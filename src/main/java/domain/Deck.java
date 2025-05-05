@@ -10,6 +10,13 @@ public class Deck {
 		this.deck = new ArrayList<>(cardList);
 	}
 
+	public Card getCardAt(int index) {
+		if (isIndexOutOfBounds(index)) {
+			throw new IndexOutOfBoundsException("Index out of bounds");
+		}
+
+	}
+
 	public Card peekTop() {
 		if (deck.isEmpty()) {
 			throw new NoSuchElementException("Deck is empty");
@@ -31,7 +38,6 @@ public class Deck {
 			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
 		this.deck.add(index, card);
-
 	}
 
 	public int getDeckSize() {
@@ -45,7 +51,6 @@ public class Deck {
 			deck.set(indexToSwap, deck.get(deckIndex));
 			deck.set(deckIndex, temporaryCard);
 		}
-
 	}
 
 	private boolean isIndexOutOfBounds(int index) {

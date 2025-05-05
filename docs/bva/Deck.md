@@ -5,6 +5,8 @@ cards without specifying the Card Type (i.e `[card1, card2]`), that means that t
 that uses all the different Card Types into a list of two different Cards and performs _Parameterized Tests_ based on
 it.
 
+Also, unless specified that I am dealing with  `Duplicates` states, each cards listed below are from different CardTypes.
+
 ### Method under test: `draw()`
 
 |             | System under test                                                 | Expected output / state transition                              | Implemented?       |
@@ -23,7 +25,7 @@ it.
 | Test Case 3 | Deck has **> 1** cards `[card1, card2]`                           | Returns `card2`;                           | :white_check_mark: |
 | Test Case 4 | Deck has **> 1** cards and Duplicated `[card1, card2.1, card2.2]` | Returns `card2.2`;                         | :white_check_mark: |
 
-### Method under test: `getCardAtIndex(int index)`
+### Method under test: `getCardAt(int index)`
 
 |             | System under test                                      | Expected output / state transition | Implemented? |
 |-------------|--------------------------------------------------------|------------------------------------|--------------|
@@ -53,6 +55,7 @@ it.
 | Test Case 2 | `index < 0` (non-empty list) `[card1]`                                              | `IndexOutOfBoundsException`                                                 | :white_check_mark: |
 | Test Case 3 | `index == 0` (front of deck) (empty list)  `[]`                                     | Card inserted at top; deck `size` increments by 1 `[card]`                  | :white_check_mark: |
 | Test Case 4 | `index == 0` (front of deck) (non-empty list)  `[card1, card2]`                     | Card inserted at top; deck `size` increments by 1 `[card, card1, card2]`    | :white_check_mark: |
+| Test Case 4 | `index == 1`  (non-empty list)  `[card1, card2]`                                    | Card inserted at top; deck `size` increments by 1 `[card1, card, card2]`    |                    |
 | Test Case 5 | `index == size` (exactly last position / bottom)  (non-empty list) `[card1, card2]` | Card appended at bottom; deck `size` increments by 1 `[card1, card2, card]` | :white_check_mark: |
 | Test Case 6 | `index > size` (empty list)   `[]`                                                  | `IndexOutOfBoundsException`                                                 | :white_check_mark: |
 | Test Case 7 | `index > size` (non-empty list) `[card1, card2]`                                    | `IndexOutOfBoundsException`                                                 | :white_check_mark: |
