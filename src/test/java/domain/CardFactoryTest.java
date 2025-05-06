@@ -79,4 +79,10 @@ public class CardFactoryTest {
 		Card card = factory.createCard(CardType.NUKE);
 		assertInstanceOf(Card.class, card);
 	}
+
+	@Test
+	void createCards_withNegativeCount_throwsIllegalArgumentException() {
+		CardFactory factory = new CardFactory();
+		assertThrows(IllegalArgumentException.class, () -> factory.createCards(CardType.NORMAL, -1));
+	}
 }
