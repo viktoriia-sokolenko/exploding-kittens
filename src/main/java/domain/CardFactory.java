@@ -14,6 +14,8 @@ public class CardFactory {
 				return new AttackCard();
 			case SKIP:
 				return new SkipCard();
+			case FAVOR:
+				return new FavorCard();
 			default: throw new IllegalArgumentException("Unknown card type: " + type);
 		}
 	}
