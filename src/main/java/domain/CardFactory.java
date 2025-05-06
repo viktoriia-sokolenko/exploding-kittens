@@ -35,7 +35,10 @@ public class CardFactory {
 		if (numberOfCards <= 0) {
 			throw new IllegalArgumentException("Number of cards must be greater than 0");
 		}
-		List<Card> cards = new ArrayList<>();
+		List<Card> cards = new ArrayList<>(numberOfCards);
+		for (int i = 0; i < numberOfCards; i++) {
+			cards.add(createCard(type));
+		}
 
 		return cards;
 	}
