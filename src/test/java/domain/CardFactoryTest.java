@@ -169,4 +169,21 @@ public class CardFactoryTest {
 
 		assertEquals(numCards, cards.size());
 	}
+
+	@Test
+	void createCard_returnsCorrectTypeForEachCardType() {
+		CardFactory factory = new CardFactory();
+
+		Card normalCard = factory.createCard(CardType.NORMAL);
+		Card explodingCard = factory.createCard(CardType.EXPLODING_KITTEN);
+		Card defuseCard = factory.createCard(CardType.DEFUSE);
+
+		assertInstanceOf(NormalCard.class, normalCard);
+		assertInstanceOf(ExpoldingKittenCard.class, explodingCard);
+		assertInstanceOf(DefuseCard.class, defuseCard);
+
+		assertEquals(CardType.NORMAL, normalCard.getCardType());
+		assertEquals(CardType.EXPLODING_KITTEN, explodingCard.getCardType());
+		assertEquals(CardType.DEFUSE, defuseCard.getCardType());
+	}
 }
