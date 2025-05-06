@@ -134,7 +134,7 @@ public class DeckTest {
 		Deck deck = new Deck(emptyCardList);
 		int index = 0;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,  () -> {
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
 			Card card = deck.getCardAt(index);
 		});
 
@@ -153,7 +153,7 @@ public class DeckTest {
 
 		Deck deck = new Deck(List.of(card1, card2, card3));
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,  () -> {
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
 			Card card = deck.getCardAt(index);
 		});
 
@@ -164,7 +164,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void GetCardAt_IndexFourDeckWithThreeCardsThatHaveDuplicates_ThrowsIndexOutOfBoundsException() {
+	public void GetCardAt_FourDeckWithThreeCards_ThrowsIndexOutOfBoundsException() {
 		Card card1 = new Card(CardType.NUKE);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
@@ -172,7 +172,7 @@ public class DeckTest {
 
 		Deck deck = new Deck(List.of(card1, card2, card3));
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,  () -> {
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
 			Card card = deck.getCardAt(index);
 		});
 
