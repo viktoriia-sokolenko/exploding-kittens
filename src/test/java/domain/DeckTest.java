@@ -92,7 +92,6 @@ public class DeckTest {
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
-		assertEquals(expectedMessage, actualMessage);
 	}
 
 	@Test
@@ -111,7 +110,6 @@ public class DeckTest {
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
-		assertEquals(expectedMessage, actualMessage);
 	}
 
 	@Test
@@ -128,7 +126,6 @@ public class DeckTest {
 		String actualMessage = exception.getMessage();
 
 		assertEquals(expectedMessage, actualMessage);
-		assertEquals(expectedMessage, actualMessage);
 	}
 
 	@Test
@@ -144,7 +141,6 @@ public class DeckTest {
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
 
-		assertEquals(expectedMessage, actualMessage);
 		assertEquals(expectedMessage, actualMessage);
 	}
 
@@ -361,6 +357,21 @@ public class DeckTest {
 		assertEquals(card, deck.peekTop());
 		assertEquals(3, deck.getDeckSize());
 
+	}
+
+	@Test
+	public void InsertCardAtAndGetCardAt_IndexIsOneOnNonEmptyDeckWithTwoElements() {
+		Card card = new Card(CardType.NORMAL);
+		Card card1 = new Card(CardType.EXPLODING_KITTEN);
+		Card card2 = new Card(CardType.DEFUSE);
+		List<Card> cardsList = new ArrayList<>(List.of(card1, card2));
+		int index = 1;
+
+		Deck deck = new Deck(cardsList);
+		deck.insertCardAt(card, index);
+
+		assertEquals(card, deck.getCardAt(index));
+		assertEquals(3, deck.getDeckSize());
 	}
 
 	@Test
