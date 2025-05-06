@@ -14,6 +14,8 @@ public class CardFactory {
 				return new AttackCard();
 			case SKIP:
 				return new SkipCard();
+			case SEE_THE_FUTURE:
+				return new SeeTheFuture();
 			case SHUFFLE:
 				return new ShuffleCard();
 			case FAVOR:
