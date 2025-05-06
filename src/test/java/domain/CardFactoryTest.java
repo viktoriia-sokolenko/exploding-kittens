@@ -160,4 +160,13 @@ public class CardFactoryTest {
 			assertInstanceOf(ExpoldingKittenCard.class, card);
 		}
 	}
+
+	@Test
+	public void createCards_withLargeNumber_createsCorrectNumberOfCards() {
+		CardFactory factory = new CardFactory();
+		int numCards = 100;
+		List<Card> cards = factory.createCards(CardType.NORMAL, numCards);
+
+		assertEquals(numCards, cards.size());
+	}
 }
