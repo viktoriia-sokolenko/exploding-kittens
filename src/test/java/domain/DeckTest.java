@@ -144,18 +144,22 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
-
 	@Test
-	public void Draw_WithEmptyDeck_ThrowsNoSuchElementException() {
-		List<Card> emptyCardList = new ArrayList<>();
+	public void GetCardAt_ThreeOnDeckWithThreeCards_ThrowsIndexOutOfBoundsException() {
+		Card card1 = new Card(CardType.NUKE);
+		Card card2 = new Card(CardType.SEE_THE_FUTURE);
+		Card card3 = new Card(CardType.DEFUSE);
+		int index = 3;
 
-		Deck deck = new Deck(emptyCardList);
+		Deck deck = new Deck(List.of(card1, card2, card3));
 
-		String expectedMessage = "Deck is empty";
+		Exception exception = assertThrows(IndexOutOfBoundsException.class,  () -> {
+			Card card = deck.getCardAt(index);
+		});
 
-		Exception exception = assertThrows(NoSuchElementException.class, deck::draw);
-
+		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
+
 		assertEquals(expectedMessage, actualMessage);
 	}
 
@@ -175,6 +179,20 @@ public class DeckTest {
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
 
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void Draw_WithEmptyDeck_ThrowsNoSuchElementException() {
+		List<Card> emptyCardList = new ArrayList<>();
+
+		Deck deck = new Deck(emptyCardList);
+
+		String expectedMessage = "Deck is empty";
+
+		Exception exception = assertThrows(NoSuchElementException.class, deck::draw);
+
+		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
 	}
 
