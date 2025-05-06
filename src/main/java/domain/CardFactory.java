@@ -20,6 +20,8 @@ public class CardFactory {
 				return new SeeTheFutureCard();
 			case SHUFFLE:
 				return new ShuffleCard();
+			case NUKE:
+				return new NukeCard();
 			case FAVOR:
 				return new FavorCard();
 			default: throw new IllegalArgumentException("Unknown card type: " + type);
