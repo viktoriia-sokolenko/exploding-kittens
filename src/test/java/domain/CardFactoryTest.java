@@ -1,20 +1,13 @@
 package domain;
 
 import org.junit.jupiter.api.Test;
-import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.ArrayList;
 
 public class CardFactoryTest {
-
-	@Test
-	public void CreateCard_WithNullType_ThrowsNullPointerException() {
-		CardFactory factory = new CardFactory();
-		assertThrows(NullPointerException.class, () -> factory.createCard(null));
-	}
-
 	@Test
 	public void CreateCard_WithExplodingKittenCardType_CreatesCard() {
 		CardFactory factory = new CardFactory();

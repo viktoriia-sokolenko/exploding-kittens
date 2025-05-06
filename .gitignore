@@ -55,12 +55,14 @@ gradle-app.setting
 
 # User-specific stuff
 **/.idea/
+.idea
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
 *.iws
 *.iml
+*.xml
 *.ipr
 out/
 !**/src/main/**/out/

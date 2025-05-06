@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardFactory {
-
 	public Card createCard(CardType type) {
 		switch (type) {
 			case NORMAL:
@@ -44,4 +43,3 @@ public class CardFactory {
 		return cards;
 	}
 }
-
