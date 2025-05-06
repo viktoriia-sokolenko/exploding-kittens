@@ -10,6 +10,10 @@ public class CardFactory {
 				return new ExpoldingKittenCard();
 			case DEFUSE:
 				return new DefuseCard();
+			case ATTACK:
+				return new AttackCard();
+			case SKIP:
+				return new SkipCard();
 			default: throw new IllegalArgumentException("Unknown card type: " + type);
 		}
 	}
