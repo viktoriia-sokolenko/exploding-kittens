@@ -103,4 +103,16 @@ public class CardFactoryTest {
 		assertInstanceOf(NormalCard.class, cards.get(0));
 	}
 
+	@Test
+	void createCards_withValidTypeAndCountGreaterThanOne_returnsListWithCorrectNumberOfCards() {
+		CardFactory factory = new CardFactory();
+		int numCards = 5;
+		List<Card> cards = factory.createCards(CardType.DEFUSE, numCards);
+
+		assertEquals(numCards, cards.size());
+		for (Card card : cards) {
+			assertInstanceOf(DefuseCard.class, card);
+		}
+	}
+
 }
