@@ -1,11 +1,11 @@
 import com.github.spotbugs.snom.Confidence
 import com.github.spotbugs.snom.Effort
 
-plugins {
-    id("java")
-    checkstyle
-    id("com.github.spotbugs") version "6.0.25"
-}
+        plugins {
+            id("java")
+            checkstyle
+            id("com.github.spotbugs") version "6.0.25"
+        }
 
 group = "nu.csse.sqe"
 version = "1.0"
@@ -68,3 +68,39 @@ tasks.spotbugsMain {
         setStylesheet("fancy-hist.xsl")
     }
 }
+
+        // I made this so we can have an easier way to convert tabs to space
+        // mostly needd this for my env though
+
+        tasks.register("fixIndentation") {
+            description = "Converts space indentation to tabs in Java files"
+            group = "formatting"
+
+            doLast {
+                println("Converting spaces to tabs in Java files...")
+                val mainJavaFiles = project.fileTree("src/main/java") {
+                    include("**/*.java")
+                }
+                val testJavaFiles = project.fileTree("src/test/java") {
+                    include("**/*.java")
+                }
+                val allJavaFiles = mainJavaFiles + testJavaFiles
+                allJavaFiles.forEach { file ->
+                    println("Processing file: ${file.path}")
+
+                    val content = file.readText()
+                    val fixedContent = content.replace(Regex("(?m)^([ ]{4})+")) { match ->
+                        "\t".repeat(match.value.length / 4)
+                    }
+
+                    if (content != fixedContent) {
+                        file.writeText(fixedContent)
+                        println("Fixed indentation in: ${file.path}")
+                    } else {
+                        println("No changes needed in: ${file.path}")
+                    }
+                }
+
+                println("Indentation conversion complete.")
+            }
+        }
