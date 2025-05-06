@@ -28,16 +28,16 @@ CardTypes.
 
 ### Method under test: `getCardAt(int index)`
 
-|             | System under test                                      | Expected output / state transition | Implemented?       |
-|-------------|--------------------------------------------------------|------------------------------------|--------------------|
-| Test Case 1 | `index < 0` (empty list)     `[]`                      | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 2 | `index < 0` (non-empty list) `[card1]`                 | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 3 | `index == 0`  (empty list)  `[]`                       | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 4 | `index == 0` (non-empty list)  `[card1, card2]`        | `Returns `card1`                   | :white_check_mark: |
-| Test Case 5 | `index == 1` (non-empty list)  `[card1, card2, card3]` | `Returns `card2`                   | :white_check_mark: |
-| Test Case 6 | `index == size`  (non-empty list) `[card1, card2]`     | `IndexOutOfBoundsException`        |                    |
-| Test Case 7 | `index > 0` (empty list)   `[]`                        | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 8 | `index > size` (non-empty list) `[card1, card2]`       | `IndexOutOfBoundsException`        |                    |
+|             | System under test                                       | Expected output / state transition | Implemented?       |
+|-------------|---------------------------------------------------------|------------------------------------|--------------------|
+| Test Case 1 | `index < 0` (empty list)     `[]`                       | `IndexOutOfBoundsException`        | :white_check_mark: |
+| Test Case 2 | `index < 0` (non-empty list) `[card1]`                  | `IndexOutOfBoundsException`        | :white_check_mark: |
+| Test Case 3 | `index == 0`  (empty list)  `[]`                        | `IndexOutOfBoundsException`        | :white_check_mark: |
+| Test Case 4 | `index == 0` (non-empty list)  `[card1, card2]`         | `Returns `card1`                   | :white_check_mark: |
+| Test Case 5 | `index == 1` (non-empty list)  `[card1, card2, card3]`  | `Returns `card2`                   | :white_check_mark: |
+| Test Case 6 | `index == size`  (non-empty list) `[card1, card2]`      | `IndexOutOfBoundsException`        |                    |
+| Test Case 7 | `index > 0` (empty list)   `[]`                         | `IndexOutOfBoundsException`        | :white_check_mark: |
+| Test Case 8 | `index > size` (non-empty list) `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: |
 
 ### Method under test: `getDeckSize()`
 

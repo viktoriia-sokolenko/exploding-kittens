@@ -160,6 +160,25 @@ public class DeckTest {
 	}
 
 	@Test
+	public void GetCardAt_IndexFourDeckWithThreeCardsThatHaveDuplicates_ThrowsIndexOutOfBoundsException() {
+		Card card1 = new Card(CardType.NUKE);
+		Card card2 = new Card(CardType.NORMAL);
+		Card card3 = new Card(CardType.NORMAL);
+		int index = 4;
+
+		Deck deck = new Deck(List.of(card1, card2, card3));
+
+		Exception exception = assertThrows(IndexOutOfBoundsException.class,  () -> {
+			Card card = deck.getCardAt(index);
+		});
+
+		String expectedMessage = "Index out of bounds";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
 	public void DrawAndGetDeckSize_WithOneCard() {
 		CardType cardType = CardType.NORMAL;
 		Card card = new Card(cardType);
