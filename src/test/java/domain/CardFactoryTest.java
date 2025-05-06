@@ -83,6 +83,16 @@ public class CardFactoryTest {
 	@Test
 	void createCards_withNegativeCount_throwsIllegalArgumentException() {
 		CardFactory factory = new CardFactory();
-		assertThrows(IllegalArgumentException.class, () -> factory.createCards(CardType.NORMAL, -1));
+		assertThrows(IllegalArgumentException.class, () ->
+				factory.createCards(CardType.NORMAL, -1));
 	}
+
+	@Test
+	void createCards_withZeroCount_throwsIllegalArgumentException() {
+		CardFactory factory = new CardFactory();
+		assertThrows(IllegalArgumentException.class, () ->
+				factory.createCards(CardType.NORMAL, 0));
+	}
+
+
 }
