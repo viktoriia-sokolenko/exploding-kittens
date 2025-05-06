@@ -31,4 +31,10 @@ public class CardFactoryTest {
 		assertThrows(IllegalArgumentException.class, () ->
 				factory.createCard(CardType.UNKNOWN_CARD_FOR_TEST));
 	}
+
+	@Test public void CreateCard_WithNormalCardType_CreatesCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.NORMAL);
+		assertInstanceOf(Card.class, card);
+	}
 }
