@@ -427,7 +427,7 @@ public class DeckTest {
 
 	@Test
 	public void ShuffleDeck_OneCardinDeck() {
-		Card card = new Card(CardType.NORMAL);
+		Card card = new Card(CardType.SKIP);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 		Random rand = EasyMock.createMock(Random.class);
 		EasyMock.replay(rand);
@@ -458,6 +458,31 @@ public class DeckTest {
 
 		assertEquals(card2, actualCard1);
 		assertEquals(card1, actualCard2);
+		EasyMock.verify(rand);
+	}
+
+	@Test
+	public void ShuffleDeck_ThreeCardinDeck() {
+		Card card1 = new Card(CardType.DEFUSE);
+		Card card2 = new Card(CardType.FAVOR);
+		Card card3 = new Card(CardType.EXPLODING_KITTEN);
+		List<Card> cardsList = new ArrayList<>(List.of(card1, card2, card3));
+		Random rand = EasyMock.createMock(Random.class);
+		Deck deck = new Deck(cardsList);
+
+		EasyMock.expect(rand.nextInt(3)).andReturn(1);
+		EasyMock.expect(rand.nextInt(2)).andReturn(0);
+		EasyMock.replay(rand);
+
+		deck.shuffleDeck(rand);
+
+		Card actualCard1 = deck.getCardAt(0);
+		Card actualCard2 = deck.getCardAt(1);
+		Card actualCard3 = deck.getCardAt(2);
+
+		assertEquals(card3, actualCard1);
+		assertEquals(card1, actualCard2);
+		assertEquals(card2, actualCard3);
 		EasyMock.verify(rand);
 	}
 
