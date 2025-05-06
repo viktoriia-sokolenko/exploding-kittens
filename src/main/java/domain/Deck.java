@@ -45,6 +45,7 @@ public class Deck {
 	}
 
 	public void shuffleDeck(Random rand) {
+		//Fischer Yates Algorithm
 		for (int deckIndex = deck.size() - 1; deckIndex > 0; deckIndex--) {
 			int indexToSwap = rand.nextInt(deckIndex + 1);
 			Card temporaryCard = deck.get(indexToSwap);

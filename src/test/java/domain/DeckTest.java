@@ -440,4 +440,25 @@ public class DeckTest {
 		EasyMock.verify(rand);
 	}
 
+	@Test
+	public void ShuffleDeck_TwoCardinDeck() {
+		Card card1 = new Card(CardType.NORMAL);
+		Card card2 = new Card(CardType.ATTACK);
+		List<Card> cardsList = new ArrayList<>(List.of(card1, card2));
+		Random rand = EasyMock.createMock(Random.class);
+		Deck deck = new Deck(cardsList);
+
+		EasyMock.expect(rand.nextInt(2)).andReturn(0);
+		EasyMock.replay(rand);
+
+		deck.shuffleDeck(rand);
+
+		Card actualCard1 = deck.getCardAt(0);
+		Card actualCard2 = deck.getCardAt(1);
+
+		assertEquals(card2, actualCard1);
+		assertEquals(card1, actualCard2);
+		EasyMock.verify(rand);
+	}
+
 }
