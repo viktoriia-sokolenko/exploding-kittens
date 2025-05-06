@@ -440,10 +440,11 @@ public class DeckTest {
 		EasyMock.verify(rand);
 	}
 
-	@Test
-	public void ShuffleDeck_TwoCardinDeck() {
-		Card card1 = new Card(CardType.NORMAL);
-		Card card2 = new Card(CardType.ATTACK);
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void ShuffleDeck_TwoCardinDeck(List<Card> cards) {
+		Card card1 = cards.get(0);
+		Card card2 = cards.get(1);
 		List<Card> cardsList = new ArrayList<>(List.of(card1, card2));
 		Random rand = EasyMock.createMock(Random.class);
 		Deck deck = new Deck(cardsList);
@@ -486,4 +487,29 @@ public class DeckTest {
 		EasyMock.verify(rand);
 	}
 
+	@Test
+	public void shuffleDeck_ThreeCardinDeckAndDuplicates() {
+		Card card1 = new Card(CardType.SHUFFLE);
+		Card card2 = new Card(CardType.ALTER_THE_FUTURE);
+		Card card3 = new Card(CardType.ALTER_THE_FUTURE);
+
+		List<Card> cardsList = new ArrayList<>(List.of(card1, card2, card3));
+		Random rand = EasyMock.createMock(Random.class);
+		Deck deck = new Deck(cardsList);
+
+		EasyMock.expect(rand.nextInt(3)).andReturn(0);
+		EasyMock.expect(rand.nextInt(2)).andReturn(0);
+		EasyMock.replay(rand);
+
+		deck.shuffleDeck(rand);
+
+		Card actualCard1 = deck.getCardAt(0);
+		Card actualCard2 = deck.getCardAt(1);
+		Card actualCard3 = deck.getCardAt(2);
+
+		assertEquals(card2, actualCard1);
+		assertEquals(card3, actualCard2);
+		assertEquals(card1, actualCard3);
+		EasyMock.verify(rand);
+	}
 }

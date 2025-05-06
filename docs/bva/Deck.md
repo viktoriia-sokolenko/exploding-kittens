@@ -71,7 +71,7 @@ CardTypes.
 | Test Case 2 | Deck size **1** `[card1]`                                   | Order remains unchanged (idempotent) `[card1]`                                                                        | :white_check_mark: |
 | Test Case 3 | Deck size **> 1** [card1, card2]                            | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2, card1]`            | :white_check_mark: |
 | Test Case 3 | Deck size **> 1** [card1, card2, card3]                     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: |
-| Test Case 3 | Deck size **> 1** and duplicate `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` |                    |
+| Test Case 3 | Deck size **> 1** and duplicate `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: |
 
 ### Method under test: `giveCardToPlayer(Player p)`
 
