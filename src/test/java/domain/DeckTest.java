@@ -84,8 +84,9 @@ public class DeckTest {
 		Deck deck = new Deck(emptyCardList);
 		int index = -1;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.getCardAt(index));
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+			Card card = deck.getCardAt(index);
+		});
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -102,8 +103,9 @@ public class DeckTest {
 		Deck deck = new Deck(emptyCardList);
 		int index = -1;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.getCardAt(index));
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+			Card card = deck.getCardAt(index);
+		});
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -118,8 +120,9 @@ public class DeckTest {
 		Deck deck = new Deck(emptyCardList);
 		int index = 1;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.getCardAt(index));
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+			Card card = deck.getCardAt(index);
+		});
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -134,8 +137,9 @@ public class DeckTest {
 		Deck deck = new Deck(emptyCardList);
 		int index = 0;
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
-				() -> deck.getCardAt(index));
+		Exception exception = assertThrows(IndexOutOfBoundsException.class,  () -> {
+			Card card = deck.getCardAt(index);
+		});
 
 		String expectedMessage = "Index out of bounds";
 		String actualMessage = exception.getMessage();
@@ -332,14 +336,15 @@ public class DeckTest {
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
 	public void InsertCardAtAndGetCardAt_IndexIsZeroOnNonEmptyDeck(List<Card> cards) {
-		Card actualCard = new Card(CardType.NORMAL);
+		Card card = new Card(CardType.NORMAL);
 		int index = 0;
 
 		Deck deck = new Deck(cards);
 
-		deck.insertCardAt(actualCard, index);
+		deck.insertCardAt(card, index);
+		Card actualCard = deck.getCardAt(index);
 
-		assertEquals(actualCard, deck.getCardAt(index));
+		assertEquals(card, actualCard);
 		assertEquals(3, deck.getDeckSize());
 	}
 
