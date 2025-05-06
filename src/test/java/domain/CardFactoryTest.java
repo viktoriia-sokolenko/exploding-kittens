@@ -43,4 +43,10 @@ public class CardFactoryTest {
 		Card card = factory.createCard((CardType.ATTACK));
 		assertInstanceOf(Card.class, card);
 	}
+
+	@Test public void CreateCard_WithSkipCardType_CreatesCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.SKIP);
+		assertInstanceOf(Card.class, card);
+	}
 }
