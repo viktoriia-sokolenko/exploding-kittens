@@ -8,7 +8,7 @@ public class CardFactory {
                 return new ExpoldingKittenCard();
             case DEFUSE:
                 return new DefuseCard();
-            default: return null;
+            default: throw new IllegalArgumentException("Unknown card type: " + type);
         }
     }
 }

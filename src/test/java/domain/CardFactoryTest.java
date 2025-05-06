@@ -28,7 +28,7 @@ public class CardFactoryTest {
 
     @Test public void CreateCard_WithUnknownCardType_ThrowsIllegalArgumentException() {
         CardFactory factory = new CardFactory();
-        assertThrows(IllegalArgumentException.class, () -> factory.createCard(null));
+        assertThrows(IllegalArgumentException.class, () -> factory.createCard(CardType.UNKNOWN_CARD_FOR_TEST));
 
     }
 }
