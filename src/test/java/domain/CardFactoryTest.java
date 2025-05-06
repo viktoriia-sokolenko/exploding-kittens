@@ -94,5 +94,13 @@ public class CardFactoryTest {
 				factory.createCards(CardType.NORMAL, 0));
 	}
 
+	@Test
+	void createCards_withValidTypeAndCountOne_returnsListWithOneCard() {
+		CardFactory factory = new CardFactory();
+		List<Card> cards = factory.createCards(CardType.NORMAL, 1);
+
+		assertEquals(1, cards.size());
+		assertInstanceOf(NormalCard.class, cards.get(0));
+	}
 
 }
