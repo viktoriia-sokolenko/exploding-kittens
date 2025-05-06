@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CardFactory {
 
 	public Card createCard(CardType type) {
@@ -26,6 +29,15 @@ public class CardFactory {
 				return new FavorCard();
 			default: throw new IllegalArgumentException("Unknown card type: " + type);
 		}
+	}
+
+	public List<Card> createCards(CardType type, int numberOfCards) {
+		if (numberOfCards <= 0) {
+			throw new IllegalArgumentException("Number of cards must be greater than 0");
+		}
+		List<Card> cards = new ArrayList<>();
+
+		return cards;
 	}
 }
 
