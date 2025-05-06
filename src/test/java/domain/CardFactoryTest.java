@@ -73,4 +73,10 @@ public class CardFactoryTest {
 		Card card = factory.createCard(CardType.ALTER_THE_FUTURE);
 		assertInstanceOf(Card.class, card);
 	}
+
+	@Test public void CreateCard_WithNukeCardType_CreateCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.NUKE);
+		assertInstanceOf(Card.class, card);
+	}
 }
