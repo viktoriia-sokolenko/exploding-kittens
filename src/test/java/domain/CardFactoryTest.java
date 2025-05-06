@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardFactoryTest {
 	@Test
