@@ -101,7 +101,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void createCards_withValidTypeAndCountGreaterThanOne_returnsListWithCorrectNumberOfCards() {
+	public void createCards_withValidTypeAndCountGreaterThanOne_returnsList() {
 		CardFactory factory = new CardFactory();
 		int numCards = 5;
 		List<Card> cards = factory.createCards(CardType.DEFUSE, numCards);
@@ -113,7 +113,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void createCards_withValidTypeAndCountGreaterThanOne_returnsListWithAllUniqueInstances() {
+	public void createCards_withValidTypeAndCountGreaterThanOne_returnsLists() {
 		CardFactory factory = new CardFactory();
 		List<CardType> types = List.of(
 				CardType.ATTACK,
@@ -141,7 +141,8 @@ public class CardFactoryTest {
 		assertEquals(firstBatchSize, firstBatch.size());
 
 		int secondBatchSize = 2;
-		List<Card> secondBatch = factory.createCards(CardType.EXPLODING_KITTEN, secondBatchSize);
+		List<Card> secondBatch = factory.createCards(CardType.EXPLODING_KITTEN,
+				secondBatchSize);
 		assertEquals(secondBatchSize, secondBatch.size());
 
 		assertEquals(firstBatchSize, firstBatch.size());
