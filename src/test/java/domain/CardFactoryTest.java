@@ -37,4 +37,10 @@ public class CardFactoryTest {
 		Card card = factory.createCard(CardType.NORMAL);
 		assertInstanceOf(Card.class, card);
 	}
+
+	@Test public void CreateCard_WithAttackCardType_CreatesCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard((CardType.ATTACK));
+		assertInstanceOf(Card.class, card);
+	}
 }
