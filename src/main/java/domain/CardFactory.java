@@ -4,8 +4,8 @@ public class CardFactory {
 
 	public Card createCard(CardType type) {
 		switch (type) {
-            case NORMAL:
-                return new NormalCard();
+			case NORMAL:
+				return new NormalCard();
 			case EXPLODING_KITTEN:
 				return new ExpoldingKittenCard();
 			case DEFUSE:
