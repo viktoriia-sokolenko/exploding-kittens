@@ -33,7 +33,8 @@ public class CardFactory {
 
 	public List<Card> createCards(CardType type, int numberOfCards) {
 		if (numberOfCards <= 0) {
-			throw new IllegalArgumentException("Number of cards must be greater than 0");
+			throw new
+					IllegalArgumentException("Number of cards must be above 0");
 		}
 		List<Card> cards = new ArrayList<>(numberOfCards);
 		for (int i = 0; i < numberOfCards; i++) {

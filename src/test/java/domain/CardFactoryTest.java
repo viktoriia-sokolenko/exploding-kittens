@@ -135,6 +135,7 @@ public class CardFactoryTest {
 		}
 
 		Set<Card> uniqueCards = new HashSet<>(cards);
-		assertEquals(types.size(), uniqueCards.size(), "All cards should be unique instances");
+		assertEquals(types.size(), uniqueCards.size()
+				, "All cards should be unique instances");
 	}
 }
