@@ -84,21 +84,21 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	void createCards_withNegativeCount_throwsIllegalArgumentException() {
+	public void createCards_withNegativeCount_throwsIllegalArgumentException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(IllegalArgumentException.class, () ->
 				factory.createCards(CardType.NORMAL, -1));
 	}
 
 	@Test
-	void createCards_withZeroCount_throwsIllegalArgumentException() {
+	public void  createCards_withZeroCount_throwsIllegalArgumentException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(IllegalArgumentException.class, () ->
 				factory.createCards(CardType.NORMAL, 0));
 	}
 
 	@Test
-	void createCards_withValidTypeAndCountOne_returnsListWithOneCard() {
+	public void createCards_withValidTypeAndCountOne_returnsListWithOneCard() {
 		CardFactory factory = new CardFactory();
 		List<Card> cards = factory.createCards(CardType.NORMAL, 1);
 
@@ -107,7 +107,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	void createCards_withValidTypeAndCountGreaterThanOne_returnsListWithCorrectNumberOfCards() {
+	public void createCards_withValidTypeAndCountGreaterThanOne_returnsListWithCorrectNumberOfCards() {
 		CardFactory factory = new CardFactory();
 		int numCards = 5;
 		List<Card> cards = factory.createCards(CardType.DEFUSE, numCards);
@@ -119,7 +119,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	void createCards_withValidTypeAndCountGreaterThanOne_returnsListWithAllUniqueInstances() {
+	public void createCards_withValidTypeAndCountGreaterThanOne_returnsListWithAllUniqueInstances() {
 		CardFactory factory = new CardFactory();
 		List<CardType> types = List.of(
 				CardType.ATTACK,
@@ -137,5 +137,27 @@ public class CardFactoryTest {
 		Set<Card> uniqueCards = new HashSet<>(cards);
 		assertEquals(types.size(), uniqueCards.size()
 				, "All cards should be unique instances");
+	}
+
+	@Test
+	public void createCards_sequentialCalls_returnIndependentResults() {
+		CardFactory factory = new CardFactory();
+		int firstBatchSize = 3;
+		List<Card> firstBatch = factory.createCards(CardType.NORMAL, firstBatchSize);
+		assertEquals(firstBatchSize, firstBatch.size());
+
+		int secondBatchSize = 2;
+		List<Card> secondBatch = factory.createCards(CardType.EXPLODING_KITTEN, secondBatchSize);
+		assertEquals(secondBatchSize, secondBatch.size());
+
+		assertEquals(firstBatchSize, firstBatch.size());
+
+		for (Card card : firstBatch) {
+			assertInstanceOf(NormalCard.class, card);
+		}
+
+		for (Card card : secondBatch) {
+			assertInstanceOf(ExpoldingKittenCard.class, card);
+		}
 	}
 }
