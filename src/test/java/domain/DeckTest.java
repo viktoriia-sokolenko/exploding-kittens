@@ -95,6 +95,24 @@ public class DeckTest {
 	}
 
 	@Test
+	public void GetCardAt_LessThanZeroOnNonEmptyDeck_ThrowsIndexOutOfBoundsException() {
+		Card card1 = new Card(CardType.NORMAL);
+		Card card2 = new Card(CardType.NORMAL);
+		List<Card> emptyCardList = new ArrayList<>(List.of(card1, card2));
+		Deck deck = new Deck(emptyCardList);
+		int index = -1;
+
+		Exception exception = assertThrows(IndexOutOfBoundsException.class,
+				() -> deck.getCardAt(index));
+
+		String expectedMessage = "Index out of bounds";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(expectedMessage, actualMessage);
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
 	public void GetCardAt_GreaterThanZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
