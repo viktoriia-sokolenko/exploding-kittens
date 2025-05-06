@@ -25,4 +25,10 @@ public class CardFactoryTest {
         Card defuseCard = factory.createCard(CardType.DEFUSE);
         assertInstanceOf(DefuseCard.class, defuseCard);
     }
+
+    @Test public void CreateCard_WithUnknownCardType_ThrowsIllegalArgumentException() {
+        CardFactory factory = new CardFactory();
+        assertThrows(IllegalArgumentException.class, () -> factory.createCard(null));
+
+    }
 }
