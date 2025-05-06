@@ -3,6 +3,9 @@ package domain;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.ArrayList;
 
 public class CardFactoryTest {
 
@@ -115,4 +118,23 @@ public class CardFactoryTest {
 		}
 	}
 
+	@Test
+	void createCards_withValidTypeAndCountGreaterThanOne_returnsListWithAllUniqueInstances() {
+		CardFactory factory = new CardFactory();
+		List<CardType> types = List.of(
+				CardType.ATTACK,
+				CardType.DEFUSE,
+				CardType.NORMAL,
+				CardType.EXPLODING_KITTEN,
+				CardType.SKIP
+		);
+
+		List<Card> cards = new ArrayList<>();
+		for (CardType type : types) {
+			cards.add(factory.createCard(type));
+		}
+
+		Set<Card> uniqueCards = new HashSet<>(cards);
+		assertEquals(types.size(), uniqueCards.size(), "All cards should be unique instances");
+	}
 }
