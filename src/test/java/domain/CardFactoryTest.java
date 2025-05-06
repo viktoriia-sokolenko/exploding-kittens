@@ -61,4 +61,10 @@ public class CardFactoryTest {
 		Card card = factory.createCard(CardType.SHUFFLE);
 		assertInstanceOf(Card.class, card);
 	}
+
+	@Test public void CreateCard_WithSeeIntoTheFutureCardType_CreateCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.SEE_THE_FUTURE);
+		assertInstanceOf(Card.class, card);
+	}
 }
