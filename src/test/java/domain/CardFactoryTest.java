@@ -55,4 +55,10 @@ public class CardFactoryTest {
 		Card card = factory.createCard(CardType.FAVOR);
 		assertInstanceOf(Card.class, card);
 	}
+
+	@Test public void CreateCard_WithShieldCardType_CreatesCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.SHUFFLE);
+		assertInstanceOf(Card.class, card);
+	}
 }
