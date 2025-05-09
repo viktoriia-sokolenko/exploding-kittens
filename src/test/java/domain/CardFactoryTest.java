@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CardFactoryTest {
 	@Test
-	public void CreateCard_WithNullType_ThrowsNullPointerException() {
+	public void createCard_WithNullType_ThrowsNullPointerException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(NullPointerException.class, () -> factory.createCard(null));
 	}
