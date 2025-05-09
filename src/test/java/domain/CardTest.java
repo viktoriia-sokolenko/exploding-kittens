@@ -7,26 +7,26 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CardTest {
 
 	@Test
-	public void Constructor_WithNullType_ThrowsNullPointerException() {
+	public void constructor_WithNullType_ThrowsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> new Card(null));
 	}
 
 	@Test
-	public void Constructor_WithValidCardType_CreatesCard() {
+	public void constructor_WithValidCardType_CreatesCard() {
 		CardType type = CardType.EXPLODING_KITTEN;
 		Card card = new Card(type);
 		assertEquals(type, card.getCardType());
 	}
 
 	@Test
-	public void Equals_CompareWithItself_ReturnsTrue() {
+	public void equals_CompareWithItself_ReturnsTrue() {
 		CardType type = CardType.NORMAL;
 		Card card = new Card(type);
 		assertEquals(card, card);
 	}
 
 	@Test
-	public void Equals_CompareWithSameTypeCard_ReturnsTrue() {
+	public void equals_CompareWithSameTypeCard_ReturnsTrue() {
 		CardType type = CardType.NORMAL;
 		Card card1 = new Card(type);
 		Card card2 = new Card(type);
@@ -34,14 +34,14 @@ public class CardTest {
 	}
 
 	@Test
-	public void Equals_CompareWithNull_ReturnsFalse() {
+	public void equals_CompareWithNull_ReturnsFalse() {
 		CardType type = CardType.NORMAL;
 		Card card = new Card(type);
 		assertNotEquals(null, card);
 	}
 
 	@Test
-	public void Equals_CompareWithDifferentClass_ReturnsFalse() {
+	public void equals_CompareWithDifferentClass_ReturnsFalse() {
 		CardType type = CardType.NORMAL;
 		Card card = new Card(type);
 		Object obj = new Object();
@@ -49,7 +49,7 @@ public class CardTest {
 	}
 
 	@Test
-	public void HashCode_SameCards_ReturnsSameHashCode() {
+	public void hashCode_SameCards_ReturnsSameHashCode() {
 		CardType type = CardType.NORMAL;
 		Card card1 = new Card(type);
 		Card card2 = new Card(type);
@@ -57,7 +57,7 @@ public class CardTest {
 	}
 
 	@Test
-	public void HashCode_DifferentCards_MayReturnDifferentHashCode() {
+	public void hashCode_DifferentCards_MayReturnDifferentHashCode() {
 		Card card1 = new Card(CardType.NORMAL);
 		Card card2 = new Card(CardType.EXPLODING_KITTEN);
 		int hashCode1 = card1.hashCode();
