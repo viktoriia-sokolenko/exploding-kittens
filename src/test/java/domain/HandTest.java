@@ -15,20 +15,28 @@ public class HandTest {
 
 	@Test
 	public void isEmpty_withOneCardInHand_returnsFalse() {
-		Hand hand = new Hand();
 		Card mockCard = EasyMock.mock(Card.class);
+		Hand hand = new Hand();
 		hand.addCard (mockCard);
 		assertFalse(hand.isEmpty());
 	}
 
 	@Test
 	public void isEmpty_withTwoCardsInHand_returnsFalse() {
-		Hand hand = new Hand();
 		Card mockCard1 = EasyMock.mock(Card.class);
 		Card mockCard2 = EasyMock.mock(Card.class);
+
+		Hand hand = new Hand();
 		hand.addCard (mockCard1);
 		hand.addCard (mockCard2);
 		assertFalse(hand.isEmpty());
+	}
+
+	@Test
+	public void containsCardType_onEmptyHand_returnsFalse() {
+		Hand hand = new Hand();
+		CardType cardType = CardType.NUKE;
+		assertFalse(hand.containsCardType(cardType));
 	}
 
 }
