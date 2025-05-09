@@ -30,7 +30,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void peekTop_EmptyDeck_ThrowsIllegalOperationException() {
+	public void peekTop_emptyDeck_throwsIllegalOperationException() {
 		List<Card> emptyCardList = new ArrayList<>();
 
 		Deck deck = new Deck(emptyCardList);
@@ -44,7 +44,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void peekTop_DeckWithOneCard_ReturnsTheOnlyCard() {
+	public void peekTop_deckWithOneCard_returnsTheOnlyCard() {
 		CardType cardType = CardType.NORMAL;
 		Card expectedCard = new Card(cardType);
 		List<Card> cardList = new ArrayList<>(List.of(expectedCard));
@@ -57,7 +57,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void peekTop_DeckWithTwoCards_ReturnsCardInIndexOne(List<Card> cards) {
+	public void peekTop_deckWithTwoCards_returnsCardInIndexOne(List<Card> cards) {
 		Deck deck = new Deck(cards);
 
 		Card expectedCard = cards.get(1);
@@ -67,7 +67,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void peekTop_DeckWithThreeCardsAndDuplicate_ReturnsLastCard() {
+	public void peekTop_deckWithThreeCardsAndDuplicate_returnsLastCard() {
 		Card card1 = new Card(CardType.SEE_THE_FUTURE);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
@@ -79,7 +79,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void getCardAt_LessThanZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
+	public void getCardAt_lessThanZeroOnEmptyDeck_throwsIndexOutOfBoundsException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
 		int index = -1;
@@ -95,7 +95,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void getCardAt_LessThanZeroOnNonEmptyDeck_ThrowsIndexOutOfBoundsException() {
+	public void getCardAt_lessThanZeroOnNonEmptyDeck_throwsIndexOutOfBoundsException() {
 		Card card1 = new Card(CardType.NORMAL);
 		Card card2 = new Card(CardType.NORMAL);
 		List<Card> emptyCardList = new ArrayList<>(List.of(card1, card2));
@@ -113,7 +113,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void getCardAt_GreaterThanZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
+	public void getCardAt_greaterThanZeroOnEmptyDeck_throwsIndexOutOfBoundsException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
 		int index = 1;
@@ -129,7 +129,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void getCardAt_ZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
+	public void getCardAt_zeroOnEmptyDeck_throwsIndexOutOfBoundsException() {
 		List<Card> emptyCardList = new ArrayList<>();
 		Deck deck = new Deck(emptyCardList);
 		int index = 0;
@@ -145,7 +145,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void getCardAt_ThreeOnDeckWithThreeCards_ThrowsIndexOutOfBoundsException() {
+	public void getCardAt_threeOnDeckWithThreeCards_throwsIndexOutOfBoundsException() {
 		Card card1 = new Card(CardType.NUKE);
 		Card card2 = new Card(CardType.SEE_THE_FUTURE);
 		Card card3 = new Card(CardType.DEFUSE);
@@ -164,7 +164,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void getCardAt_FourDeckWithThreeCards_ThrowsIndexOutOfBoundsException() {
+	public void getCardAt_fourDeckWithThreeCards_throwsIndexOutOfBoundsException() {
 		Card card1 = new Card(CardType.NUKE);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
@@ -183,7 +183,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void draw_WithEmptyDeck_ThrowsNoSuchElementException() {
+	public void draw_withEmptyDeck_throwsNoSuchElementException() {
 		List<Card> emptyCardList = new ArrayList<>();
 
 		Deck deck = new Deck(emptyCardList);
@@ -197,7 +197,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void drawAndGetDeckSize_WithOneCard() {
+	public void drawAndGetDeckSize_withOneCard() {
 		CardType cardType = CardType.NORMAL;
 		Card card = new Card(cardType);
 		List<Card> cardList = new ArrayList<>(List.of(card));
@@ -213,7 +213,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void drawAndGetDeckSize_WithTwoCards(List<Card> cards) {
+	public void drawAndGetDeckSize_withTwoCards(List<Card> cards) {
 		Deck deck = new Deck(cards);
 
 		Card expectedCard = cards.get(1);
@@ -224,7 +224,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void drawAndGetDeckSize_DeckWithThreeCardsAndDuplicate() {
+	public void drawAndGetDeckSize_deckWithThreeCardsAndDuplicate() {
 		Card card1 = new Card(CardType.SEE_THE_FUTURE);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
@@ -237,7 +237,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void getDeckSize_DeckWithTwoCards_ReturnsTwo() {
+	public void getDeckSize_deckWithTwoCards_ReturnsTwo() {
 		Card card1 = new Card(CardType.SEE_THE_FUTURE);
 		Card card2 = new Card(CardType.NORMAL);
 
@@ -250,7 +250,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void getDeckSize_DeckWithThreeCardsThatHaveDuplicates_ReturnsThree() {
+	public void getDeckSize_deckWithThreeCardsThatHaveDuplicates_ReturnsThree() {
 		Card card1 = new Card(CardType.NORMAL);
 		Card card2 = new Card(CardType.NORMAL);
 		Card card3 = new Card(CardType.NORMAL);
@@ -264,7 +264,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void insertCardAt_IndexLessThanZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
+	public void insertCardAt_indexLessThanZeroOnEmptyDeck_throwsIndexOutOfBoundsException() {
 		List<Card> emptyCardList = new ArrayList<>();
 
 		Deck deck = new Deck(emptyCardList);
@@ -281,7 +281,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void insertCardAt_IndexLessThanZeroOnNonEmptyDeck_ThrowsIndexOutOfBoundsException() {
+	public void insertCardAt_indexLessThanZeroOnNonEmptyDeck_throwsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card));
 		int index = -1;
@@ -298,7 +298,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void insertCardAt_IndexGreaterThanZeroOnEmptyDeck_ThrowsIndexOutOfBoundsException() {
+	public void insertCardAt_indexGreaterThanZeroOnEmptyDeck_throwsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		List<Card> emptyCardList = new ArrayList<>();
 
@@ -315,7 +315,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void insertCardAt_IndexEqualsThreeOnDeckWithTwo_ThrowsIndexOutOfBoundsException() {
+	public void insertCardAt_indexEqualsThreeOnDeckWithTwo_throwsIndexOutOfBoundsException() {
 		Card card = new Card(CardType.NORMAL);
 		Card card1 = new Card(CardType.EXPLODING_KITTEN);
 		Card card2 = new Card(CardType.DEFUSE);
@@ -334,7 +334,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void insertCardAt_NullCardOnEmptyDeck_ThrowsNullPointerException() {
+	public void insertCardAt_nullCardOnEmptyDeck_throwsNullPointerException() {
 		List<Card> emptyCardList = new ArrayList<>();
 
 		Deck deck = new Deck(emptyCardList);
@@ -343,7 +343,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void insertCardAt_NullCardOnNonEmptyDeck_ThrowsNullPointerException() {
+	public void insertCardAt_nullCardOnNonEmptyDeck_throwsNullPointerException() {
 		Card card1 = new Card(CardType.NORMAL);
 		Card card2 = new Card(CardType.FAVOR);
 
@@ -354,7 +354,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void insertCardAt_IndexEqualsZeroOnEmptyDeck() {
+	public void insertCardAt_indexEqualsZeroOnEmptyDeck() {
 		Card card = new Card(CardType.EXPLODING_KITTEN);
 		int index = 0;
 		List<Card> cardList = new ArrayList<>();
@@ -368,7 +368,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void insertCardAtAndGetCardAt_IndexIsZeroOnNonEmptyDeck(List<Card> cards) {
+	public void insertCardAtAndGetCardAt_indexIsZeroOnNonEmptyDeck(List<Card> cards) {
 		Card card = new Card(CardType.NORMAL);
 		int index = 0;
 		final int FINAL_SIZE = 3;
@@ -384,7 +384,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void insertCardAt_IndexIsTwoOnNonEmptyDeckWithTwoElements(List<Card> cards) {
+	public void insertCardAt_indexIsTwoOnNonEmptyDeckWithTwoElements(List<Card> cards) {
 		Card card = new Card(CardType.NORMAL);
 		int index = 2;
 		final int FINAL_SIZE = 3;
@@ -399,7 +399,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void insertCardAtAndGetCardAt_IndexIsOneOnNonEmptyDeckWithTwoElements() {
+	public void insertCardAtAndGetCardAt_indexIsOneOnNonEmptyDeckWithTwoElements() {
 		Card card = new Card(CardType.NORMAL);
 		Card card1 = new Card(CardType.EXPLODING_KITTEN);
 		Card card2 = new Card(CardType.DEFUSE);
@@ -415,7 +415,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void shuffleDeck_EmptyDeck_OrderRemainTheSame() {
+	public void shuffleDeck_emptyDeck_orderRemainTheSame() {
 		List<Card> cardList = new ArrayList<>();
 		Random rand = EasyMock.createMock(Random.class);
 		EasyMock.replay(rand);
@@ -429,7 +429,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void shuffleDeck_OneCardinDeck() {
+	public void shuffleDeck_oneCardinDeck() {
 		Card card = new Card(CardType.SKIP);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 		Random rand = EasyMock.createMock(Random.class);
@@ -445,7 +445,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void shuffleDeck_TwoCardinDeck(List<Card> cards) {
+	public void shuffleDeck_twoCardinDeck(List<Card> cards) {
 		Card card1 = cards.get(0);
 		Card card2 = cards.get(1);
 		List<Card> cardsList = new ArrayList<>(List.of(card1, card2));
@@ -466,7 +466,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void shuffleDeck_ThreeCardinDeck() {
+	public void shuffleDeck_threeCardinDeck() {
 		Card card1 = new Card(CardType.DEFUSE);
 		Card card2 = new Card(CardType.FAVOR);
 		Card card3 = new Card(CardType.EXPLODING_KITTEN);
@@ -494,7 +494,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void shuffleDeck_ThreeCardinDeckAndDuplicates() {
+	public void shuffleDeck_threeCardinDeckAndDuplicates() {
 		Card card1 = new Card(CardType.SHUFFLE);
 		Card card2 = new Card(CardType.ALTER_THE_FUTURE);
 		Card card3 = new Card(CardType.ALTER_THE_FUTURE);
