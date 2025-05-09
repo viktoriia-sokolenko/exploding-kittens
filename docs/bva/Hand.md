@@ -30,11 +30,11 @@
 
 ### Method under test: `isEmpty()`
 
-|             | System under test                | Expected output | Implemented? | Test name |
-|-------------|----------------------------------|-----------------|--------------|-----------|
-| Test Case 1 | Hand `[]`                        | `true`          |              |
-| Test Case 2 | Hand `[ATTACK]`                  | `false`         |              |
-| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | `false`         |              |
+|             | System under test                | Expected output | Implemented?       | Test name                       |
+|-------------|----------------------------------|-----------------|--------------------|---------------------------------|
+| Test Case 1 | Hand `[]`                        | `true`          | :white_check_mark: | isEmpty_onEmptyHand_returnsTrue |
+| Test Case 2 | Hand `[ATTACK]`                  | `false`         |                    |
+| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | `false`         |                    |
 
 ### Method under test: `getNumberOfCards()`
 
