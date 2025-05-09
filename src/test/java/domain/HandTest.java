@@ -7,6 +7,25 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HandTest {
+
+	private Hand handWithTwoCards(){
+		Card mockCard1 = EasyMock.mock(Card.class);
+		CardType cardType1 = CardType.SEE_THE_FUTURE;
+		EasyMock.expect(mockCard1.getCardType()).andReturn(cardType1);
+
+		Card mockCard2 = EasyMock.mock(Card.class);
+		CardType cardType2 = CardType.SHUFFLE;
+		EasyMock.expect(mockCard2.getCardType()).andReturn(cardType2);
+
+		EasyMock.replay(mockCard1, mockCard2);
+
+		Hand hand = new Hand();
+		hand.addCard(mockCard1);
+		hand.addCard(mockCard2);
+
+		return hand;
+	}
+
 	@Test
 	public void isEmpty_onEmptyHand_returnsTrue() {
 		Hand hand = new Hand();
@@ -23,12 +42,7 @@ public class HandTest {
 
 	@Test
 	public void isEmpty_withTwoCardsInHand_returnsFalse() {
-		Card mockCard1 = EasyMock.mock(Card.class);
-		Card mockCard2 = EasyMock.mock(Card.class);
-
-		Hand hand = new Hand();
-		hand.addCard (mockCard1);
-		hand.addCard (mockCard2);
+		Hand hand = handWithTwoCards();
 		assertFalse(hand.isEmpty());
 	}
 
@@ -51,6 +65,13 @@ public class HandTest {
 
 		assertTrue(hand.containsCardType(cardType));
 		EasyMock.verify(card);
+	}
+
+	@Test
+	public void containsCardType_withTwoOtherCardsInHand_returnsFalse() {
+		Hand hand = handWithTwoCards();
+		CardType expectedCardType = CardType.DEFUSE;
+		assertFalse(hand.containsCardType(expectedCardType));
 	}
 
 }
