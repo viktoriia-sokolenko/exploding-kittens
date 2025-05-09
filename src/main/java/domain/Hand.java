@@ -1,13 +1,13 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Hand {
-	private List<Card> cards;
+	private final Map<CardType, Integer> cards;
 
 	public Hand() {
-		cards = new ArrayList<Card>();
+		cards = new HashMap<>();
 	}
 
 	public boolean isEmpty() {
@@ -15,10 +15,16 @@ public class Hand {
 	}
 
 	public void addCard(Card card) {
-		cards.add(card);
+		CardType type = card.getCardType();
+		if (cards.containsKey(type)) {
+			cards.put(type, cards.get(type) + 1);
+		}
+		else {
+			cards.put(type, 1);
+		}
 	}
 
 	public boolean containsCardType(CardType cardType) {
-		return false;
+		return cards.containsKey(cardType);
 	}
 }
