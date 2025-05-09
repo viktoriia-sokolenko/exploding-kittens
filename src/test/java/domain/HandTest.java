@@ -39,4 +39,18 @@ public class HandTest {
 		assertFalse(hand.containsCardType(cardType));
 	}
 
+	@Test
+	public void containsCardType_withCardInHand_returnsTrue() {
+		Card card = EasyMock.mock(Card.class);
+		CardType cardType = CardType.ATTACK;
+		EasyMock.expect(card.getCardType()).andReturn(cardType);
+		EasyMock.replay(card);
+
+		Hand hand = new Hand();
+		hand.addCard (card);
+
+		assertTrue(hand.containsCardType(cardType));
+		EasyMock.verify(card);
+	}
+
 }
