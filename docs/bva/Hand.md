@@ -2,11 +2,11 @@
 
 ### Method under test: `isEmpty()`
 
-|             | System under test                | Expected output | Implemented?       | Test name                              |
-|-------------|----------------------------------|-----------------|--------------------|----------------------------------------|
-| Test Case 1 | Hand `[]`                        | `true`          | :white_check_mark: | isEmpty_onEmptyHand_returnsTrue        |
-| Test Case 2 | Hand `[mockCard]`                | `false`         | :white_check_mark: | isEmpty_withOneCardInHand_returnsFalse |
-| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | `false`         |                    |
+|             | System under test             | Expected output | Implemented?       | Test name                               |
+|-------------|-------------------------------|-----------------|--------------------|-----------------------------------------|
+| Test Case 1 | Hand `[]`                     | `true`          | :white_check_mark: | isEmpty_onEmptyHand_returnsTrue         |
+| Test Case 2 | Hand `[mockCard]`             | `false`         | :white_check_mark: | isEmpty_withOneCardInHand_returnsFalse  |
+| Test Case 3 | Hand `[mockCard1, mockCard2]` | `false`         | :white_check_mark: | isEmpty_withTwoCardsInHand_returnsFalse |
 
 ### Method under test: `containsCardType(CardType cardType)`
 

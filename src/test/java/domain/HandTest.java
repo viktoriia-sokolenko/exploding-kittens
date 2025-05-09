@@ -21,4 +21,14 @@ public class HandTest {
 		assertFalse(hand.isEmpty());
 	}
 
+	@Test
+	public void isEmpty_withTwoCardsInHand_returnsFalse() {
+		Hand hand = new Hand();
+		Card mockCard1 = EasyMock.mock(Card.class);
+		Card mockCard2 = EasyMock.mock(Card.class);
+		hand.addCard (mockCard1);
+		hand.addCard (mockCard2);
+		assertFalse(hand.isEmpty());
+	}
+
 }
