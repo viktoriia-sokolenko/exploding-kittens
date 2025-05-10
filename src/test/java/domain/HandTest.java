@@ -67,6 +67,11 @@ public class HandTest {
 	}
 
 	@Test
+	public void containsCardType_withNullCardType_throwsNullPointerException(){
+		Hand hand = handWithOneCard();
+		assertThrows(NullPointerException.class, () -> hand.containsCardType(null));
+	}
+	@Test
 	public void containsCardType_onEmptyHand_returnsFalse() {
 		Hand emptyHand = new Hand();
 		CardType cardType = CardType.NUKE;

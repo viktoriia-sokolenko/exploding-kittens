@@ -10,12 +10,13 @@
 
 ### Method under test: `containsCardType(CardType cardType)`
 
-|             | System under test                                   | Expected output | Implemented?       | Test name                                             |
-|-------------|-----------------------------------------------------|-----------------|--------------------|-------------------------------------------------------|
-| Test Case 1 | Hand `[]`, cardType `NUKE`                          | `false`         | :white_check_mark: | containsCardType_onEmptyHand_returnsFalse             |
-| Test Case 2 | Hand `[ATTACK]`, cardType `ATTACK`                  | `true`          | :white_check_mark: | containsCardType_withCardInHand_returnsTrue           |
-| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE` | `false`         | :white_check_mark: | containsCardType_withTwoOtherCardsInHand_returnsFalse |
-| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`    | `true`          | :white_check_mark: | containsCardType_withDuplicatesInHand_returnsTrue     |
+|             | System under test                                   | Expected output                                     | Implemented?       | Test name                                                    |
+|-------------|-----------------------------------------------------|-----------------------------------------------------|--------------------|--------------------------------------------------------------|
+| Test Case 1 | Hand `[ATTACK]`, cardType `null`                    | `NullPointerException`  ("CardType cannot be null") | :white_check_mark: | containsCardType_withNullCardType_throwsNullPointerException |
+| Test Case 2 | Hand `[]`, cardType `NUKE`                          | `false`                                             | :white_check_mark: | containsCardType_onEmptyHand_returnsFalse                    |
+| Test Case 3 | Hand `[ATTACK]`, cardType `ATTACK`                  | `true`                                              | :white_check_mark: | containsCardType_withCardInHand_returnsTrue                  |
+| Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE` | `false`                                             | :white_check_mark: | containsCardType_withTwoOtherCardsInHand_returnsFalse        |
+| Test Case 5 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`    | `true`                                              | :white_check_mark: | containsCardType_withDuplicatesInHand_returnsTrue            |
 
 ### Method under test: `getNumberOfCards()`
 

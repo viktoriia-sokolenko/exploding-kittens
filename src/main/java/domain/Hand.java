@@ -27,6 +27,7 @@ public class Hand {
 	}
 
 	public boolean containsCardType(CardType cardType) {
+		Objects.requireNonNull(cardType, "CardType cannot be null");
 		return this.cards.containsKey(cardType);
 	}
 
