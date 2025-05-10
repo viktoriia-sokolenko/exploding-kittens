@@ -18,12 +18,7 @@ public class Hand {
 	public void addCard(Card card) {
 		Objects.requireNonNull(card, "Card cannot be null");
 		CardType type = card.getCardType();
-		if (this.cards.containsKey(type)) {
-			this.cards.put(type, this.cards.get(type) + 1);
-		}
-		else {
-			this.cards.put(type, 1);
-		}
+		this.cards.put(type, this.cards.getOrDefault(type, 0) + 1);
 	}
 
 	public boolean containsCardType(CardType cardType) {
