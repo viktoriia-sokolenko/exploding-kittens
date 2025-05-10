@@ -2,6 +2,7 @@ package domain;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Hand {
 	private final Map<CardType, Integer> cards;
@@ -15,6 +16,7 @@ public class Hand {
 	}
 
 	public void addCard(Card card) {
+		Objects.requireNonNull(card, "Card cannot be null");
 		CardType type = card.getCardType();
 		if (this.cards.containsKey(type)) {
 			this.cards.put(type, this.cards.get(type) + 1);

@@ -138,4 +138,10 @@ public class HandTest {
 		assertEquals(expectedNumberOfCards, handWithThreeCardsAndDuplicates.getNumberOfCards());
 	}
 
+	@Test
+	public void addCard_withNullCard_throwsNullPointerException() {
+		Hand hand = handWithOneCard();
+		assertThrows(NullPointerException.class, () -> hand.addCard(null));
+	}
+
 }
