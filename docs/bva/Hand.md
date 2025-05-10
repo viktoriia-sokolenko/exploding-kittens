@@ -45,3 +45,13 @@
 | Test Case 4 | Hand `[ATTACK]`, card `ATTACK`                          | Hand `[]`                                                             | :white_check_mark: | removeCard_withOneCardInHand_emptiesHand                    |
 | Test Case 5 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `SEE_THE_FUTURE` | Hand `[SHUFFLE]`                                                      | :white_check_mark: | removeCard_withTwoCardsInHand_removesHand                   |
 | Test Case 6 | Hand `[SKIP, NORMAL, NORMAL]`, card `NORMAL`            | Hand `[SKIP, NORMAL]`                                                 | :white_check_mark: | removeCard_withDuplicateCardsInHand_removesOnlyOneCard      |
+
+### Method under test: `getCountOfCardType(CardType cardType)`
+
+|             | System under test                                              | Expected output | Implemented? | Test name |
+|-------------|----------------------------------------------------------------|-----------------|--------------|-----------|
+| Test Case 1 | Hand `[]`, cardType `SKIP`                                     | 0               |              |
+| Test Case 2 | Hand `[ATTACK]`, cardType `ATTACK`                             | 1               |              |
+| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE`            | 0               |              |
+| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`               | 2               |              |
+| Test Case 5 | Hand `[FAVOR, DEFUSE, FAVOR, ATTACK, FAVOR]`, cardType `FAVOR` | 3               |              |
