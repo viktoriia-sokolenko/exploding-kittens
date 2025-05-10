@@ -183,4 +183,11 @@ public class HandTest {
 		Hand hand = handWithOneCard();
 		assertThrows(NullPointerException.class, () -> hand.removeCard(null));
 	}
+
+	@Test
+	public void removeCard_withEmptyHand_throwsIllegalStateException() {
+		Hand emptyHand = new Hand();
+		Card card = mockCard(CardType.FAVOR);
+		assertThrows(IllegalStateException.class, () -> emptyHand.removeCard(card));
+	}
 }
