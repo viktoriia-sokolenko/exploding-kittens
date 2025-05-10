@@ -58,6 +58,10 @@ public class Hand {
 		}
 	}
 
+	public int getCountOfCardType(CardType cardType) {
+		return 0;
+	}
+
 	private boolean isValidCount (Integer count) {
 		return count != null && count != 0;
 	}

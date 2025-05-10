@@ -48,10 +48,10 @@
 
 ### Method under test: `getCountOfCardType(CardType cardType)`
 
-|             | System under test                                              | Expected output | Implemented? | Test name |
-|-------------|----------------------------------------------------------------|-----------------|--------------|-----------|
-| Test Case 1 | Hand `[]`, cardType `SKIP`                                     | 0               |              |
-| Test Case 2 | Hand `[ATTACK]`, cardType `ATTACK`                             | 1               |              |
-| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE`            | 0               |              |
-| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`               | 2               |              |
-| Test Case 5 | Hand `[FAVOR, DEFUSE, FAVOR, ATTACK, FAVOR]`, cardType `FAVOR` | 3               |              |
+|             | System under test                                              | Expected output | Implemented?       | Test name                                    |
+|-------------|----------------------------------------------------------------|-----------------|--------------------|----------------------------------------------|
+| Test Case 1 | Hand `[]`, cardType `SKIP`                                     | 0               | :white_check_mark: | getCountOfCardType_withEmptyHand_returnsZero |
+| Test Case 2 | Hand `[ATTACK]`, cardType `ATTACK`                             | 1               |                    |
+| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE`            | 0               |                    |
+| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`               | 2               |                    |
+| Test Case 5 | Hand `[FAVOR, DEFUSE, FAVOR, ATTACK, FAVOR]`, cardType `FAVOR` | 3               |                    |

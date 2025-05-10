@@ -243,4 +243,13 @@ public class HandTest {
 
 		EasyMock.verify(card);
 	}
+
+	@Test
+	public void getCountOfCardType_withEmptyHand_returnsZero() {
+		Hand emptyHand = new Hand();
+		CardType cardType = CardType.SKIP;
+
+		int expectedNumberOfCards = 0;
+		assertEquals(expectedNumberOfCards, emptyHand.getCountOfCardType(cardType));
+	}
 }
