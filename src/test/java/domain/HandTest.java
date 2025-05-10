@@ -177,4 +177,10 @@ public class HandTest {
 		assertTrue(hand.containsCardType(cardType));
 		EasyMock.verify(card);
 	}
+
+	@Test
+	public void removeCard_withNullCard_throwsNullPointerException() {
+		Hand hand = handWithOneCard();
+		assertThrows(NullPointerException.class, () -> hand.removeCard(null));
+	}
 }

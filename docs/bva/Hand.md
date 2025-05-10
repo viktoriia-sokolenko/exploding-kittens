@@ -30,17 +30,17 @@
 
 |             | System under test (pre-state)                           | Expected output / state transition               | Implemented?       | Test name                                       |
 |-------------|---------------------------------------------------------|--------------------------------------------------|--------------------|-------------------------------------------------|
-| Test Case 1 | Hand `[ATTACK]`, card `null`                            | `NullPointerException`                           | :white_check_mark: | addCard_withNullCard_throwsNullPointerException |
+| Test Case 1 | Hand `[ATTACK]`, card `null`                            | `NullPointerException` ("Card can not be null")  | :white_check_mark: | addCard_withNullCard_throwsNullPointerException |
 | Test Case 2 | Hand `[]`, card `FAVOR`                                 | Hand `[FAVOR]`                                   | :white_check_mark: | addCard_toEmptyHand_insertsCard                 |
 | Test Case 3 | Hand `[ATTACK]`, card `SKIP`                            | Hand `[ATTACK, SKIP]`                            | :white_check_mark: | addCard_toHandWithOneCard_insertsCard           |
 | Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `SEE_THE_FUTURE` | Hand `[SEE_THE_FUTURE, SHUFFLE, SEE_THE_FUTURE]` | :white_check_mark: | addCard_toHandWithSameCard_insertsDuplicateCard |
 
 ### Method under test: `removeCard(Card card)`
 
-|             | System under test (pre-state)                   | Expected output / state transition                                    | Implemented? | Test name |
-|-------------|-------------------------------------------------|-----------------------------------------------------------------------|--------------|-----------|
-| Test Case 1 | Hand `[ATTACK]`, card `null`                    | `NullPointerException`                                                |              | 
-| Test Case 2 | Hand `[]`, card `FAVOR`                         | `IllegalStateException` (“Hand empty - can not remove card”)          |              |
-| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `DEFUSE` | `IllegalArgumentException` (“Card not in hand - can not remove card”) |              |
-| Test Case 4 | Hand `[ATTACK]`, card `ATTACK`                  | Returns card `ATTACK`, Hand `[]`                                      |              |
-| Test Case 5 | Hand `[SKIP, NORMAL, NORMAL]`, card `NORMAL`    | Returns card `NORMAL`, Hand `[SKIP, NORMAL]`                          |              |
+|             | System under test (pre-state)                   | Expected output / state transition                                    | Implemented?       | Test name                                          |
+|-------------|-------------------------------------------------|-----------------------------------------------------------------------|--------------------|----------------------------------------------------|
+| Test Case 1 | Hand `[ATTACK]`, card `null`                    | `NullPointerException`  ("Card can not be null")                      | :white_check_mark: | removeCard_withNullCard_throwsNullPointerException |
+| Test Case 2 | Hand `[]`, card `FAVOR`                         | `IllegalStateException` (“Hand empty - can not remove card”)          |                    |
+| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `DEFUSE` | `IllegalArgumentException` (“Card not in hand - can not remove card”) |                    |
+| Test Case 4 | Hand `[ATTACK]`, card `ATTACK`                  | Hand `[]`                                                             |                    |
+| Test Case 5 | Hand `[SKIP, NORMAL, NORMAL]`, card `NORMAL`    | Hand `[SKIP, NORMAL]`                                                 |                    |

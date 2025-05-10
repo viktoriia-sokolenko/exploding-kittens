@@ -37,4 +37,8 @@ public class Hand {
 		}
 		return totalNumberOfCards;
 	}
+
+	public void removeCard(Card card) {
+		Objects.requireNonNull(card, "Card can not be null");
+	}
 }
