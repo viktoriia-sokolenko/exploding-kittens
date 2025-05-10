@@ -145,7 +145,6 @@ public class HandTest {
 		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
 
 		assertTrue(hand.containsCardType(cardType));
-
 		EasyMock.verify(card);
 	}
 
@@ -161,7 +160,21 @@ public class HandTest {
 		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
 
 		assertTrue(hand.containsCardType(cardType));
+		EasyMock.verify(card);
+	}
 
+	@Test
+	public void addCard_toHandWithSameCard_insertsDuplicateCard() {
+		CardType cardType = CardType.SEE_THE_FUTURE;
+		Card card = mockCard(cardType);
+
+		Hand hand = handWithTwoCards();
+		hand.addCard(card);
+
+		int expectedNumberOfCards = 3;
+		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
+
+		assertTrue(hand.containsCardType(cardType));
 		EasyMock.verify(card);
 	}
 }
