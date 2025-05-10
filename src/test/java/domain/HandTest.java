@@ -124,4 +124,11 @@ public class HandTest {
 		assertEquals(expectedNumberOfCards, handWithOneCard.getNumberOfCards());
 	}
 
+	@Test
+	public void getNumberOfCards_withTwoCardsInHand_returnsTwo() {
+		Hand handWithTwoCards = handWithTwoCards();
+		int expectedNumberOfCards = 2;
+		assertEquals(expectedNumberOfCards, handWithTwoCards.getNumberOfCards());
+	}
+
 }
