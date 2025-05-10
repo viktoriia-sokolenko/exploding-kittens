@@ -3,8 +3,7 @@ package domain;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HandTest {
 
@@ -54,8 +53,8 @@ public class HandTest {
 
 	@Test
 	public void isEmpty_onEmptyHand_returnsTrue() {
-		Hand hand = new Hand();
-		assertTrue(hand.isEmpty());
+		Hand emptyHand = new Hand();
+		assertTrue(emptyHand.isEmpty());
 	}
 
 	@Test
@@ -74,9 +73,9 @@ public class HandTest {
 
 	@Test
 	public void containsCardType_onEmptyHand_returnsFalse() {
-		Hand hand = new Hand();
+		Hand emptyHand = new Hand();
 		CardType cardType = CardType.NUKE;
-		assertFalse(hand.containsCardType(cardType));
+		assertFalse(emptyHand.containsCardType(cardType));
 	}
 
 	@Test
@@ -105,6 +104,13 @@ public class HandTest {
 		Hand hand = handWithThreeCardsAndDuplicates();
 		CardType expectedCardType = CardType.NORMAL;
 		assertTrue(hand.containsCardType(expectedCardType));
+	}
+
+	@Test
+	public void getNumberOfCards_onEmptyHand_returnsZero() {
+		Hand emptyHand = new Hand();
+		int expectedNumberOfCards = 0;
+		assertEquals(expectedNumberOfCards, emptyHand.getNumberOfCards());
 	}
 
 }

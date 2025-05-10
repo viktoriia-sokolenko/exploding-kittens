@@ -17,6 +17,15 @@
 | Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE` | `false`         | :white_check_mark: | containsCardType_withTwoOtherCardsInHand_returnsFalse |
 | Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`    | `true`          | :white_check_mark: | containsCardType_withDuplicatesInHand_returnsTrue     |
 
+### Method under test: `getNumberOfCards()`
+
+|             | System under test                | Expected output | Implemented?       | Test name                                |
+|-------------|----------------------------------|-----------------|--------------------|------------------------------------------|
+| Test Case 1 | Hand `[]`                        | 0               | :white_check_mark: | getNumberOfCards_onEmptyHand_returnsZero |
+| Test Case 2 | Hand `[ATTACK]`                  | 1               |                    |
+| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | 2               |                    |
+| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`    | 3               |                    |
+
 ### Method under test: `addCard(Card card)`
 
 |             | System under test (pre-state)                    | Expected output / state transition        | Implemented? | Test name |
@@ -35,12 +44,3 @@
 | Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `DEFUSE` | `IllegalArgumentException` (“Card not in hand - can not remove card”) |              |
 | Test Case 4 | Hand `[ATTACK]`, card `ATTACK`                  | Returns card `ATTACK`, Hand `[]`                                      |              |
 | Test Case 5 | Hand `[SKIP, NORMAL, NORMAL]`, card `NORMAL`    | Returns card `NORMAL`, Hand `[SKIP, NORMAL]`                          |              |
-
-### Method under test: `getNumberOfCards()`
-
-|             | System under test                | Expected output | Implemented? | Test name |
-|-------------|----------------------------------|-----------------|--------------|-----------|
-| Test Case 1 | Hand `[]`                        | 0               |              |
-| Test Case 2 | Hand `[ATTACK]`                  | 1               |              |
-| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | 2               |              |
-| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`    | 3               |              |

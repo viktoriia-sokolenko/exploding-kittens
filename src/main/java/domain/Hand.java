@@ -27,4 +27,8 @@ public class Hand {
 	public boolean containsCardType(CardType cardType) {
 		return cards.containsKey(cardType);
 	}
+
+	public int getNumberOfCards() {
+		return cards.size();
+	}
 }
