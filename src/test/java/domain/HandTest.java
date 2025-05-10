@@ -211,4 +211,20 @@ public class HandTest {
 
 		EasyMock.verify(card);
 	}
+
+	@Test
+	public void removeCard_withTwoCardsInHand_removesHand() {
+		CardType cardType = CardType.SEE_THE_FUTURE;
+		Card card = mockCard(cardType);
+
+		Hand hand = handWithTwoCards();
+		hand.removeCard(card);
+
+		int expectedNumberOfCards = 1;
+		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
+
+		assertFalse(hand.containsCardType(cardType));
+
+		EasyMock.verify(card);
+	}
 }
