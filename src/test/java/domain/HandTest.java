@@ -268,4 +268,12 @@ public class HandTest {
 		int expectedCount = 0;
 		assertEquals(expectedCount, hand.getCountOfCardType(cardType));
 	}
+
+	@Test
+	public void getCountOfCardType_withTwoDuplicateCardsInHand_returnsTwo() {
+		CardType cardType = CardType.NORMAL;
+		Hand hand = handWithThreeCardsAndDuplicates();
+		int expectedCount = 2;
+		assertEquals(expectedCount, hand.getCountOfCardType(cardType));
+	}
 }
