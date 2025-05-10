@@ -28,12 +28,12 @@
 
 ### Method under test: `addCard(Card card)`
 
-|             | System under test (pre-state)                    | Expected output / state transition        | Implemented?       | Test name                                       |
-|-------------|--------------------------------------------------|-------------------------------------------|--------------------|-------------------------------------------------|
-| Test Case 1 | Hand `[ATTACK]`, card `null`                     | `NullPointerException`                    | :white_check_mark: | addCard_withNullCard_throwsNullPointerException |
-| Test Case 2 | Hand `[]`, card `FAVOR`                          | Hand `[FAVOR]`                            | :white_check_mark: | addCard_toEmptyHand_insertsCard                 |
-| Test Case 3 | Hand `[ATTACK]`, card `SKIP`                     | Hand `[ATTACK, SKIP]`                     | :white_check_mark: | addCard_toHandWithOneCard_insertsCard           |
-| Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `SHUFFLE` | Hand `[SEE_THE_FUTURE, SHUFFLE, SHUFFLE]` |                    |                                                 |
+|             | System under test (pre-state)                           | Expected output / state transition               | Implemented?       | Test name                                       |
+|-------------|---------------------------------------------------------|--------------------------------------------------|--------------------|-------------------------------------------------|
+| Test Case 1 | Hand `[ATTACK]`, card `null`                            | `NullPointerException`                           | :white_check_mark: | addCard_withNullCard_throwsNullPointerException |
+| Test Case 2 | Hand `[]`, card `FAVOR`                                 | Hand `[FAVOR]`                                   | :white_check_mark: | addCard_toEmptyHand_insertsCard                 |
+| Test Case 3 | Hand `[ATTACK]`, card `SKIP`                            | Hand `[ATTACK, SKIP]`                            | :white_check_mark: | addCard_toHandWithOneCard_insertsCard           |
+| Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `SEE_THE_FUTURE` | Hand `[SEE_THE_FUTURE, SHUFFLE, SEE_THE_FUTURE]` |                    |                                                 |
 
 ### Method under test: `removeCard(Card card)`
 

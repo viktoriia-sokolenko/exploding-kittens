@@ -7,29 +7,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class HandTest {
 
+	private Card mockCard(CardType type) {
+		Card card = EasyMock.createMock(Card.class);
+		EasyMock.expect(card.getCardType()).andReturn(type).anyTimes();
+		EasyMock.replay(card);
+		return card;
+	}
+
 	private Hand handWithOneCard(){
-		Card mockCard = EasyMock.mock(Card.class);
-		CardType cardType = CardType.ATTACK;
-		EasyMock.expect(mockCard.getCardType()).andReturn(cardType);
-		EasyMock.replay(mockCard);
+		Card mockCard = mockCard(CardType.ATTACK);
 
 		Hand hand = new Hand();
 		hand.addCard(mockCard);
 
 		EasyMock.verify(mockCard);
-
 		return hand;
 	}
 	private Hand handWithTwoCards(){
-		Card mockCard1 = EasyMock.mock(Card.class);
-		CardType cardType1 = CardType.SEE_THE_FUTURE;
-		EasyMock.expect(mockCard1.getCardType()).andReturn(cardType1);
-
-		Card mockCard2 = EasyMock.mock(Card.class);
-		CardType cardType2 = CardType.SHUFFLE;
-		EasyMock.expect(mockCard2.getCardType()).andReturn(cardType2);
-
-		EasyMock.replay(mockCard1, mockCard2);
+		Card mockCard1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card mockCard2 = mockCard(CardType.SHUFFLE);
 
 		Hand hand = new Hand();
 		hand.addCard(mockCard1);
@@ -41,18 +37,11 @@ public class HandTest {
 	}
 
 	private Hand handWithThreeCardsAndDuplicates(){
-		Card extraCard = EasyMock.mock(Card.class);
-		CardType extraCardType2 = CardType.SKIP;
-		EasyMock.expect(extraCard.getCardType()).andReturn(extraCardType2);
+		Card extraCard = mockCard(CardType.SKIP);
 
 		CardType duplicateCardType = CardType.NORMAL;
-		Card duplicateCard1 = EasyMock.mock(Card.class);
-		EasyMock.expect(duplicateCard1.getCardType()).andReturn(duplicateCardType);
-
-		Card duplicateCard2 = EasyMock.mock(Card.class);
-		EasyMock.expect(duplicateCard2.getCardType()).andReturn(duplicateCardType);
-
-		EasyMock.replay(extraCard, duplicateCard1, duplicateCard2);
+		Card duplicateCard1 = mockCard(duplicateCardType);
+		Card duplicateCard2 = mockCard(duplicateCardType);
 
 		Hand hand = new Hand();
 		hand.addCard(extraCard);
@@ -146,13 +135,10 @@ public class HandTest {
 
 	@Test
 	public void addCard_toEmptyHand_insertsCard() {
-		Hand hand = new Hand();
-
-		Card card = EasyMock.mock(Card.class);
 		CardType cardType = CardType.FAVOR;
-		EasyMock.expect(card.getCardType()).andReturn(cardType);
-		EasyMock.replay(card);
+		Card card = mockCard(cardType);
 
+		Hand hand = new Hand();
 		hand.addCard(card);
 
 		int expectedNumberOfCards = 1;
@@ -165,13 +151,10 @@ public class HandTest {
 
 	@Test
 	public void addCard_toHandWithOneCard_insertsCard() {
-		Hand hand = handWithOneCard();
-
-		Card card = EasyMock.mock(Card.class);
 		CardType cardType = CardType.SKIP;
-		EasyMock.expect(card.getCardType()).andReturn(cardType);
-		EasyMock.replay(card);
+		Card card = mockCard(cardType);
 
+		Hand hand = handWithOneCard();
 		hand.addCard(card);
 
 		int expectedNumberOfCards = 2;
@@ -181,5 +164,4 @@ public class HandTest {
 
 		EasyMock.verify(card);
 	}
-
 }
