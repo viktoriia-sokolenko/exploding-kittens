@@ -144,4 +144,23 @@ public class HandTest {
 		assertThrows(NullPointerException.class, () -> hand.addCard(null));
 	}
 
+	@Test
+	public void addCard_toEmptyHand_insertsCard() {
+		Hand hand = new Hand();
+
+		Card card = EasyMock.mock(Card.class);
+		CardType cardType = CardType.FAVOR;
+		EasyMock.expect(card.getCardType()).andReturn(cardType);
+		EasyMock.replay(card);
+
+		hand.addCard(card);
+
+		int expectedNumberOfCards = 1;
+		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
+
+		assertTrue(hand.containsCardType(cardType));
+
+		EasyMock.verify(card);
+	}
+
 }
