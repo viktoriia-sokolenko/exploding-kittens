@@ -190,4 +190,11 @@ public class HandTest {
 		Card card = mockCard(CardType.FAVOR);
 		assertThrows(IllegalStateException.class, () -> emptyHand.removeCard(card));
 	}
+
+	@Test
+	public void removeCard_withCardNotInHand_throwsIllegalArgumentException() {
+		Hand hand = handWithTwoCards();
+		Card card = mockCard(CardType.DEFUSE);
+		assertThrows(IllegalArgumentException.class, () -> hand.removeCard(card));
+	}
 }

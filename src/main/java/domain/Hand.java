@@ -40,6 +40,9 @@ public class Hand {
 
 	public void removeCard(Card card) {
 		Objects.requireNonNull(card, "Card can not be null");
-		throw new IllegalStateException("Hand empty - can not remove card");
+		if (this.cards.isEmpty()) {
+			throw new IllegalStateException("Hand empty - can not remove card");
+		}
+		throw new IllegalArgumentException("Card not in hand - can not remove card");
 	}
 }
