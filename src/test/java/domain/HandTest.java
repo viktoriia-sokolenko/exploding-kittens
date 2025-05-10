@@ -249,7 +249,15 @@ public class HandTest {
 		Hand emptyHand = new Hand();
 		CardType cardType = CardType.SKIP;
 
-		int expectedNumberOfCards = 0;
-		assertEquals(expectedNumberOfCards, emptyHand.getCountOfCardType(cardType));
+		int expectedCount = 0;
+		assertEquals(expectedCount, emptyHand.getCountOfCardType(cardType));
+	}
+
+	@Test
+	public void getCountOfCardType_withCardInHand_returnsOne() {
+		Hand hand = handWithOneCard();
+		CardType cardType = CardType.ATTACK;
+		int expectedCount = 1;
+		assertEquals(expectedCount, hand.getCountOfCardType(cardType));
 	}
 }
