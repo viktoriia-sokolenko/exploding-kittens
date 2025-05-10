@@ -30,7 +30,7 @@
 
 |             | System under test (pre-state)                           | Expected output / state transition               | Implemented?       | Test name                                       |
 |-------------|---------------------------------------------------------|--------------------------------------------------|--------------------|-------------------------------------------------|
-| Test Case 1 | Hand `[ATTACK]`, card `null`                            | `NullPointerException` ("Card can not be null")  | :white_check_mark: | addCard_withNullCard_throwsNullPointerException |
+| Test Case 1 | Hand `[ATTACK]`, card `null`                            | `NullPointerException` ("Card cannot be null")   | :white_check_mark: | addCard_withNullCard_throwsNullPointerException |
 | Test Case 2 | Hand `[]`, card `FAVOR`                                 | Hand `[FAVOR]`                                   | :white_check_mark: | addCard_toEmptyHand_insertsCard                 |
 | Test Case 3 | Hand `[ATTACK]`, card `SKIP`                            | Hand `[ATTACK, SKIP]`                            | :white_check_mark: | addCard_toHandWithOneCard_insertsCard           |
 | Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `SEE_THE_FUTURE` | Hand `[SEE_THE_FUTURE, SHUFFLE, SEE_THE_FUTURE]` | :white_check_mark: | addCard_toHandWithSameCard_insertsDuplicateCard |
@@ -39,7 +39,7 @@
 
 |             | System under test (pre-state)                           | Expected output / state transition                                    | Implemented?       | Test name                                                   |
 |-------------|---------------------------------------------------------|-----------------------------------------------------------------------|--------------------|-------------------------------------------------------------|
-| Test Case 1 | Hand `[ATTACK]`, card `null`                            | `NullPointerException`  ("Card can not be null")                      | :white_check_mark: | removeCard_withNullCard_throwsNullPointerException          |
+| Test Case 1 | Hand `[ATTACK]`, card `null`                            | `NullPointerException`  ("Card cannot be null")                       | :white_check_mark: | removeCard_withNullCard_throwsNullPointerException          |
 | Test Case 2 | Hand `[]`, card `FAVOR`                                 | `IllegalStateException` (“Hand empty - can not remove card”)          | :white_check_mark: | removeCard_withEmptyHand_throwsIllegalStateException        |
 | Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `DEFUSE`         | `IllegalArgumentException` (“Card not in hand - can not remove card”) | :white_check_mark: | removeCard_withCardNotInHand_throwsIllegalArgumentException |
 | Test Case 4 | Hand `[ATTACK]`, card `ATTACK`                          | Hand `[]`                                                             | :white_check_mark: | removeCard_withOneCardInHand_emptiesHand                    |
@@ -48,10 +48,11 @@
 
 ### Method under test: `getCountOfCardType(CardType cardType)`
 
-|             | System under test                                              | Expected output | Implemented?       | Test name                                                     |
-|-------------|----------------------------------------------------------------|-----------------|--------------------|---------------------------------------------------------------|
-| Test Case 1 | Hand `[]`, cardType `SKIP`                                     | 0               | :white_check_mark: | getCountOfCardType_withEmptyHand_returnsZero                  |
-| Test Case 2 | Hand `[ATTACK]`, cardType `ATTACK`                             | 1               | :white_check_mark: | getCountOfCardType_withCardInHand_returnsOne                  |
-| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE`            | 0               | :white_check_mark: | getCountOfCardType_withCardNotInHand_returnsZero              |
-| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`               | 2               | :white_check_mark: | getCountOfCardType_withTwoDuplicateCardsInHand_returnsTwo     |
-| Test Case 5 | Hand `[FAVOR, FAVOR, DEFUSE, ATTACK, FAVOR]`, cardType `FAVOR` | 3               | :white_check_mark: | getCountOfCardType_withThreeDuplicateCardsInHand_returnsThree |
+|             | System under test                                              | Expected output                                     | Implemented?       | Test name                                                      |
+|-------------|----------------------------------------------------------------|-----------------------------------------------------|--------------------|----------------------------------------------------------------|
+| Test Case 1 | Hand `[ATTACK]`, cardType `null`                               | `NullPointerException`  ("CardType cannot be null") | :white_check_mark: | getCountOfCardType_withNullCardType_throwsNullPointerException |
+| Test Case 2 | Hand `[]`, cardType `SKIP`                                     | 0                                                   | :white_check_mark: | getCountOfCardType_withEmptyHand_returnsZero                   |
+| Test Case 3 | Hand `[ATTACK]`, cardType `ATTACK`                             | 1                                                   | :white_check_mark: | getCountOfCardType_withCardInHand_returnsOne                   |
+| Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE`            | 0                                                   | :white_check_mark: | getCountOfCardType_withCardNotInHand_returnsZero               |
+| Test Case 5 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`               | 2                                                   | :white_check_mark: | getCountOfCardType_withTwoDuplicateCardsInHand_returnsTwo      |
+| Test Case 6 | Hand `[FAVOR, FAVOR, DEFUSE, ATTACK, FAVOR]`, cardType `FAVOR` | 3                                                   | :white_check_mark: | getCountOfCardType_withThreeDuplicateCardsInHand_returnsThree  |

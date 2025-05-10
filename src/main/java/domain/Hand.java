@@ -39,7 +39,7 @@ public class Hand {
 	}
 
 	public void removeCard(Card card) {
-		Objects.requireNonNull(card, "Card can not be null");
+		Objects.requireNonNull(card, "Card cannot be null");
 
 		if (this.isEmpty()) {
 			throw new IllegalStateException("Hand empty - can not remove card");
@@ -59,6 +59,7 @@ public class Hand {
 	}
 
 	public int getCountOfCardType(CardType cardType) {
+		Objects.requireNonNull(cardType, "CardType cannot be null");
 		return this.cards.getOrDefault(cardType, 0);
 	}
 

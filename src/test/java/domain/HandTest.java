@@ -231,6 +231,11 @@ public class HandTest {
 	}
 
 	@Test
+	public void getCountOfCardType_withNullCardType_throwsNullPointerException() {
+		Hand hand = handWithOneCard();
+		assertThrows(NullPointerException.class, () -> hand.getCountOfCardType(null));
+	}
+	@Test
 	public void getCountOfCardType_withEmptyHand_returnsZero() {
 		Hand emptyHand = new Hand();
 		CardType cardType = CardType.SKIP;
