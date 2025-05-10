@@ -227,4 +227,20 @@ public class HandTest {
 
 		EasyMock.verify(card);
 	}
+
+	@Test
+	public void removeCard_withDuplicateCardsInHand_removesOnlyOneCard() {
+		CardType cardType = CardType.NORMAL;
+		Card card = mockCard(cardType);
+
+		Hand hand = handWithThreeCardsAndDuplicates();
+		hand.removeCard(card);
+
+		int expectedNumberOfCards = 2;
+		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
+
+		assertTrue(hand.containsCardType(cardType));
+
+		EasyMock.verify(card);
+	}
 }

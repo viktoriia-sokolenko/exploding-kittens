@@ -44,4 +44,4 @@
 | Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `DEFUSE`         | `IllegalArgumentException` (“Card not in hand - can not remove card”) | :white_check_mark: | removeCard_withCardNotInHand_throwsIllegalArgumentException |
 | Test Case 4 | Hand `[ATTACK]`, card `ATTACK`                          | Hand `[]`                                                             | :white_check_mark: | removeCard_withOneCardInHand_emptiesHand                    |
 | Test Case 5 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `SEE_THE_FUTURE` | Hand `[SHUFFLE]`                                                      | :white_check_mark: | removeCard_withTwoCardsInHand_removesHand                   |
-| Test Case 6 | Hand `[SKIP, NORMAL, NORMAL]`, card `NORMAL`            | Hand `[SKIP, NORMAL]`                                                 |                    |                                                             |
+| Test Case 6 | Hand `[SKIP, NORMAL, NORMAL]`, card `NORMAL`            | Hand `[SKIP, NORMAL]`                                                 | :white_check_mark: | removeCard_withDuplicateCardsInHand_removesOnlyOneCard      |
