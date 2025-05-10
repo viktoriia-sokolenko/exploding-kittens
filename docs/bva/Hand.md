@@ -32,7 +32,7 @@
 |-------------|--------------------------------------------------|-------------------------------------------|--------------------|-------------------------------------------------|
 | Test Case 1 | Hand `[ATTACK]`, card `null`                     | `NullPointerException`                    | :white_check_mark: | addCard_withNullCard_throwsNullPointerException |
 | Test Case 2 | Hand `[]`, card `FAVOR`                          | Hand `[FAVOR]`                            | :white_check_mark: | addCard_toEmptyHand_insertsCard                 |
-| Test Case 3 | Hand `[ATTACK]`, card `SKIP`                     | Hand `[ATTACK, SKIP]`                     |                    |                                                 |
+| Test Case 3 | Hand `[ATTACK]`, card `SKIP`                     | Hand `[ATTACK, SKIP]`                     | :white_check_mark: | addCard_toHandWithOneCard_insertsCard           |
 | Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `SHUFFLE` | Hand `[SEE_THE_FUTURE, SHUFFLE, SHUFFLE]` |                    |                                                 |
 
 ### Method under test: `removeCard(Card card)`

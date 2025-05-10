@@ -163,4 +163,23 @@ public class HandTest {
 		EasyMock.verify(card);
 	}
 
+	@Test
+	public void addCard_toHandWithOneCard_insertsCard() {
+		Hand hand = handWithOneCard();
+
+		Card card = EasyMock.mock(Card.class);
+		CardType cardType = CardType.SKIP;
+		EasyMock.expect(card.getCardType()).andReturn(cardType);
+		EasyMock.replay(card);
+
+		hand.addCard(card);
+
+		int expectedNumberOfCards = 2;
+		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
+
+		assertTrue(hand.containsCardType(cardType));
+
+		EasyMock.verify(card);
+	}
+
 }
