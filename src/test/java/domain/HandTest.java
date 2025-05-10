@@ -23,6 +23,32 @@ public class HandTest {
 		hand.addCard(mockCard1);
 		hand.addCard(mockCard2);
 
+		EasyMock.verify(mockCard1, mockCard2);
+
+		return hand;
+	}
+
+	private Hand handWithThreeCardsAndDuplicates(){
+		Card extraCard = EasyMock.mock(Card.class);
+		CardType extraCardType2 = CardType.SKIP;
+		EasyMock.expect(extraCard.getCardType()).andReturn(extraCardType2);
+
+		CardType duplicateCardType = CardType.NORMAL;
+		Card duplicateCard1 = EasyMock.mock(Card.class);
+		EasyMock.expect(duplicateCard1.getCardType()).andReturn(duplicateCardType);
+
+		Card duplicateCard2 = EasyMock.mock(Card.class);
+		EasyMock.expect(duplicateCard2.getCardType()).andReturn(duplicateCardType);
+
+		EasyMock.replay(extraCard, duplicateCard1, duplicateCard2);
+
+		Hand hand = new Hand();
+		hand.addCard(extraCard);
+		hand.addCard(duplicateCard1);
+		hand.addCard(duplicateCard2);
+
+		EasyMock.verify(extraCard, duplicateCard1, duplicateCard2);
+
 		return hand;
 	}
 
@@ -72,6 +98,13 @@ public class HandTest {
 		Hand hand = handWithTwoCards();
 		CardType expectedCardType = CardType.DEFUSE;
 		assertFalse(hand.containsCardType(expectedCardType));
+	}
+
+	@Test
+	public void containsCardType_withDuplicatesInHand_returnsTrue() {
+		Hand hand = handWithThreeCardsAndDuplicates();
+		CardType expectedCardType = CardType.NORMAL;
+		assertTrue(hand.containsCardType(expectedCardType));
 	}
 
 }

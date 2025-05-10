@@ -15,7 +15,7 @@
 | Test Case 1 | Hand `[]`, cardType `NUKE`                          | `false`         | :white_check_mark: | containsCardType_onEmptyHand_returnsFalse             |
 | Test Case 2 | Hand `[ATTACK]`, cardType `ATTACK`                  | `true`          | :white_check_mark: | containsCardType_withCardInHand_returnsTrue           |
 | Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE` | `false`         | :white_check_mark: | containsCardType_withTwoOtherCardsInHand_returnsFalse |
-| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`    | `true`          |                    |
+| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`    | `true`          | :white_check_mark: | containsCardType_withDuplicatesInHand_returnsTrue     |
 
 ### Method under test: `addCard(Card card)`
 
