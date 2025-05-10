@@ -19,12 +19,12 @@
 
 ### Method under test: `getNumberOfCards()`
 
-|             | System under test                | Expected output | Implemented?       | Test name                                |
-|-------------|----------------------------------|-----------------|--------------------|------------------------------------------|
-| Test Case 1 | Hand `[]`                        | 0               | :white_check_mark: | getNumberOfCards_onEmptyHand_returnsZero |
-| Test Case 2 | Hand `[ATTACK]`                  | 1               |                    |
-| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | 2               |                    |
-| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`    | 3               |                    |
+|             | System under test                | Expected output | Implemented?       | Test name                                     |
+|-------------|----------------------------------|-----------------|--------------------|-----------------------------------------------|
+| Test Case 1 | Hand `[]`                        | 0               | :white_check_mark: | getNumberOfCards_onEmptyHand_returnsZero      |
+| Test Case 2 | Hand `[ATTACK]`                  | 1               | :white_check_mark: | getNumberOfCards_withOneCardInHand_returnsOne |
+| Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | 2               |                    |                                               |
+| Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`    | 3               |                    |                                               |
 
 ### Method under test: `addCard(Card card)`
 

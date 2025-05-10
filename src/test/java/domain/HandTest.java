@@ -7,6 +7,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class HandTest {
 
+	private Hand handWithOneCard(){
+		Card mockCard = EasyMock.mock(Card.class);
+		CardType cardType = CardType.ATTACK;
+		EasyMock.expect(mockCard.getCardType()).andReturn(cardType);
+		EasyMock.replay(mockCard);
+
+		Hand hand = new Hand();
+		hand.addCard(mockCard);
+
+		EasyMock.verify(mockCard);
+
+		return hand;
+	}
 	private Hand handWithTwoCards(){
 		Card mockCard1 = EasyMock.mock(Card.class);
 		CardType cardType1 = CardType.SEE_THE_FUTURE;
@@ -59,10 +72,8 @@ public class HandTest {
 
 	@Test
 	public void isEmpty_withOneCardInHand_returnsFalse() {
-		Card mockCard = EasyMock.mock(Card.class);
-		Hand hand = new Hand();
-		hand.addCard (mockCard);
-		assertFalse(hand.isEmpty());
+		Hand handWithOneCard = handWithOneCard();
+		assertFalse(handWithOneCard.isEmpty());
 	}
 
 	@Test
@@ -80,16 +91,9 @@ public class HandTest {
 
 	@Test
 	public void containsCardType_withCardInHand_returnsTrue() {
-		Card card = EasyMock.mock(Card.class);
+		Hand handWithOneCard = handWithOneCard();
 		CardType cardType = CardType.ATTACK;
-		EasyMock.expect(card.getCardType()).andReturn(cardType);
-		EasyMock.replay(card);
-
-		Hand hand = new Hand();
-		hand.addCard (card);
-
-		assertTrue(hand.containsCardType(cardType));
-		EasyMock.verify(card);
+		assertTrue(handWithOneCard.containsCardType(cardType));
 	}
 
 	@Test
@@ -111,6 +115,13 @@ public class HandTest {
 		Hand emptyHand = new Hand();
 		int expectedNumberOfCards = 0;
 		assertEquals(expectedNumberOfCards, emptyHand.getNumberOfCards());
+	}
+
+	@Test
+	public void getNumberOfCards_withOneCardInHand_returnsOne() {
+		Hand handWithOneCard = handWithOneCard();
+		int expectedNumberOfCards = 1;
+		assertEquals(expectedNumberOfCards, handWithOneCard.getNumberOfCards());
 	}
 
 }
