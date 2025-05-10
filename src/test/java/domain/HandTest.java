@@ -14,7 +14,7 @@ public class HandTest {
 		return card;
 	}
 
-	private Hand handWithOneCard(){
+	private Hand handWithOneCard() {
 		Card mockCard = mockCard(CardType.ATTACK);
 
 		Hand hand = new Hand();
@@ -22,7 +22,8 @@ public class HandTest {
 
 		return hand;
 	}
-	private Hand handWithTwoCards(){
+
+	private Hand handWithTwoCards() {
 		Card mockCard1 = mockCard(CardType.SEE_THE_FUTURE);
 		Card mockCard2 = mockCard(CardType.SHUFFLE);
 
@@ -33,7 +34,7 @@ public class HandTest {
 		return hand;
 	}
 
-	private Hand handWithThreeCardsAndDuplicates(){
+	private Hand handWithThreeCardsAndDuplicates() {
 		Card extraCard = mockCard(CardType.SKIP);
 
 		CardType duplicateCardType = CardType.NORMAL;
@@ -67,10 +68,11 @@ public class HandTest {
 	}
 
 	@Test
-	public void containsCardType_withNullCardType_throwsNullPointerException(){
+	public void containsCardType_withNullCardType_throwsNullPointerException() {
 		Hand hand = handWithOneCard();
 		assertThrows(NullPointerException.class, () -> hand.containsCardType(null));
 	}
+
 	@Test
 	public void containsCardType_onEmptyHand_returnsFalse() {
 		Hand emptyHand = new Hand();
@@ -123,8 +125,9 @@ public class HandTest {
 	@Test
 	public void getNumberOfCards_withThreeCardsInHandAndDuplicates_returnsThree() {
 		Hand handWithThreeCardsAndDuplicates = handWithThreeCardsAndDuplicates();
-		int expectedNumberOfCards = 3;
-		assertEquals(expectedNumberOfCards, handWithThreeCardsAndDuplicates.getNumberOfCards());
+		final int expectedNumberOfCards = 3;
+		assertEquals(expectedNumberOfCards,
+				handWithThreeCardsAndDuplicates.getNumberOfCards());
 	}
 
 	@Test
@@ -169,7 +172,7 @@ public class HandTest {
 		Hand hand = handWithTwoCards();
 		hand.addCard(card);
 
-		int expectedNumberOfCards = 3;
+		final int expectedNumberOfCards = 3;
 		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
 
 		assertTrue(hand.containsCardType(cardType));
@@ -240,6 +243,7 @@ public class HandTest {
 		Hand hand = handWithOneCard();
 		assertThrows(NullPointerException.class, () -> hand.getCountOfCardType(null));
 	}
+
 	@Test
 	public void getCountOfCardType_withEmptyHand_returnsZero() {
 		Hand emptyHand = new Hand();
@@ -273,7 +277,7 @@ public class HandTest {
 		assertEquals(expectedCount, hand.getCountOfCardType(duplicateCardType));
 	}
 
-	private Hand handWithFiveCardsAndThreeDuplicates(){
+	private Hand handWithFiveCardsAndThreeDuplicates() {
 		Card extraCard1 = mockCard(CardType.DEFUSE);
 		Card extraCard2 = mockCard(CardType.ATTACK);
 
@@ -296,7 +300,7 @@ public class HandTest {
 	public void getCountOfCardType_withThreeDuplicateCardsInHand_returnsThree() {
 		CardType duplicateCardType = CardType.FAVOR;
 		Hand hand = handWithFiveCardsAndThreeDuplicates();
-		int expectedCount = 3;
+		final int expectedCount = 3;
 		assertEquals(expectedCount, hand.getCountOfCardType(duplicateCardType));
 	}
 }

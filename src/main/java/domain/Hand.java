@@ -38,13 +38,13 @@ public class Hand {
 		Objects.requireNonNull(card, "Card cannot be null");
 
 		if (this.isEmpty()) {
-			throw new IllegalStateException("Hand empty - can not remove card");
+			throw new IllegalStateException("Hand empty: can not remove card");
 		}
 
 		CardType cardType = card.getCardType();
 		Integer count = this.cards.get(cardType);
 		if (!isValidCount(count)) {
-			throw new IllegalArgumentException("Card not in hand - can not remove card");
+			throw new IllegalArgumentException("Card not in hand: can not remove card");
 		}
 		if (count == 1) {
 			this.cards.remove(cardType);
