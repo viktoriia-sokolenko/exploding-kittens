@@ -59,10 +59,7 @@ public class Hand {
 	}
 
 	public int getCountOfCardType(CardType cardType) {
-		if (this.isEmpty()) {
-			return 0;
-		}
-		return this.cards.get(cardType);
+		return this.cards.getOrDefault(cardType, 0);
 	}
 
 	private boolean isValidCount (Integer count) {

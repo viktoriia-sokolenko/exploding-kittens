@@ -260,4 +260,12 @@ public class HandTest {
 		int expectedCount = 1;
 		assertEquals(expectedCount, hand.getCountOfCardType(cardType));
 	}
+
+	@Test
+	public void getCountOfCardType_withCardNotInHand_returnsZero() {
+		Hand hand = handWithTwoCards();
+		CardType cardType = CardType.DEFUSE;
+		int expectedCount = 0;
+		assertEquals(expectedCount, hand.getCountOfCardType(cardType));
+	}
 }
