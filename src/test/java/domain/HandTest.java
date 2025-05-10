@@ -197,4 +197,18 @@ public class HandTest {
 		Card card = mockCard(CardType.DEFUSE);
 		assertThrows(IllegalArgumentException.class, () -> hand.removeCard(card));
 	}
+
+	@Test
+	public void removeCard_withOneCardInHand_emptiesHand() {
+		CardType cardType = CardType.ATTACK;
+		Card card = mockCard(cardType);
+
+		Hand hand = handWithOneCard();
+		hand.removeCard(card);
+
+		assertTrue(hand.isEmpty());
+		assertFalse(hand.containsCardType(cardType));
+
+		EasyMock.verify(card);
+	}
 }
