@@ -271,9 +271,38 @@ public class HandTest {
 
 	@Test
 	public void getCountOfCardType_withTwoDuplicateCardsInHand_returnsTwo() {
-		CardType cardType = CardType.NORMAL;
+		CardType duplicateCardType = CardType.NORMAL;
 		Hand hand = handWithThreeCardsAndDuplicates();
 		int expectedCount = 2;
-		assertEquals(expectedCount, hand.getCountOfCardType(cardType));
+		assertEquals(expectedCount, hand.getCountOfCardType(duplicateCardType));
+	}
+
+	private Hand handWithFiveCardsAndThreeDuplicates(){
+		Card extraCard1 = mockCard(CardType.DEFUSE);
+		Card extraCard2 = mockCard(CardType.ATTACK);
+
+		CardType duplicateCardType = CardType.FAVOR;
+		Card duplicateCard1 = mockCard(duplicateCardType);
+		Card duplicateCard2 = mockCard(duplicateCardType);
+		Card duplicateCard3 = mockCard(duplicateCardType);
+
+		Hand hand = new Hand();
+		hand.addCard(duplicateCard1);
+		hand.addCard(duplicateCard2);
+		hand.addCard(extraCard1);
+		hand.addCard(extraCard2);
+		hand.addCard(duplicateCard3);
+
+		EasyMock.verify(extraCard1, extraCard2, duplicateCard1, duplicateCard2, duplicateCard3);
+
+		return hand;
+	}
+
+	@Test
+	public void getCountOfCardType_withThreeDuplicateCardsInHand_returnsThree() {
+		CardType duplicateCardType = CardType.FAVOR;
+		Hand hand = handWithFiveCardsAndThreeDuplicates();
+		int expectedCount = 3;
+		assertEquals(expectedCount, hand.getCountOfCardType(duplicateCardType));
 	}
 }
