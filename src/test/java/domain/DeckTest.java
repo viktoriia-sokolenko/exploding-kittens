@@ -14,27 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DeckTest {
 
-	private Card mockCard(CardType type) {
-		Card card = EasyMock.createMock(Card.class);
-		EasyMock.expect(card.getCardType()).andStubReturn(type);
-		EasyMock.replay(card);
-		return card;
-	}
-
-	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
-		return Stream.of(
-				List.of(mockCard(CardType.NORMAL),
-						mockCard(CardType.ATTACK)),
-				List.of(mockCard(CardType.DEFUSE),
-						mockCard(CardType.SKIP)),
-				List.of(mockCard(CardType.FAVOR),
-						mockCard(CardType.EXPLODING_KITTEN)),
-				List.of(mockCard(CardType.SHUFFLE),
-						mockCard(CardType.ALTER_THE_FUTURE)),
-				List.of(mockCard(CardType.SEE_THE_FUTURE),
-						mockCard(CardType.NUKE)));
-	}
-
 	@Test
 	public void peekTop_emptyDeck_throwsIllegalOperationException() {
 		List<Card> emptyCardList = new ArrayList<>();
@@ -523,5 +502,26 @@ public class DeckTest {
 		assertEquals(card3, actualCard2);
 		assertEquals(card1, actualCard3);
 		EasyMock.verify(rand);
+	}
+
+	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
+		return Stream.of(
+				List.of(mockCard(CardType.NORMAL),
+						mockCard(CardType.ATTACK)),
+				List.of(mockCard(CardType.DEFUSE),
+						mockCard(CardType.SKIP)),
+				List.of(mockCard(CardType.FAVOR),
+						mockCard(CardType.EXPLODING_KITTEN)),
+				List.of(mockCard(CardType.SHUFFLE),
+						mockCard(CardType.ALTER_THE_FUTURE)),
+				List.of(mockCard(CardType.SEE_THE_FUTURE),
+						mockCard(CardType.NUKE)));
+	}
+
+	private Card mockCard(CardType type) {
+		Card card = EasyMock.createMock(Card.class);
+		EasyMock.expect(card.getCardType()).andStubReturn(type);
+		EasyMock.replay(card);
+		return card;
 	}
 }
