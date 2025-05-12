@@ -398,6 +398,15 @@ public class DeckTest {
 	}
 
 	@Test
+	public void shuffleDeck_emptyDeckAndNullRandom_throwsNullPointerException() {
+		List<Card> emptyCardList = new ArrayList<>();
+
+		Deck deck = new Deck(emptyCardList);
+
+		assertThrows(NullPointerException.class, () -> deck.shuffleDeck(null));
+	}
+
+	@Test
 	public void shuffleDeck_emptyDeck_orderRemainTheSame() {
 		List<Card> cardList = new ArrayList<>();
 		Random rand = EasyMock.createMock(Random.class);

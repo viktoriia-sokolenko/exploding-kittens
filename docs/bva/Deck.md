@@ -152,7 +152,7 @@ but please do recall that Parameterized testing is utilized in order to ensure a
 
 |             | System under test                      | Expected output                                                                                                       | Implemented?       |
 |-------------|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------|
-| Test Case 1 | Rand `null`, Deck `[]`                 | `NullPointerException`                                                                                                |                    |
+| Test Case 1 | Rand `null`, Deck `[]`                 | `NullPointerException`                                                                                                | :white_check_mark: |
 | Test Case 2 | Rand, Deck `[]`                        | Order remains unchanged (idempotent) `[]`                                                                             | :white_check_mark: |
 | Test Case 3 | Rand, Deck `[card1]`                   | Order remains unchanged (idempotent) `[card1]`                                                                        | :white_check_mark: |
 | Test Case 4 | Rand, Deck `[card1, card2]`            | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2, card1]`            | :white_check_mark: |
