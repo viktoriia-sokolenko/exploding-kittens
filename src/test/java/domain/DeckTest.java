@@ -359,9 +359,9 @@ public class DeckTest {
 
 	@Test
 	public void insertCardAt_emptyDeckWithIndexZero() {
-		Card card = new Card(CardType.EXPLODING_KITTEN);
-		int index = 0;
+		Card card = mockCard(CardType.EXPLODING_KITTEN);
 		List<Card> cardList = new ArrayList<>();
+		int index = 0;
 
 		Deck deck = new Deck(cardList);
 		deck.insertCardAt(card, index);
