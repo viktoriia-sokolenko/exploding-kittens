@@ -1,6 +1,9 @@
-## Deck class BVA
+# BVA Analysis for Deck Class
 
-**Important Note**: Whenever you see the keywords "non-empty list" or noticed that the states takes in a list of two
+#### **Important Note
+
+**: Whenever you see the keywords "non-empty list" or noticed that the states takes in a list of two
+
 cards without specifying the Card Type (i.e `[card1, card2]`), that means that the test cases uses a Parameterized Test
 that uses all the different Card Types into a list of two different Cards and performs _Parameterized Tests_ based on
 it.
@@ -8,16 +11,26 @@ it.
 Also, unless specified that I am dealing with  `Duplicates` states, each cards listed below are from different
 CardTypes.
 
-### Method under test: `draw()`
+## Method 1: `public Card draw()`
 
-|             | System under test                                                 | Expected output / state transition                              | Implemented?       |
-|-------------|-------------------------------------------------------------------|-----------------------------------------------------------------|--------------------|
-| Test Case 1 | Deck **empty** `[]`                                               | `NoSuchElementException` (“Deck is empty”)                      | :white_check_mark: |
-| Test Case 2 | Deck has **exactly 1** card `[card1]`                             | Returns `card1`; deck `size = 0` []                             | :white_check_mark: |
-| Test Case 3 | Deck has **> 1** cards `[card1, card2]`                           | Returns `card2`; deck `size` decrements by 1 [card1]            | :white_check_mark: |
-| Test Case 4 | Deck has **> 1** cards and Duplicates `[card1, card2.1, card2.2]` | Returns `card2.2`; deck `size` decrements by 1 [card1, card2.2] | :white_check_mark: |
+### Step 1-3 Results
 
-### Method under test: `peekTop()`
+|        | Input                                                                     | (if more to consider for input) | Output                                          |
+|--------|---------------------------------------------------------------------------|---------------------------------|-------------------------------------------------|
+| Step 1 | Deck of Cards                                                             |                                 | Card drawn from deck and `size` decrements by 1 |
+| Step 2 | Collection                                                                |                                 | Card object or Exception                        |
+| Step 3 | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]` |                                 | Card object or `NoSuchElementException`         |
+
+### Step 4:
+
+|             | System under test           | Expected output / state transition                              | Implemented?       |
+|-------------|-----------------------------|-----------------------------------------------------------------|--------------------|
+| Test Case 1 | `[]`                        | `NoSuchElementException` (“Deck is empty”)                      | :white_check_mark: |
+| Test Case 2 | `[card1]`                   | Returns `card1`; deck `size = 0` []                             | :white_check_mark: |
+| Test Case 3 | `[card1, card2]`            | Returns `card2`; deck `size` decrements by 1 [card1]            | :white_check_mark: |
+| Test Case 4 | `[card1, card2.1, card2.2]` | Returns `card2.2`; deck `size` decrements by 1 [card1, card2.2] | :white_check_mark: |
+
+## Method under test: `peekTop()`
 
 |             | System under test                                                 | Expected output / state transition         | Implemented?       |
 |-------------|-------------------------------------------------------------------|--------------------------------------------|--------------------|
@@ -26,7 +39,7 @@ CardTypes.
 | Test Case 3 | Deck has **> 1** cards `[card1, card2]`                           | Returns `card2`;                           | :white_check_mark: |
 | Test Case 4 | Deck has **> 1** cards and Duplicated `[card1, card2.1, card2.2]` | Returns `card2.2`;                         | :white_check_mark: |
 
-### Method under test: `getCardAt(int index)`
+## Method under test: `getCardAt(int index)`
 
 |             | System under test                                       | Expected output / state transition | Implemented?       |
 |-------------|---------------------------------------------------------|------------------------------------|--------------------|
@@ -39,7 +52,7 @@ CardTypes.
 | Test Case 7 | `index > 0` (empty list)   `[]`                         | `IndexOutOfBoundsException`        | :white_check_mark: |
 | Test Case 8 | `index > size` (non-empty list) `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: |
 
-### Method under test: `getDeckSize()`
+## Method under test: `getDeckSize()`
 
 |             | System under test                                  | Expected output / state transition | Implemented?       |
 |-------------|----------------------------------------------------|------------------------------------|--------------------|
@@ -48,7 +61,7 @@ CardTypes.
 | Test Case 3 | Deck has **> 1** cards `[card1, card2]`            | Returns `2`;                       | :white_check_mark: |
 | Test Case 4 | Deck has **> 1** cards `[card1, card2.1, card2.2]` | Returns `3`;                       | :white_check_mark: |
 
-### Method under test: `insertCardAt(Card card, Index index)`
+## Method under test: `insertCardAt(Card card, Index index)`
 
 |             | System under test (pre-state)                                                       | Expected output / state transition                                          | Implemented?       |
 |-------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|--------------------|
@@ -63,7 +76,7 @@ CardTypes.
 | Test Case 8 | `card == null` (empty list)    `[]`                                                 | `NullPointerException`                                                      | :white_check_mark: |
 | Test Case 9 | `card == null` (non-empty list) `[card1, card2]`                                    | `NullPointerException`                                                      | :white_check_mark: |
 
-### Method under test: `shuffleDeck(Random rand)`
+## Method under test: `shuffleDeck(Random rand)`
 
 |             | System under test                                           | Expected output                                                                                                       | Implemented?       |
 |-------------|-------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------|
@@ -73,7 +86,7 @@ CardTypes.
 | Test Case 3 | Deck size **> 1** [card1, card2, card3]                     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: |
 | Test Case 3 | Deck size **> 1** and duplicate `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: |
 
-### Method under test: `giveCardToPlayer(Player p)`
+## Method under test: `giveCardToPlayer(Player p)`
 
 |             | System under test (pre-state)                                                  | Expected output / state transition                                                                      | Implemented? |
 |-------------|--------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|--------------|
