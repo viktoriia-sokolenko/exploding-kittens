@@ -320,9 +320,9 @@ public class DeckTest {
 
 	@Test
 	public void insertCardAt_deckWithTwoCardsWithIndexThree_throwsIndexOutOfBoundsException() {
-		Card card = new Card(CardType.NORMAL);
-		Card card1 = new Card(CardType.EXPLODING_KITTEN);
-		Card card2 = new Card(CardType.DEFUSE);
+		Card card = mockCard(CardType.NORMAL);
+		Card card1 = mockCard(CardType.EXPLODING_KITTEN);
+		Card card2 = mockCard(CardType.DEFUSE);
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card1, card2));
 
 		Deck deck = new Deck(nonEmptyCardList);
