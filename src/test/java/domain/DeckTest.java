@@ -499,9 +499,9 @@ public class DeckTest {
 
 	@Test
 	public void shuffleDeck_deckWithThreeCardsAndDuplicates() {
-		Card card1 = new Card(CardType.SHUFFLE);
-		Card card2 = new Card(CardType.ALTER_THE_FUTURE);
-		Card card3 = new Card(CardType.ALTER_THE_FUTURE);
+		Card card1 = mockCard(CardType.SHUFFLE);
+		Card card2 = mockCard(CardType.ALTER_THE_FUTURE);
+		Card card3 = mockCard(CardType.ALTER_THE_FUTURE);
 		final int SHUFFLE_ROUND1 = 3;
 		final int SHUFFLE_ROUND2 = 2;
 
