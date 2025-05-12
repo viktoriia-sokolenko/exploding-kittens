@@ -389,7 +389,7 @@ public class DeckTest {
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
 	public void insertCardAt_deckWithTwoCardsWithIndexTwo(List<Card> cards) {
-		Card card = new Card(CardType.NORMAL);
+		Card card = mockCard(CardType.NORMAL);
 		int index = 2;
 		final int FINAL_SIZE = 3;
 
