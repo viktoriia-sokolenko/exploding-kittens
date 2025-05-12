@@ -229,9 +229,9 @@ public class DeckTest {
 
 	@Test
 	public void drawAndGetDeckSize_deckWithThreeCardsAndDuplicate() {
-		Card card1 = new Card(CardType.SEE_THE_FUTURE);
-		Card card2 = new Card(CardType.NORMAL);
-		Card card3 = new Card(CardType.NORMAL);
+		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card card2 = mockCard(CardType.NORMAL);
+		Card card3 = mockCard(CardType.NORMAL);
 
 		Deck deck = new Deck(List.of(card1, card2, card3));
 		Card actualCard = deck.draw();
