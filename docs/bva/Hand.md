@@ -4,7 +4,7 @@
 
 |             | System under test                | Expected output | Implemented?       | Test name                               |
 |-------------|----------------------------------|-----------------|--------------------|-----------------------------------------|
-| Test Case 1 | Hand `[]`                        | `true`          | :white_check_mark: | isEmpty_onEmptyHand_returnsTrue         |
+| Test Case 1 | Hand `[]`                        | `true`          | :white_check_mark: | isEmpty_withEmptyHand_returnsTrue       |
 | Test Case 2 | Hand `[mockCard]`                | `false`         | :white_check_mark: | isEmpty_withOneCardInHand_returnsFalse  |
 | Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | `false`         | :white_check_mark: | isEmpty_withTwoCardsInHand_returnsFalse |
 
@@ -13,7 +13,7 @@
 |             | System under test                                   | Expected output                                     | Implemented?       | Test name                                                    |
 |-------------|-----------------------------------------------------|-----------------------------------------------------|--------------------|--------------------------------------------------------------|
 | Test Case 1 | Hand `[ATTACK]`, cardType `null`                    | `NullPointerException`  ("CardType cannot be null") | :white_check_mark: | containsCardType_withNullCardType_throwsNullPointerException |
-| Test Case 2 | Hand `[]`, cardType `NUKE`                          | `false`                                             | :white_check_mark: | containsCardType_onEmptyHand_returnsFalse                    |
+| Test Case 2 | Hand `[]`, cardType `NUKE`                          | `false`                                             | :white_check_mark: | containsCardType_withEmptyHand_returnsFalse                  |
 | Test Case 3 | Hand `[ATTACK]`, cardType `ATTACK`                  | `true`                                              | :white_check_mark: | containsCardType_withCardInHand_returnsTrue                  |
 | Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE` | `false`                                             | :white_check_mark: | containsCardType_withTwoOtherCardsInHand_returnsFalse        |
 | Test Case 5 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`    | `true`                                              | :white_check_mark: | containsCardType_withDuplicatesInHand_returnsTrue            |
@@ -22,7 +22,7 @@
 
 |             | System under test                | Expected output | Implemented?       | Test name                                                       |
 |-------------|----------------------------------|-----------------|--------------------|-----------------------------------------------------------------|
-| Test Case 1 | Hand `[]`                        | 0               | :white_check_mark: | getNumberOfCards_onEmptyHand_returnsZero                        |
+| Test Case 1 | Hand `[]`                        | 0               | :white_check_mark: | getNumberOfCards_withEmptyHand_returnsZero                      |
 | Test Case 2 | Hand `[ATTACK]`                  | 1               | :white_check_mark: | getNumberOfCards_withOneCardInHand_returnsOne                   |
 | Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | 2               | :white_check_mark: | getNumberOfCards_withTwoCardsInHand_returnsTwo                  |
 | Test Case 4 | Hand `[SKIP, NORMAL, NORMAL]`    | 3               | :white_check_mark: | getNumberOfCards_withThreeCardsInHandAndDuplicates_returnsThree |

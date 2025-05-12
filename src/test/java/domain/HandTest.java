@@ -7,50 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class HandTest {
 
-	private Card mockCard(CardType type) {
-		Card card = EasyMock.createMock(Card.class);
-		EasyMock.expect(card.getCardType()).andStubReturn(type);
-		EasyMock.replay(card);
-		return card;
-	}
-
-	private Hand handWithOneCard() {
-		Card mockCard = mockCard(CardType.ATTACK);
-
-		Hand hand = new Hand();
-		hand.addCard(mockCard);
-
-		return hand;
-	}
-
-	private Hand handWithTwoCards() {
-		Card mockCard1 = mockCard(CardType.SEE_THE_FUTURE);
-		Card mockCard2 = mockCard(CardType.SHUFFLE);
-
-		Hand hand = new Hand();
-		hand.addCard(mockCard1);
-		hand.addCard(mockCard2);
-
-		return hand;
-	}
-
-	private Hand handWithThreeCardsAndDuplicates() {
-		Card extraCard = mockCard(CardType.SKIP);
-
-		CardType duplicateCardType = CardType.NORMAL;
-		Card duplicateCard1 = mockCard(duplicateCardType);
-		Card duplicateCard2 = mockCard(duplicateCardType);
-
-		Hand hand = new Hand();
-		hand.addCard(extraCard);
-		hand.addCard(duplicateCard1);
-		hand.addCard(duplicateCard2);
-
-		return hand;
-	}
-
 	@Test
-	public void isEmpty_onEmptyHand_returnsTrue() {
+	public void isEmpty_withEmptyHand_returnsTrue() {
 		Hand emptyHand = new Hand();
 		assertTrue(emptyHand.isEmpty());
 	}
@@ -74,7 +32,7 @@ public class HandTest {
 	}
 
 	@Test
-	public void containsCardType_onEmptyHand_returnsFalse() {
+	public void containsCardType_withEmptyHand_returnsFalse() {
 		Hand emptyHand = new Hand();
 		CardType cardType = CardType.NUKE;
 		assertFalse(emptyHand.containsCardType(cardType));
@@ -102,7 +60,7 @@ public class HandTest {
 	}
 
 	@Test
-	public void getNumberOfCards_onEmptyHand_returnsZero() {
+	public void getNumberOfCards_withEmptyHand_returnsZero() {
 		Hand emptyHand = new Hand();
 		int expectedNumberOfCards = 0;
 		assertEquals(expectedNumberOfCards, emptyHand.getNumberOfCards());
@@ -277,6 +235,56 @@ public class HandTest {
 		assertEquals(expectedCount, hand.getCountOfCardType(duplicateCardType));
 	}
 
+	@Test
+	public void getCountOfCardType_withThreeDuplicateCardsInHand_returnsThree() {
+		CardType duplicateCardType = CardType.FAVOR;
+		Hand hand = handWithFiveCardsAndThreeDuplicates();
+		final int expectedCount = 3;
+		assertEquals(expectedCount, hand.getCountOfCardType(duplicateCardType));
+	}
+
+	private Card mockCard(CardType type) {
+		Card card = EasyMock.createMock(Card.class);
+		EasyMock.expect(card.getCardType()).andStubReturn(type);
+		EasyMock.replay(card);
+		return card;
+	}
+
+	private Hand handWithOneCard() {
+		Card mockCard = mockCard(CardType.ATTACK);
+
+		Hand hand = new Hand();
+		hand.addCard(mockCard);
+
+		return hand;
+	}
+
+	private Hand handWithTwoCards() {
+		Card mockCard1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card mockCard2 = mockCard(CardType.SHUFFLE);
+
+		Hand hand = new Hand();
+		hand.addCard(mockCard1);
+		hand.addCard(mockCard2);
+
+		return hand;
+	}
+
+	private Hand handWithThreeCardsAndDuplicates() {
+		Card extraCard = mockCard(CardType.SKIP);
+
+		CardType duplicateCardType = CardType.NORMAL;
+		Card duplicateCard1 = mockCard(duplicateCardType);
+		Card duplicateCard2 = mockCard(duplicateCardType);
+
+		Hand hand = new Hand();
+		hand.addCard(extraCard);
+		hand.addCard(duplicateCard1);
+		hand.addCard(duplicateCard2);
+
+		return hand;
+	}
+
 	private Hand handWithFiveCardsAndThreeDuplicates() {
 		Card extraCard1 = mockCard(CardType.DEFUSE);
 		Card extraCard2 = mockCard(CardType.ATTACK);
@@ -294,13 +302,5 @@ public class HandTest {
 		hand.addCard(duplicateCard3);
 
 		return hand;
-	}
-
-	@Test
-	public void getCountOfCardType_withThreeDuplicateCardsInHand_returnsThree() {
-		CardType duplicateCardType = CardType.FAVOR;
-		Hand hand = handWithFiveCardsAndThreeDuplicates();
-		final int expectedCount = 3;
-		assertEquals(expectedCount, hand.getCountOfCardType(duplicateCardType));
 	}
 }
