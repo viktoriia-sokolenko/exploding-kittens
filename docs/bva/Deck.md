@@ -82,14 +82,24 @@ CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing wit
 **Note**: Some of the test cases for this method have its own testing implemented as well as being implemented within
 other method tests. These test are labeled as methodOneAndMethodTwo.
 
-## Method under test: `getDeckSize()`
+## Method 4: `public int getDeckSize()`
 
-|             | System under test                                  | Expected output / state transition | Implemented?       |
-|-------------|----------------------------------------------------|------------------------------------|--------------------|
-| Test Case 1 | Deck **empty** `[]`                                | Returns `0`;                       | :white_check_mark: |
-| Test Case 2 | Deck has **exactly 1** card `[card1]`              | Returns `1`;                       | :white_check_mark: |
-| Test Case 3 | Deck has **> 1** cards `[card1, card2]`            | Returns `2`;                       | :white_check_mark: |
-| Test Case 4 | Deck has **> 1** cards `[card1, card2.1, card2.2]` | Returns `3`;                       | :white_check_mark: |
+### Step 1-3 Results
+
+|        | Input                                                                                      | (if more to consider for input) | Output                             |
+|--------|--------------------------------------------------------------------------------------------|---------------------------------|------------------------------------|
+| Step 1 | Deck of Cards                                                                              |                                 | The number of cards that deck have |
+| Step 2 | Collection (Empty, Exactly 1 Element, More than 1 Elements, Element containing duplicates) |                                 | Integer                            |
+| Step 3 | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                  |                                 | `0`, `1`, `2`, `3`                 |
+
+### Step 4:
+
+|             | System under test           | Expected output / state transition | Implemented?       |
+|-------------|-----------------------------|------------------------------------|--------------------|
+| Test Case 1 | `[]`                        | Returns `0`;                       | :white_check_mark: |
+| Test Case 2 | `[card1]`                   | Returns `1`;                       | :white_check_mark: |
+| Test Case 3 | `[card1, card2]`            | Returns `2`;                       | :white_check_mark: |
+| Test Case 4 | `[card1, card2.1, card2.2]` | Returns `3`;                       | :white_check_mark: |
 
 ## Method under test: `insertCardAt(Card card, Index index)`
 
