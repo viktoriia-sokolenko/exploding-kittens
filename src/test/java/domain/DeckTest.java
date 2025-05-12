@@ -21,10 +21,6 @@ public class DeckTest {
 		return card;
 	}
 
-	private Deck createDeckWithCards(List<Card> cards) {
-		return new Deck(cards);
-	}
-
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
@@ -55,8 +51,7 @@ public class DeckTest {
 
 	@Test
 	public void peekTop_deckWithOneCard_returnsTheOnlyCard() {
-		CardType cardType = CardType.NORMAL;
-		Card expectedCard = new Card(cardType);
+		Card expectedCard = mockCard(CardType.NORMAL);
 		List<Card> cardList = new ArrayList<>(List.of(expectedCard));
 
 		Deck deck = new Deck(cardList);
