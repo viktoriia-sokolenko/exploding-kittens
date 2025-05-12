@@ -404,9 +404,9 @@ public class DeckTest {
 
 	@Test
 	public void insertCardAtAndGetCardAt_deckWithTwoCardsWithIndexOne() {
-		Card card = new Card(CardType.NORMAL);
-		Card card1 = new Card(CardType.EXPLODING_KITTEN);
-		Card card2 = new Card(CardType.DEFUSE);
+		Card card = mockCard(CardType.NORMAL);
+		Card card1 = mockCard(CardType.EXPLODING_KITTEN);
+		Card card2 = mockCard(CardType.DEFUSE);
 		List<Card> cardsList = new ArrayList<>(List.of(card1, card2));
 		int index = 1;
 		final int FINAL_SIZE = 3;
@@ -434,7 +434,7 @@ public class DeckTest {
 
 	@Test
 	public void shuffleDeck_deckWithOneCard() {
-		Card card = new Card(CardType.SKIP);
+		Card card = mockCard(CardType.SKIP);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 		Random rand = EasyMock.createMock(Random.class);
 		EasyMock.replay(rand);
