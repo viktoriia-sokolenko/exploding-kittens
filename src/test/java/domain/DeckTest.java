@@ -170,9 +170,9 @@ public class DeckTest {
 
 	@Test
 	public void getCardAt_deckWithThreeCardsWithIndexFour_throwsIndexOutOfBoundsException() {
-		Card card1 = new Card(CardType.NUKE);
-		Card card2 = new Card(CardType.NORMAL);
-		Card card3 = new Card(CardType.NORMAL);
+		Card card1 = mockCard(CardType.NUKE);
+		Card card2 = mockCard(CardType.NORMAL);
+		Card card3 = mockCard(CardType.NORMAL);
 		final int INDEX_OUT_OF_BOUNDS = 4;
 
 		Deck deck = new Deck(List.of(card1, card2, card3));
