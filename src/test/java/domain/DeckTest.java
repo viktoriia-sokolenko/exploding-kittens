@@ -286,7 +286,7 @@ public class DeckTest {
 
 	@Test
 	public void insertCardAt_nonEmptyDeckWithIndexNegative_throwsIndexOutOfBoundsException() {
-		Card card = new Card(CardType.NORMAL);
+		Card card = mockCard(CardType.NORMAL);
 		List<Card> nonEmptyCardList = new ArrayList<>(List.of(card));
 		int index = -1;
 
