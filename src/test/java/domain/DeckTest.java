@@ -383,9 +383,9 @@ public class DeckTest {
 
 	@Test
 	public void insertCardAtAndGetCardAt_deckWithTwoCardsWithIndexOne() {
-		Card card = mockCard(CardType.NORMAL);
-		Card card1 = mockCard(CardType.EXPLODING_KITTEN);
-		Card card2 = mockCard(CardType.DEFUSE);
+		Card card = mockCard(CardType.SKIP);
+		Card card1 = mockCard(CardType.SHUFFLE);
+		Card card2 = mockCard(CardType.NUKE);
 		List<Card> cardsList = new ArrayList<>(List.of(card1, card2));
 		int index = 1;
 		final int FINAL_SIZE = 3;
