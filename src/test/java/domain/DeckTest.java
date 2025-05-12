@@ -15,6 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTest {
 
+	private Card mockCard(CardType type) {
+		Card card = EasyMock.createMock(Card.class);
+		EasyMock.expect(card.getCardType()).andStubReturn(type);
+		EasyMock.replay(card);
+		return card;
+	}
+
 	static Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(new Card(CardType.NORMAL),
