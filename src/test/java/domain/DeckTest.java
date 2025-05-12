@@ -22,6 +22,10 @@ public class DeckTest {
 		return card;
 	}
 
+	private Deck createDeckWithCards(List<Card> cards) {
+		return new Deck(cards);
+	}
+
 	static Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(new Card(CardType.NORMAL),
