@@ -203,8 +203,7 @@ public class DeckTest {
 
 	@Test
 	public void drawAndGetDeckSize_deckWithOneCard() {
-		CardType cardType = CardType.NORMAL;
-		Card card = new Card(cardType);
+		Card card = mockCard(CardType.NORMAL);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 
 		Deck deck = new Deck(cardList);
