@@ -6,13 +6,20 @@ Whenever you see the keywords "non-empty list" or noticed that the states takes 
 cards without specifying the Card Type (i.e `[card1, card2]`), that means that the test cases uses a Parameterized Test
 that uses all the different Card Types into a list of two different Cards and performs _Parameterized Tests_ based on
 it.
-This Parameterized Testing are Grouped as:
+This Parameterized Testing are grouped as:
 
 * `[CardType.NORMAL, CardType.ATTACK]`
 * `[CardType.DEFUSE, CardType.SKIP]`
 * `[CardType.FAVOR, CardType.EXPLODING_KITTEN]`
 * `[CardType.SHUFFLE, CardType.ALTER_THE_FUTURE]`
 * `[CardType.SEE_THE_FUTURE, CardType.NUKE]`
+
+
+This is done like this because the main purpose of deck isn't too focused on the Card Types inside the deck but the
+functionality of deck working with all the different types of cards. As a result, these Parameterized Testing ensures
+that since Deck is a collection of Cards, no matter the Cards given in the collection, the operation still functions as
+expected.
+* In Other Words, in addition to deck being classified as a Collection (of Cards), if you'd like, it's also a case of the listed Card Types above
 
 Also, unless specified that I am dealing with  `Duplicates` states, each cards listed below are from different
 CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing with duplicate cards.
