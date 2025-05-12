@@ -471,9 +471,9 @@ public class DeckTest {
 
 	@Test
 	public void shuffleDeck_deckWithThreeCards() {
-		Card card1 = new Card(CardType.DEFUSE);
-		Card card2 = new Card(CardType.FAVOR);
-		Card card3 = new Card(CardType.EXPLODING_KITTEN);
+		Card card1 = mockCard(CardType.DEFUSE);
+		Card card2 = mockCard(CardType.FAVOR);
+		Card card3 = mockCard(CardType.EXPLODING_KITTEN);
 		final int SHUFFLE_ROUND1 = 3;
 		final int SHUFFLE_ROUND2 = 2;
 
