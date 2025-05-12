@@ -2,17 +2,16 @@ package domain;
 
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DeckTest {
 
 	private Card mockCard(CardType type) {
@@ -26,18 +25,18 @@ public class DeckTest {
 		return new Deck(cards);
 	}
 
-	static Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
+	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
-				List.of(new Card(CardType.NORMAL),
-						new Card(CardType.ATTACK)),
-				List.of(new Card(CardType.DEFUSE),
-						new Card(CardType.SKIP)),
-				List.of(new Card(CardType.FAVOR),
-						new Card(CardType.EXPLODING_KITTEN)),
-				List.of(new Card(CardType.SHUFFLE),
-						new Card(CardType.ALTER_THE_FUTURE)),
-				List.of(new Card(CardType.SEE_THE_FUTURE),
-						new Card(CardType.NUKE)));
+				List.of(mockCard(CardType.NORMAL),
+						mockCard(CardType.ATTACK)),
+				List.of(mockCard(CardType.DEFUSE),
+						mockCard(CardType.SKIP)),
+				List.of(mockCard(CardType.FAVOR),
+						mockCard(CardType.EXPLODING_KITTEN)),
+				List.of(mockCard(CardType.SHUFFLE),
+						mockCard(CardType.ALTER_THE_FUTURE)),
+				List.of(mockCard(CardType.SEE_THE_FUTURE),
+						mockCard(CardType.NUKE)));
 	}
 
 	@Test
