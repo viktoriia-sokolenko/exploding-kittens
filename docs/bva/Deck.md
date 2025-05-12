@@ -14,12 +14,13 @@ This Parameterized Testing are grouped as:
 * `[CardType.SHUFFLE, CardType.ALTER_THE_FUTURE]`
 * `[CardType.SEE_THE_FUTURE, CardType.NUKE]`
 
-
 This is done like this because the main purpose of deck isn't too focused on the Card Types inside the deck but the
 functionality of deck working with all the different types of cards. As a result, these Parameterized Testing ensures
 that since Deck is a collection of Cards, no matter the Cards given in the collection, the operation still functions as
 expected.
-* In Other Words, in addition to deck being classified as a Collection (of Cards), if you'd like, it's also a case of the listed Card Types above
+
+* In Other Words, in addition to deck being classified as a Collection (of Cards), if you'd like, it's also a case of
+  the listed Card Types above
 
 Also, unless specified that I am dealing with  `Duplicates` states, each cards listed below are from different
 CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing with duplicate cards.
@@ -79,8 +80,8 @@ CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing wit
 | Test Case 1 | `-1`, `[]`                   | `IndexOutOfBoundsException`        | :white_check_mark: |
 | Test Case 2 | `-1`, `[card1]`              | `IndexOutOfBoundsException`        | :white_check_mark: |
 | Test Case 3 | `0`, `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 4 | `0`, `[card1, card2]`        | `Returns `card1`                   | :white_check_mark: |
-| Test Case 5 | `1`, `[card1, card2, card3]` | `Returns `card2`                   | :white_check_mark: |
+| Test Case 4 | `0`, `[card1, card2]`        | Returns `card1`                    | :white_check_mark: |
+| Test Case 5 | `1`, `[card1, card2, card3]` | Returns `card2`                    | :white_check_mark: |
 | Test Case 6 | `2`, `[card1, card2]`        | `IndexOutOfBoundsException`        | :white_check_mark: |
 | Test Case 7 | `3`, `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: |
 | Test Case 8 | `1`, `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: |
