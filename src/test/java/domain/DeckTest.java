@@ -101,8 +101,8 @@ public class DeckTest {
 
 	@Test
 	public void getCardAt_nonEmptyDeckWithIndexNegative_throwsIndexOutOfBoundsException() {
-		Card card1 = new Card(CardType.NORMAL);
-		Card card2 = new Card(CardType.NORMAL);
+		Card card1 = mockCard(CardType.NORMAL);
+		Card card2 = mockCard(CardType.NORMAL);
 		List<Card> emptyCardList = new ArrayList<>(List.of(card1, card2));
 		Deck deck = new Deck(emptyCardList);
 		int index = -1;
