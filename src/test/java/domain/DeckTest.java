@@ -303,11 +303,11 @@ public class DeckTest {
 
 	@Test
 	public void insertCardAt_emptyDeckWithIndexOne_throwsIndexOutOfBoundsException() {
-		Card card = new Card(CardType.NORMAL);
+		Card card = mockCard(CardType.NORMAL);
 		List<Card> emptyCardList = new ArrayList<>();
+		int index = 1;
 
 		Deck deck = new Deck(emptyCardList);
-		int index = 1;
 
 		Exception exception = assertThrows(IndexOutOfBoundsException.class,
 				() -> deck.insertCardAt(card, index));
