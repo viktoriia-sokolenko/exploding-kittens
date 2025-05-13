@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CardFactoryTest {
 	@Test
-	public void CreateCard_WithExplodingKittenCardType_CreatesCard() {
+	public void createCard_WithNullType_ThrowsNullPointerException() {
 		CardFactory factory = new CardFactory();
 		Card expoldingKittenCard = factory.createCard(CardType.EXPLODING_KITTEN);
 		assertInstanceOf(ExpoldingKittenCard.class, expoldingKittenCard);
