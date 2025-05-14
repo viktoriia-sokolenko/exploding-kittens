@@ -1,13 +1,13 @@
 # BVA for Hand Class
 
-Note: I am using Parametrized Testing so whenever I use testCard or testCardType, it means that the test runs for all card types or for cards with all card types: NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE. 
+Note: I am using Parametrized Testing so whenever I use testCard or testCardType, it means that the test runs for all the following card types or for cards with those card types: NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE. 
 ## Method under test: `isEmpty()`
 ### Step 1-3 Results
-|        | Input                                                                                       | (if more to consider for input) | Output          |
-|--------|---------------------------------------------------------------------------------------------|---------------------------------|-----------------|
-| Step 1 | the state of the list                                                                       |                                 | a yes/no answer |
-| Step 2 | Collection                                                                                  |                                 | Boolean         |
-| Step 3 | empty list; list with 1 element; list with more than 1 element; contains duplicate elements |                                 | true, false     |
+|        | Input                                                                                       | Output          |
+|--------|---------------------------------------------------------------------------------------------|-----------------|
+| Step 1 | the state of the list                                                                       | a yes/no answer |
+| Step 2 | Collection                                                                                  | Boolean         |
+| Step 3 | empty list; list with 1 element; list with more than 1 element; contains duplicate elements | true, false     |
 ### Step 4:
 |             | System under test                | Expected output | Implemented?       | Test name                               |
 |-------------|----------------------------------|-----------------|--------------------|-----------------------------------------|
@@ -25,7 +25,7 @@ Note: I am using Parametrized Testing so whenever I use testCard or testCardType
 ### Step 4:
 |             | System under test                                   | Expected output                                     | Implemented?       | Test name                                                    |
 |-------------|-----------------------------------------------------|-----------------------------------------------------|--------------------|--------------------------------------------------------------|
-| Test Case 1 | Hand `[testCard]`, cardType `null`                  | `NullPointerException`  ("CardType cannot be null") | :white_check_mark: | containsCardType_withNullCardType_throwsNullPointerException |
+| Test Case 1 | Hand `[ATTACK]`, cardType `null`                    | `NullPointerException`  ("CardType cannot be null") | :white_check_mark: | containsCardType_withNullCardType_throwsNullPointerException |
 | Test Case 2 | Hand `[]`, cardType `testCardType`                  | `false`                                             | :white_check_mark: | containsCardType_withEmptyHand_returnsFalse                  |
 | Test Case 3 | Hand `[testCard]`, cardType `testCardType`          | `true`                                              | :white_check_mark: | containsCardType_withCardInHand_returnsTrue                  |
 | Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE` | `false`                                             | :white_check_mark: | containsCardType_withTwoOtherCardsInHand_returnsFalse        |
@@ -56,9 +56,9 @@ Note: I am using Parametrized Testing so whenever I use testCard or testCardType
 ### Step 4:
 |             | System under test (pre-state)                           | Expected output / state transition               | Implemented?       | Test name                                       |
 |-------------|---------------------------------------------------------|--------------------------------------------------|--------------------|-------------------------------------------------|
-| Test Case 1 | Hand `[testCard]`, card `null`                          | `NullPointerException` ("Card cannot be null")   | :white_check_mark: | addCard_withNullCard_throwsNullPointerException |
-| Test Case 2 | Hand `[]`, card `testCard`                              | Hand `[FAVOR]`                                   | :white_check_mark: | addCard_toEmptyHand_insertsCard                 |
-| Test Case 3 | Hand `[testCard]`, card `SKIP`                          | Hand `[ATTACK, SKIP]`                            | :white_check_mark: | addCard_toHandWithOneCard_insertsCard           |
+| Test Case 1 | Hand `[ATTACK]`, card `null`                            | `NullPointerException` ("Card cannot be null")   | :white_check_mark: | addCard_withNullCard_throwsNullPointerException |
+| Test Case 2 | Hand `[]`, card `testCard`                              | Hand `[testCard]`                                | :white_check_mark: | addCard_toEmptyHand_insertsCard                 |
+| Test Case 3 | Hand `[testCard]`, card `SKIP`                          | Hand `[testCard, SKIP]`                          | :white_check_mark: | addCard_toHandWithOneCard_insertsCard           |
 | Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `SEE_THE_FUTURE` | Hand `[SEE_THE_FUTURE, SHUFFLE, SEE_THE_FUTURE]` | :white_check_mark: | addCard_toHandWithSameCard_insertsDuplicateCard |
 
 ## Method under test: `removeCard(Card card)`
@@ -71,7 +71,7 @@ Note: I am using Parametrized Testing so whenever I use testCard or testCardType
 ### Step 4:
 |             | System under test (pre-state)                           | Expected output / state transition                                   | Implemented?       | Test name                                                   |
 |-------------|---------------------------------------------------------|----------------------------------------------------------------------|--------------------|-------------------------------------------------------------|
-| Test Case 1 | Hand `[testCard]`, card `null`                          | `NullPointerException`  ("Card cannot be null")                      | :white_check_mark: | removeCard_withNullCard_throwsNullPointerException          |
+| Test Case 1 | Hand `[ATTACK]`, card `null`                            | `NullPointerException`  ("Card cannot be null")                      | :white_check_mark: | removeCard_withNullCard_throwsNullPointerException          |
 | Test Case 2 | Hand `[]`, card `testCard`                              | `IllegalStateException` (“Hand empty: can not remove card”)          | :white_check_mark: | removeCard_withEmptyHand_throwsIllegalStateException        |
 | Test Case 3 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, card `DEFUSE`         | `IllegalArgumentException` (“Card not in hand: can not remove card”) | :white_check_mark: | removeCard_withCardNotInHand_throwsIllegalArgumentException |
 | Test Case 4 | Hand `[testCard]`, card `testCard`                      | Hand `[]`                                                            | :white_check_mark: | removeCard_withOneCardInHand_emptiesHand                    |
@@ -88,7 +88,7 @@ Note: I am using Parametrized Testing so whenever I use testCard or testCardType
 ### Step 4:
 |             | System under test                                              | Expected output                                     | Implemented?       | Test name                                                      |
 |-------------|----------------------------------------------------------------|-----------------------------------------------------|--------------------|----------------------------------------------------------------|
-| Test Case 1 | Hand `[testCard]`, cardType `null`                             | `NullPointerException`  ("CardType cannot be null") | :white_check_mark: | getCountOfCardType_withNullCardType_throwsNullPointerException |
+| Test Case 1 | Hand `[ATTACK]`, cardType `null`                               | `NullPointerException`  ("CardType cannot be null") | :white_check_mark: | getCountOfCardType_withNullCardType_throwsNullPointerException |
 | Test Case 2 | Hand `[]`, cardType `testCardType`                             | 0                                                   | :white_check_mark: | getCountOfCardType_withEmptyHand_returnsZero                   |
 | Test Case 3 | Hand `[testCard]`, cardType `testCardType`                     | 1                                                   | :white_check_mark: | getCountOfCardType_withCardInHand_returnsOne                   |
 | Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE`            | 0                                                   | :white_check_mark: | getCountOfCardType_withCardNotInHand_returnsZero               |

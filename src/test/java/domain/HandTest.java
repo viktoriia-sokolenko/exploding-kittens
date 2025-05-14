@@ -2,6 +2,8 @@ package domain;
 
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,9 +15,10 @@ public class HandTest {
 		assertTrue(emptyHand.isEmpty());
 	}
 
-	@Test
-	public void isEmpty_withOneCardInHand_returnsFalse() {
-		Hand handWithOneCard = handWithOneCard();
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void isEmpty_withOneCardInHand_returnsFalse(CardType testCardType) {
+		Hand handWithOneCard = handWithOneCard(testCardType);
 		assertFalse(handWithOneCard.isEmpty());
 	}
 
@@ -27,22 +30,22 @@ public class HandTest {
 
 	@Test
 	public void containsCardType_withNullCardType_throwsNullPointerException() {
-		Hand hand = handWithOneCard();
+		Hand hand = handWithOneCard(CardType.ATTACK);
 		assertThrows(NullPointerException.class, () -> hand.containsCardType(null));
 	}
 
-	@Test
-	public void containsCardType_withEmptyHand_returnsFalse() {
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void containsCardType_withEmptyHand_returnsFalse(CardType testCardType) {
 		Hand emptyHand = new Hand();
-		CardType cardType = CardType.NUKE;
-		assertFalse(emptyHand.containsCardType(cardType));
+		assertFalse(emptyHand.containsCardType(testCardType));
 	}
 
-	@Test
-	public void containsCardType_withCardInHand_returnsTrue() {
-		Hand handWithOneCard = handWithOneCard();
-		CardType cardType = CardType.ATTACK;
-		assertTrue(handWithOneCard.containsCardType(cardType));
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void containsCardType_withCardInHand_returnsTrue(CardType testCardType) {
+		Hand handWithOneCard = handWithOneCard(testCardType);
+		assertTrue(handWithOneCard.containsCardType(testCardType));
 	}
 
 	@Test
@@ -66,9 +69,10 @@ public class HandTest {
 		assertEquals(expectedNumberOfCards, emptyHand.getNumberOfCards());
 	}
 
-	@Test
-	public void getNumberOfCards_withOneCardInHand_returnsOne() {
-		Hand handWithOneCard = handWithOneCard();
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void getNumberOfCards_withOneCardInHand_returnsOne(CardType testCardType) {
+		Hand handWithOneCard = handWithOneCard(testCardType);
 		int expectedNumberOfCards = 1;
 		assertEquals(expectedNumberOfCards, handWithOneCard.getNumberOfCards());
 	}
@@ -90,14 +94,14 @@ public class HandTest {
 
 	@Test
 	public void addCard_withNullCard_throwsNullPointerException() {
-		Hand hand = handWithOneCard();
+		Hand hand = handWithOneCard(CardType.ATTACK);
 		assertThrows(NullPointerException.class, () -> hand.addCard(null));
 	}
 
-	@Test
-	public void addCard_toEmptyHand_insertsCard() {
-		CardType cardType = CardType.FAVOR;
-		Card card = mockCard(cardType);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void addCard_toEmptyHand_insertsCard(CardType testCardType) {
+		Card card = mockCard(testCardType);
 
 		Hand hand = new Hand();
 		hand.addCard(card);
@@ -105,21 +109,22 @@ public class HandTest {
 		int expectedNumberOfCards = 1;
 		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
 
-		assertTrue(hand.containsCardType(cardType));
+		assertTrue(hand.containsCardType(testCardType));
 	}
 
-	@Test
-	public void addCard_toHandWithOneCard_insertsCard() {
-		CardType cardType = CardType.SKIP;
-		Card card = mockCard(cardType);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void addCard_toHandWithOneCard_insertsCard(CardType testCardType) {
+		CardType expectedCardType = CardType.SKIP;
+		Card card = mockCard(expectedCardType);
 
-		Hand hand = handWithOneCard();
+		Hand hand = handWithOneCard(testCardType);
 		hand.addCard(card);
 
 		int expectedNumberOfCards = 2;
 		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
 
-		assertTrue(hand.containsCardType(cardType));
+		assertTrue(hand.containsCardType(expectedCardType));
 	}
 
 	@Test
@@ -138,14 +143,15 @@ public class HandTest {
 
 	@Test
 	public void removeCard_withNullCard_throwsNullPointerException() {
-		Hand hand = handWithOneCard();
+		Hand hand = handWithOneCard(CardType.ATTACK);
 		assertThrows(NullPointerException.class, () -> hand.removeCard(null));
 	}
 
-	@Test
-	public void removeCard_withEmptyHand_throwsIllegalStateException() {
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void removeCard_withEmptyHand_throwsIllegalStateException(CardType testCardType) {
 		Hand emptyHand = new Hand();
-		Card card = mockCard(CardType.FAVOR);
+		Card card = mockCard(testCardType);
 		assertThrows(IllegalStateException.class, () -> emptyHand.removeCard(card));
 	}
 
@@ -156,16 +162,16 @@ public class HandTest {
 		assertThrows(IllegalArgumentException.class, () -> hand.removeCard(card));
 	}
 
-	@Test
-	public void removeCard_withOneCardInHand_emptiesHand() {
-		CardType cardType = CardType.ATTACK;
-		Card card = mockCard(cardType);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void removeCard_withOneCardInHand_emptiesHand(CardType testCardType) {
+		Card card = mockCard(testCardType);
 
-		Hand hand = handWithOneCard();
+		Hand hand = handWithOneCard(testCardType);
 		hand.removeCard(card);
 
 		assertTrue(hand.isEmpty());
-		assertFalse(hand.containsCardType(cardType));
+		assertFalse(hand.containsCardType(testCardType));
 	}
 
 	@Test
@@ -198,25 +204,25 @@ public class HandTest {
 
 	@Test
 	public void getCountOfCardType_withNullCardType_throwsNullPointerException() {
-		Hand hand = handWithOneCard();
+		Hand hand = handWithOneCard(CardType.ATTACK);
 		assertThrows(NullPointerException.class, () -> hand.getCountOfCardType(null));
 	}
 
-	@Test
-	public void getCountOfCardType_withEmptyHand_returnsZero() {
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void getCountOfCardType_withEmptyHand_returnsZero(CardType testCardType) {
 		Hand emptyHand = new Hand();
-		CardType cardType = CardType.SKIP;
 
 		int expectedCount = 0;
-		assertEquals(expectedCount, emptyHand.getCountOfCardType(cardType));
+		assertEquals(expectedCount, emptyHand.getCountOfCardType(testCardType));
 	}
 
-	@Test
-	public void getCountOfCardType_withCardInHand_returnsOne() {
-		Hand hand = handWithOneCard();
-		CardType cardType = CardType.ATTACK;
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void getCountOfCardType_withCardInHand_returnsOne(CardType testCardType) {
+		Hand hand = handWithOneCard(testCardType);
 		int expectedCount = 1;
-		assertEquals(expectedCount, hand.getCountOfCardType(cardType));
+		assertEquals(expectedCount, hand.getCountOfCardType(testCardType));
 	}
 
 	@Test
@@ -250,8 +256,8 @@ public class HandTest {
 		return card;
 	}
 
-	private Hand handWithOneCard() {
-		Card mockCard = mockCard(CardType.ATTACK);
+	private Hand handWithOneCard(CardType cardType) {
+		Card mockCard = mockCard(cardType);
 
 		Hand hand = new Hand();
 		hand.addCard(mockCard);
