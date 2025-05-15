@@ -18,6 +18,10 @@ public class Hand {
 	public void addCard(Card card) {
 		Objects.requireNonNull(card, "Card cannot be null");
 		CardType type = card.getCardType();
+		if (type == CardType.EXPLODING_KITTEN) {
+			throw new IllegalArgumentException(
+					"Exploding Kitten should not be added to Hand");
+		}
 		this.cards.put(type, this.cards.getOrDefault(type, 0) + 1);
 	}
 

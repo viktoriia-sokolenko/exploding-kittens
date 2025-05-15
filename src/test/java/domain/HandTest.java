@@ -16,7 +16,8 @@ public class HandTest {
 	}
 
 	@ParameterizedTest
-	@EnumSource(CardType.class)
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
 	public void isEmpty_withOneCardInHand_returnsFalse(CardType testCardType) {
 		Hand handWithOneCard = handWithOneCard(testCardType);
 		assertFalse(handWithOneCard.isEmpty());
@@ -42,7 +43,8 @@ public class HandTest {
 	}
 
 	@ParameterizedTest
-	@EnumSource(CardType.class)
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
 	public void containsCardType_withCardInHand_returnsTrue(CardType testCardType) {
 		Hand handWithOneCard = handWithOneCard(testCardType);
 		assertTrue(handWithOneCard.containsCardType(testCardType));
@@ -70,7 +72,8 @@ public class HandTest {
 	}
 
 	@ParameterizedTest
-	@EnumSource(CardType.class)
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
 	public void getNumberOfCards_withOneCardInHand_returnsOne(CardType testCardType) {
 		Hand handWithOneCard = handWithOneCard(testCardType);
 		int expectedNumberOfCards = 1;
@@ -99,7 +102,8 @@ public class HandTest {
 	}
 
 	@ParameterizedTest
-	@EnumSource(CardType.class)
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
 	public void addCard_toEmptyHand_insertsCard(CardType testCardType) {
 		Card card = mockCard(testCardType);
 
@@ -113,7 +117,8 @@ public class HandTest {
 	}
 
 	@ParameterizedTest
-	@EnumSource(CardType.class)
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
 	public void addCard_toHandWithOneCard_insertsCard(CardType testCardType) {
 		CardType expectedCardType = CardType.SKIP;
 		Card card = mockCard(expectedCardType);
@@ -141,6 +146,18 @@ public class HandTest {
 		assertTrue(hand.containsCardType(cardType));
 	}
 
+	@ParameterizedTest
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
+	public void addExplodingKittenCard_throwsIllegalArgumentException(CardType testCardType) {
+		CardType expectedCardType = CardType.EXPLODING_KITTEN;
+		Card card = mockCard(expectedCardType);
+
+		Hand hand = handWithOneCard(testCardType);
+		assertThrows(IllegalArgumentException.class, () -> hand.addCard(card));
+
+	}
+
 	@Test
 	public void removeCard_withNullCard_throwsNullPointerException() {
 		Hand hand = handWithOneCard(CardType.ATTACK);
@@ -163,7 +180,8 @@ public class HandTest {
 	}
 
 	@ParameterizedTest
-	@EnumSource(CardType.class)
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
 	public void removeCard_withOneCardInHand_emptiesHand(CardType testCardType) {
 		Card card = mockCard(testCardType);
 
@@ -218,7 +236,8 @@ public class HandTest {
 	}
 
 	@ParameterizedTest
-	@EnumSource(CardType.class)
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
 	public void getCountOfCardType_withCardInHand_returnsOne(CardType testCardType) {
 		Hand hand = handWithOneCard(testCardType);
 		int expectedCount = 1;
