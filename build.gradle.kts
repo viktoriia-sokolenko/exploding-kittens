@@ -2,9 +2,11 @@ import com.github.spotbugs.snom.Confidence
 import com.github.spotbugs.snom.Effort
 
 plugins {
+    application
     id("java")
     checkstyle
     id("com.github.spotbugs") version "6.0.25"
+    jacoco
     id("info.solidsoft.pitest") version "1.15.0"
 }
 
@@ -13,6 +15,10 @@ version = "1.0"
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClass = "Code.Main"
 }
 
 dependencies {
@@ -38,6 +44,7 @@ tasks.compileJava {
 tasks.test {
     useJUnitPlatform()
 }
+
 tasks.withType<Checkstyle>().configureEach {
     reports {
         xml.required = false
@@ -50,6 +57,7 @@ checkstyle {
     toolVersion = "10.18.2"
     isIgnoreFailures = false
 }
+
 // Spotbugs README: https://github.com/spotbugs/spotbugs-gradle-plugin#readme
 // SpotBugs Gradle Plugin: https://spotbugs.readthedocs.io/en/latest/gradle.html
 spotbugs {
@@ -84,12 +92,29 @@ tasks.spotbugsTest {
     }
 }
 
-tasks.withType<Checkstyle>().configureEach {
+jacoco {
+    toolVersion = "0.8.13"
+}
+
+tasks.jacocoTestReport {
     reports {
         xml.required = false
-        html.required = true
-        html.stylesheet = resources.text.fromFile("config/xsl/checkstyle-noframes-severity-sorted.xsl")
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir("reports/jacoco")
     }
+}
+
+tasks.build {
+    dependsOn("pitest")
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+    finalizedBy(tasks.pitest)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
 pitest {
