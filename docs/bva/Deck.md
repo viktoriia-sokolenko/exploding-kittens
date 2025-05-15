@@ -75,19 +75,18 @@ CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing wit
 
 ### Step 4:
 
-|             | System under test                       | Expected output / state transition | Implemented?       | Test name                                                                  |
-|-------------|-----------------------------------------|------------------------------------|--------------------|----------------------------------------------------------------------------|
-| Test Case 1 | index `-1`, Deck `[]`                   | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexNegative_throwsIndexOutOfBoundsException       |
-| Test Case 2 | index `-1`, Deck `[card1]`              | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_nonEmptyDeckWithIndexNegative_throwsIndexOutOfBoundsException    |
-| Test Case 3 | index `0`, Deck `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexZero_throwsIndexOutOfBoundsException           |
-| Test Case 4 | index `0`, Deck `[card1, card2]`        | Returns `card1`                    | :white_check_mark: | insertCardAtAndGetCardAt_nonEmptyDeckWithIndexZero                         |
-| Test Case 5 | index `1`, Deck `[card1, card2, card3]` | Returns `card2`                    | :white_check_mark: | insertCardAtAndGetCardAt_deckWithTwoCardsWithIndexOne                      |
-| Test Case 6 | index `2`, Deck `[card1, card2]`        | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithTwoCardsWithIndexTwo_throwsIndexOutOfBoundsException     |
-| Test Case 7 | index `3`, Deck `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithThreeCardsWithIndexThree_throwsIndexOutOfBoundsException |
-| Test Case 8 | index `1`, Deck `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexOne_throwsIndexOutOfBoundsException            |
-| Test Case 9 | index `4`, Deck `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithThreeCardsWithIndexFour_throwsIndexOutOfBoundsException  |
-
-// Need to have Card1, Card2.1, and Card2.2
+|              | System under test                           | Expected output / state transition | Implemented?       | Test name                                                                  |
+|--------------|---------------------------------------------|------------------------------------|--------------------|----------------------------------------------------------------------------|
+| Test Case 1  | index `-1`, Deck `[]`                       | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexNegative_throwsIndexOutOfBoundsException       |
+| Test Case 2  | index `-1`, Deck `[card1]`                  | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_nonEmptyDeckWithIndexNegative_throwsIndexOutOfBoundsException    |
+| Test Case 3  | index `0`, Deck `[]`                        | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexZero_throwsIndexOutOfBoundsException           |
+| Test Case 4  | index `0`, Deck `[card1, card2]`            | Returns `card1`                    | :white_check_mark: | insertCardAtAndGetCardAt_nonEmptyDeckWithIndexZero                         |
+| Test Case 5  | index `1`, Deck `[card1, card2, card3]`     | Returns `card2`                    | :white_check_mark: | insertCardAtAndGetCardAt_deckWithTwoCardsWithIndexOne                      |
+| Test Case 6  | index `1`, Deck `[card1, card2.1, card2.2]` | Returns `card2.1`                  | :white_check_mark: | getCardAt_deckWithThreeCardsAndDuplicateWithIndexOne_returnsCardInIndexOne |
+| Test Case 7  | index `2`, Deck `[card1, card2]`            | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithTwoCardsWithIndexTwo_throwsIndexOutOfBoundsException     |
+| Test Case 8  | index `3`, Deck `[card1, card2, card3]`     | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithThreeCardsWithIndexThree_throwsIndexOutOfBoundsException |
+| Test Case 9  | index `1`, Deck `[]`                        | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexOne_throwsIndexOutOfBoundsException            |
+| Test Case 10 | index `4`, Deck `[card1, card2, card3]`     | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithThreeCardsWithIndexFour_throwsIndexOutOfBoundsException  |
 
 **Note**: Some of the test cases for this method have its own testing implemented as well as being implemented within
 other method tests. These test are labeled as methodOneAndMethodTwo.
@@ -152,14 +151,14 @@ but please do recall that Parameterized testing is utilized in order to ensure a
 
 ### Step 4:
 
-|             | System under test                      | Expected output                                                                                                       | Implemented?       | Test name                                                     |
-|-------------|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------|---------------------------------------------------------------|
+|             | System under test                      | Expected output                                                                                                       | Implemented?       | Test name                                                   |
+|-------------|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------|-------------------------------------------------------------|
 | Test Case 1 | Rand `null`, Deck `[]`                 | `NullPointerException`                                                                                                | :white_check_mark: | shuffleDeck_emptyDeckAndNullRandom_throwsNullPointerException |
-| Test Case 2 | Rand, Deck `[]`                        | Order remains unchanged (idempotent) `[]`                                                                             | :white_check_mark: | shuffleDeck_emptyDeck_orderRemainTheSame                      |
-| Test Case 3 | Rand, Deck `[card1]`                   | Order remains unchanged (idempotent) `[card1]`                                                                        | :white_check_mark: | shuffleDeck_deckWithOneCard_orderRemainTheSame                |
-| Test Case 4 | Rand, Deck `[card1, card2]`            | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2, card1]`            | :white_check_mark: | shuffleDeck_deckWithTwoCards_orderFlipsPositions              |
-| Test Case 5 | Rand, Deck `[card1, card2, card3]`     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: | shuffleDeck_deckWithThreeCards_orderChanges                   |
-| Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: | shuffleDeck_deckWithThreeCardsAndDuplicates                   |
+| Test Case 2 | Rand, Deck `[]`                        | Order remains unchanged (idempotent) `[]`                                                                             | :white_check_mark: | shuffleDeck_emptyDeck_orderRemainTheSame                    |
+| Test Case 3 | Rand, Deck `[card1]`                   | Order remains unchanged (idempotent) `[card1]`                                                                        | :white_check_mark: | shuffleDeck_deckWithOneCard_orderRemainTheSame              |
+| Test Case 4 | Rand, Deck `[card1, card2]`            | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2, card1]`            | :white_check_mark: | shuffleDeck_deckWithTwoCards_orderFlipsPositions            |
+| Test Case 5 | Rand, Deck `[card1, card2, card3]`     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: | shuffleDeck_deckWithThreeCards_orderChanges                 |
+| Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: | shuffleDeck_deckWithThreeCardsAndDuplicate                  |
 
 ## Method under test: `giveCardToPlayer(Player p)`
 

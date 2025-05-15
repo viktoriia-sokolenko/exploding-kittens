@@ -186,6 +186,19 @@ public class DeckTest {
 	}
 
 	@Test
+	public void getCardAt_deckWithThreeCardsAndDuplicateWithIndexOne_returnsCardInIndexOne() {
+		Card card1 = mockCard(CardType.ALTER_THE_FUTURE);
+		Card card2 = mockCard(CardType.SHUFFLE);
+		Card card3 = mockCard(CardType.SHUFFLE);
+
+		final int INDEX = 1;
+		Deck deck = new Deck(List.of(card1, card2, card3));
+
+		Card actualCard = deck.getCardAt(INDEX);
+		assertEquals(card2, actualCard);
+	}
+
+	@Test
 	public void draw_emptyDeck_throwsNoSuchElementException() {
 		List<Card> emptyCardList = new ArrayList<>();
 
@@ -505,7 +518,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void shuffleDeck_deckWithThreeCardsAndDuplicates() {
+	public void shuffleDeck_deckWithThreeCardsAndDuplicate() {
 		Card card1 = mockCard(CardType.SHUFFLE);
 		Card card2 = mockCard(CardType.ALTER_THE_FUTURE);
 		Card card3 = mockCard(CardType.ALTER_THE_FUTURE);
