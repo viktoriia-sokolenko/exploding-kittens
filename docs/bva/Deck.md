@@ -37,12 +37,12 @@ CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing wit
 
 ### Step 4:
 
-|             | System under test                | Expected output / state transition         | Implemented?       | Test name                                         |
-|-------------|----------------------------------|--------------------------------------------|--------------------|---------------------------------------------------|
-| Test Case 1 | Deck `[]`                        | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | draw_emptyDeck_throwsNoSuchElementException       |
-| Test Case 2 | Deck `[card1]`                   | Returns `card1`; Deck `[]`                 | :white_check_mark: | drawAndGetDeckSize_deckWithOneCard                |
-| Test Case 3 | Deck `[card1, card2]`            | Returns `card2`; Deck `[card1]`            | :white_check_mark: | drawAndGetDeckSize_deckWithTwoCards               |
-| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `card2.2`; Deck `[card1, card2.2]` | :white_check_mark: | drawAndGetDeckSize_deckWithThreeCardsAndDuplicate |
+|             | System under test                | Expected output / state transition         | Implemented?       | Test name                                                                  |
+|-------------|----------------------------------|--------------------------------------------|--------------------|----------------------------------------------------------------------------|
+| Test Case 1 | Deck `[]`                        | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | draw_emptyDeck_throwsNoSuchElementException                                |
+| Test Case 2 | Deck `[card1]`                   | Returns `card1`; Deck `[]`                 | :white_check_mark: | drawAndGetDeckSize_deckWithOneCard                                         |
+| Test Case 3 | Deck `[card1, card2]`            | Returns `card2`; Deck `[card1]`            | :white_check_mark: | drawAndGetDeckSize_deckWithTwoCards                                        |
+| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `card2.2`; Deck `[card1, card2.2]` | :white_check_mark: | drawAndGetDeckSize_deckWithThreeCardsAndDuplicate_returnsDeckWithTwoCards  |
 
 ## Method 2: `public Card peekTop()`
 
@@ -158,7 +158,7 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 3 | Rand, Deck `[card1]`                   | Order remains unchanged (idempotent) `[card1]`                                                                        | :white_check_mark: | shuffleDeck_deckWithOneCard_orderRemainTheSame                |
 | Test Case 4 | Rand, Deck `[card1, card2]`            | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2, card1]`            | :white_check_mark: | shuffleDeck_deckWithTwoCards_orderFlipsPositions              |
 | Test Case 5 | Rand, Deck `[card1, card2, card3]`     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: | shuffleDeck_deckWithThreeCards_orderChanges                   |
-| Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: | shuffleDeck_deckWithThreeCardsAndDuplicate                    |
+| Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: | shuffleDeck_deckWithThreeCardsAndDuplicate_orderChanges       |
 
 ## Method under test: `giveCardToPlayer(Player p)`
 

@@ -239,7 +239,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void drawAndGetDeckSize_deckWithThreeCardsAndDuplicate() {
+	public void drawAndGetDeckSize_deckWithThreeCardsAndDuplicate_returnsDeckWithTwoCards() {
 		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
 		Card card2 = mockCard(CardType.NORMAL);
 		Card card3 = mockCard(CardType.NORMAL);
@@ -518,7 +518,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void shuffleDeck_deckWithThreeCardsAndDuplicate() {
+	public void shuffleDeck_deckWithThreeCardsAndDuplicate_orderChanges() {
 		Card card1 = mockCard(CardType.SHUFFLE);
 		Card card2 = mockCard(CardType.ALTER_THE_FUTURE);
 		Card card3 = mockCard(CardType.ALTER_THE_FUTURE);
