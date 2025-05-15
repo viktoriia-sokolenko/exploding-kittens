@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DeckTest {
 
 	@Test
-	public void peekTop_emptyDeck_throwsIllegalOperationException() {
+	public void peekTop_emptyDeck_throwsNoSuchElementException() {
 		List<Card> emptyCardList = new ArrayList<>();
 
 		Deck deck = new Deck(emptyCardList);
