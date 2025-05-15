@@ -29,39 +29,39 @@ CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing wit
 
 ### Step 1-3 Results
 
-|        | Input                                                                                      | (if more to consider for input) | Output                                          |
-|--------|--------------------------------------------------------------------------------------------|---------------------------------|-------------------------------------------------|
-| Step 1 | Deck of Cards                                                                              |                                 | Card drawn from deck and `size` decrements by 1 |
-| Step 2 | Collection (Empty, Exactly 1 Element, More than 1 Elements, Element containing duplicates) |                                 | Card object or Exception                        |
-| Step 3 | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                  |                                 | Card object or `NoSuchElementException`         |
+|        | Input                                                                                      | Output                                          |
+|--------|--------------------------------------------------------------------------------------------|-------------------------------------------------|
+| Step 1 | Deck of Cards                                                                              | Card drawn from deck and `size` decrements by 1 |
+| Step 2 | Collection (Empty, Exactly 1 Element, More than 1 Elements, Element containing duplicates) | Card object or Exception                        |
+| Step 3 | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                  | Card object or `NoSuchElementException`         |
 
 ### Step 4:
 
-|             | System under test                | Expected output / state transition         | Implemented?       |
-|-------------|----------------------------------|--------------------------------------------|--------------------|
-| Test Case 1 | Deck `[]`                        | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: |
-| Test Case 2 | Deck `[card1]`                   | Returns `card1`; Deck `[]`                 | :white_check_mark: |
-| Test Case 3 | Deck `[card1, card2]`            | Returns `card2`; Deck `[card1]`            | :white_check_mark: |
-| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `card2.2`; Deck `[card1, card2.2]` | :white_check_mark: |
+|             | System under test                | Expected output / state transition         | Implemented?       | Test name                                         |
+|-------------|----------------------------------|--------------------------------------------|--------------------|---------------------------------------------------|
+| Test Case 1 | Deck `[]`                        | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | draw_emptyDeck_throwsNoSuchElementException       |
+| Test Case 2 | Deck `[card1]`                   | Returns `card1`; Deck `[]`                 | :white_check_mark: | drawAndGetDeckSize_deckWithOneCard                |
+| Test Case 3 | Deck `[card1, card2]`            | Returns `card2`; Deck `[card1]`            | :white_check_mark: | drawAndGetDeckSize_deckWithTwoCards               |
+| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `card2.2`; Deck `[card1, card2.2]` | :white_check_mark: | drawAndGetDeckSize_deckWithThreeCardsAndDuplicate |
 
 ## Method 2: `public Card peekTop()`
 
 ### Step 1-3 Results
 
-|        | Input                                                                                      | (if more to consider for input) | Output                                        |
-|--------|--------------------------------------------------------------------------------------------|---------------------------------|-----------------------------------------------|
-| Step 1 | Deck of Cards                                                                              |                                 | Card on top of deck, i.e last index from deck |
-| Step 2 | Collection (Empty, Exactly 1 Element, More than 1 Elements, Element containing duplicates) |                                 | Card object or Exception                      |
-| Step 3 | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                  |                                 | Card object or `NoSuchElementException`       |
+|        | Input                                                                                      | Output                                        |
+|--------|--------------------------------------------------------------------------------------------|-----------------------------------------------|
+| Step 1 | Deck of Cards                                                                              | Card on top of deck, i.e last index from deck |
+| Step 2 | Collection (Empty, Exactly 1 Element, More than 1 Elements, Element containing duplicates) | Card object or Exception                      |
+| Step 3 | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                  | Card object or `NoSuchElementException`       |
 
 ### Step 4:
 
-|             | System under test                | Expected output / state transition         | Implemented?       |
-|-------------|----------------------------------|--------------------------------------------|--------------------|
-| Test Case 1 | Deck `[]`                        | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: |
-| Test Case 2 | Deck `[card1]`                   | Returns `card1`;                           | :white_check_mark: |
-| Test Case 3 | Deck `[card1, card2]`            | Returns `card2`;                           | :white_check_mark: |
-| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `card2.2`;                         | :white_check_mark: |
+|             | System under test                | Expected output / state transition         | Implemented?       | Test name                                              |
+|-------------|----------------------------------|--------------------------------------------|--------------------|--------------------------------------------------------|
+| Test Case 1 | Deck `[]`                        | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | peekTop_emptyDeck_throwsIllegalOperationException      |
+| Test Case 2 | Deck `[card1]`                   | Returns `card1`;                           | :white_check_mark: | peekTop_deckWithOneCard_returnsTheOnlyCard             |
+| Test Case 3 | Deck `[card1, card2]`            | Returns `card2`;                           | :white_check_mark: | peekTop_deckWithTwoCards_returnsCardInIndexOne         |
+| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `card2.2`;                         | :white_check_mark: | peekTop_deckWithThreeCardsAndDuplicate_returnsLastCard |
 
 ## Method 3: `public Card getCardAt(int index)`
 
@@ -75,17 +75,20 @@ CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing wit
 
 ### Step 4:
 
-|             | System under test                       | Expected output / state transition | Implemented?       |
-|-------------|-----------------------------------------|------------------------------------|--------------------|
-| Test Case 1 | index `-1`, Deck `[]`                   | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 2 | index `-1`, Deck `[card1]`              | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 3 | index `0`, Deck `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 4 | index `0`, Deck `[card1, card2]`        | Returns `card1`                    | :white_check_mark: |
-| Test Case 5 | index `1`, Deck `[card1, card2, card3]` | Returns `card2`                    | :white_check_mark: |
-| Test Case 6 | index `2`, Deck `[card1, card2]`        | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 7 | index `3`, Deck `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 8 | index `1`, Deck `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 9 | index `4`, Deck `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: |
+|             | System under test                       | Expected output / state transition | Implemented?       | Test name                                                                  |
+|-------------|-----------------------------------------|------------------------------------|--------------------|----------------------------------------------------------------------------|
+| Test Case 1 | index `-1`, Deck `[]`                   | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexNegative_throwsIndexOutOfBoundsException       |
+| Test Case 2 | index `-1`, Deck `[card1]`              | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_nonEmptyDeckWithIndexNegative_throwsIndexOutOfBoundsException    |
+| Test Case 3 | index `0`, Deck `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexZero_throwsIndexOutOfBoundsException           |
+| Test Case 4 | index `0`, Deck `[card1, card2]`        | Returns `card1`                    | :white_check_mark: | insertCardAtAndGetCardAt_nonEmptyDeckWithIndexZero                         |
+| Test Case 5 | index `1`, Deck `[card1, card2, card3]` | Returns `card2`                    | :white_check_mark: | insertCardAtAndGetCardAt_deckWithTwoCardsWithIndexOne                      |
+| Test Case 6 | index `2`, Deck `[card1, card2]`        | `IndexOutOfBoundsException`        | :white_check_mark: |                                                                            |
+| Test Case 7 | index `3`, Deck `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithThreeCardsWithIndexThree_throwsIndexOutOfBoundsException |
+| Test Case 8 | index `1`, Deck `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexOne_throwsIndexOutOfBoundsException            |
+| Test Case 9 | index `4`, Deck `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithThreeCardsWithIndexFour_throwsIndexOutOfBoundsException  |
+
+// Need to have Card1, Card2, Index 2
+// Need to have Card1, Card2.1, and Card2.2
 
 **Note**: Some of the test cases for this method have its own testing implemented as well as being implemented within
 other method tests. These test are labeled as methodOneAndMethodTwo.
@@ -102,12 +105,12 @@ other method tests. These test are labeled as methodOneAndMethodTwo.
 
 ### Step 4:
 
-|             | System under test                | Expected output / state transition | Implemented?       |
-|-------------|----------------------------------|------------------------------------|--------------------|
-| Test Case 1 | Deck `[]`                        | Returns `0`;                       | :white_check_mark: |
-| Test Case 2 | Deck `[card1]`                   | Returns `1`;                       | :white_check_mark: |
-| Test Case 3 | Deck `[card1, card2]`            | Returns `2`;                       | :white_check_mark: |
-| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `3`;                       | :white_check_mark: |
+|             | System under test                | Expected output / state transition | Implemented?       | Test name                                                  |
+|-------------|----------------------------------|------------------------------------|--------------------|------------------------------------------------------------|
+| Test Case 1 | Deck `[]`                        | Returns `0`;                       | :white_check_mark: | drawAndGetDeckSize_deckWithOneCard_returnsEmptyDeck        |
+| Test Case 2 | Deck `[card1]`                   | Returns `1`;                       | :white_check_mark: | drawAndGetDeckSize_deckWithTwoCards_returnsDeckWithOneCard |
+| Test Case 3 | Deck `[card1, card2]`            | Returns `2`;                       | :white_check_mark: | getDeckSize_deckWithTwoCards_ReturnsTwo                    |
+| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `3`;                       | :white_check_mark: | getDeckSize_deckWithThreeCardsAndDuplicate_ReturnsThree    |
 
 ## Method 5: `public void insertCardAt(Card card, int index)`
 
@@ -121,18 +124,18 @@ other method tests. These test are labeled as methodOneAndMethodTwo.
 
 ### Step 4:
 
-|              | System under test (pre-state)                               | Expected output / state transition | Implemented?       |
-|--------------|-------------------------------------------------------------|------------------------------------|--------------------|
-| Test Case 1  | index `-1`, card `NORMAL`,  Deck `[]`                       | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 2  | index `-1`, card `NORMAL`, Deck `[NORMAL]`                  | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 3  | index `0`, card `EXPLODING_KITTEN`, Deck `[]`               | Deck `[EXPLODING_KITTEN]`          | :white_check_mark: |
-| Test Case 4  | index `0`, card `NORMAL`, Deck `[card1, card2]`             | Deck `[NORMAL, card1, card2]`      | :white_check_mark: |
-| Test Case 5  | index `1`, card `SKIP`, Deck `[SHUFFLE, NUKE]`              | Deck `[SHUFFLE, SKIP, NUKE]`       | :white_check_mark: |
-| Test Case 6  | index `2`, card `NORMAL`, Deck `[card1, card2]`             | Deck `[card1, card2, NORMAL]`      | :white_check_mark: |
-| Test Case 7  | index `1`, card `NORMAL`, Deck `[]`                         | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 8  | index `3`, card `NORMAL`, Deck `[EXPLODING_KITTEN, DEFUSE]` | `IndexOutOfBoundsException`        | :white_check_mark: |
-| Test Case 9  | index `0`, card `null`, `0`, Deck `[]`                      | `NullPointerException`             | :white_check_mark: |
-| Test Case 10 | index `0`, card `null`, `0`, Deck `[NORMAL, FAVOR]`         | `NullPointerException`             | :white_check_mark: |
+|              | System under test (pre-state)                               | Expected output / state transition | Implemented?       | Test name                                                                   |
+|--------------|-------------------------------------------------------------|------------------------------------|--------------------|-----------------------------------------------------------------------------|
+| Test Case 1  | index `-1`, card `NORMAL`,  Deck `[]`                       | `IndexOutOfBoundsException`        | :white_check_mark: | insertCardAt_emptyDeckWithIndexNegative_throwsIndexOutOfBoundsException     |
+| Test Case 2  | index `-1`, card `NORMAL`, Deck `[NORMAL]`                  | `IndexOutOfBoundsException`        | :white_check_mark: | insertCardAt_nonEmptyDeckWithIndexNegative_throwsIndexOutOfBoundsException  |
+| Test Case 3  | index `0`, card `EXPLODING_KITTEN`, Deck `[]`               | Deck `[EXPLODING_KITTEN]`          | :white_check_mark: | insertCardAt_emptyDeckWithIndexZero                                         |
+| Test Case 4  | index `0`, card `NORMAL`, Deck `[card1, card2]`             | Deck `[NORMAL, card1, card2]`      | :white_check_mark: | insertCardAtAndGetCardAt_nonEmptyDeckWithIndexZero                          |
+| Test Case 5  | index `1`, card `SKIP`, Deck `[SHUFFLE, NUKE]`              | Deck `[SHUFFLE, SKIP, NUKE]`       | :white_check_mark: | insertCardAtAndGetCardAt_deckWithTwoCardsWithIndexOne                       |
+| Test Case 6  | index `2`, card `NORMAL`, Deck `[card1, card2]`             | Deck `[card1, card2, NORMAL]`      | :white_check_mark: | insertCardAt_deckWithTwoCardsWithIndexTwo                                   |
+| Test Case 7  | index `1`, card `NORMAL`, Deck `[]`                         | `IndexOutOfBoundsException`        | :white_check_mark: | insertCardAt_emptyDeckWithIndexOne_throwsIndexOutOfBoundsException          |
+| Test Case 8  | index `3`, card `NORMAL`, Deck `[EXPLODING_KITTEN, DEFUSE]` | `IndexOutOfBoundsException`        | :white_check_mark: | insertCardAt_deckWithTwoCardsWithIndexThree_throwsIndexOutOfBoundsException |
+| Test Case 9  | index `0`, card `null`, `0`, Deck `[]`                      | `NullPointerException`             | :white_check_mark: | insertCardAt_emptyDeckAndInsertNullCard_throwsNullPointerException          |
+| Test Case 10 | index `0`, card `null`, `0`, Deck `[NORMAL, FAVOR]`         | `NullPointerException`             | :white_check_mark: | insertCardAt_nonEmptyDeckAndInsertNullCard_throwsNullPointerException       |
 
 **Note:** This is an important place where the note listed above comes in place. As seen, there are many cases that
 Card can be, so on here, I have listed them as `card1, card2` as a way to showcase the different types,
@@ -150,14 +153,14 @@ but please do recall that Parameterized testing is utilized in order to ensure a
 
 ### Step 4:
 
-|             | System under test                      | Expected output                                                                                                       | Implemented?       |
-|-------------|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------|
-| Test Case 1 | Rand `null`, Deck `[]`                 | `NullPointerException`                                                                                                | :white_check_mark: |
-| Test Case 2 | Rand, Deck `[]`                        | Order remains unchanged (idempotent) `[]`                                                                             | :white_check_mark: |
-| Test Case 3 | Rand, Deck `[card1]`                   | Order remains unchanged (idempotent) `[card1]`                                                                        | :white_check_mark: |
-| Test Case 4 | Rand, Deck `[card1, card2]`            | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2, card1]`            | :white_check_mark: |
-| Test Case 5 | Rand, Deck `[card1, card2, card3]`     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: |
-| Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: |
+|             | System under test                      | Expected output                                                                                                       | Implemented?       | Test name                                                     |
+|-------------|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------|---------------------------------------------------------------|
+| Test Case 1 | Rand `null`, Deck `[]`                 | `NullPointerException`                                                                                                | :white_check_mark: | shuffleDeck_emptyDeckAndNullRandom_throwsNullPointerException |
+| Test Case 2 | Rand, Deck `[]`                        | Order remains unchanged (idempotent) `[]`                                                                             | :white_check_mark: | shuffleDeck_emptyDeck_orderRemainTheSame                      |
+| Test Case 3 | Rand, Deck `[card1]`                   | Order remains unchanged (idempotent) `[card1]`                                                                        | :white_check_mark: | shuffleDeck_deckWithOneCard_orderRemainTheSame                |
+| Test Case 4 | Rand, Deck `[card1, card2]`            | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2, card1]`            | :white_check_mark: | shuffleDeck_deckWithTwoCards_orderFlipsPositions              |
+| Test Case 5 | Rand, Deck `[card1, card2, card3]`     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: | shuffleDeck_deckWithThreeCards_orderChanges                   |
+| Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: | shuffleDeck_deckWithThreeCardsAndDuplicates                   |
 
 ## Method under test: `giveCardToPlayer(Player p)`
 

@@ -181,7 +181,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void drawAndGetDeckSize_deckWithOneCard() {
+	public void drawAndGetDeckSize_deckWithOneCard_returnsEmptyDeck() {
 		Card card = mockCard(CardType.NORMAL);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 
@@ -196,7 +196,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void drawAndGetDeckSize_deckWithTwoCards(List<Card> cards) {
+	public void drawAndGetDeckSize_deckWithTwoCards_returnsDeckWithOneCard(List<Card> cards) {
 		Deck deck = new Deck(cards);
 
 		Card expectedCard = cards.get(1);
@@ -421,7 +421,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void shuffleDeck_deckWithOneCard() {
+	public void shuffleDeck_deckWithOneCard_orderRemainTheSame() {
 		Card card = mockCard(CardType.SKIP);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 		Random rand = EasyMock.createMock(Random.class);
@@ -437,7 +437,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void shuffleDeck_deckWithTwoCards(List<Card> cards) {
+	public void shuffleDeck_deckWithTwoCards_orderFlipsPositions(List<Card> cards) {
 		Card card1 = cards.get(0);
 		Card card2 = cards.get(1);
 		List<Card> cardsList = new ArrayList<>(List.of(card1, card2));
@@ -458,7 +458,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void shuffleDeck_deckWithThreeCards() {
+	public void shuffleDeck_deckWithThreeCards_orderChanges() {
 		Card card1 = mockCard(CardType.DEFUSE);
 		Card card2 = mockCard(CardType.FAVOR);
 		Card card3 = mockCard(CardType.EXPLODING_KITTEN);
