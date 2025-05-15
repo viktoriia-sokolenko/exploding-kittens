@@ -6,7 +6,7 @@ Whenever you see the keywords "non-empty list" or noticed that the states takes 
 cards without specifying the Card Type (i.e `[card1, card2]`), that means that the test cases uses a Parameterized Test
 that uses all the different Card Types into a list of two different Cards and performs _Parameterized Tests_ based on
 it.
-This Parameterized Testing are grouped as:
+This Parameterized Testing is grouped as:
 
 * `[CardType.NORMAL, CardType.ATTACK]`
 * `[CardType.DEFUSE, CardType.SKIP]`
@@ -22,7 +22,7 @@ expected.
 * In Other Words, in addition to deck being classified as a Collection (of Cards), if you'd like, it's also a case of
   the listed Card Types above
 
-Also, unless specified that I am dealing with  `Duplicates` states, each cards listed below are from different
+Also, unless specified that I am dealing with  `Duplicates` states, each card listed below is from different
 CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing with duplicate cards.
 
 ## Method 1: `public Card draw()`
@@ -89,7 +89,7 @@ CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing wit
 | Test Case 10 | index `4`, Deck `[card1, card2, card3]`     | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithThreeCardsWithIndexFour_throwsIndexOutOfBoundsException  |
 
 **Note**: Some of the test cases for this method have its own testing implemented as well as being implemented within
-other method tests. These test are labeled as methodOneAndMethodTwo.
+other method tests. These tests are labeled as methodOneAndMethodTwo.
 
 ## Method 4: `public int getDeckSize()`
 
@@ -137,7 +137,7 @@ other method tests. These test are labeled as methodOneAndMethodTwo.
 
 **Note:** This is an important place where the note listed above comes in place. As seen, there are many cases that
 Card can be, so on here, I have listed them as `card1, card2` as a way to showcase the different types,
-but please do recall that Parameterized testing is utilized in order to ensure all Cards and their types are tested.
+but please do recall that Parameterized testing is used to ensure all Cards and their types are tested.
 
 ## Method 6: `public void shuffleDeck(Random rand)`
 
@@ -151,14 +151,14 @@ but please do recall that Parameterized testing is utilized in order to ensure a
 
 ### Step 4:
 
-|             | System under test                      | Expected output                                                                                                       | Implemented?       | Test name                                                   |
-|-------------|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------|-------------------------------------------------------------|
+|             | System under test                      | Expected output                                                                                                       | Implemented?       | Test name                                                     |
+|-------------|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------|---------------------------------------------------------------|
 | Test Case 1 | Rand `null`, Deck `[]`                 | `NullPointerException`                                                                                                | :white_check_mark: | shuffleDeck_emptyDeckAndNullRandom_throwsNullPointerException |
-| Test Case 2 | Rand, Deck `[]`                        | Order remains unchanged (idempotent) `[]`                                                                             | :white_check_mark: | shuffleDeck_emptyDeck_orderRemainTheSame                    |
-| Test Case 3 | Rand, Deck `[card1]`                   | Order remains unchanged (idempotent) `[card1]`                                                                        | :white_check_mark: | shuffleDeck_deckWithOneCard_orderRemainTheSame              |
-| Test Case 4 | Rand, Deck `[card1, card2]`            | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2, card1]`            | :white_check_mark: | shuffleDeck_deckWithTwoCards_orderFlipsPositions            |
-| Test Case 5 | Rand, Deck `[card1, card2, card3]`     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: | shuffleDeck_deckWithThreeCards_orderChanges                 |
-| Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: | shuffleDeck_deckWithThreeCardsAndDuplicate                  |
+| Test Case 2 | Rand, Deck `[]`                        | Order remains unchanged (idempotent) `[]`                                                                             | :white_check_mark: | shuffleDeck_emptyDeck_orderRemainTheSame                      |
+| Test Case 3 | Rand, Deck `[card1]`                   | Order remains unchanged (idempotent) `[card1]`                                                                        | :white_check_mark: | shuffleDeck_deckWithOneCard_orderRemainTheSame                |
+| Test Case 4 | Rand, Deck `[card1, card2]`            | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2, card1]`            | :white_check_mark: | shuffleDeck_deckWithTwoCards_orderFlipsPositions              |
+| Test Case 5 | Rand, Deck `[card1, card2, card3]`     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: | shuffleDeck_deckWithThreeCards_orderChanges                   |
+| Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: | shuffleDeck_deckWithThreeCardsAndDuplicate                    |
 
 ## Method under test: `giveCardToPlayer(Player p)`
 
