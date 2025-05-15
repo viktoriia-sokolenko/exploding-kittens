@@ -82,12 +82,11 @@ CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing wit
 | Test Case 3 | index `0`, Deck `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexZero_throwsIndexOutOfBoundsException           |
 | Test Case 4 | index `0`, Deck `[card1, card2]`        | Returns `card1`                    | :white_check_mark: | insertCardAtAndGetCardAt_nonEmptyDeckWithIndexZero                         |
 | Test Case 5 | index `1`, Deck `[card1, card2, card3]` | Returns `card2`                    | :white_check_mark: | insertCardAtAndGetCardAt_deckWithTwoCardsWithIndexOne                      |
-| Test Case 6 | index `2`, Deck `[card1, card2]`        | `IndexOutOfBoundsException`        | :white_check_mark: |                                                                            |
+| Test Case 6 | index `2`, Deck `[card1, card2]`        | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithTwoCardsWithIndexTwo_throwsIndexOutOfBoundsException     |
 | Test Case 7 | index `3`, Deck `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithThreeCardsWithIndexThree_throwsIndexOutOfBoundsException |
 | Test Case 8 | index `1`, Deck `[]`                    | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_emptyDeckWithIndexOne_throwsIndexOutOfBoundsException            |
 | Test Case 9 | index `4`, Deck `[card1, card2, card3]` | `IndexOutOfBoundsException`        | :white_check_mark: | getCardAt_deckWithThreeCardsWithIndexFour_throwsIndexOutOfBoundsException  |
 
-// Need to have Card1, Card2, Index 2
 // Need to have Card1, Card2.1, and Card2.2
 
 **Note**: Some of the test cases for this method have its own testing implemented as well as being implemented within

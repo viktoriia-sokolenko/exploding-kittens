@@ -148,6 +148,25 @@ public class DeckTest {
 	}
 
 	@Test
+	public void getCardAt_deckWithTwoCardsWithIndexTwo_throwsIndexOutOfBoundsException() {
+		Card card1 = mockCard(CardType.NUKE);
+		Card card2 = mockCard(CardType.NORMAL);
+		final int INDEX_OUT_OF_BOUNDS = 2;
+
+		Deck deck = new Deck(List.of(card1, card2));
+
+		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
+			Card card = deck.getCardAt(INDEX_OUT_OF_BOUNDS);
+		});
+
+		String expectedMessage = "Index out of bounds";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(expectedMessage, actualMessage);
+
+	}
+
+	@Test
 	public void getCardAt_deckWithThreeCardsWithIndexFour_throwsIndexOutOfBoundsException() {
 		Card card1 = mockCard(CardType.NUKE);
 		Card card2 = mockCard(CardType.NORMAL);
