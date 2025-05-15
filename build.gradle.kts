@@ -5,6 +5,7 @@ plugins {
     id("java")
     checkstyle
     id("com.github.spotbugs") version "6.0.25"
+    id("info.solidsoft.pitest") version "1.15.0"
 }
 
 group = "nu.csse.sqe"
@@ -89,4 +90,21 @@ tasks.withType<Checkstyle>().configureEach {
         html.required = true
         html.stylesheet = resources.text.fromFile("config/xsl/checkstyle-noframes-severity-sorted.xsl")
     }
+}
+
+pitest {
+    targetClasses = setOf("Code.*") //by default "${project.group}.*"
+    targetTests = setOf("Code.*")
+    junit5PluginVersion = "1.2.1"
+    pitestVersion = "1.15.0" //not needed when a default PIT version should be used
+
+    threads = 4
+    outputFormats = setOf("HTML")
+    timestampedReports = false
+    testSourceSets.set(listOf(sourceSets.test.get()))
+    mainSourceSets.set(listOf(sourceSets.main.get()))
+    jvmArgs.set(listOf("-Xmx1024m"))
+    useClasspathFile.set(true) //useful with bigger projects on Windows
+    fileExtensionsToFilter.addAll("xml")
+    exportLineCoverage = true
 }
