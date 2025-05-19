@@ -64,6 +64,6 @@ public class Hand {
 	}
 
 	private boolean isValidCount (Integer count) {
-		return count != null && count != 0;
+		return count != null;
 	}
 }
