@@ -2,7 +2,7 @@
 #### Note
 I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`, it means that the test runs for all the card types or for cards with all the card types. `testCardType2` and `testCard2` refer to all possible card types except Exploding Kitten and cards with those types.
 
-## Method under test: `hasCardType(CardType cardType)`
+## Method under test: `getCardTypeCount(CardType cardType)`
 ### Step 1-3 Results
 |        | Input 1                                                                                                      | (if more to consider for input)   | Output                                    |
 |--------|--------------------------------------------------------------------------------------------------------------|-----------------------------------|-------------------------------------------|
@@ -10,12 +10,12 @@ I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`
 | Step 2 | Cases                                                                                                        | Cases                             | Count or exception                        |
 | Step 3 | null, NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | has 0, 1, >1 cards with such type | 0; 1; >1 or NullPointerException          |
 ### Step 4:
-|             | System under test               | Expected output                                     | Implemented? | Test name |
-|-------------|---------------------------------|-----------------------------------------------------|--------------|-----------|
-| Test Case 1 | cardType `null`                 | `NullPointerException`  ("CardType cannot be null") |              |           |
-| Test Case 2 | Hand with **0** `testCardType1` | `0`                                                 |              |           |
-| Test Case 3 | Hand with **1** `testCardType1` | `1`                                                 |              |           |
-| Test Case 4 | Hand with **2** `testCardType1` | `2`                                                 |              |           |
+|             | System under test               | Expected output                                     | Implemented?       | Test name                                                    |
+|-------------|---------------------------------|-----------------------------------------------------|--------------------|--------------------------------------------------------------|
+| Test Case 1 | cardType `null`                 | `NullPointerException`  ("CardType cannot be null") | :white_check_mark: | getCardTypeCount_withNullCardType_throwsNullPointerException |
+| Test Case 2 | Hand with **0** `testCardType1` | `0`                                                 |                    |                                                              |
+| Test Case 3 | Hand with **1** `testCardType1` | `1`                                                 |                    |                                                              |
+| Test Case 4 | Hand with **2** `testCardType1` | `2`                                                 |                    |                                                              |
 
 ## Method under test: `drawCard(Deck deck)`
 ### Step 1-3 Results
