@@ -76,4 +76,33 @@ public class PlayerTest {
 
 		EasyMock.verify(mockDeck);
 	}
+
+	@ParameterizedTest
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
+	public void drawCard_withNonEmptyDeck_addsCardToHand(CardType testCardType) {
+		Card mockCard = mockCard(testCardType);
+
+		Deck mockDeck = EasyMock.createMock(Deck.class);
+		EasyMock.expect(mockDeck.draw()).andReturn(mockCard);
+		EasyMock.replay(mockDeck);
+
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.addCard(mockCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		player.drawCard(mockDeck);
+
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockHand);
+	}
+
+	private Card mockCard(CardType cardType) {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+		EasyMock.replay(mockCard);
+		return mockCard;
+	}
 }

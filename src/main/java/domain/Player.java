@@ -15,5 +15,6 @@ public class Player {
 
 	public void drawCard(Deck deck) {
 		Card drawnCard = deck.draw();
+		hand.addCard(drawnCard);
 	}
 }

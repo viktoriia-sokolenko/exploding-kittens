@@ -28,7 +28,7 @@ I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`
 |             | System under test                                                     | Expected output                                             | Implemented?       | Test name                                           |
 |-------------|-----------------------------------------------------------------------|-------------------------------------------------------------|--------------------|-----------------------------------------------------|
 | Test Case 1 | deck `[]`                                                             | `NoSuchElementException` (“Cannot draw from an empty deck”) | :white_check_mark: | drawCard_withEmptyDeck_throwsNoSuchElementException |
-| Test Case 2 | deck `non-empty`, card `testCard2`                                    | Hand `[...testCard2...]`                                    |                    |                                                     |
+| Test Case 2 | deck `non-empty`, card `testCard2`                                    | Hand `[...testCard2...]`                                    | :white_check_mark: | drawCard_withNonEmptyDeck_addsCardToHand            |
 | Test Case 3 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `[...DEFUSE...}`      | Hand `without DEFUSE card`,  Player is in the game          |                    |                                                     |
 | Test Case 4 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `without DEFUSE card` | Player is not in the game                                   |                    |                                                     |
 
