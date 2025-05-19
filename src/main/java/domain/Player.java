@@ -2,6 +2,7 @@ package domain;
 
 public class Player {
 	Hand hand;
+	Boolean activeStatus = true;
 
 	public Player(Hand hand) {
 		this.hand = hand;
@@ -14,12 +15,23 @@ public class Player {
 	public void drawCard(Deck deck) {
 		Card drawnCard = deck.draw();
 		if (drawnCard.getCardType() == CardType.EXPLODING_KITTEN) {
-			if (this.hand.containsCardType(CardType.DEFUSE)) {
-				this.removeDefuseCard();
-			}
+			handleExplodingKitten();
 		}
 		else {
 			hand.addCard(drawnCard);
+		}
+	}
+
+	public boolean isInGame() {
+		return activeStatus;
+	}
+
+	private void handleExplodingKitten() {
+		if (this.hand.containsCardType(CardType.DEFUSE)) {
+			this.removeDefuseCard();
+		}
+		else {
+			this.activeStatus = false;
 		}
 	}
 

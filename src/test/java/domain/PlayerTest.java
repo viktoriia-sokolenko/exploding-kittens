@@ -7,8 +7,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
 
@@ -115,6 +114,25 @@ public class PlayerTest {
 
 		Player player = new Player(mockHand);
 		player.drawCard(mockDeck);
+
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockHand);
+	}
+
+	@Test
+	public void drawExplodingKittenCard_withDefuseNotInHand_removesPlayer() {
+		Card explodingKittenMockCard = mockCard(CardType.EXPLODING_KITTEN);
+
+		Deck mockDeck = mockDeck(explodingKittenMockCard);
+
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.containsCardType(CardType.DEFUSE)).andReturn(false);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		player.drawCard(mockDeck);
+
+		assertFalse(player.isInGame());
 
 		EasyMock.verify(mockDeck);
 		EasyMock.verify(mockHand);
