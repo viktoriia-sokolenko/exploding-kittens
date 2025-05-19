@@ -7,6 +7,7 @@ plugins {
     checkstyle
     id("com.github.spotbugs") version "6.0.25"
     jacoco
+    id("info.solidsoft.pitest") version "1.15.0"
 }
 
 group = "nu.csse.sqe"
@@ -91,14 +92,6 @@ tasks.spotbugsTest {
     }
 }
 
-tasks.withType<Checkstyle>().configureEach {
-    reports {
-        xml.required = false
-        html.required = true
-        html.stylesheet = resources.text.fromFile("config/xsl/checkstyle-noframes-severity-sorted.xsl")
-    }
-}
-
 jacoco {
     toolVersion = "0.8.13"
 }
@@ -111,10 +104,32 @@ tasks.jacocoTestReport {
     }
 }
 
+tasks.build {
+    dependsOn("pitest")
+}
+
 tasks.test {
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+    finalizedBy(tasks.pitest)
 }
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
+}
+
+pitest {
+    targetClasses = setOf("domain.*") //by default "${project.group}.*"
+    targetTests = setOf("domain.*")
+    junit5PluginVersion = "1.2.1"
+    pitestVersion = "1.15.0" //not needed when a default PIT version should be used
+
+    threads = 4
+    outputFormats = setOf("HTML")
+    timestampedReports = false
+    testSourceSets.set(listOf(sourceSets.test.get()))
+    mainSourceSets.set(listOf(sourceSets.main.get()))
+    jvmArgs.set(listOf("-Xmx1024m"))
+    useClasspathFile.set(true) //useful with bigger projects on Windows
+    fileExtensionsToFilter.addAll("xml")
+    exportLineCoverage = true
 }
