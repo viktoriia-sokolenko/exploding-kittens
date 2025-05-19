@@ -101,7 +101,7 @@ public class PlayerTest {
 	@Test
 	public void drawExplodingKittenCard_withDefuseInHand_removesDefuseFromHand() {
 		//TODO: still need to figure out how to mock defuseCard because mock and actual defuse cards are not perceived as equal arguments by EasyMock
-		Card defuseCard = new Card (CardType.DEFUSE);
+		Card defuseCard = new Card(CardType.DEFUSE);
 		Card explodingKittenMockCard = mockCard(CardType.EXPLODING_KITTEN);
 
 		Deck mockDeck = mockDeck(explodingKittenMockCard);
@@ -135,6 +135,19 @@ public class PlayerTest {
 		assertFalse(player.isInGame());
 
 		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockHand);
+	}
+
+	@Test
+	public void playCard_withNullCard_returnsNullPointerException() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.removeCard(null);
+		EasyMock.expectLastCall().andThrow(new NullPointerException("Card cannot be null"));
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		assertThrows(NullPointerException.class, () -> player.playCard(null));
+
 		EasyMock.verify(mockHand);
 	}
 

@@ -22,6 +22,10 @@ public class Player {
 		}
 	}
 
+	public void playCard(Card card) {
+		hand.removeCard(card);
+	}
+
 	public boolean isInGame() {
 		return activeStatus;
 	}
