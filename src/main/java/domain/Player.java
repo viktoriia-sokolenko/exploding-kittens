@@ -3,7 +3,13 @@ package domain;
 import java.util.Objects;
 
 public class Player {
+	Hand hand;
+
+	public Player(Hand hand) {
+		this.hand = hand;
+	}
+
 	public Integer getCardTypeCount(CardType cardType) {
-		throw new NullPointerException("CardType cannot be null");
+		return hand.getCountOfCardType(cardType);
 	}
 }
