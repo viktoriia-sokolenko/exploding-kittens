@@ -25,12 +25,12 @@ I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`
 | Step 2 | Boolean                    | Cases                                                                                                  | Boolean                         | Boolean or exception                                          | Boolean                               |
 | Step 3 | empty or not               | NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | has Defuse card or not          | true, false, NoSuchElementException                           | true, false                           |
 ### Step 4:
-|             | System under test                                                     | Expected output                                    | Implemented?       | Test name                                                      |
-|-------------|-----------------------------------------------------------------------|----------------------------------------------------|--------------------|----------------------------------------------------------------|
-| Test Case 1 | deck `[]`                                                             | `NoSuchElementException` (“Deck is empty”)         | :white_check_mark: | drawCard_withEmptyDeck_throwsNoSuchElementException            |
-| Test Case 2 | deck `non-empty`, card `testCard2`                                    | Hand `[...testCard2...]`                           | :white_check_mark: | drawCard_withNonEmptyDeck_addsCardToHand                       |
-| Test Case 3 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `[...DEFUSE...}`      | Hand `without DEFUSE card`,  Player is in the game | :white_check_mark: | drawExplodingKittenCard_withDefuseInHand_removesDefuseFromHand |
-| Test Case 4 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `without DEFUSE card` | Player is not in the game                          | :white_check_mark: | drawExplodingKittenCard_withDefuseNotInHand_removesPlayer      |
+|             | System under test                                                     | Expected output                                    | Implemented?       | Test name                                                                        |
+|-------------|-----------------------------------------------------------------------|----------------------------------------------------|--------------------|----------------------------------------------------------------------------------|
+| Test Case 1 | deck `[]`                                                             | `NoSuchElementException` (“Deck is empty”)         | :white_check_mark: | drawCard_withEmptyDeck_throwsNoSuchElementException                              |
+| Test Case 2 | deck `non-empty`, card `testCard2`                                    | Hand `[...testCard2...]`                           | :white_check_mark: | drawCard_withNonEmptyDeck_addsCardToHand                                         |
+| Test Case 3 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `[...DEFUSE...}`      | Hand `without DEFUSE card`,  Player is in the game | :white_check_mark: | drawExplodingKittenCard_withDefuseInHand_removesDefuseFromHand_keepsPlayerInGame |
+| Test Case 4 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `without DEFUSE card` | Player is not in the game                          | :white_check_mark: | drawExplodingKittenCard_withDefuseNotInHand_removesPlayer                        |
 
 ## Method under test: `playCard(Card card)`
 ### Step 1-3 Results
@@ -45,5 +45,5 @@ I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`
 | Test Case 1 | Card `null`, hand `non-empty`              | `NullPointerException`  ("Card cannot be null")                      | :white_check_mark: | playCard_withNullCard_throwsNullPointerException          |
 | Test Case 2 | Card `testCard1`, hand `[]`                | `IllegalStateException` (“Hand empty: can not remove card”)          | :white_check_mark: | playCard_withEmptyHand_throwsIllegalStateException        |
 | Test Case 3 | Card `testCard1`, hand `without testCard1` | `IllegalArgumentException` (“Card not in hand: can not remove card”) | :white_check_mark: | playCard_withCardNotInHand_throwsIllegalArgumentException |
-| Test Case 4 | Card `testCard2`, hand `[...testCard2...]` | hand `without testCard2`                                             |                    |                                                           |
+| Test Case 4 | Card `testCard2`, hand `[...testCard2...]` | hand `without testCard2`                                             | :white_check_mark: | playCard_withCardInHand_removesCardFromHand               |
 

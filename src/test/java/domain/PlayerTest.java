@@ -99,7 +99,7 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void drawExplodingKittenCard_withDefuseInHand_removesDefuseFromHand() {
+	public void drawExplodingKittenCard_withDefuseInHand_removesDefuseFromHand_keepsPlayerInGame() {
 		//TODO: still need to figure out how to mock defuseCard because mock and actual defuse cards are not perceived
 		// as equal arguments by EasyMock when using expectLastCall
 		Card defuseCard = new Card(CardType.DEFUSE);
@@ -115,6 +115,8 @@ public class PlayerTest {
 
 		Player player = new Player(mockHand);
 		player.drawCard(mockDeck);
+
+		assertTrue(player.isInGame());
 
 		EasyMock.verify(mockDeck);
 		EasyMock.verify(mockHand);
@@ -176,6 +178,22 @@ public class PlayerTest {
 
 		Player player = new Player(mockHand);
 		assertThrows(IllegalArgumentException.class, () -> player.playCard(mockCard(testCardType)));
+
+		EasyMock.verify(mockHand);
+	}
+
+	@ParameterizedTest
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
+	public void playCard_withCardInHand_removesCardFromHand(CardType testCardType) {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.removeCard(EasyMock.anyObject(Card.class));
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockHand);
+
+		Card testCard = mockCard(testCardType);
+		Player player = new Player(mockHand);
+		player.playCard(testCard);
 
 		EasyMock.verify(mockHand);
 	}
