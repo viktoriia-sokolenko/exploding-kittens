@@ -166,6 +166,20 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void playCard_withCardNotInHand_throwsIllegalArgumentException(CardType testCardType) {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.removeCard(EasyMock.anyObject(Card.class));
+		EasyMock.expectLastCall().andThrow(new IllegalArgumentException("Card not in hand: can not remove card"));
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		assertThrows(IllegalArgumentException.class, () -> player.playCard(mockCard(testCardType)));
+
+		EasyMock.verify(mockHand);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
