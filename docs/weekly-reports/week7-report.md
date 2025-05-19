@@ -8,7 +8,6 @@
 4. Continue to work on PlayerController and TurnController
 5. Update BVA's for PlayerClass
 6. Finalize Hand Class
-3. Meet with Professor Zhang
 
 # Part 2. Team Progress of the Week w.r.t Last Week's Planning :green_book:
 **Evaluation Date**: 5/18/2025 (at night)
@@ -51,7 +50,7 @@ for executive board of Mayfest Productions_
 
 
 ### Other people's PR reviewed by you
-- [player class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/35)
+- [hand class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/35)
 - [mutation testing](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/42)
 
 
