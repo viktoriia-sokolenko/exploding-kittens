@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.Objects;
-
 public class Player {
 	Hand hand;
 
@@ -15,6 +13,18 @@ public class Player {
 
 	public void drawCard(Deck deck) {
 		Card drawnCard = deck.draw();
-		hand.addCard(drawnCard);
+		if (drawnCard.getCardType() == CardType.EXPLODING_KITTEN) {
+			if (this.hand.containsCardType(CardType.DEFUSE)) {
+				this.removeDefuseCard();
+			}
+		}
+		else {
+			hand.addCard(drawnCard);
+		}
+	}
+
+	private void removeDefuseCard() {
+		Card defuseCard = new Card (CardType.DEFUSE);
+		this.hand.removeCard(defuseCard);
 	}
 }

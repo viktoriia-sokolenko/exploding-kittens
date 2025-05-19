@@ -99,10 +99,38 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
+	@Test
+	public void drawExplodingKittenCard_withDefuseInHand_removesDefuseFromHand() {
+		//TODO: still need to figure out how to mock defuseCard because mock and actual defuse cards are not perceived as equal arguments by EasyMock
+		Card defuseCard = new Card (CardType.DEFUSE);
+		Card explodingKittenMockCard = mockCard(CardType.EXPLODING_KITTEN);
+
+		Deck mockDeck = mockDeck(explodingKittenMockCard);
+
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.containsCardType(CardType.DEFUSE)).andReturn(true);
+		mockHand.removeCard(defuseCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		player.drawCard(mockDeck);
+
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockHand);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
 		EasyMock.replay(mockCard);
 		return mockCard;
+	}
+
+	private Deck mockDeck(Card card) {
+		Deck mockDeck = EasyMock.createMock(Deck.class);
+		EasyMock.expect(mockDeck.draw()).andReturn(card);
+		EasyMock.replay(mockDeck);
+		return mockDeck;
 	}
 }
