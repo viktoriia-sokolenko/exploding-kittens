@@ -100,7 +100,8 @@ public class PlayerTest {
 
 	@Test
 	public void drawExplodingKittenCard_withDefuseInHand_removesDefuseFromHand() {
-		//TODO: still need to figure out how to mock defuseCard because mock and actual defuse cards are not perceived as equal arguments by EasyMock
+		//TODO: still need to figure out how to mock defuseCard because mock and actual defuse cards are not perceived
+		// as equal arguments by EasyMock when using expectLastCall
 		Card defuseCard = new Card(CardType.DEFUSE);
 		Card explodingKittenMockCard = mockCard(CardType.EXPLODING_KITTEN);
 
@@ -139,7 +140,7 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void playCard_withNullCard_returnsNullPointerException() {
+	public void playCard_withNullCard_throwsNullPointerException() {
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		mockHand.removeCard(null);
 		EasyMock.expectLastCall().andThrow(new NullPointerException("Card cannot be null"));
@@ -147,6 +148,20 @@ public class PlayerTest {
 
 		Player player = new Player(mockHand);
 		assertThrows(NullPointerException.class, () -> player.playCard(null));
+
+		EasyMock.verify(mockHand);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void playCard_withEmptyHand_throwsIllegalStateException(CardType testCardType) {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.removeCard(EasyMock.anyObject(Card.class));
+		EasyMock.expectLastCall().andThrow(new IllegalStateException("Hand empty: can not remove card"));
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		assertThrows(IllegalStateException.class, () -> player.playCard(mockCard(testCardType)));
 
 		EasyMock.verify(mockHand);
 	}
