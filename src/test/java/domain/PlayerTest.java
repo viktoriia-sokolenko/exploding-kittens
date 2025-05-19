@@ -47,4 +47,17 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void getCardTypeCount_withTwoCardsInHand_returnsTwo(CardType testCardType) {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.getCountOfCardType(testCardType)).andReturn(2);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		assertEquals (2, player.getCardTypeCount(testCardType));
+
+		EasyMock.verify(mockHand);
+	}
 }

@@ -15,7 +15,7 @@ I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`
 | Test Case 1 | cardType `null`                 | `NullPointerException`  ("CardType cannot be null") | :white_check_mark: | getCardTypeCount_withNullCardType_throwsNullPointerException |
 | Test Case 2 | Hand with **0** `testCardType1` | `0`                                                 | :white_check_mark: | getCardTypeCount_withCardNotInHand_returnsZero               |
 | Test Case 3 | Hand with **1** `testCardType1` | `1`                                                 | :white_check_mark: | getCardTypeCount_withOneCardInHand_returnsOne                |
-| Test Case 4 | Hand with **2** `testCardType1` | `2`                                                 |                    |                                                              |
+| Test Case 4 | Hand with **2** `testCardType1` | `2`                                                 | :white_check_mark: | getCardTypeCount_withTwoCardsInHand_returnsTwo               |
 
 ## Method under test: `drawCard(Deck deck)`
 ### Step 1-3 Results
