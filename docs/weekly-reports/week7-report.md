@@ -1,5 +1,3 @@
-# Instruction: please feel free to use this as a template for your weekly progress report. You may change the formatting or the content for it to be more helpful. But please make sure to include all the bare minimum content.
-
 # Part 1. Team Planning of the Week :ledger:
 **Planning Date**: 5/12/2025
 
@@ -16,11 +14,12 @@
 **Evaluation Date**: 5/18/2025 (at night)
 
 **Item Progress**:
-1. [almost ready for review] PlayerClass
+1. [in progress] player class
 2. [done] HandClass
 2. [done] checked in mutation testing
 3. [done] checked in code coverage
-4. [in-progress] revising old code for code covergage misses 
+4. [done] checked in deck class 
+4. [in progress] revising old code for code covergage misses 
 3. [not started] PlayerController and TurnController
 
 # Part 3. Individual Progress of the Week :coffee:
@@ -53,7 +52,7 @@ for executive board of Mayfest Productions_
 
 ### Other people's PR reviewed by you
 - [player class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/35)
-- [code coverage check in](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/42)
+- [mutation testing](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/42)
 
 
 
@@ -67,3 +66,4 @@ for executive board of Mayfest Productions_
 
 ### Other people's PR reviewed by you
 - [update to deck class and its bva](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/34)
+- [code coverage](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/41)
