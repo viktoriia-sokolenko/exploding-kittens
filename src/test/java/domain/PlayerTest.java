@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -59,5 +61,19 @@ public class PlayerTest {
 		assertEquals (2, player.getCardTypeCount(testCardType));
 
 		EasyMock.verify(mockHand);
+	}
+
+	@Test
+	public void drawCard_withEmptyDeck_throwsNoSuchElementException(){
+		Deck mockDeck = EasyMock.createMock(Deck.class);
+		EasyMock.expect(mockDeck.draw()).andThrow(new NoSuchElementException("Deck is empty"));
+		EasyMock.replay(mockDeck);
+
+		Hand mockHand = EasyMock.createMock(Hand.class);
+
+		Player player = new Player(mockHand);
+		assertThrows(NoSuchElementException.class, () -> player.drawCard(mockDeck));
+
+		EasyMock.verify(mockDeck);
 	}
 }

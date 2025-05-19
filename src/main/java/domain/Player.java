@@ -12,4 +12,8 @@ public class Player {
 	public Integer getCardTypeCount(CardType cardType) {
 		return hand.getCountOfCardType(cardType);
 	}
+
+	public void drawCard(Deck deck) {
+		Card drawnCard = deck.draw();
+	}
 }
