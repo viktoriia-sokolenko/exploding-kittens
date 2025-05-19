@@ -1,27 +1,49 @@
-## Player class BVA
+# BVA for Player
+#### Note
+I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`, it means that the test runs for all the card types or for cards with all the card types. `testCardType2` and `testCard2` refer to all possible card types except Exploding Kitten and cards with those types.
 
-### Method under test: `drawCard(Deck deck)`
+## Method under test: `hasCardType(CardType cardType)`
+### Step 1-3 Results
+|        | Input 1                                                                                                      | (if more to consider for input)   | Output                                    |
+|--------|--------------------------------------------------------------------------------------------------------------|-----------------------------------|-------------------------------------------|
+| Step 1 | a card type                                                                                                  | the state of the hand             | number of cards of that type or exception |
+| Step 2 | Cases                                                                                                        | Cases                             | Count or exception                        |
+| Step 3 | null, NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | has 0, 1, >1 cards with such type | 0; 1; >1 or NullPointerException          |
+### Step 4:
+|             | System under test               | Expected output                                     | Implemented? | Test name |
+|-------------|---------------------------------|-----------------------------------------------------|--------------|-----------|
+| Test Case 1 | cardType `null`                 | `NullPointerException`  ("CardType cannot be null") |              |           |
+| Test Case 2 | Hand with **0** `testCardType1` | `0`                                                 |              |           |
+| Test Case 3 | Hand with **1** `testCardType1` | `1`                                                 |              |           |
+| Test Case 4 | Hand with **2** `testCardType1` | `2`                                                 |              |           |
 
-||System under test|Expected output / state transition|Implemented?|
-|---|---|---|---|
-|Test Case 1|`deck` is **empty** (`size = 0`)|`NoSuchElementException` (“Cannot draw from an empty deck”)||
-|Test Case 2|`deck` has **exactly 1** card; player hand is empty|That single card moves to hand → hand `size = 1`; deck `size = 0`||
-|Test Case 3|`deck` has **> 1** cards; player hand currently empty|Top card moves to hand → hand `size = 1`; deck `size` decrements by 1||
-|Test Case 4|`deck` non-empty but `deck == null` (caller passed `null`)|`NullPointerException`||
+## Method under test: `drawCard(Deck deck)`
+### Step 1-3 Results
+|        | Input 1                    | Input 2                                                                                                | (if more to consider for input) | Output 1                                                      | Output 2                              |
+|--------|----------------------------|--------------------------------------------------------------------------------------------------------|---------------------------------|---------------------------------------------------------------|---------------------------------------|
+| Step 1 | the state of the deck list | card drawn from the deck                                                                               | the state of hand               | the state of the hand (does hand has drawn card) or exception | is player in the game (yes/no answer) |
+| Step 2 | Boolean                    | Cases                                                                                                  | Boolean                         | Boolean or exception                                          | Boolean                               |
+| Step 3 | empty or not               | NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | has Defuse card or not          | true, false, NoSuchElementException                           | true, false                           |
+### Step 4:
+|             | System under test                                                     | Expected output                                             | Implemented? | Test name |
+|-------------|-----------------------------------------------------------------------|-------------------------------------------------------------|--------------|-----------|
+| Test Case 1 | deck `[]`                                                             | `NoSuchElementException` (“Cannot draw from an empty deck”) |              |           |
+| Test Case 2 | deck `non-empty`, card `testCard2`                                    | Hand `[...testCard2...]`                                    |              |           |
+| Test Case 3 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `[...DEFUSE...}`      | Hand `without DEFUSE card`,  Player is in the game          |              |           |
+| Test Case 4 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `without DEFUSE card` | Player is not in the game                                   |              |           |
 
-### Method under test: `playCard(Card c)`
-
-||System under test|Expected output / state transition|Implemented?|
-|---|---|---|---|
-|Test Case 1|Player hand **empty**|`IllegalStateException` (“Hand is empty – cannot play”)||
-|Test Case 2|`c` not present in hand|`IllegalArgumentException` (“Card not in hand”)||
-|Test Case 3|`c` **is** in hand and hand size is 1|Card leaves hand → hand `size = 0`; method returns `c` (or void, depending on design)||
-|Test Case 4|Argument `c == null`|`NullPointerException`||
-
-### Method under test: `hasDefuse()`
-
-||System under test|Expected output|Implemented?|
-|---|---|---|---|
-|Test Case 1|Hand contains **≥ 1** “Defuse” card|`true`||
-|Test Case 2|Hand contains **0** “Defuse” cards|`false`||
+## Method under test: `playCard(Card card)`
+### Step 1-3 Results
+|        | Input 1                                    | Input 2                                                                                                | (if more to consider for input) | Output                                                                                                |
+|--------|--------------------------------------------|--------------------------------------------------------------------------------------------------------|---------------------------------|-------------------------------------------------------------------------------------------------------|
+| Step 1 | a card with a certain card type            | a card type                                                                                            | the state of the hand           | the state of the hand or exception                                                                    |
+| Step 2 | Cases                                      | Cases                                                                                                  | Boolean                         | Boolean or exception                                                                                  |
+| Step 3 | null pointer, not in the hand; in the hand | NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | empty or not empty              | Has card, does not have card or NullPointerException, IllegalArgumentException, IllegalStateException |
+### Step 4:
+|             | System under test                          | Expected output                                               | Implemented? | Test name |
+|-------------|--------------------------------------------|---------------------------------------------------------------|--------------|-----------|
+| Test Case 1 | Card `null`, hand `non-empty`              | `NullPointerException`  ("Card cannot be null")               |              |           |
+| Test Case 2 | Card `testCard1`, hand `[]`                | `IllegalStateException` (“Hand is empty: can not play”)       |              |           |
+| Test Case 3 | Card `testCard1`, hand `without testCard1` | `IllegalArgumentException` (“Card not in hand: can not play”) |              |           |
+| Test Case 4 | Card `testCard2`, hand `[...testCard2...]` | hand `without testCard2`                                      |              |           |
 
