@@ -14,7 +14,8 @@ public class PlayerTest {
 	@Test
 	public void getCardTypeCount_withNullCardType_throwsNullPointerException() {
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		EasyMock.expect(mockHand.getCountOfCardType(null)).andThrow(new NullPointerException("CardType cannot be null"));
+		EasyMock.expect(mockHand.getCountOfCardType(null))
+				.andThrow(new NullPointerException("CardType cannot be null"));
 		EasyMock.replay(mockHand);
 
 		Player player = new Player(mockHand);
@@ -63,9 +64,10 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void drawCard_withEmptyDeck_throwsNoSuchElementException(){
+	public void drawCard_withEmptyDeck_throwsNoSuchElementException() {
 		Deck mockDeck = EasyMock.createMock(Deck.class);
-		EasyMock.expect(mockDeck.draw()).andThrow(new NoSuchElementException("Deck is empty"));
+		EasyMock.expect(mockDeck.draw())
+				.andThrow(new NoSuchElementException("Deck is empty"));
 		EasyMock.replay(mockDeck);
 
 		Hand mockHand = EasyMock.createMock(Hand.class);
@@ -99,8 +101,9 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void drawExplodingKittenCard_withDefuseInHand_removesDefuseFromHand_keepsPlayerInGame() {
-		//TODO: still need to figure out how to mock defuseCard because mock and actual defuse cards are not perceived
+	public void drawExplodingKittenCard_withDefuseInHand_removesDefuse_keepsPlayerInGame() {
+		//TODO: still need to figure out how to mock defuseCard because
+		// mock and actual defuse cards are not perceived
 		// as equal arguments by EasyMock when using expectLastCall
 		Card defuseCard = new Card(CardType.DEFUSE);
 		Card explodingKittenMockCard = mockCard(CardType.EXPLODING_KITTEN);
@@ -159,25 +162,32 @@ public class PlayerTest {
 	public void playCard_withEmptyHand_throwsIllegalStateException(CardType testCardType) {
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		mockHand.removeCard(EasyMock.anyObject(Card.class));
-		EasyMock.expectLastCall().andThrow(new IllegalStateException("Hand empty: can not remove card"));
+		EasyMock.expectLastCall()
+				.andThrow(new IllegalStateException
+						("Hand empty: can not remove card"));
 		EasyMock.replay(mockHand);
 
 		Player player = new Player(mockHand);
-		assertThrows(IllegalStateException.class, () -> player.playCard(mockCard(testCardType)));
+		assertThrows(IllegalStateException.class,
+				() -> player.playCard(mockCard(testCardType)));
 
 		EasyMock.verify(mockHand);
 	}
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	public void playCard_withCardNotInHand_throwsIllegalArgumentException(CardType testCardType) {
+	public void playCard_withCardNotInHand_throwsIllegalArgumentException
+			(CardType testCardType) {
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		mockHand.removeCard(EasyMock.anyObject(Card.class));
-		EasyMock.expectLastCall().andThrow(new IllegalArgumentException("Card not in hand: can not remove card"));
+		EasyMock.expectLastCall()
+				.andThrow(new IllegalArgumentException
+						("Card not in hand: can not remove card"));
 		EasyMock.replay(mockHand);
 
 		Player player = new Player(mockHand);
-		assertThrows(IllegalArgumentException.class, () -> player.playCard(mockCard(testCardType)));
+		assertThrows(IllegalArgumentException.class,
+				() -> player.playCard(mockCard(testCardType)));
 
 		EasyMock.verify(mockHand);
 	}

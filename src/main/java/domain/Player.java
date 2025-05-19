@@ -4,7 +4,11 @@ public class Player {
 	Hand hand;
 	Boolean activeStatus = true;
 
-	public Player(Hand hand) {
+	public Player() {
+		this.hand = new Hand();
+	}
+
+	Player(Hand hand) {
 		this.hand = hand;
 	}
 
