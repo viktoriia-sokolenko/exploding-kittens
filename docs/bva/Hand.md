@@ -109,5 +109,5 @@ Note: I am using Parametrized Testing so whenever I use testCardType1 or testCar
 |-------------|----------------------------------|----------------------------------------------------------------------|--------------------|-------------------------------------------------------------------|
 | Test Case 1 | Hand `[]`                        | `IllegalStateException` (“Hand empty: can not remove card”)          | :white_check_mark: | removeDefuseCard_withEmptyHand_throwsIllegalStateException        |
 | Test Case 2 | Hand `[SEE_THE_FUTURE, SHUFFLE]` | `IllegalArgumentException` (“Card not in hand: can not remove card”) | :white_check_mark: | removeDefuseCard_withCardNotInHand_throwsIllegalArgumentException |
-| Test Case 3 | Hand `[DEFUSE]`                  | Hand `[]`                                                            |                    |                                                                   |
+| Test Case 3 | Hand `[DEFUSE]`                  | Hand `[]`                                                            | :white_check_mark: | removeDefuseCard_withCardInHand_removesCard                       |
 | Test Case 4 | Hand `[DEFUSE, SHUFFLE, DEFUSE]` | Hand `[DEFUSE, SHUFFLE]`                                             |                    |                                                                   |

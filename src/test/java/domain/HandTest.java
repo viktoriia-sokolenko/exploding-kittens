@@ -280,6 +280,13 @@ public class HandTest {
 		assertThrows(IllegalArgumentException.class, () -> hand.removeDefuseCard());
 	}
 
+	@Test
+	public void removeDefuseCard_withCardInHand_removesCard() {
+		Hand hand = handWithOneCard(CardType.DEFUSE);
+		hand.removeDefuseCard();
+		assertTrue(hand.isEmpty());
+	}
+
 	private Card mockCard(CardType type) {
 		Card card = EasyMock.createMock(Card.class);
 		EasyMock.expect(card.getCardType()).andStubReturn(type);
