@@ -247,7 +247,7 @@ public class HandTest {
 	@Test
 	public void getCountOfCardType_withCardNotInHand_returnsZero() {
 		Hand hand = handWithTwoCards();
-		CardType cardType = CardType.DEFUSE;
+		CardType cardType = CardType.ALTER_THE_FUTURE;
 		int expectedCount = 0;
 		assertEquals(expectedCount, hand.getCountOfCardType(cardType));
 	}
@@ -272,6 +272,12 @@ public class HandTest {
 	public void removeDefuseCard_withEmptyHand_throwsIllegalStateException() {
 		Hand emptyHand = new Hand();
 		assertThrows(IllegalStateException.class, () -> emptyHand.removeDefuseCard());
+	}
+
+	@Test
+	public void removeDefuseCard_withCardNotInHand_throwsIllegalArgumentException() {
+		Hand hand = handWithTwoCards();
+		assertThrows(IllegalArgumentException.class, () -> hand.removeDefuseCard());
 	}
 
 	private Card mockCard(CardType type) {
