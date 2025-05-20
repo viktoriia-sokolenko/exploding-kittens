@@ -23,55 +23,55 @@ public class CardFactoryTest {
 		assertInstanceOf(DefuseCard.class, defuseCard);
 	}
 
-	@Test public void CreateCard_WithUnknownCardType_ThrowsIllegalArgumentException() {
+	@Test public void CreateCard_withUnknownCardType_ThrowsIllegalArgumentException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(IllegalArgumentException.class, () ->
 				factory.createCard(CardType.UNKNOWN_CARD_FOR_TEST));
 	}
 
-	@Test public void CreateCard_WithNormalCardType_CreatesCard() {
+	@Test public void CreateCard_withNormalCardType_CreatesCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.NORMAL);
 		assertInstanceOf(Card.class, card);
 	}
 
-	@Test public void CreateCard_WithAttackCardType_CreatesCard() {
+	@Test public void CreateCard_withAttackCardType_CreatesCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard((CardType.ATTACK));
 		assertInstanceOf(Card.class, card);
 	}
 
-	@Test public void CreateCard_WithSkipCardType_CreatesCard() {
+	@Test public void CreateCard_withSkipCardType_CreatesCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.SKIP);
 		assertInstanceOf(Card.class, card);
 	}
 
-	@Test public void CreateCard_WithFavorCardType_CreatesCard() {
+	@Test public void CreateCard_withFavorCardType_CreatesCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.FAVOR);
 		assertInstanceOf(Card.class, card);
 	}
 
-	@Test public void CreateCard_WithShieldCardType_CreatesCard() {
+	@Test public void CreateCard_withShieldCardType_CreatesCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.SHUFFLE);
 		assertInstanceOf(Card.class, card);
 	}
 
-	@Test public void CreateCard_WithSeeIntoTheFutureCardType_CreateCard() {
+	@Test public void CreateCard_withSeeIntoTheFutureCardType_CreateCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.SEE_THE_FUTURE);
 		assertInstanceOf(Card.class, card);
 	}
 
-	@Test public void CreateCard_WithAlterTheFutureCardType_CreateCard() {
+	@Test public void CreateCard_withAlterTheFutureCardType_CreateCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.ALTER_THE_FUTURE);
 		assertInstanceOf(Card.class, card);
 	}
 
-	@Test public void CreateCard_WithNukeCardType_CreateCard() {
+	@Test public void CreateCard_withNukeCardType_CreateCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.NUKE);
 		assertInstanceOf(Card.class, card);
@@ -92,7 +92,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void createCards_withValidTypeAndCountOne_returnsListWithOneCard() {
+	public void createCards_withValidTypeAndCountOne_returnsListwithOneCard() {
 		CardFactory factory = new CardFactory();
 		List<Card> cards = factory.createCards(CardType.NORMAL, 1);
 
