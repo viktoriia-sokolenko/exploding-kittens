@@ -95,3 +95,19 @@ Note: I am using Parametrized Testing so whenever I use testCardType1 or testCar
 | Test Case 4 | Hand `[SEE_THE_FUTURE, SHUFFLE]`, cardType `DEFUSE`            | 0                                                   | :white_check_mark: | getCountOfCardType_withCardNotInHand_returnsZero               |
 | Test Case 5 | Hand `[SKIP, NORMAL, NORMAL]`, cardType `NORMAL`               | 2                                                   | :white_check_mark: | getCountOfCardType_withTwoDuplicateCardsInHand_returnsTwo      |
 | Test Case 6 | Hand `[FAVOR, FAVOR, DEFUSE, ATTACK, FAVOR]`, cardType `FAVOR` | 3                                                   | :white_check_mark: | getCountOfCardType_withThreeDuplicateCardsInHand_returnsThree  |
+
+## Method under test: `removeDefuseCard()`
+### Step 1-3 Results
+|        | Input                                                                                   | Output                                                                                                         |
+|--------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| Step 1 | the state of the list                                                                   | the state of the list or exception                                                                             |
+| Step 2 | Collection                                                                              | Collection or exception                                                                                        |
+| Step 3 | empty list; list without DEFUSE card; list with DEFUSE card; list with two DEFUSE cards | empty list; list without DEFUSE card; list with DEFUSE card or IllegalStateException, IllegalArgumentException |
+
+### Step 4:
+|             | System under test (pre-state)    | Expected output / state transition                                   | Implemented? | Test name |
+|-------------|----------------------------------|----------------------------------------------------------------------|--------------|-----------|
+| Test Case 1 | Hand `[]`                        | `IllegalStateException` (“Hand empty: can not remove card”)          |              |           |
+| Test Case 2 | Hand `[SEE_THE_FUTURE]`          | `IllegalArgumentException` (“Card not in hand: can not remove card”) |              |           |
+| Test Case 3 | Hand `[DEFUSE, FAVOR]`           | Hand `[FAVOR]`                                                       |              |           |
+| Test Case 4 | Hand `[DEFUSE, SHUFFLE, DEFUSE]` | Hand `[DEFUSE, SHUFFLE]`                                             |              |           |
