@@ -287,6 +287,17 @@ public class HandTest {
 		assertTrue(hand.isEmpty());
 	}
 
+	@Test
+	public void removeDefuseCard_withTwoDefuseCardsInHand_removesOnlyOneCard() {
+		Hand hand = handWithTwoDefuseAndOneExtraCards();
+		hand.removeDefuseCard();
+
+		assertTrue(hand.containsCardType(CardType.DEFUSE));
+
+		int expectedNumberOfCards = 2;
+		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
+	}
+
 	private Card mockCard(CardType type) {
 		Card card = EasyMock.createMock(Card.class);
 		EasyMock.expect(card.getCardType()).andStubReturn(type);
@@ -344,6 +355,19 @@ public class HandTest {
 		hand.addCard(extraCard1);
 		hand.addCard(extraCard2);
 		hand.addCard(duplicateCard3);
+
+		return hand;
+	}
+
+	private Hand handWithTwoDefuseAndOneExtraCards() {
+		Card extraCard = mockCard(CardType.SHUFFLE);
+		Card defuseCard1 = mockCard(CardType.DEFUSE);
+		Card defuseCard2 = mockCard(CardType.DEFUSE);
+
+		Hand hand = new Hand();
+		hand.addCard(defuseCard1);
+		hand.addCard(extraCard);
+		hand.addCard(defuseCard2);
 
 		return hand;
 	}
