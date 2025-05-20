@@ -10,13 +10,13 @@ Each test case ensures that the Card Factory correctly handles all CardType enum
 
 ## Method 1: `public Card createCard(CardType type)`
 
-### Step 1-3 Results
+### Step 1-3 Results 
 
-|        | Input                                                                                                                                  | Output                                                         |
-|--------|----------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
-| Step 1 | Card Type                                                                                                                              | Card object of the specified type                              |
-| Step 2 | Enum Values (null, and all CardType enum values)                                                                                       | Card object or Exception                                       |
-| Step 3 | `null`, `NORMAL`, `ATTACK`, `DEFUSE`, `SKIP`, `FAVOR`, `EXPLODING_KITTEN`, `SHUFFLE`, `ALTER_THE_FUTURE`, `SEE_THE_FUTURE`, `NUKE`    | Card object of correct type or `NullPointerException` or `IllegalArgumentException` |
+|        | Input                                                                                                                              | Output                                                         |
+|--------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| Step 1 | Card Type                                                                                                                          | Card object of the specified type                              |
+| Step 2 | Cases for Enum Values (null, and all CardType enum values)                                                                         | Card object or Exception                                       |
+| Step 3 | `null`, `NORMAL`, `ATTACK`, `DEFUSE`, `SKIP`, `FAVOR`, `EXPLODING_KITTEN`, `SHUFFLE`, `ALTER_THE_FUTURE`, `SEE_THE_FUTURE`, `NUKE` | Card object of correct type or `NullPointerException` or `IllegalArgumentException` |
 
 ### Step 4:
 
