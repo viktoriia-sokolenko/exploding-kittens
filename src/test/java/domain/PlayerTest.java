@@ -102,17 +102,13 @@ public class PlayerTest {
 
 	@Test
 	public void drawExplodingKittenCard_withDefuseInHand_removesDefuse_keepsPlayerInGame() {
-		//TODO: still need to figure out how to mock defuseCard because
-		// mock and actual defuse cards are not perceived
-		// as equal arguments by EasyMock when using expectLastCall
-		Card defuseCard = new Card(CardType.DEFUSE);
 		Card explodingKittenMockCard = mockCard(CardType.EXPLODING_KITTEN);
 
 		Deck mockDeck = mockDeck(explodingKittenMockCard);
 
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		EasyMock.expect(mockHand.containsCardType(CardType.DEFUSE)).andReturn(true);
-		mockHand.removeCard(defuseCard);
+		mockHand.removeDefuseCard();
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockHand);
 

@@ -18,6 +18,7 @@ public class Player {
 
 	public void drawCard(Deck deck) {
 		Card drawnCard = deck.draw();
+
 		if (drawnCard.getCardType() == CardType.EXPLODING_KITTEN) {
 			handleExplodingKitten();
 		}
@@ -36,15 +37,10 @@ public class Player {
 
 	private void handleExplodingKitten() {
 		if (this.hand.containsCardType(CardType.DEFUSE)) {
-			this.removeDefuseCard();
+			this.hand.removeDefuseCard();
 		}
 		else {
 			this.activeStatus = false;
 		}
-	}
-
-	private void removeDefuseCard() {
-		Card defuseCard = new Card (CardType.DEFUSE);
-		this.hand.removeCard(defuseCard);
 	}
 }
