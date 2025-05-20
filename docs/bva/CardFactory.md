@@ -34,7 +34,7 @@ Each test case ensures that the Card Factory correctly handles all CardType enum
 | Test Case 10 | `type == CardType.NUKE`                            | Returns instance of `NukeCard`                                                           | :white_check_mark: | createCard_withNukeCardType_createsCard                       |
 | Test Case 11 | `type == CardType.FAVOR`                           | Returns instance of `FavorCard`                                                          | :white_check_mark: | createCard_withFavorCardType_createsCard                      |
 | Test Case 12 | Unrecognized `type`                                | `IllegalArgumentException` ("Unknown card type: " + type)                                | :white_check_mark: | createCard_withUnknownCardType_throwsIllegalArgumentException |
-| Test Case 13 | create different multiple types of different cards | Each call returns a new object (reference inequality) - multiple of different card types | :white_check_mark: | createCard_returnsCorrectTypeForEachCardType                  |
+| Test Case 13 | create different multiple types of different cards | Each call returns a new object (reference inequality) - multiple of different card types | :white_check_mark: | createCardsOfMultipleTypes_returnsCorrectTypeForEachCardType  |
 
 **Note**: Each test case verifies that the card factory creates the correct type of card for each CardType enum value. The tests ensure that null inputs are properly handled with NullPointerException and that unknown card types throw IllegalArgumentException with the appropriate error message.
 

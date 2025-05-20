@@ -166,7 +166,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	void createCard_returnsCorrectTypeForEachCardType() {
+	void createCardsOfMultipleTypes_returnsCorrectTypeForEachCardType() {
 		CardFactory factory = new CardFactory();
 
 		Card normalCard = factory.createCard(CardType.NORMAL);
