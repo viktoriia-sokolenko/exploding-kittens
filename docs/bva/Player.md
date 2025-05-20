@@ -4,7 +4,7 @@ I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`
 
 ## Method under test: `getCardTypeCount(CardType cardType)`
 ### Step 1-3 Results
-|        | Input 1                                                                                                      | (if more to consider for input)   | Output                                    |
+|        | Input 1                                                                                                      | Input 2                           | Output                                    |
 |--------|--------------------------------------------------------------------------------------------------------------|-----------------------------------|-------------------------------------------|
 | Step 1 | a card type                                                                                                  | the state of the hand             | number of cards of that type or exception |
 | Step 2 | Cases                                                                                                        | Cases                             | Count or exception                        |
@@ -19,11 +19,11 @@ I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`
 
 ## Method under test: `drawCard(Deck deck)`
 ### Step 1-3 Results
-|        | Input 1                    | Input 2                                                                                                | (if more to consider for input) | Output 1                                                      | Output 2                              |
-|--------|----------------------------|--------------------------------------------------------------------------------------------------------|---------------------------------|---------------------------------------------------------------|---------------------------------------|
-| Step 1 | the state of the deck list | card drawn from the deck                                                                               | the state of hand               | the state of the hand (does hand has drawn card) or exception | is player in the game (yes/no answer) |
-| Step 2 | Boolean                    | Cases                                                                                                  | Boolean                         | Boolean or exception                                          | Boolean                               |
-| Step 3 | empty or not               | NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | has Defuse card or not          | true, false, NoSuchElementException                           | true, false                           |
+|        | Input 1                                   | Input 2                                                                                                | Input 3                                    | Output 1                                                      | Output 2                              |
+|--------|-------------------------------------------|--------------------------------------------------------------------------------------------------------|--------------------------------------------|---------------------------------------------------------------|---------------------------------------|
+| Step 1 | the state of the deck list (empty or not) | card drawn from the deck                                                                               | the state of hand (has Defuse card or not) | the state of the hand (does hand has drawn card) or exception | is player in the game (yes/no answer) |
+| Step 2 | Boolean                                   | Cases                                                                                                  | Boolean                                    | Boolean or exception                                          | Boolean                               |
+| Step 3 | true, false                               | NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | true, false                                | true, false, NoSuchElementException                           | true, false                           |
 ### Step 4:
 |             | System under test                                                     | Expected output                                    | Implemented?       | Test name                                                                |
 |-------------|-----------------------------------------------------------------------|----------------------------------------------------|--------------------|--------------------------------------------------------------------------|
@@ -34,11 +34,11 @@ I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`
 
 ## Method under test: `playCard(Card card)`
 ### Step 1-3 Results
-|        | Input 1                                    | Input 2                                                                                                | (if more to consider for input) | Output                                                                                                |
-|--------|--------------------------------------------|--------------------------------------------------------------------------------------------------------|---------------------------------|-------------------------------------------------------------------------------------------------------|
-| Step 1 | a card with a certain card type            | a card type                                                                                            | the state of the hand           | the state of the hand or exception                                                                    |
-| Step 2 | Cases                                      | Cases                                                                                                  | Boolean                         | Boolean or exception                                                                                  |
-| Step 3 | null pointer, not in the hand; in the hand | NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | empty or not empty              | Has card, does not have card or NullPointerException, IllegalArgumentException, IllegalStateException |
+|        | Input 1                                    | Input 2                                                                                                | Input 3                              | Output                                                                                                |
+|--------|--------------------------------------------|--------------------------------------------------------------------------------------------------------|--------------------------------------|-------------------------------------------------------------------------------------------------------|
+| Step 1 | a card with a certain card type            | a card type                                                                                            | the state of the hand (empty or not) | the state of the hand or exception                                                                    |
+| Step 2 | Cases                                      | Cases                                                                                                  | Boolean                              | Boolean or exception                                                                                  |
+| Step 3 | null pointer, not in the hand; in the hand | NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | true, false                          | Has card, does not have card or NullPointerException, IllegalArgumentException, IllegalStateException |
 ### Step 4:
 |             | System under test                          | Expected output                                                      | Implemented?       | Test name                                                 |
 |-------------|--------------------------------------------|----------------------------------------------------------------------|--------------------|-----------------------------------------------------------|
