@@ -268,6 +268,12 @@ public class HandTest {
 		assertEquals(expectedCount, hand.getCountOfCardType(duplicateCardType));
 	}
 
+	@Test
+	public void removeDefuseCard_withEmptyHand_throwsIllegalStateException() {
+		Hand emptyHand = new Hand();
+		assertThrows(IllegalStateException.class, () -> emptyHand.removeDefuseCard());
+	}
+
 	private Card mockCard(CardType type) {
 		Card card = EasyMock.createMock(Card.class);
 		EasyMock.expect(card.getCardType()).andStubReturn(type);

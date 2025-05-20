@@ -105,9 +105,9 @@ Note: I am using Parametrized Testing so whenever I use testCardType1 or testCar
 | Step 3 | empty list; list without DEFUSE card; list with DEFUSE card; list with two DEFUSE cards | empty list; list without DEFUSE card; list with DEFUSE card or IllegalStateException, IllegalArgumentException |
 
 ### Step 4:
-|             | System under test (pre-state)    | Expected output / state transition                                   | Implemented? | Test name |
-|-------------|----------------------------------|----------------------------------------------------------------------|--------------|-----------|
-| Test Case 1 | Hand `[]`                        | `IllegalStateException` (“Hand empty: can not remove card”)          |              |           |
-| Test Case 2 | Hand `[SEE_THE_FUTURE]`          | `IllegalArgumentException` (“Card not in hand: can not remove card”) |              |           |
-| Test Case 3 | Hand `[DEFUSE, FAVOR]`           | Hand `[FAVOR]`                                                       |              |           |
-| Test Case 4 | Hand `[DEFUSE, SHUFFLE, DEFUSE]` | Hand `[DEFUSE, SHUFFLE]`                                             |              |           |
+|             | System under test (pre-state)    | Expected output / state transition                                   | Implemented?       | Test name                                                  |
+|-------------|----------------------------------|----------------------------------------------------------------------|--------------------|------------------------------------------------------------|
+| Test Case 1 | Hand `[]`                        | `IllegalStateException` (“Hand empty: can not remove card”)          | :white_check_mark: | removeDefuseCard_withEmptyHand_throwsIllegalStateException |
+| Test Case 2 | Hand `[SEE_THE_FUTURE]`          | `IllegalArgumentException` (“Card not in hand: can not remove card”) |                    |                                                            |
+| Test Case 3 | Hand `[DEFUSE, FAVOR]`           | Hand `[FAVOR]`                                                       |                    |                                                            |
+| Test Case 4 | Hand `[DEFUSE, SHUFFLE, DEFUSE]` | Hand `[DEFUSE, SHUFFLE]`                                             |                    |                                                            |
