@@ -20,21 +20,21 @@ Each test case ensures that the Card Factory correctly handles all CardType enum
 
 ### Step 4:
 
-|             | System under test                     | Expected output / state transition                                         | Implemented?       | Test name                                                    |
-|-------------|--------------------------------------|--------------------------------------------------------------------------|--------------------|------------------------------------------------------------|
-| Test Case 1 | `type == null`                       | `NullPointerException`                                                    | :white_check_mark: | createCard_withNullType_ThrowsNullPointerException          |
-| Test Case 2 | `type == CardType.NORMAL`            | Returns instance of `NormalCard`                                          | :white_check_mark: | createCard_withNormalCardType_CreatesCard                   |
-| Test Case 3 | `type == CardType.EXPLODING_KITTEN`  | Returns instance of `ExpoldingKittenCard`                                | :white_check_mark: | createCard_withExplodingKittenCardType_CreatesCard          |
-| Test Case 4 | `type == CardType.DEFUSE`            | Returns instance of `DefuseCard`                                          | :white_check_mark: | createCard_withDefuseCardType_CreatesCard                   |
-| Test Case 5 | `type == CardType.ATTACK`            | Returns instance of `AttackCard`                                          | :white_check_mark: | createCard_withAttackCardType_CreatesCard                   |
-| Test Case 6 | `type == CardType.SKIP`              | Returns instance of `SkipCard`                                            | :white_check_mark: | createCard_withSkipCardType_CreatesCard                     |
-| Test Case 7 | `type == CardType.ALTER_THE_FUTURE`  | Returns instance of `AlterTheFutureCard`                                 | :white_check_mark: | createCard_withAlterTheFutureCardType_CreatesCard           |
-| Test Case 8 | `type == CardType.SEE_THE_FUTURE`    | Returns instance of `SeeTheFutureCard`                                   | :white_check_mark: | createCard_withSeeTheFutureCardType_CreatesCard             |
-| Test Case 9 | `type == CardType.SHUFFLE`           | Returns instance of `ShuffleCard`                                         | :white_check_mark: | createCard_withShuffleCardType_CreatesCard                  |
-| Test Case 10 | `type == CardType.NUKE`             | Returns instance of `NukeCard`                                            | :white_check_mark: | createCard_withNukeCardType_CreatesCard                     |
-| Test Case 11 | `type == CardType.FAVOR`            | Returns instance of `FavorCard`                                           | :white_check_mark: | createCard_withFavorCardType_CreatesCard                    |
-| Test Case 12 | Unrecognized `type`                 | `IllegalArgumentException` ("Unknown card type: " + type)                 | :white_check_mark: | createCard_withUnknownCardType_ThrowsIllegalArgumentException |
-| Test Case 13 | Card types called repeatedly        | Each call returns a new object (reference inequality)                     | :white_check_mark: | createCard_returnsCorrectTypeForEachCardType                 |
+|             | System under test                                  | Expected output / state transition                                                       | Implemented?       | Test name                                                    |
+|-------------|----------------------------------------------------|------------------------------------------------------------------------------------------|--------------------|------------------------------------------------------------|
+| Test Case 1 | `type == null`                                     | `NullPointerException`                                                                   | :white_check_mark: | createCard_withNullType_ThrowsNullPointerException          |
+| Test Case 2 | `type == CardType.NORMAL`                          | Returns instance of `NormalCard`                                                         | :white_check_mark: | createCard_withNormalCardType_CreatesCard                   |
+| Test Case 3 | `type == CardType.EXPLODING_KITTEN`                | Returns instance of `ExpoldingKittenCard`                                                | :white_check_mark: | createCard_withExplodingKittenCardType_CreatesCard          |
+| Test Case 4 | `type == CardType.DEFUSE`                          | Returns instance of `DefuseCard`                                                         | :white_check_mark: | createCard_withDefuseCardType_CreatesCard                   |
+| Test Case 5 | `type == CardType.ATTACK`                          | Returns instance of `AttackCard`                                                         | :white_check_mark: | createCard_withAttackCardType_CreatesCard                   |
+| Test Case 6 | `type == CardType.SKIP`                            | Returns instance of `SkipCard`                                                           | :white_check_mark: | createCard_withSkipCardType_CreatesCard                     |
+| Test Case 7 | `type == CardType.ALTER_THE_FUTURE`                | Returns instance of `AlterTheFutureCard`                                                 | :white_check_mark: | createCard_withAlterTheFutureCardType_CreatesCard           |
+| Test Case 8 | `type == CardType.SEE_THE_FUTURE`                  | Returns instance of `SeeTheFutureCard`                                                   | :white_check_mark: | createCard_withSeeTheFutureCardType_CreatesCard             |
+| Test Case 9 | `type == CardType.SHUFFLE`                         | Returns instance of `ShuffleCard`                                                        | :white_check_mark: | createCard_withShuffleCardType_CreatesCard                  |
+| Test Case 10 | `type == CardType.NUKE`                            | Returns instance of `NukeCard`                                                           | :white_check_mark: | createCard_withNukeCardType_CreatesCard                     |
+| Test Case 11 | `type == CardType.FAVOR`                           | Returns instance of `FavorCard`                                                          | :white_check_mark: | createCard_withFavorCardType_CreatesCard                    |
+| Test Case 12 | Unrecognized `type`                                | `IllegalArgumentException` ("Unknown card type: " + type)                                | :white_check_mark: | createCard_withUnknownCardType_ThrowsIllegalArgumentException |
+| Test Case 13 | create different multiple types of different cards | Each call returns a new object (reference inequality) - multiple of different card types | :white_check_mark: | createCard_returnsCorrectTypeForEachCardType                 |
 
 **Note**: Each test case verifies that the card factory creates the correct type of card for each CardType enum value. The tests ensure that null inputs are properly handled with NullPointerException and that unknown card types throw IllegalArgumentException with the appropriate error message.
 
@@ -42,11 +42,11 @@ Each test case ensures that the Card Factory correctly handles all CardType enum
 
 ### Step 1-3 Results
 
-|        | Input 1                                                                                                                                 | Input 2                  | Output                                                        |
-|--------|-----------------------------------------------------------------------------------------------------------------------------------------|----------------------------|-----------------------------------------------------------------|
-| Step 1 | Card Type                                                                                                                               | Number of cards to create | List of Card objects of the specified type                     |
-| Step 2 | Enum Values (null, and all CardType enum values)                                                                                        | Integers (-1, 0, 1, >1)   | List of Card objects or Exception                              |
-| Step 3 | `null`, `NORMAL`, `ATTACK`, `DEFUSE`, `SKIP`, `FAVOR`, `EXPLODING_KITTEN`, `SHUFFLE`, `ALTER_THE_FUTURE`, `SEE_THE_FUTURE`, `NUKE`     | `-1`, `0`, `1`, `5`, `100` | List of Card objects or `NullPointerException` or `IllegalArgumentException` |
+|        | Input 1                                                                                                                            | Input 2                  | Output                                                        |
+|--------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------|-----------------------------------------------------------------|
+| Step 1 | Card Type                                                                                                                          | Number of cards to create | List of Card objects of the specified type                     |
+| Step 2 | Cases for Enum Values (null, and all CardType enum values)                                                                         | Integers (-1, 0, 1, >1)   | List of Card objects or Exception                              |
+| Step 3 | `null`, `NORMAL`, `ATTACK`, `DEFUSE`, `SKIP`, `FAVOR`, `EXPLODING_KITTEN`, `SHUFFLE`, `ALTER_THE_FUTURE`, `SEE_THE_FUTURE`, `NUKE` | `-1`, `0`, `1`, `5`, `100` | List of Card objects or `NullPointerException` or `IllegalArgumentException` |
 
 ### Step 4:
 
