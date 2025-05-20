@@ -101,10 +101,14 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void drawExplodingKittenCard_withDefuseInHand_removesDefuse_keepsPlayerInGame() {
+	public void drawExplodingKittenCard_withDefuseInHand_insertsDrawnCardBackIntoDeck() {
 		Card explodingKittenMockCard = mockCard(CardType.EXPLODING_KITTEN);
 
 		Deck mockDeck = mockDeck(explodingKittenMockCard);
+		int indexToInsertAt = 1;
+		mockDeck.insertCardAt(explodingKittenMockCard, indexToInsertAt);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockDeck);
 
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		EasyMock.expect(mockHand.containsCardType(CardType.DEFUSE)).andReturn(true);
@@ -126,6 +130,7 @@ public class PlayerTest {
 		Card explodingKittenMockCard = mockCard(CardType.EXPLODING_KITTEN);
 
 		Deck mockDeck = mockDeck(explodingKittenMockCard);
+		EasyMock.replay(mockDeck);
 
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		EasyMock.expect(mockHand.containsCardType(CardType.DEFUSE)).andReturn(false);
@@ -214,7 +219,7 @@ public class PlayerTest {
 	private Deck mockDeck(Card card) {
 		Deck mockDeck = EasyMock.createMock(Deck.class);
 		EasyMock.expect(mockDeck.draw()).andReturn(card);
-		EasyMock.replay(mockDeck);
 		return mockDeck;
 	}
+
 }

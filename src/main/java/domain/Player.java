@@ -2,11 +2,7 @@ package domain;
 
 public class Player {
 	Hand hand;
-	Boolean activeStatus = true;
-
-	public Player() {
-		this.hand = new Hand();
-	}
+	boolean activeStatus = true;
 
 	Player(Hand hand) {
 		this.hand = hand;
@@ -20,7 +16,7 @@ public class Player {
 		Card drawnCard = deck.draw();
 
 		if (drawnCard.getCardType() == CardType.EXPLODING_KITTEN) {
-			handleExplodingKitten();
+			handleExplodingKitten(deck, drawnCard);
 		}
 		else {
 			hand.addCard(drawnCard);
@@ -35,9 +31,10 @@ public class Player {
 		return activeStatus;
 	}
 
-	private void handleExplodingKitten() {
+	private void handleExplodingKitten(Deck deck, Card explodingKittenCard) {
 		if (this.hand.containsCardType(CardType.DEFUSE)) {
 			this.hand.removeDefuseCard();
+			deck.insertCardAt(explodingKittenCard, 1);
 		}
 		else {
 			this.activeStatus = false;
