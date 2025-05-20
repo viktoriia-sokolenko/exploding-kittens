@@ -1,6 +1,7 @@
-# BVA for Player
-#### Note
-I am using Parametrized Testing so whenever I use `testCardType1` or `testCard1`, it means that the test runs for all the card types or for cards with all the card types. `testCardType2` and `testCard2` refer to all possible card types except Exploding Kitten and cards with those types.
+# BVA Analysis for Player
+
+#### Important Note
+I am using Parametrized Testing, so whenever I use `testCardType1` or `testCard1`, it means that the test runs for all the card types or for cards with all the card types. Nonetheless, `testCardType2` and `testCard2` refer to **all** possible card types, **except** `Exploding Kitten`, and cards with those types.
 
 ## Method under test: `getCardTypeCount(CardType cardType)`
 ### Step 1-3 Results
