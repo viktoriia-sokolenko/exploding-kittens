@@ -1,16 +1,41 @@
+Here's a lightly refactored version of your **TurnManager BVA** to match the updated flow where the `Deck` is now passed into the `TurnManager` via its constructor. This allows `TurnManager` to handle draw-based operations like `endTurnAndDraw()` without requiring indirect access through `PlayerManager`.
+
+---
+
 # BVA Analysis for **TurnManager**
 
 #### Important Note
 
-The `TurnManager` tracks and advances turn order based solely on the active players list provided by `PlayerManager`.  It no longer decides who is eliminated.  Key methods:
+The `TurnManager` tracks and advances turn order using a queue of players and now receives a `Deck` via constructor. It no longer decides eliminations—those occur in `PlayerManager`. It provides turn advancement logic and synchronizes with remaining active players when needed.
 
+Key responsibilities:
+
+0. **Constructor** – Accepts a non-null `Deck`.
 1. **`setPlayerManager(PlayerManager pm)`** – Initializes turn queue from `pm.getPlayers()`.
 2. **`getCurrentActivePlayer()`** – Returns the player whose turn it is.
 3. **`endTurnAndDraw()`**, **`endTurnWithoutDraw()`**, **`endTurnWithoutDrawForAttacks()`**, **`addTurnForCurrentPlayer()`** – Advance or manipulate the queue.
-4. **`syncWith(List<Player> activePlayers)`** – Rebuilds internal turn queue to match the up-to-date list of remaining players.
-5. **`getTurnOrder()`** – Exposes the current queue.
+4. **`syncWith(List<Player> activePlayers)`** – Rebuilds internal queue to match active player list.
+5. **`getTurnOrder()`** – Exposes current queue snapshot.
 
-All removal of eliminated players happens in `PlayerManager`; `TurnManager` simply resynchronizes via `syncWith(...)`.
+---
+
+## Method 0: **Constructor**
+
+
+### Step 1–3 Results
+
+|        | Input  | Output / State Change                       |
+| ------ | ------ | ------------------------------------------- |
+| Step 1 | `deck` | stores `deck`; internal queue uninitialized |
+| Step 2 | `null` | throws `NullPointerException`               |
+| Step 3 | valid  | deck stored; queue is empty                 |
+
+### Step 4
+
+| Test Case     | System under test       | Expected behavior                             | Implemented?         | Test name                                  |
+| ------------- | ----------------------- | --------------------------------------------- | -------------------- | ------------------------------------------ |
+| Test Case 0.1 | `new TurnManager(null)` | throws `NullPointerException("Deck is null")` | :white\_check\_mark: | `ctor_nullDeck_throwsNullPointerException` |
+| Test Case 0.2 | `new TurnManager(deck)` | stores reference; queue not yet initialized   | :white\_check\_mark: | `ctor_validDeck_initializesState`          |
 
 ---
 
