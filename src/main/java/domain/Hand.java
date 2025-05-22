@@ -58,12 +58,17 @@ public class Hand {
 		}
 	}
 
+	public void removeDefuseCard() {
+		Card defuseCard = new Card(CardType.DEFUSE);
+		this.removeCard(defuseCard);
+	}
+
 	public int getCountOfCardType(CardType cardType) {
 		Objects.requireNonNull(cardType, "CardType cannot be null");
 		return this.cards.getOrDefault(cardType, 0);
 	}
 
 	private boolean isValidCount (Integer count) {
-		return count != null && count != 0;
+		return count != null;
 	}
 }
