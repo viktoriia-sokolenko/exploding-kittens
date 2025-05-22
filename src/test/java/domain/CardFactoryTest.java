@@ -9,176 +9,177 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardFactoryTest {
+
+	private static final int DEFUSE_BATCH_SIZE = 5;
+	private static final int FIRST_BATCH_SIZE = 3;
+	private static final int SECOND_BATCH_SIZE = 2;
+	private static final int LARGE_BATCH_SIZE = 100;
+
 	@Test
-	public void createCard_WithNullType_ThrowsNullPointerException() {
+	public void create_card_withExplodingKittenCardType_createsCard() {
 		CardFactory factory = new CardFactory();
-		Card expoldingKittenCard = factory.createCard(CardType.EXPLODING_KITTEN);
-		assertInstanceOf(ExpoldingKittenCard.class, expoldingKittenCard);
+		Card explodingKitten = factory.createCard(CardType.EXPLODING_KITTEN);
+		assertInstanceOf(ExpoldingKittenCard.class, explodingKitten);
+		assertEquals(CardType.EXPLODING_KITTEN, explodingKitten.getCardType());
 	}
 
 	@Test
-	public void CreateCard_WithDefuseCardType_CreatesCard() {
+	public void create_card_withNullType_throwsNullPointerException() {
+		CardFactory factory = new CardFactory();
+		assertThrows(NullPointerException.class, () -> factory.createCard(null));
+	}
+
+	@Test
+	public void create_card_withDefuseCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card defuseCard = factory.createCard(CardType.DEFUSE);
 		assertInstanceOf(DefuseCard.class, defuseCard);
+		assertEquals(CardType.DEFUSE, defuseCard.getCardType());
 	}
 
-	@Test public void CreateCard_withUnknownCardType_ThrowsIllegalArgumentException() {
+	@Test
+	public void create_card_withUnknownCardType_throwsIllegalArgumentException() {
 		CardFactory factory = new CardFactory();
-		assertThrows(IllegalArgumentException.class, () ->
-				factory.createCard(CardType.UNKNOWN_CARD_FOR_TEST));
+		assertThrows(IllegalArgumentException.class,
+				() -> factory.createCard(CardType.UNKNOWN_CARD_FOR_TEST));
 	}
 
-	@Test public void CreateCard_withNormalCardType_CreatesCard() {
+	@Test
+	public void create_card_withNormalCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.NORMAL);
-		assertInstanceOf(Card.class, card);
+		assertInstanceOf(NormalCard.class, card);
+		assertEquals(CardType.NORMAL, card.getCardType());
 	}
 
-	@Test public void CreateCard_withAttackCardType_CreatesCard() {
+	@Test
+	public void create_card_withAttackCardType_createsCard() {
 		CardFactory factory = new CardFactory();
-		Card card = factory.createCard((CardType.ATTACK));
-		assertInstanceOf(Card.class, card);
+		Card card = factory.createCard(CardType.ATTACK);
+		assertInstanceOf(AttackCard.class, card);
+		assertEquals(CardType.ATTACK, card.getCardType());
 	}
 
-	@Test public void CreateCard_withSkipCardType_CreatesCard() {
+	@Test
+	public void create_card_withSkipCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.SKIP);
-		assertInstanceOf(Card.class, card);
+		assertInstanceOf(SkipCard.class, card);
+		assertEquals(CardType.SKIP, card.getCardType());
 	}
 
-	@Test public void CreateCard_withFavorCardType_CreatesCard() {
+	@Test
+	public void create_card_withFavorCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.FAVOR);
-		assertInstanceOf(Card.class, card);
+		assertInstanceOf(FavorCard.class, card);
+		assertEquals(CardType.FAVOR, card.getCardType());
 	}
 
-	@Test public void CreateCard_withShieldCardType_CreatesCard() {
-		CardFactory factory = new CardFactory();
-		Card card = factory.createCard(CardType.SHUFFLE);
-		assertInstanceOf(Card.class, card);
-	}
-
-	@Test public void CreateCard_withSeeIntoTheFutureCardType_CreateCard() {
-		CardFactory factory = new CardFactory();
-		Card card = factory.createCard(CardType.SEE_THE_FUTURE);
-		assertInstanceOf(Card.class, card);
-	}
-
-	@Test public void CreateCard_withAlterTheFutureCardType_CreateCard() {
+	@Test
+	public void create_card_withAlterTheFutureCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.ALTER_THE_FUTURE);
-		assertInstanceOf(Card.class, card);
+		assertInstanceOf(AlterTheFutureCard.class, card);
+		assertEquals(CardType.ALTER_THE_FUTURE, card.getCardType());
 	}
 
-	@Test public void CreateCard_withNukeCardType_CreateCard() {
+	@Test
+	public void create_card_withSeeTheFutureCardType_createsCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.SEE_THE_FUTURE);
+		assertInstanceOf(SeeTheFutureCard.class, card);
+		assertEquals(CardType.SEE_THE_FUTURE, card.getCardType());
+	}
+
+	@Test
+	public void create_card_withShuffleCardType_createsCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.SHUFFLE);
+		assertInstanceOf(ShuffleCard.class, card);
+		assertEquals(CardType.SHUFFLE, card.getCardType());
+	}
+
+	@Test
+	public void create_card_withNukeCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.NUKE);
-		assertInstanceOf(Card.class, card);
+		assertInstanceOf(NukeCard.class, card);
+		assertEquals(CardType.NUKE, card.getCardType());
 	}
 
 	@Test
-	public void createCards_withNegativeCount_throwsIllegalArgumentException() {
+	public void create_cards_withNullTypeAndValidCount_throwsNullPointerException() {
 		CardFactory factory = new CardFactory();
-		assertThrows(IllegalArgumentException.class, () ->
-				factory.createCards(CardType.NORMAL, -1));
+		assertThrows(NullPointerException.class,
+				() -> factory.createCards(null, 1));
 	}
 
 	@Test
-	public void  createCards_withZeroCount_throwsIllegalArgumentException() {
+	public void create_cards_withNegativeCount_throwsIllegalArgumentException() {
 		CardFactory factory = new CardFactory();
-		assertThrows(IllegalArgumentException.class, () ->
-				factory.createCards(CardType.NORMAL, 0));
+		assertThrows(IllegalArgumentException.class,
+				() -> factory.createCards(CardType.NORMAL, -1));
 	}
 
 	@Test
-	public void createCards_withValidTypeAndCountOne_returnsListwithOneCard() {
+	public void create_cards_withZeroCount_throwsIllegalArgumentException() {
+		CardFactory factory = new CardFactory();
+		assertThrows(IllegalArgumentException.class,
+				() -> factory.createCards(CardType.NORMAL, 0));
+	}
+
+	@Test
+	public void create_cards_withValidTypeAndCountOne_returnsListWithOneCard() {
 		CardFactory factory = new CardFactory();
 		List<Card> cards = factory.createCards(CardType.NORMAL, 1);
-
 		assertEquals(1, cards.size());
 		assertInstanceOf(NormalCard.class, cards.get(0));
 	}
 
 	@Test
-	public void createCards_withValidTypeAndCountGreaterThanOne_returnsList() {
+	public void create_cards_withValidTypeAndCountGreaterThanOne_returnsList() {
 		CardFactory factory = new CardFactory();
-		int numCards = 5;
-		List<Card> cards = factory.createCards(CardType.DEFUSE, numCards);
-
-		assertEquals(numCards, cards.size());
-		for (Card card : cards) {
-			assertInstanceOf(DefuseCard.class, card);
-		}
+		List<Card> cards = factory.createCards(CardType.DEFUSE, DEFUSE_BATCH_SIZE);
+		assertEquals(DEFUSE_BATCH_SIZE, cards.size());
+		cards.forEach(c -> assertInstanceOf(DefuseCard.class, c));
 	}
 
 	@Test
-	public void createCards_withValidTypeAndCountGreaterThanOne_returnsLists() {
+	public void create_cards_withMultipleDifferentTypes_returnsCorrectTypeForEachCardType() {
 		CardFactory factory = new CardFactory();
-		List<CardType> types = List.of(
-				CardType.ATTACK,
-				CardType.DEFUSE,
-				CardType.NORMAL,
-				CardType.EXPLODING_KITTEN,
-				CardType.SKIP
-		);
+		Card normal    = factory.createCard(CardType.NORMAL);
+		Card exploding = factory.createCard(CardType.EXPLODING_KITTEN);
+		Card defuse    = factory.createCard(CardType.DEFUSE);
 
-		List<Card> cards = new ArrayList<>();
-		for (CardType type : types) {
-			cards.add(factory.createCard(type));
-		}
+		assertInstanceOf(NormalCard.class, normal);
+		assertInstanceOf(ExpoldingKittenCard.class, exploding);
+		assertInstanceOf(DefuseCard.class, defuse);
 
-		Set<Card> uniqueCards = new HashSet<>(cards);
-		assertEquals(types.size(), uniqueCards.size()
-				, "All cards should be unique instances");
+		assertEquals(CardType.NORMAL, normal.getCardType());
+		assertEquals(CardType.EXPLODING_KITTEN, exploding.getCardType());
+		assertEquals(CardType.DEFUSE, defuse.getCardType());
 	}
 
 	@Test
-	public void createCards_sequentialCalls_returnIndependentResults() {
+	public void create_cards_sequentialCalls_returnIndependentResults() {
 		CardFactory factory = new CardFactory();
-		int firstBatchSize = 3;
-		List<Card> firstBatch = factory.createCards(CardType.NORMAL, firstBatchSize);
-		assertEquals(firstBatchSize, firstBatch.size());
 
-		int secondBatchSize = 2;
-		List<Card> secondBatch = factory.createCards(CardType.EXPLODING_KITTEN,
-				secondBatchSize);
-		assertEquals(secondBatchSize, secondBatch.size());
+		List<Card> batch1 = factory.createCards(CardType.NORMAL, FIRST_BATCH_SIZE);
+		List<Card> batch2 = factory.createCards(CardType.EXPLODING_KITTEN,
+				SECOND_BATCH_SIZE);
 
-		assertEquals(firstBatchSize, firstBatch.size());
+		assertEquals(FIRST_BATCH_SIZE, batch1.size());
+		assertEquals(SECOND_BATCH_SIZE, batch2.size());
 
-		for (Card card : firstBatch) {
-			assertInstanceOf(NormalCard.class, card);
-		}
-
-		for (Card card : secondBatch) {
-			assertInstanceOf(ExpoldingKittenCard.class, card);
-		}
+		batch1.forEach(c -> assertInstanceOf(NormalCard.class, c));
+		batch2.forEach(c -> assertInstanceOf(ExpoldingKittenCard.class, c));
 	}
 
 	@Test
-	public void createCards_withLargeNumber_createsCorrectNumberOfCards() {
+	public void create_cards_withLargeNumber_createsCorrectNumberOfCards() {
 		CardFactory factory = new CardFactory();
-		int numCards = 100;
-		List<Card> cards = factory.createCards(CardType.NORMAL, numCards);
-
-		assertEquals(numCards, cards.size());
-	}
-
-	@Test
-	void createCard_withMultipleDifferentTypes_returnsCorrectTypeForEachCardType () {
-		CardFactory factory = new CardFactory();
-
-		Card normalCard = factory.createCard(CardType.NORMAL);
-		Card explodingCard = factory.createCard(CardType.EXPLODING_KITTEN);
-		Card defuseCard = factory.createCard(CardType.DEFUSE);
-
-		assertInstanceOf(NormalCard.class, normalCard);
-		assertInstanceOf(ExpoldingKittenCard.class, explodingCard);
-		assertInstanceOf(DefuseCard.class, defuseCard);
-
-		assertEquals(CardType.NORMAL, normalCard.getCardType());
-		assertEquals(CardType.EXPLODING_KITTEN, explodingCard.getCardType());
-		assertEquals(CardType.DEFUSE, defuseCard.getCardType());
+		List<Card> cards = factory.createCards(CardType.NORMAL, LARGE_BATCH_SIZE);
+		assertEquals(LARGE_BATCH_SIZE, cards.size());
 	}
 }
