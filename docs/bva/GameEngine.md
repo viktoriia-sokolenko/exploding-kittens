@@ -31,15 +31,17 @@ After construction, the engine is in a “not started” state until `startGame(
 
 ---
 
-## Method 1: `public void startGame(int n) throws InvalidNumberofPlayersException`
+## Method 1: `public void startGame(int numberOfPlayers) throws InvalidNumberofPlayersException`
+
+
 
 ### Step 1–3 Results
 
-|        | Input                               | Output / State Change                                                                                                                      |
-| ------ | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Step 1 | `n`                                 | none (delegates to `playerManager.addPlayers(n)`, `playerManager.makePlayersDrawTheirInitialHands()`, `turnManager.setPlayerManager(...)`) |
-| Step 2 | `n`: `<2`, `2–5`, `>5`              | `<2` or `>5`: throws `InvalidNumberofPlayersException`; otherwise proceeds                                                                 |
-| Step 3 | boundary values: `1`, `2`, `5`, `6` |                                                                                                                                            |
+|        | Input                                | Output / State Change                                                                                                                                    |
+| ------ |--------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Step 1 | `numberOfPlayers`                    | none (delegates to `playerManager.addPlayers(numberOfPlayers)`, `playerManager.makePlayersDrawTheirInitialHands()`, `turnManager.setPlayerManager(...)`) |
+| Step 2 | `numberOfPlayers`: `<2`, `2–5`, `>5` | `<2` or `>5`: throws `InvalidNumberofPlayersException`; otherwise proceeds                                                                               |
+| Step 3 | boundary values: `1`, `2`, `5`, `6`  |                                                                                                                                                          |
 
 ### Step 4
 
