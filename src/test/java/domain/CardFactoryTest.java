@@ -16,7 +16,7 @@ public class CardFactoryTest {
 	private static final int LARGE_BATCH_SIZE = 100;
 
 	@Test
-	public void create_card_withExplodingKittenCardType_createsCard() {
+	public void createCard_withExplodingKittenCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card explodingKitten = factory.createCard(CardType.EXPLODING_KITTEN);
 		assertInstanceOf(ExpoldingKittenCard.class, explodingKitten);
@@ -24,13 +24,13 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_card_withNullType_throwsNullPointerException() {
+	public void createCard_withNullType_throwsNullPointerException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(NullPointerException.class, () -> factory.createCard(null));
 	}
 
 	@Test
-	public void create_card_withDefuseCardType_createsCard() {
+	public void createCard_withDefuseCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card defuseCard = factory.createCard(CardType.DEFUSE);
 		assertInstanceOf(DefuseCard.class, defuseCard);
@@ -38,14 +38,14 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_card_withUnknownCardType_throwsIllegalArgumentException() {
+	public void createCard_withUnknownCardType_throwsIllegalArgumentException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(IllegalArgumentException.class,
 				() -> factory.createCard(CardType.UNKNOWN_CARD_FOR_TEST));
 	}
 
 	@Test
-	public void create_card_withNormalCardType_createsCard() {
+	public void createCard_withNormalCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.NORMAL);
 		assertInstanceOf(NormalCard.class, card);
@@ -53,7 +53,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_card_withAttackCardType_createsCard() {
+	public void createCard_withAttackCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.ATTACK);
 		assertInstanceOf(AttackCard.class, card);
@@ -61,7 +61,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_card_withSkipCardType_createsCard() {
+	public void createCard_withSkipCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.SKIP);
 		assertInstanceOf(SkipCard.class, card);
@@ -69,7 +69,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_card_withFavorCardType_createsCard() {
+	public void createCard_withFavorCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.FAVOR);
 		assertInstanceOf(FavorCard.class, card);
@@ -77,7 +77,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_card_withAlterTheFutureCardType_createsCard() {
+	public void createCard_withAlterTheFutureCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.ALTER_THE_FUTURE);
 		assertInstanceOf(AlterTheFutureCard.class, card);
@@ -85,7 +85,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_card_withSeeTheFutureCardType_createsCard() {
+	public void createCard_withSeeTheFutureCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.SEE_THE_FUTURE);
 		assertInstanceOf(SeeTheFutureCard.class, card);
@@ -93,7 +93,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_card_withShuffleCardType_createsCard() {
+	public void createCard_withShuffleCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.SHUFFLE);
 		assertInstanceOf(ShuffleCard.class, card);
@@ -101,7 +101,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_card_withNukeCardType_createsCard() {
+	public void createCard_withNukeCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.NUKE);
 		assertInstanceOf(NukeCard.class, card);
@@ -109,28 +109,28 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_cards_withNullTypeAndValidCount_throwsNullPointerException() {
+	public void createCards_withNullTypeAndValidCount_throwsNullPointerException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(NullPointerException.class,
 				() -> factory.createCards(null, 1));
 	}
 
 	@Test
-	public void create_cards_withNegativeCount_throwsIllegalArgumentException() {
+	public void createCards_withNegativeCount_throwsIllegalArgumentException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(IllegalArgumentException.class,
 				() -> factory.createCards(CardType.NORMAL, -1));
 	}
 
 	@Test
-	public void create_cards_withZeroCount_throwsIllegalArgumentException() {
+	public void createCards_withZeroCount_throwsIllegalArgumentException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(IllegalArgumentException.class,
 				() -> factory.createCards(CardType.NORMAL, 0));
 	}
 
 	@Test
-	public void create_cards_withValidTypeAndCountOne_returnsListWithOneCard() {
+	public void createCards_withValidTypeAndCountOne_returnsListWithOneCard() {
 		CardFactory factory = new CardFactory();
 		List<Card> cards = factory.createCards(CardType.NORMAL, 1);
 		assertEquals(1, cards.size());
@@ -138,7 +138,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_cards_withValidTypeAndCountGreaterThanOne_returnsList() {
+	public void createCards_withValidTypeAndCountGreaterThanOne_returnsList() {
 		CardFactory factory = new CardFactory();
 		List<Card> cards = factory.createCards(CardType.DEFUSE, DEFUSE_BATCH_SIZE);
 		assertEquals(DEFUSE_BATCH_SIZE, cards.size());
@@ -146,7 +146,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_cards_withMultipleDifferentTypes_returnsCorrectTypeForEachCardType() {
+	public void createCards_withMultipleDifferentTypes_returnsCorrectTypeForEachCardType() {
 		CardFactory factory = new CardFactory();
 		Card normal    = factory.createCard(CardType.NORMAL);
 		Card exploding = factory.createCard(CardType.EXPLODING_KITTEN);
@@ -162,7 +162,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_cards_sequentialCalls_returnIndependentResults() {
+	public void createCards_sequentialCalls_returnIndependentResults() {
 		CardFactory factory = new CardFactory();
 
 		List<Card> batch1 = factory.createCards(CardType.NORMAL, FIRST_BATCH_SIZE);
@@ -177,7 +177,7 @@ public class CardFactoryTest {
 	}
 
 	@Test
-	public void create_cards_withLargeNumber_createsCorrectNumberOfCards() {
+	public void createCards_withLargeNumber_createsCorrectNumberOfCards() {
 		CardFactory factory = new CardFactory();
 		List<Card> cards = factory.createCards(CardType.NORMAL, LARGE_BATCH_SIZE);
 		assertEquals(LARGE_BATCH_SIZE, cards.size());
