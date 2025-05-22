@@ -23,15 +23,15 @@ The `PlayerManager` oversees player setup, hand allocation via an injected `Deck
 
 ---
 
-## Method 1: `public void addPlayers(int n)`
+## Method 1: `public void addPlayers(int numberOfPlayers)`
 
 ### Step 1–3 Results
 
-|        | Input                  | Output / State Change                                                          |
-| ------ | ---------------------- | ------------------------------------------------------------------------------ |
-| Step 1 | `n`                    | none (creates and stores `n` players, each with empty hand and status = true)  |
-| Step 2 | `n`: `<2`, `2–5`, `>5` | Throws `InvalidNumberofPlayersException` for `<2` or `>5`; otherwise populates |
-| Step 3 | boundary values        | `1`, `2`, `5`, `6`                                                             |
+|        | Input                                | Output / State Change                                                                       |
+| ------ |--------------------------------------|---------------------------------------------------------------------------------------------|
+| Step 1 | `numberOfPlayers`                    | none (creates and stores `numberOfPlayers` players, each with empty hand and status = true) |
+| Step 2 | `numberOfPlayers`: `<2`, `2–5`, `>5` | Throws `InvalidNumberofPlayersException` for `<2` or `>5`; otherwise populates              |
+| Step 3 | boundary values                      | `1`, `2`, `5`, `6`                                                                          |
 
 ### Step 4
 
@@ -48,11 +48,11 @@ The `PlayerManager` oversees player setup, hand allocation via an injected `Deck
 
 ### Step 1–3 Results
 
-|        | Input                                                        | Output / State Change                                                                                                      |
-| ------ | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-| Step 1 | none                                                         | none (each player draws `STARTING_HAND_SIZE` cards via `deck.draw()`)                                                      |
-| Step 2 | Preconditions: `addPlayers(n)` not called; `n` players exist | Throws `IllegalStateException("Players not initialized")`; otherwise, each player's hand increases by `STARTING_HAND_SIZE` |
-| Step 3 | Combine: before init; after init with 2, 5 players           |                                                                                                                            |
+|        | Input                                                                                    | Output / State Change                                                                                                      |
+| ------ |------------------------------------------------------------------------------------------| -------------------------------------------------------------------------------------------------------------------------- |
+| Step 1 | none                                                                                     | none (each player draws `STARTING_HAND_SIZE` cards via `deck.draw()`)                                                      |
+| Step 2 | Preconditions: `addPlayers(numberOfPlayers)` not called; `numberOfPlayers` players exist | Throws `IllegalStateException("Players not initialized")`; otherwise, each player's hand increases by `STARTING_HAND_SIZE` |
+| Step 3 | Combine: before init; after init with 2, 5 players                                       |                                                                                                                            |
 
 ### Step 4
 
