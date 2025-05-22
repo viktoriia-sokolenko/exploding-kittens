@@ -25,9 +25,9 @@ After construction, the engine is in a “not started” state until `startGame(
 
 ### Step 4
 
-| Test Case   | System under test  | Expected behavior                                                                     | Implemented?         | Test name                         |
-| ----------- | ------------------ | ------------------------------------------------------------------------------------- | -------------------- | --------------------------------- |
-| Test Case 1 | `new GameEngine()` | `deck` non-null; `playerManager` and `turnManager` constructed using that same `deck` | :white\_check\_mark: | `ctor_initializesDeckAndManagers` |
+| Test Case   | System under test  | Expected behavior                                                                     | Implemented? | Test name                         |
+| ----------- | ------------------ | ------------------------------------------------------------------------------------- |--------------| --------------------------------- |
+| Test Case 1 | `new GameEngine()` | `deck` non-null; `playerManager` and `turnManager` constructed using that same `deck` | no            | `ctor_initializesDeckAndManagers` |
 
 ---
 
@@ -43,12 +43,12 @@ After construction, the engine is in a “not started” state until `startGame(
 
 ### Step 4
 
-| Test Case   | System under test | Expected behavior / state transition                                                                                                                                               | Implemented?         | Test name                                                        |
-| ----------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ---------------------------------------------------------------- |
-| Test Case 1 | `startGame(1)`    | throws `InvalidNumberofPlayersException`                                                                                                                                           | :white\_check\_mark: | `startGame_tooFewPlayers_throwsInvalidNumberofPlayersException`  |
-| Test Case 2 | `startGame(6)`    | throws `InvalidNumberofPlayersException`                                                                                                                                           | :white\_check\_mark: | `startGame_tooManyPlayers_throwsInvalidNumberofPlayersException` |
-| Test Case 3 | `startGame(2)`    | calls in order:<br>1. `playerManager.addPlayers(2)`<br>2. `playerManager.makePlayersDrawTheirInitialHands()`<br>3. `turnManager.setPlayerManager(...)`<br>4. `checkWinCondition()` | :white\_check\_mark: | `startGame_twoPlayers_initializesManagersAndChecksWinCondition`  |
-| Test Case 4 | `startGame(5)`    | same sequence with `n=5`                                                                                                                                                           | :white\_check\_mark: | `startGame_fivePlayers_initializesManagersAndChecksWinCondition` |
+| Test Case   | System under test | Expected behavior / state transition                                                                                                                                               | Implemented? | Test name                                                        |
+| ----------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |--------------| ---------------------------------------------------------------- |
+| Test Case 1 | `startGame(1)`    | throws `InvalidNumberofPlayersException`                                                                                                                                           | no            | `startGame_tooFewPlayers_throwsInvalidNumberofPlayersException`  |
+| Test Case 2 | `startGame(6)`    | throws `InvalidNumberofPlayersException`                                                                                                                                           | no            | `startGame_tooManyPlayers_throwsInvalidNumberofPlayersException` |
+| Test Case 3 | `startGame(2)`    | calls in order:<br>1. `playerManager.addPlayers(2)`<br>2. `playerManager.makePlayersDrawTheirInitialHands()`<br>3. `turnManager.setPlayerManager(...)`<br>4. `checkWinCondition()` | no            | `startGame_twoPlayers_initializesManagersAndChecksWinCondition`  |
+| Test Case 4 | `startGame(5)`    | same sequence with `n=5`                                                                                                                                                           | no            | `startGame_fivePlayers_initializesManagersAndChecksWinCondition` |
 
 ---
 
@@ -64,13 +64,13 @@ After construction, the engine is in a “not started” state until `startGame(
 
 ### Step 4
 
-| Test Case   | System under test                       | Expected behavior                                                                        | Implemented?         | Test name                                               |
-| ----------- | --------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------- | ------------------------------------------------------- |
-| Test Case 1 | `playCard(null, validCard)`             | throws `NullPointerException`                                                            | :white\_check\_mark: | `playCard_nullPlayer_throwsNullPointerException`        |
-| Test Case 2 | `playCard(validPlayer, null)`           | throws `NullPointerException`                                                            | :white\_check\_mark: | `playCard_nullCard_throwsNullPointerException`          |
-| Test Case 3 | `playCard(playerNotManaged, validCard)` | throws `IllegalArgumentException("Player not in game")`                                  | :white\_check\_mark: | `playCard_unknownPlayer_throwsIllegalArgumentException` |
-| Test Case 4 | valid attack scenario                   | invokes `AttackCard.play(this,p)`; then calls `checkWinCondition()`                      | :white\_check\_mark: | `playCard_attack_delegatesEffectAndChecksWinCondition`  |
-| Test Case 5 | unhandled card type                     | throws `IllegalStateException("Unhandled card type")`; still calls `checkWinCondition()` | :white\_check\_mark: | `playCard_unhandledType_throwsAndChecksWinCondition`    |
+| Test Case   | System under test                       | Expected behavior                                                                        | Implemented? | Test name                                               |
+| ----------- | --------------------------------------- | ---------------------------------------------------------------------------------------- |--------------| ------------------------------------------------------- |
+| Test Case 1 | `playCard(null, validCard)`             | throws `NullPointerException`                                                            | no            | `playCard_nullPlayer_throwsNullPointerException`        |
+| Test Case 2 | `playCard(validPlayer, null)`           | throws `NullPointerException`                                                            | no            | `playCard_nullCard_throwsNullPointerException`          |
+| Test Case 3 | `playCard(playerNotManaged, validCard)` | throws `IllegalArgumentException("Player not in game")`                                  | no            | `playCard_unknownPlayer_throwsIllegalArgumentException` |
+| Test Case 4 | valid attack scenario                   | invokes `AttackCard.play(this,p)`; then calls `checkWinCondition()`                      | no            | `playCard_attack_delegatesEffectAndChecksWinCondition`  |
+| Test Case 5 | unhandled card type                     | throws `IllegalStateException("Unhandled card type")`; still calls `checkWinCondition()` | no            | `playCard_unhandledType_throwsAndChecksWinCondition`    |
 
 ---
 
@@ -86,11 +86,11 @@ After construction, the engine is in a “not started” state until `startGame(
 
 ### Step 4
 
-| Test Case   | System under test                    | Expected behavior                                                                                         | Implemented?         | Test name                                                |
-| ----------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------------------------------------- |
-| Test Case 1 | before `startGame(...)`              | throws `IllegalStateException("GameEngine not initialized")`                                              | :white\_check\_mark: | `nextTurn_beforeInit_throwsIllegalStateException`        |
-| Test Case 2 | after init, deck empty               | `turnManager.endTurnAndDraw()` throws `NoCardsToMoveException`; propagates; no `checkWinCondition()` call | :white\_check\_mark: | `nextTurn_emptyDeck_propagatesNoCardsToMoveException`    |
-| Test Case 3 | after init, deck≥1, multiple players | calls `turnManager.endTurnAndDraw()` once; then calls `checkWinCondition()`                               | :white\_check\_mark: | `nextTurn_validInvocation_advancesAndChecksWinCondition` |
+| Test Case   | System under test                    | Expected behavior                                                                                         | Implemented? | Test name                                                |
+| ----------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------- |--------------| -------------------------------------------------------- |
+| Test Case 1 | before `startGame(...)`              | throws `IllegalStateException("GameEngine not initialized")`                                              | no            | `nextTurn_beforeInit_throwsIllegalStateException`        |
+| Test Case 2 | after init, deck empty               | `turnManager.endTurnAndDraw()` throws `NoCardsToMoveException`; propagates; no `checkWinCondition()` call | no            | `nextTurn_emptyDeck_propagatesNoCardsToMoveException`    |
+| Test Case 3 | after init, deck≥1, multiple players | calls `turnManager.endTurnAndDraw()` once; then calls `checkWinCondition()`                               | no            | `nextTurn_validInvocation_advancesAndChecksWinCondition` |
 
 ---
 
@@ -106,9 +106,9 @@ After construction, the engine is in a “not started” state until `startGame(
 
 ### Step 4
 
-| Test Case   | System under test                       | Expected behavior                                                                                                           | Implemented?         | Test name                                                      |
-| ----------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------------------------------------------- |
-| Test Case 1 | `eliminatePlayer(null)`                 | throws `NullPointerException`                                                                                               | :white\_check\_mark: | `eliminatePlayer_null_throwsNullPointerException`              |
-| Test Case 2 | `eliminatePlayer(playerNotManaged)`     | throws `IllegalArgumentException("Player not found")`                                                                       | :white\_check\_mark: | `eliminatePlayer_unknownPlayer_throwsIllegalArgumentException` |
-| Test Case 3 | `eliminatePlayer(activePlayer)`         | calls in order:<br>1. `playerManager.removePlayerFromGame(p)`<br>2. `turnManager.syncWith(...)`<br>3. `checkWinCondition()` | :white\_check\_mark: | `eliminatePlayer_active_removesSyncsAndChecksWinCondition`     |
-| Test Case 4 | `eliminatePlayer(alreadyRemovedPlayer)` | throws `IllegalStateException("Player already removed")`; still calls `checkWinCondition()` (which sees >1 remain)          | :white\_check\_mark: | `eliminatePlayer_alreadyRemoved_throwsAndChecksWinCondition`   |
+| Test Case   | System under test                       | Expected behavior                                                                                                           | Implemented? | Test name                                                      |
+| ----------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |--------------| -------------------------------------------------------------- |
+| Test Case 1 | `eliminatePlayer(null)`                 | throws `NullPointerException`                                                                                               | no            | `eliminatePlayer_null_throwsNullPointerException`              |
+| Test Case 2 | `eliminatePlayer(playerNotManaged)`     | throws `IllegalArgumentException("Player not found")`                                                                       | no            | `eliminatePlayer_unknownPlayer_throwsIllegalArgumentException` |
+| Test Case 3 | `eliminatePlayer(activePlayer)`         | calls in order:<br>1. `playerManager.removePlayerFromGame(p)`<br>2. `turnManager.syncWith(...)`<br>3. `checkWinCondition()` | no            | `eliminatePlayer_active_removesSyncsAndChecksWinCondition`     |
+| Test Case 4 | `eliminatePlayer(alreadyRemovedPlayer)` | throws `IllegalStateException("Player already removed")`; still calls `checkWinCondition()` (which sees >1 remain)          | no            | `eliminatePlayer_alreadyRemoved_throwsAndChecksWinCondition`   |

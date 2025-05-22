@@ -32,10 +32,10 @@ Key responsibilities:
 
 ### Step 4
 
-| Test Case     | System under test       | Expected behavior                             | Implemented?         | Test name                                  |
-| ------------- | ----------------------- | --------------------------------------------- | -------------------- | ------------------------------------------ |
-| Test Case 0.1 | `new TurnManager(null)` | throws `NullPointerException("Deck is null")` | :white\_check\_mark: | `ctor_nullDeck_throwsNullPointerException` |
-| Test Case 0.2 | `new TurnManager(deck)` | stores reference; queue not yet initialized   | :white\_check\_mark: | `ctor_validDeck_initializesState`          |
+| Test Case     | System under test       | Expected behavior                             | Implemented? | Test name                                  |
+| ------------- | ----------------------- | --------------------------------------------- |--------------| ------------------------------------------ |
+| Test Case 0.1 | `new TurnManager(null)` | throws `NullPointerException("Deck is null")` | no           | `ctor_nullDeck_throwsNullPointerException` |
+| Test Case 0.2 | `new TurnManager(deck)` | stores reference; queue not yet initialized   | no           | `ctor_validDeck_initializesState`          |
 
 ---
 
@@ -51,12 +51,12 @@ Key responsibilities:
 
 ### Step 4
 
-| Test Case   | System under test           | Expected behavior                                        | Implemented?         | Test name                                                   |
-|-------------| --------------------------- | -------------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
-| Test Case 1 | `setPlayerManager(null)`    | throws `NullPointerException`                            | :white\_check\_mark: | `setPlayerManager_null_throwsNullPointerException`          |
-| Test Case 2 | `pm.getPlayers().isEmpty()` | throws `IllegalArgumentException("No players provided")` | :white\_check\_mark: | `setPlayerManager_emptyList_throwsIllegalArgumentException` |
-| Test Case 3 | size==1                     | queue=\[p1]; `getCurrentActivePlayer()` == p1            | :white\_check\_mark: | `setPlayerManager_singlePlayer_initializesCorrectly`        |
-| Test Case 4 | size==4                     | queue preserves input order; current == first element    | :white\_check\_mark: | `setPlayerManager_multiplePlayers_preservesOrder`           |
+| Test Case   | System under test           | Expected behavior                                        | Implemented? | Test name                                                   |
+|-------------| --------------------------- | -------------------------------------------------------- |--------------| ----------------------------------------------------------- |
+| Test Case 1 | `setPlayerManager(null)`    | throws `NullPointerException`                            | no           | `setPlayerManager_null_throwsNullPointerException`          |
+| Test Case 2 | `pm.getPlayers().isEmpty()` | throws `IllegalArgumentException("No players provided")` | no           | `setPlayerManager_emptyList_throwsIllegalArgumentException` |
+| Test Case 3 | size==1                     | queue=\[p1]; `getCurrentActivePlayer()` == p1            | no           | `setPlayerManager_singlePlayer_initializesCorrectly`        |
+| Test Case 4 | size==4                     | queue preserves input order; current == first element    | no           | `setPlayerManager_multiplePlayers_preservesOrder`           |
 
 ---
 
@@ -72,11 +72,11 @@ Key responsibilities:
 
 ### Step 4
 
-| Test Case   | System under test   | Expected behavior                                             | Implemented?         | Test name                                               |
-|-------------| ------------------- | ------------------------------------------------------------- | -------------------- | ------------------------------------------------------- |
-| Test Case 1 | before setup        | throws `IllegalStateException("TurnManager not initialised")` | :white\_check\_mark: | `getCurrentActivePlayer_beforeSetup_throwsException`    |
-| Test Case 2 | single-player setup | returns that player                                           | :white\_check\_mark: | `getCurrentActivePlayer_singlePlayer_returnsThatPlayer` |
-| Test Case 3 | multi-player setup  | returns first element of provided list                        | :white\_check\_mark: | `getCurrentActivePlayer_multiPlayers_initialFirst`      |
+| Test Case   | System under test   | Expected behavior                                             | Implemented? | Test name                                               |
+|-------------| ------------------- | ------------------------------------------------------------- |--------------| ------------------------------------------------------- |
+| Test Case 1 | before setup        | throws `IllegalStateException("TurnManager not initialised")` | no           | `getCurrentActivePlayer_beforeSetup_throwsException`    |
+| Test Case 2 | single-player setup | returns that player                                           | no           | `getCurrentActivePlayer_singlePlayer_returnsThatPlayer` |
+| Test Case 3 | multi-player setup  | returns first element of provided list                        | no           | `getCurrentActivePlayer_multiPlayers_initialFirst`      |
 
 ---
 
@@ -92,13 +92,13 @@ Key responsibilities:
 
 ### Step 4
 
-| Test Case   | System under test       | Expected behavior                                                                                        | Implemented?         | Test name                                               |
-|-------------| ----------------------- | -------------------------------------------------------------------------------------------------------- | -------------------- | ------------------------------------------------------- |
-| Test Case 1 | before setup            | throws `IllegalStateException("TurnManager not initialised")`                                            | :white\_check\_mark: | `endTurnAndDraw_beforeSetup_throwsException`            |
-| Test Case 2 | empty queue after setup | throws `IllegalStateException("No players to manage")`                                                   | :white\_check\_mark: | `endTurnAndDraw_noPlayers_throwsException`              |
-| Test Case 3 | deck empty              | underlying draw throws `NoSuchElementException`; propagates as `NoCardsToMoveException`; queue unchanged | :white\_check\_mark: | `endTurnAndDraw_emptyDeck_throwsNoCardsToMoveException` |
-| Test Case 4 | deck≥1 & single player  | player draws; queue empty; current reflects end-of-game                                                  | :white\_check\_mark: | `endTurnAndDraw_singlePlayer_drawsAndEndsGame`          |
-| Test Case 5 | deck≥1 & two players    | first draws+re-add; current advances to second player                                                    | :white\_check\_mark: | `endTurnAndDraw_twoPlayers_rotatesCorrectly`            |
+| Test Case   | System under test       | Expected behavior                                                                                        | Implemented? | Test name                                               |
+|-------------| ----------------------- | -------------------------------------------------------------------------------------------------------- |--------------| ------------------------------------------------------- |
+| Test Case 1 | before setup            | throws `IllegalStateException("TurnManager not initialised")`                                            | no           | `endTurnAndDraw_beforeSetup_throwsException`            |
+| Test Case 2 | empty queue after setup | throws `IllegalStateException("No players to manage")`                                                   | no           | `endTurnAndDraw_noPlayers_throwsException`              |
+| Test Case 3 | deck empty              | underlying draw throws `NoSuchElementException`; propagates as `NoCardsToMoveException`; queue unchanged | no           | `endTurnAndDraw_emptyDeck_throwsNoCardsToMoveException` |
+| Test Case 4 | deck≥1 & single player  | player draws; queue empty; current reflects end-of-game                                                  | no           | `endTurnAndDraw_singlePlayer_drawsAndEndsGame`          |
+| Test Case 5 | deck≥1 & two players    | first draws+re-add; current advances to second player                                                    | no           | `endTurnAndDraw_twoPlayers_rotatesCorrectly`            |
 
 ---
 
@@ -114,11 +114,11 @@ Key responsibilities:
 
 ### Step 4
 
-| Test Case   | System under test | Expected behavior                                      | Implemented?         | Test name                                             |
-|-------------| ----------------- | ------------------------------------------------------ | -------------------- | ----------------------------------------------------- |
-| Test Case 1 | empty queue       | throws `IllegalStateException("No players to manage")` | :white\_check\_mark: | `endTurnWithoutDraw_noPlayers_throwsException`        |
-| Test Case 2 | one player        | removes sole; queue empty; current reflects end        | :white\_check\_mark: | `endTurnWithoutDraw_singlePlayer_endsGame`            |
-| Test Case 3 | three players     | rotates: first removed+re-added; current -> second     | :white\_check\_mark: | `endTurnWithoutDraw_multiplePlayers_rotatesCorrectly` |
+| Test Case   | System under test | Expected behavior                                      | Implemented? | Test name                                             |
+|-------------| ----------------- | ------------------------------------------------------ |--------------| ----------------------------------------------------- |
+| Test Case 1 | empty queue       | throws `IllegalStateException("No players to manage")` | no           | `endTurnWithoutDraw_noPlayers_throwsException`        |
+| Test Case 2 | one player        | removes sole; queue empty; current reflects end        | no           | `endTurnWithoutDraw_singlePlayer_endsGame`            |
+| Test Case 3 | three players     | rotates: first removed+re-added; current -> second     | no           | `endTurnWithoutDraw_multiplePlayers_rotatesCorrectly` |
 
 ---
 
@@ -134,11 +134,11 @@ Key responsibilities:
 
 ### Step 4
 
-| Test Case   | System under test                    | Expected behavior                                      | Implemented?         | Test name                                                        |
-|-------------| ------------------------------------ | ------------------------------------------------------ | -------------------- | ---------------------------------------------------------------- |
-| Test Case 1 | empty queue                          | throws `IllegalStateException("No players to manage")` | :white\_check\_mark: | `endTurnWithoutDrawForAttacks_noPlayers_throwsException`         |
-| Test Case 2 | one player                           | removes sole; queue empty; current reflects end        | :white\_check\_mark: | `endTurnWithoutDrawForAttacks_singlePlayer_endsGame`             |
-| Test Case 3 | three players, current repeats front | removes duplicates; re-adds once; current -> next      | :white\_check\_mark: | `endTurnWithoutDrawForAttacks_multiplePlayers_appliesAttackSkip` |
+| Test Case   | System under test                    | Expected behavior                                      | Implemented? | Test name                                                        |
+|-------------| ------------------------------------ | ------------------------------------------------------ |--------------| ---------------------------------------------------------------- |
+| Test Case 1 | empty queue                          | throws `IllegalStateException("No players to manage")` | no           | `endTurnWithoutDrawForAttacks_noPlayers_throwsException`         |
+| Test Case 2 | one player                           | removes sole; queue empty; current reflects end        | no           | `endTurnWithoutDrawForAttacks_singlePlayer_endsGame`             |
+| Test Case 3 | three players, current repeats front | removes duplicates; re-adds once; current -> next      | no           | `endTurnWithoutDrawForAttacks_multiplePlayers_appliesAttackSkip` |
 
 ---
 
@@ -154,11 +154,11 @@ Key responsibilities:
 
 ### Step 4
 
-| Test Case   | System under test | Expected behavior                                      | Implemented?         | Test name                                                 |
-|-------------| ----------------- | ------------------------------------------------------ | -------------------- | --------------------------------------------------------- |
-| Test Case 1 | empty queue       | throws `IllegalStateException("No players to manage")` | :white\_check\_mark: | `addTurnForCurrentPlayer_noPlayers_throwsException`       |
-| Test Case 2 | one player        | queue \[P,P]; current remains P                        | :white\_check\_mark: | `addTurnForCurrentPlayer_singlePlayer_duplicatesNextTurn` |
-| Test Case 3 | two players       | queue \[P1,P1,P2]; current remains P1                  | :white\_check\_mark: | `addTurnForCurrentPlayer_multiplePlayers_insertsProperly` |
+| Test Case   | System under test | Expected behavior                                      | Implemented? | Test name                                                 |
+|-------------| ----------------- | ------------------------------------------------------ |--------------| --------------------------------------------------------- |
+| Test Case 1 | empty queue       | throws `IllegalStateException("No players to manage")` | no           | `addTurnForCurrentPlayer_noPlayers_throwsException`       |
+| Test Case 2 | one player        | queue \[P,P]; current remains P                        | no           | `addTurnForCurrentPlayer_singlePlayer_duplicatesNextTurn` |
+| Test Case 3 | two players       | queue \[P1,P1,P2]; current remains P1                  | no           | `addTurnForCurrentPlayer_multiplePlayers_insertsProperly` |
 
 ---
 
@@ -174,13 +174,13 @@ Key responsibilities:
 
 ### Step 4
 
-| Test Case   | System under test                 | Expected behavior                                               | Implemented?         | Test name                                           |
-|-------------| --------------------------------- | --------------------------------------------------------------- | -------------------- | --------------------------------------------------- |
-| Test Case 1 | `syncWith(null)`                  | throws `NullPointerException`                                   | :white\_check\_mark: | `syncWith_null_throwsNullPointerException`          |
-| Test Case 2 | `syncWith(emptyList)`             | throws `IllegalArgumentException("No players provided")`        | :white\_check\_mark: | `syncWith_emptyList_throwsIllegalArgumentException` |
-| Test Case 3 | `syncWith(listWithCurrentFirst)`  | queue exactly matches input; current == first element           | :white\_check\_mark: | `syncWith_includesCurrent_keepsOrderAndCurrent`     |
-| Test Case 4 | `syncWith(listMissingOldCurrent)` | queue rebuilt without old current; current == new first element | :white\_check\_mark: | `syncWith_excludesOldCurrent_setsNewCurrent`        |
-| Test Case 5 | `syncWith(reorderedList)`         | queue matches new order; current updated to first               | :white\_check\_mark: | `syncWith_reordersQueue_updatesCurrent`             |
+| Test Case   | System under test                 | Expected behavior                                               | Implemented? | Test name                                           |
+|-------------| --------------------------------- | --------------------------------------------------------------- |--------------| --------------------------------------------------- |
+| Test Case 1 | `syncWith(null)`                  | throws `NullPointerException`                                   | no           | `syncWith_null_throwsNullPointerException`          |
+| Test Case 2 | `syncWith(emptyList)`             | throws `IllegalArgumentException("No players provided")`        | no           | `syncWith_emptyList_throwsIllegalArgumentException` |
+| Test Case 3 | `syncWith(listWithCurrentFirst)`  | queue exactly matches input; current == first element           | no           | `syncWith_includesCurrent_keepsOrderAndCurrent`     |
+| Test Case 4 | `syncWith(listMissingOldCurrent)` | queue rebuilt without old current; current == new first element | no           | `syncWith_excludesOldCurrent_setsNewCurrent`        |
+| Test Case 5 | `syncWith(reorderedList)`         | queue matches new order; current updated to first               | no           | `syncWith_reordersQueue_updatesCurrent`             |
 
 ---
 
@@ -196,9 +196,9 @@ Key responsibilities:
 
 ### Step 4
 
-| Test Case   | System under test   | Expected behavior                                             | Implemented?         | Test name                                     |
-|-------------| ------------------- | ------------------------------------------------------------- | -------------------- | --------------------------------------------- |
-| Test Case 1 | before setup        | throws `IllegalStateException("TurnManager not initialised")` | :white\_check\_mark: | `getTurnOrder_beforeSetup_throwsException`    |
-| Test Case 2 | after setup         | returns list equal to initial `pm.getPlayers()`               | :white\_check\_mark: | `getTurnOrder_afterSetup_returnsInitialOrder` |
-| Test Case 3 | after sync/reorders | returns queue reflecting latest `syncWith` or turn operations | :white\_check\_mark: | `getTurnOrder_afterMutations_reflectsQueue`   |
+| Test Case   | System under test   | Expected behavior                                             | Implemented? | Test name                                     |
+|-------------| ------------------- | ------------------------------------------------------------- |--------------| --------------------------------------------- |
+| Test Case 1 | before setup        | throws `IllegalStateException("TurnManager not initialised")` | no           | `getTurnOrder_beforeSetup_throwsException`    |
+| Test Case 2 | after setup         | returns list equal to initial `pm.getPlayers()`               | no           | `getTurnOrder_afterSetup_returnsInitialOrder` |
+| Test Case 3 | after sync/reorders | returns queue reflecting latest `syncWith` or turn operations | no           | `getTurnOrder_afterMutations_reflectsQueue`   |
 

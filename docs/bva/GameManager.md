@@ -25,11 +25,11 @@ Key methods:
 
 ### Step 4
 
-| Test Case   | System under test                      | Expected behavior                                | Implemented?         | Test name                                           |
-|-------------|----------------------------------------| ------------------------------------------------ | -------------------- | --------------------------------------------------- |
-| Test Case 1 | `new GameManager(null, validUI)`       | throws `NullPointerException`                    | :white\_check\_mark: | `constructor_nullEngine_throwsNullPointerException` |
-| Test Case 2 | `new GameManager(validEngine, null)`   | throws `NullPointerException`                    | :white\_check\_mark: | `constructor_nullUI_throwsNullPointerException`     |
-| Test Case 3 | `new GameManager(validEngine, validUI)` | stores references; calls `bindUI()` exactly once | :white\_check\_mark: | `constructor_validArgs_callsBindUIOnce`             |
+| Test Case   | System under test                      | Expected behavior                                | Implemented? | Test name                                           |
+|-------------|----------------------------------------| ------------------------------------------------ |--------------| --------------------------------------------------- |
+| Test Case 1 | `new GameManager(null, validUI)`       | throws `NullPointerException`                    | no           | `constructor_nullEngine_throwsNullPointerException` |
+| Test Case 2 | `new GameManager(validEngine, null)`   | throws `NullPointerException`                    | no           | `constructor_nullUI_throwsNullPointerException`     |
+| Test Case 3 | `new GameManager(validEngine, validUI)` | stores references; calls `bindUI()` exactly once | no           | `constructor_validArgs_callsBindUIOnce`             |
 
 ---
 
@@ -48,10 +48,10 @@ Key methods:
 
 ### Step 4
 
-| Test Case   | System under test                     | Expected behavior                                                                        | Implemented?         | Test name                                  |
-|-------------| ------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------- | ------------------------------------------ |
-| Test Case 1 | After construction                    | `ui.onPlayCard` called once with non-null callback; `ui.onNextTurn` called once likewise | :white\_check\_mark: | `bindUI_registersBothListenersExactlyOnce` |
-| Test Case 2 | Calling `bindUI()` again (if exposed) | registers additional listeners, but duplicate registration is not expected in normal use | :white\_check\_mark: | `bindUI_idempotentWhenCalledOnce`          |
+| Test Case   | System under test                     | Expected behavior                                                                        | Implemented? | Test name                                  |
+|-------------| ------------------------------------- | ---------------------------------------------------------------------------------------- |--------------| ------------------------------------------ |
+| Test Case 1 | After construction                    | `ui.onPlayCard` called once with non-null callback; `ui.onNextTurn` called once likewise | no           | `bindUI_registersBothListenersExactlyOnce` |
+| Test Case 2 | Calling `bindUI()` again (if exposed) | registers additional listeners, but duplicate registration is not expected in normal use | no           | `bindUI_idempotentWhenCalledOnce`          |
 
 ---
 
@@ -67,12 +67,12 @@ Key methods:
 
 ### Step 4
 
-| Test Case   | System under test                        | Expected behavior                                                                                                          | Implemented?         | Test name                              |
-|-------------| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------------------- |
-| Test Case 1 | `handlePlayCard(null, validCard)`        | calls `ui.showError("Player cannot be null")` (or equivalent message); does **not** call `engine.playCard` or `ui.refresh` | :white\_check\_mark: | `handlePlayCard_nullPlayer_showsError` |
-| Test Case 2 | `handlePlayCard(validPlayer, null)`      | calls `ui.showError("Card cannot be null")`; no engine call or refresh                                                     | :white\_check\_mark: | `handlePlayCard_nullCard_showsError`   |
-| Test Case 3 | engine throws `IllegalArgumentException` | calls `engine.playCard`, catches exception, invokes `ui.showError(exception.getMessage())`; no `ui.refresh`                | :white\_check\_mark: | `handlePlayCard_engineIAE_showsError`  |
-| Test Case 4 | engine succeeds                          | calls `engine.playCard`, then `ui.refresh(engine.getState())`; does not call `ui.showError`                                | :white\_check\_mark: | `handlePlayCard_success_refreshesUI`   |
+| Test Case   | System under test                        | Expected behavior                                                                                                          | Implemented? | Test name                              |
+|-------------| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |--------------| -------------------------------------- |
+| Test Case 1 | `handlePlayCard(null, validCard)`        | calls `ui.showError("Player cannot be null")` (or equivalent message); does **not** call `engine.playCard` or `ui.refresh` | no           | `handlePlayCard_nullPlayer_showsError` |
+| Test Case 2 | `handlePlayCard(validPlayer, null)`      | calls `ui.showError("Card cannot be null")`; no engine call or refresh                                                     | no           | `handlePlayCard_nullCard_showsError`   |
+| Test Case 3 | engine throws `IllegalArgumentException` | calls `engine.playCard`, catches exception, invokes `ui.showError(exception.getMessage())`; no `ui.refresh`                | no           | `handlePlayCard_engineIAE_showsError`  |
+| Test Case 4 | engine succeeds                          | calls `engine.playCard`, then `ui.refresh(engine.getState())`; does not call `ui.showError`                                | no           | `handlePlayCard_success_refreshesUI`   |
 
 ---
 
@@ -88,8 +88,8 @@ Key methods:
 
 ### Step 4
 
-| Test Case   | System under test      | Expected behavior                                                                                    | Implemented?         | Test name                              |
-|-------------| ---------------------- | ---------------------------------------------------------------------------------------------------- | -------------------- | -------------------------------------- |
-| Test Case 1 | before `startGame()`   | calls `engine.nextTurn()`, catches `IllegalStateException`, calls `ui.showError(...)`, no `refresh`  | :white\_check\_mark: | `handleNextTurn_beforeInit_showsError` |
-| Test Case 2 | after init, deck empty | calls `engine.nextTurn()`, catches `NoCardsToMoveException`, calls `ui.showError(...)`, no `refresh` | :white\_check\_mark: | `handleNextTurn_emptyDeck_showsError`  |
-| Test Case 3 | normal case            | calls `engine.nextTurn()`, then `ui.refresh(engine.getState())`; no `showError`                      | :white\_check\_mark: | `handleNextTurn_success_refreshesUI`   |
+| Test Case   | System under test      | Expected behavior                                                                                    | Implemented? | Test name                              |
+|-------------| ---------------------- | ---------------------------------------------------------------------------------------------------- |--------------| -------------------------------------- |
+| Test Case 1 | before `startGame()`   | calls `engine.nextTurn()`, catches `IllegalStateException`, calls `ui.showError(...)`, no `refresh`  | no           | `handleNextTurn_beforeInit_showsError` |
+| Test Case 2 | after init, deck empty | calls `engine.nextTurn()`, catches `NoCardsToMoveException`, calls `ui.showError(...)`, no `refresh` | no           | `handleNextTurn_emptyDeck_showsError`  |
+| Test Case 3 | normal case            | calls `engine.nextTurn()`, then `ui.refresh(engine.getState())`; no `showError`                      | no           | `handleNextTurn_success_refreshesUI`   |
