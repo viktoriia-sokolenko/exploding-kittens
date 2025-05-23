@@ -1,25 +1,41 @@
+Here’s the fully refactored BVA for **PlayerManager**, with explicit Step 3 scenarios in every method:
+
+---
+
 # BVA Analysis for **PlayerManager**
 
 #### Important Note
 
-The `PlayerManager` oversees player setup, hand allocation via an injected `Deck`, and active status tracking.  Its main responsibilities include:
+The `PlayerManager` oversees player setup, hand allocation via an injected `Deck`, and tracking active/eliminated status. Its main methods:
 
-0. **Constructor** – Accepts a non-null `Deck`.
-1. **`addPlayers(int n)`** – Creates `n` new `Player` instances, initializes their hands and status.
-2. **`makePlayersDrawTheirInitialHands()`** – Deals the starting hand to each player by calling `deck.draw()`.
-3. **`getPlayers()`** – Returns the list of managed players.
-4. **`getHands()`** – Returns a map of each player to their current hand of cards.
-5. **`getPlayerStatus()`** – Returns a map of each player to a Boolean indicating active/eliminated status.
-6. **`removePlayerFromGame(Player p)`** – Removes a player from management when they lose.
+0. **Constructor** – takes a non-null `Deck`.
+1. **`addPlayers(int n)`** – creates `n` new `Player` instances (status = active, empty hands).
+2. **`makePlayersDrawTheirInitialHands()`** – deals each player `STARTING_HAND_SIZE` cards via `deck.draw()`.
+3. **`getPlayers()`** – returns the list of players.
+4. **`getHands()`** – returns a map from each player to their current hand.
+5. **`getPlayerStatus()`** – returns a map from each player to a Boolean (active/eliminated).
+6. **`removePlayerFromGame(Player p)`** – marks a player eliminated and removes them from the hands map.
 
 ---
 
 ## Method 0: **Constructor**
 
-| Test Case     | System under test              | Expected behavior                                         | Implemented? | Test name                                  |
-| ------------- | ------------------------------ | --------------------------------------------------------- |------------| ------------------------------------------ |
-| Test Case 0.1 | `new PlayerManager(null)`      | throws `NullPointerException("Deck cannot be null")`      | no         | `ctor_nullDeck_throwsNullPointerException` |
-| Test Case 0.2 | `new PlayerManager(validDeck)` | stores deck reference; `players` and `status` start empty | no         | `ctor_validDeck_initializesEmptyManager`   |
+`public PlayerManager(Deck deck)`
+
+### Step 1–3 Results
+
+|        | Input                          | Output / State Change                                                            |
+| ------ | ------------------------------ | -------------------------------------------------------------------------------- |
+| Step 1 | `deck`                         | none (stores `deck`; initializes empty `players` and `status` maps)              |
+| Step 2 | `deck == null`; `deck != null` | throws `NullPointerException("Deck cannot be null")` if null; otherwise proceeds |
+| Step 3 |                                | 1. `deck = null` <br> 2. `deck = validDeck`                                      |
+
+### Step 4
+
+| Test Case | System under test              | Expected behavior                                    | Implemented? | Test name                                  |
+| --------- | ------------------------------ | ---------------------------------------------------- |--------------| ------------------------------------------ |
+| 0.1       | `new PlayerManager(null)`      | throws `NullPointerException("Deck cannot be null")` | no           | `ctor_nullDeck_throwsNullPointerException` |
+| 0.2       | `new PlayerManager(validDeck)` | stores deck ref; `players` & `status` start empty    | no           | `ctor_validDeck_initializesEmptyManager`   |
 
 ---
 
@@ -27,20 +43,20 @@ The `PlayerManager` oversees player setup, hand allocation via an injected `Deck
 
 ### Step 1–3 Results
 
-|        | Input                                | Output / State Change                                                                       |
-| ------ |--------------------------------------|---------------------------------------------------------------------------------------------|
-| Step 1 | `numberOfPlayers`                    | none (creates and stores `numberOfPlayers` players, each with empty hand and status = true) |
-| Step 2 | `numberOfPlayers`: `<2`, `2–5`, `>5` | Throws `InvalidNumberofPlayersException` for `<2` or `>5`; otherwise populates              |
-| Step 3 | boundary values                      | `1`, `2`, `5`, `6`                                                                          |
+|        | Input             | Output / State Change                                                                                              |
+| ------ | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Step 1 | `numberOfPlayers` | none (creates & stores `n` Player objects; each `hand=[]`, `status=true`)                                          |
+| Step 2 | `<2`; `2–5`; `>5` | `<2` or `>5`: throws `InvalidNumberofPlayersException`; otherwise populates players/status maps                    |
+| Step 3 |                   | 1. `numberOfPlayers = 1` <br> 2. `numberOfPlayers = 2` <br> 3. `numberOfPlayers = 5` <br> 4. `numberOfPlayers = 6` |
 
 ### Step 4
 
-| Test Case   | System under test | Expected behavior                                           | Implemented? | Test name                                                         |
-| ----------- | ----------------- | ----------------------------------------------------------- |----------| ----------------------------------------------------------------- |
-| Test Case 1 | `addPlayers(1)`   | throws `InvalidNumberofPlayersException`                    | no       | `addPlayers_tooFewPlayers_throwsInvalidNumberofPlayersException`  |
-| Test Case 2 | `addPlayers(6)`   | throws `InvalidNumberofPlayersException`                    | no       | `addPlayers_tooManyPlayers_throwsInvalidNumberofPlayersException` |
-| Test Case 3 | `addPlayers(2)`   | `players.size()==2`; each hand empty; each status == `true` | no       | `addPlayers_validTwo_initializesTwoActivePlayers`                 |
-| Test Case 4 | `addPlayers(5)`   | `players.size()==5`; initialization behaves as above        | no       | `addPlayers_validFive_initializesFiveActivePlayers`               |
+| Test Case | System under test | Expected behavior                                               | Implemented? | Test name                                                         |
+| --------- | ----------------- | --------------------------------------------------------------- |--------------| ----------------------------------------------------------------- |
+| 1         | `addPlayers(1)`   | throws `InvalidNumberofPlayersException`                        | no           | `addPlayers_tooFewPlayers_throwsInvalidNumberofPlayersException`  |
+| 2         | `addPlayers(6)`   | throws `InvalidNumberofPlayersException`                        | no           | `addPlayers_tooManyPlayers_throwsInvalidNumberofPlayersException` |
+| 3         | `addPlayers(2)`   | `players.size()==2`; each `hand.isEmpty()`; each `status==true` | no           | `addPlayers_validTwo_initializesTwoActivePlayers`                 |
+| 4         | `addPlayers(5)`   | `players.size()==5`; same initialization as above               | no           | `addPlayers_validFive_initializesFiveActivePlayers`               |
 
 ---
 
@@ -48,20 +64,20 @@ The `PlayerManager` oversees player setup, hand allocation via an injected `Deck
 
 ### Step 1–3 Results
 
-|        | Input                                                                                    | Output / State Change                                                                                                      |
-| ------ |------------------------------------------------------------------------------------------| -------------------------------------------------------------------------------------------------------------------------- |
-| Step 1 | none                                                                                     | none (each player draws `STARTING_HAND_SIZE` cards via `deck.draw()`)                                                      |
-| Step 2 | Preconditions: `addPlayers(numberOfPlayers)` not called; `numberOfPlayers` players exist | Throws `IllegalStateException("Players not initialized")`; otherwise, each player's hand increases by `STARTING_HAND_SIZE` |
-| Step 3 | Combine: before init; after init with 2, 5 players                                       |                                                                                                                            |
+|        | Input                                              | Output / State Change                                                                                                                                                                                 |
+| ------ | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Step 1 | none                                               | none (for each player, calls `deck.draw()` STARTING\_HAND\_SIZE times)                                                                                                                                |
+| Step 2 | before `addPlayers(...)`; after valid `addPlayers` | before init: throws `IllegalStateException("Players not initialized")`; after init: each hand grows, deck shrinks                                                                                     |
+| Step 3 |                                                    | 1. **Before init** <br> 2. **After `addPlayers(2)`** with sufficient deck <br> 3. **After `addPlayers(5)`** with sufficient deck <br> 4. **After `addPlayers(2)`** but deck has `< 2×HAND_SIZE` cards |
 
 ### Step 4
 
-| Test Case       | System under test                                  | Expected behavior                                                                                   | Implemented? | Test name                                                                 |
-| --------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------- |-----------| ------------------------------------------------------------------------- |
-| Test Case 1     | before `addPlayers(...)` called                    | throws `IllegalStateException("Players not initialized")`                                           | no        | `makePlayersDrawTheirInitialHands_beforeInit_throwsIllegalStateException` |
-| **Test Case 2** | deck has fewer than `n * STARTING_HAND_SIZE` cards | first `NoSuchElementException` from `deck.draw()` propagates; no player's hand is modified          |           | `makePlayersDraw_insufficientDeck_throwsAndLeavesState`                   |
-| Test Case 3     | after `addPlayers(2)` with sufficient deck         | each of 2 players’ hand size == `STARTING_HAND_SIZE`; deck size reduced by `2 * STARTING_HAND_SIZE` | no        | `makePlayersDraw_twoPlayers_dealsCorrectNumber`                           |
-| Test Case 4     | after `addPlayers(5)` with sufficient deck         | each of 5 players’ hand size == `STARTING_HAND_SIZE`; deck size reduced by `5 * STARTING_HAND_SIZE` | no        | `makePlayersDraw_fivePlayers_dealsCorrectNumber`                          |
+| Test Case | System under test                                | Expected behavior                                                               | Implemented? | Test name                                                                 |
+| --------- | ------------------------------------------------ | ------------------------------------------------------------------------------- |--------------| ------------------------------------------------------------------------- |
+| 1         | before any `addPlayers(...)`                     | throws `IllegalStateException("Players not initialized")`                       | no           | `makePlayersDrawTheirInitialHands_beforeInit_throwsIllegalStateException` |
+| 2         | after `addPlayers(2)`; deck size < `2*HAND_SIZE` | first `deck.draw()` throws `NoSuchElementException`; no hands are modified      | no           | `makePlayersDraw_insufficientDeck_throwsAndLeavesState`                   |
+| 3         | after `addPlayers(2)`; deck size ≥ `2*HAND_SIZE` | each of 2 players’ hand size == `HAND_SIZE`; deck size reduced by `2*HAND_SIZE` | no           | `makePlayersDraw_twoPlayers_dealsCorrectNumber`                           |
+| 4         | after `addPlayers(5)`; deck size ≥ `5*HAND_SIZE` | each of 5 players’ hand size == `HAND_SIZE`; deck size reduced by `5*HAND_SIZE` | no           | `makePlayersDraw_fivePlayers_dealsCorrectNumber`                          |
 
 ---
 
@@ -69,56 +85,56 @@ The `PlayerManager` oversees player setup, hand allocation via an injected `Deck
 
 ### Step 1–3 Results
 
-|        | Input                         | Output                           |
-| ------ | ----------------------------- | -------------------------------- |
-| Step 1 | none                          | returns internal list of players |
-| Step 2 | Before vs. after `addPlayers` | empty list or populated list     |
-| Step 3 | —                             | —                                |
+|        | Input                         | Output                          |
+| ------ | ----------------------------- | ------------------------------- |
+| Step 1 | none                          | returns internal `List<Player>` |
+| Step 2 | before vs. after `addPlayers` | empty list vs. populated list   |
+| Step 3 | —                             | —                               |
 
 ### Step 4
 
-| Test Case   | System under test        | Expected behavior                              | Implemented? | Test name                                          |
-| ----------- | ------------------------ | ---------------------------------------------- |------------| -------------------------------------------------- |
-| Test Case 1 | before `addPlayers(...)` | returns empty list                             | no         | `getPlayers_beforeInit_returnsEmptyList`           |
-| Test Case 2 | after `addPlayers(3)`    | returns list of size 3 matching creation order | no         | `getPlayers_afterAdd_returnsCreatedPlayersInOrder` |
+| Test Case | System under test        | Expected behavior                        | Implemented? | Test name                                          |
+| --------- | ------------------------ | ---------------------------------------- |--------------| -------------------------------------------------- |
+| 1         | before `addPlayers(...)` | returns empty list                       | no           | `getPlayers_beforeInit_returnsEmptyList`           |
+| 2         | after `addPlayers(3)`    | returns list of size 3 in creation order | no           | `getPlayers_afterAdd_returnsCreatedPlayersInOrder` |
 
 ---
 
-## Method 4: `public Map<Player, List<Card>> getHands()`
+## Method 4: `public Map<Player,List<Card>> getHands()`
 
 ### Step 1–3 Results
 
-|        | Input                          | Output                                     |
-| ------ | ------------------------------ | ------------------------------------------ |
-| Step 1 | none                           | returns map of player → current hand lists |
-| Step 2 | Before dealing vs. after deals | empty-hand lists vs. non-empty             |
-| Step 3 | —                              | —                                          |
+|        | Input                 | Output                           |
+| ------ | --------------------- | -------------------------------- |
+| Step 1 | none                  | returns `Map<Player,List<Card>>` |
+| Step 2 | before vs. after deal | each hand empty vs. non-empty    |
+| Step 3 | —                     | —                                |
 
 ### Step 4
 
-| Test Case   | System under test                          | Expected output / state transition          | Implemented? | Test name                                             |
-| ----------- | ------------------------------------------ | ------------------------------------------- |------------| ----------------------------------------------------- |
-| Test Case 1 | before any hand dealt                      | each value in map is empty list             | no         | `getHands_beforeDeal_returnsEmptyHands`               |
-| Test Case 2 | after `makePlayersDrawTheirInitialHands()` | each hand list size == `STARTING_HAND_SIZE` | no         | `getHands_afterInitialDeal_returnsHandsOfCorrectSize` |
+| Test Case | System under test  | Expected output                    | Implemented? | Test name                                             |
+| --------- | ------------------ | ---------------------------------- |--------------| ----------------------------------------------------- |
+| 1         | before any deal    | each value list is empty           | no           | `getHands_beforeDeal_returnsEmptyHands`               |
+| 2         | after initial deal | each hand list size == `HAND_SIZE` | no           | `getHands_afterInitialDeal_returnsHandsOfCorrectSize` |
 
 ---
 
-## Method 5: `public Map<Player, Boolean> getPlayerStatus()`
+## Method 5: `public Map<Player,Boolean> getPlayerStatus()`
 
 ### Step 1–3 Results
 
-|        | Input                     | Output                                |
-| ------ | ------------------------- | ------------------------------------- |
-| Step 1 | none                      | returns map of player → active status |
-| Step 2 | Before vs. after removals | all `true` vs. some `false`           |
-| Step 3 | —                         | —                                     |
+|        | Input                    | Output                        |
+| ------ | ------------------------ | ----------------------------- |
+| Step 1 | none                     | returns `Map<Player,Boolean>` |
+| Step 2 | before vs. after removal | all `true` vs. some `false`   |
+| Step 3 | —                        | —                             |
 
 ### Step 4
 
-| Test Case   | System under test                     | Expected output                               | Implemented? | Test name                                          |
-| ----------- | ------------------------------------- | --------------------------------------------- |------------| -------------------------------------------------- |
-| Test Case 1 | before any removals                   | all values `true`                             | no         | `getPlayerStatus_initialAllActive`                 |
-| Test Case 2 | after `removePlayerFromGame(playerX)` | status of `playerX` == `false`; others `true` | no         | `getPlayerStatus_afterRemoval_marksPlayerInactive` |
+| Test Case | System under test                     | Expected output                            | Implemented? | Test name                                          |
+| --------- | ------------------------------------- | ------------------------------------------ |--------------| -------------------------------------------------- |
+| 1         | before any removal                    | all statuses == `true`                     | no           | `getPlayerStatus_initialAllActive`                 |
+| 2         | after `removePlayerFromGame(playerX)` | `playerX` status == `false`; others `true` | no           | `getPlayerStatus_afterRemoval_marksPlayerInactive` |
 
 ---
 
@@ -126,17 +142,17 @@ The `PlayerManager` oversees player setup, hand allocation via an injected `Deck
 
 ### Step 1–3 Results
 
-|        | Input                                             | Output / State Change                          |
-| ------ | ------------------------------------------------- | ---------------------------------------------- |
-| Step 1 | `Player p`                                        | none (updates `players` list and `status` map) |
-| Step 2 | `p == null`; not managed; already removed; active | Throws appropriate NPE, IAE, or ISE            |
-| Step 3 | combine boundary and normal cases                 | —                                              |
+|        | Input                                             | Output / State Change                                                                                      |
+| ------ | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Step 1 | `Player p`                                        | none (updates `players` list and `status` map)                                                             |
+| Step 2 | `p == null`; not managed; active; already removed | throws NPE, IAE, or ISE as appropriate; otherwise removes and deactivates                                  |
+| Step 3 |                                                   | 1. `p = null` <br> 2. `p = playerNotManaged` <br> 3. `p = activePlayer` <br> 4. `p = alreadyRemovedPlayer` |
 
 ### Step 4
 
-| Test Case   | System under test                            | Expected output                                                                  | Implemented? | Test name                                                           |
-| ----------- | -------------------------------------------- | -------------------------------------------------------------------------------- |----------| ------------------------------------------------------------------- |
-| Test Case 1 | `removePlayerFromGame(null)`                 | throws `NullPointerException`                                                    | no       | `removePlayerFromGame_null_throwsNullPointerException`              |
-| Test Case 2 | `removePlayerFromGame(playerNotManaged)`     | throws `IllegalArgumentException("Player not found")`                            | no       | `removePlayerFromGame_unknownPlayer_throwsIllegalArgumentException` |
-| Test Case 3 | `removePlayerFromGame(activePlayer)`         | removes from `players`; sets status `false`; `getHands()` no longer includes `p` | no       | `removePlayerFromGame_activePlayer_removesAndDeactivates`           |
-| Test Case 4 | `removePlayerFromGame(playerAlreadyRemoved)` | throws `IllegalStateException("Player already removed")`                         | no       | `removePlayerFromGame_alreadyRemoved_throwsIllegalStateException`   |
+| Test Case | System under test                            | Expected output                                                                          | Implemented? | Test name                                                           |
+| --------- | -------------------------------------------- | ---------------------------------------------------------------------------------------- |--------------| ------------------------------------------------------------------- |
+| 1         | `removePlayerFromGame(null)`                 | throws `NullPointerException`                                                            | no           | `removePlayerFromGame_null_throwsNullPointerException`              |
+| 2         | `removePlayerFromGame(playerNotManaged)`     | throws `IllegalArgumentException("Player not found")`                                    | no           | `removePlayerFromGame_unknownPlayer_throwsIllegalArgumentException` |
+| 3         | `removePlayerFromGame(activePlayer)`         | removes from `players`; sets status `false`; `getHands()` no longer includes that player | no           | `removePlayerFromGame_activePlayer_removesAndDeactivates`           |
+| 4         | `removePlayerFromGame(playerAlreadyRemoved)` | throws `IllegalStateException("Player already removed")`                                 | no           | `removePlayerFromGame_alreadyRemoved_throwsIllegalStateException`   |
