@@ -58,7 +58,7 @@
 
 #### PR created:
 
-_competing project deadlines, will commit to more time for this project for this week_ 
+- [Attack Card Clas](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/50)
 
 ### PR done and approved
 
