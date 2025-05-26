@@ -11,51 +11,46 @@
 
 ---
 
-## Method 0: **Constructor**
-
-`public Card(CardType type)`
+## Method 0: ```public Card(CardType type)```
 
 ### Step 1–3 Results
 
-|            | Input          | Output / State Change                                                                              |
-| ---------- | -------------- | -------------------------------------------------------------------------------------------------- |
-| **Step 1** | `type = X`     | assigns `this.type = X`                                                                            |
-| **Step 2** | `type == null` | throws `NullPointerException("type")`                                                              |
-| **Step 3** | valid types    | `new Card(CardType.ATTACK)` <br> `new Card(CardType.DEFUSE)` <br> … <br> `new Card(CardType.NUKE)` |
+|            | Input                | Output                                                                                             |
+| ---------- | -------------------- | -------------------------------------------------------------------------------------------------- |
+| **Step 1** | CardType enum        | assigns card to the type                                                                           |
+| **Step 2** | CardType enum        | `NullPointerException`, Card Object                                                                |
+| **Step 3** | valid types, null    | `new Card(CardType.ATTACK)` <br> `new Card(CardType.DEFUSE)` <br> … <br> `new Card(CardType.NUKE)` |
 
 ### Step 4
 
-| Test Case                      | System under test | Expected behavior                            | Implemented? | Test name                                             |
-| ------------------------------ | ----------------- | -------------------------------------------- |--------------|-------------------------------------------------------|
-| 1. `new Card(null)`            | constructor       | throws `NullPointerException`                | no           | `constructor_WithNullType_ThrowsNullPointerException` |
-| 2. `new Card(CardType.ATTACK)` | constructor       | returns non-null `Card`; `getType()==ATTACK` | no           | `constructor_WithValidCardType_CreatesCard`           |
+|               | Input             | Output                                       | Implemented? | Test name                                             |
+| ------------- | ----------------- | -------------------------------------------- |--------------|-------------------------------------------------------|
+| Test Case 1   | type `null`       | throws `NullPointerException`                |              | `constructor_withNullType_throwsNullPointerException` |
+| Test Case 2   | type `ATTACK`     | returns non-null `Card`; `getType()==ATTACK` |              | `constructor_withValidCardType_createsCard`           |
 
----
+---  
 
-## Method 1: **Getter**
-
-`public CardType getType()`
+## Method 1: ```public CardType getType()```
 
 ### Step 1–3 Results
 
-|            | Input        | Output           |
-| ---------- | ------------ | ---------------- |
-| **Step 1** | any `Card c` | returns `c.type` |
-| **Step 2** | —            | N/A              |
-| **Step 3** | —            | N/A              |
+|            | Input        | Output                         |
+| ---------- | ------------ | ------------------------------ |
+| **Step 1** | Card         | the CardType belonging to Card |
+| **Step 2** | Card Object  | CardType Object                |
+| **Step 3** | Card Object  | CardType Object                |
 
 ### Step 4
 
-| Test Case                    | System under test | Expected behavior | Implemented? | Test name                     |
-| ---------------------------- | ----------------- | ----------------- |--------------| ----------------------------- |
-| `c=new Card(X); c.getType()` | `getType()`       | returns `X`       | no           | `getType_returnsAssignedType` |
+|              | Input             | Output            | Implemented? | Test name                     |
+| ------------ | ----------------- | ----------------- |--------------| ----------------------------- |
+| Test Case 1  | card `X`          | returns `X`       |              | `getType_returnsAssignedType` |
 
 ---
 
-## Method 2: **Equality & Hashing**
-
-`public boolean equals(Object o)`
-`public int hashCode()`
+## Method 2: ```public boolean equals(Object o)``` and ```public int hashCode()``` (Equal and HashCode)
+#### Important Note:
+These methods are used for testing purposes, and some of the Java methods are used so that we can ensure and override the equals method of the object and its hashCode. This is something that allows methods like `AssertEqual` and determines whether two objects are part of the Card class. Which tests if two objects are equal. This BVA was created specially since it's beyond what we've learned in class.
 
 ### Step 1–3 Results
 
@@ -72,41 +67,37 @@
 
 | Test Case                              | System under test        | Expected behavior | Implemented? | Test name                            |
 | -------------------------------------- | ------------------------ | ----------------- |--------------| ------------------------------------ |
-| 1. `c.equals(c)`                       | `equals(this)`           | `true`            | no           | `equals_self_returnsTrue`            |
-| 2. `c.equals(new Card(sameType))`      | `equals(otherSameType)`  | `true`            | no           | `equals_sameType_returnsTrue`        |
-| 3. `c.equals(null)`                    | `equals(null)`           | `false`           | no           | `equals_null_returnsFalse`           |
-| 4. `c.equals(objOfOtherClass)`         | `equals(differentClass)` | `false`           | no           | `equals_differentClass_returnsFalse` |
-| 5. `c.equals(new Card(differentType))` | `equals(otherType)`      | `false`           | no           | `equals_differentType_returnsFalse`  |
+| 1. `card.equals(c)`                       | `equals(this)`           | `true`            |              | `equals_self_returnsTrue`            |
+| 2. `card.equals(new Card(sameType))`      | `equals(otherSameType)`  | `true`            |              | `equals_sameType_returnsTrue`        |
+| 3. `card.equals(null)`                    | `equals(null)`           | `false`           |              | `equals_null_returnsFalse`           |
+| 4. `card.equals(objOfOtherClass)`         | `equals(differentClass)` | `false`           |              | `equals_differentClass_returnsFalse` |
+| 5. `card.equals(new Card(differentType))` | `equals(otherType)`      | `false`           |              | `equals_differentType_returnsFalse`  |
 
 ### Step 4 – hashCode()
 
 | Test Case                               | System under test | Expected behavior                                           | Implemented? | Test name                       |
 | --------------------------------------- | ----------------- | ----------------------------------------------------------- |--------------| ------------------------------- |
-| `c1=new Card(X); c2=new Card(X)`        | `hashCode()`      | `c1.hashCode()==c2.hashCode()`                              | no           | `hashCode_sameType_equalHash`   |
-| `new Card(X).hashCode() vs new Card(Y)` | `hashCode()`      | likely different, but no strict requirement beyond contract | no           | `hashCode_differentType_varies` |
+| `card1=new Card(X); card2=new Card(X)`  | `hashCode()`      | `card1.hashCode()==card2.hashCode()`                        |              | `hashCode_sameType_equalHash`   |
+| `new Card(X).hashCode() vs new Card(Y)` | `hashCode()`      | likely different, but no strict requirement beyond contract |              | `hashCode_differentType_varies` |
 
 ---
 
-## Method 3: **Action**
-
-`public abstract void play(Player p)`
-
+## Method 3: ```public abstract void play(Player player)```
 > Abstract in `Card`; concrete subtypes override to implement effects.
 
 ### Step 1–3 Results
 
-|            | Input                      | Output / State Change                                                            |
-| ---------- | -------------------------- | -------------------------------------------------------------------------------- |
-| **Step 1** | valid `Player p`           | none (delegates to subclass override)                                            |
-| **Step 2** | `p == null`                | throws `NullPointerException("p")`                                               |
-|            | `p` not in game (optional) | may throw `IllegalArgumentException`                                             |
-| **Step 3** | scenarios:                 | 1. `p = null` <br> 2. `p = validPlayerInGame` <br> 3. `p = validPlayerNotInGame` |
+|            | Input                                                                 | Input 2        |Output                                                                           |
+| ---------- | --------------------------------------------------------------------- | -------------- |-------------------------------------------------------------------------------- |
+| **Step 1** | takes in a player and allows them to perform the action of the card   | different card |none (delegates to subclass override)                                            |
+| **Step 2** | Player object and Case (Optional)                                     | Card Object    |void, Exception                                                                  |
+| **Step 3** | Player Object, Null, Optional: In Game or Not in Game (valid Player)  | Card Object    |All Cards, <be>, `NullPointerException`, `IllegalArgumentException` (optional) <br> 1. `player = null` <br> 2. `player = validPlayerInGame` <br> 3. `player = validPlayerNotInGame` |
 
 ### Step 4
 
-| Test Case                                | System under test      | Expected behavior                                    | Implemented? | Test name                               |
-| ---------------------------------------- | ---------------------- | ---------------------------------------------------- |--------------| --------------------------------------- |
-| 1. `play(null)`                          | `play(null)`           | throws `NullPointerException`                        | no           | `play_nullPlayer_throwsNullPointer`     |
-| 2. `play(validPlayer)` in `AttackCard`   | `AttackCard.play(p)`   | applies damage + `checkWinCondition()`               | no           | `play_attack_appliesDamageAndChecksWin` |
-| 3. `play(validPlayer)` in `DrawTwoCard`  | `DrawTwoCard.play(p)`  | instructs engine to draw two cards for `p`           | no           | `play_drawTwo_givesTwoCards`            |
-| 4. `play(validPlayer)` in `SkipTurnCard` | `SkipTurnCard.play(p)` | advances turn without draw (engine handles rotation) | no           | `play_skipTurn_skipsAndChecksWin`       |
+|              | System under test      | Expected behavior                                    | Implemented? | Test name                                        |
+| ------------ | ---------------------- | ---------------------------------------------------- |--------------| ------------------------------------------------ |
+| Test Case 1  | player `null`           | throws `NullPointerException`                       |              | `play_nullPlayer_throwsNullPointerException`     |
+| Test Case 2  | `AttackCard.play(p)`   | applies damage + `checkWinCondition()`               |              | `play_attack_appliesDamageAndChecksWin`          |
+| Test Case 3  | `DrawTwoCard.play(p)`  | instructs engine to draw two cards for `p`           |              | `play_drawTwo_givesTwoCards`                     |
+| Test Case 4  | `SkipTurnCard.play(p)` | advances turn without draw (engine handles rotation) |              | `play_skipTurn_skipsAndChecksWin`                 |
