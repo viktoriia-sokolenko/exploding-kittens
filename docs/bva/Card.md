@@ -25,10 +25,10 @@
 
 ### Step 4
 
-| Test Case                      | System under test | Expected behavior                            | Implemented? | Test name                 |
-| ------------------------------ | ----------------- | -------------------------------------------- |--------------| ------------------------- |
-| 1. `new Card(null)`            | constructor       | throws `NullPointerException`                | no           | `ctor_nullType_throwsNPE` |
-| 2. `new Card(CardType.ATTACK)` | constructor       | returns non-null `Card`; `getType()==ATTACK` | no           | `ctor_validType_setsType` |
+| Test Case                      | System under test | Expected behavior                            | Implemented? | Test name                                             |
+| ------------------------------ | ----------------- | -------------------------------------------- |--------------|-------------------------------------------------------|
+| 1. `new Card(null)`            | constructor       | throws `NullPointerException`                | no           | `constructor_WithNullType_ThrowsNullPointerException` |
+| 2. `new Card(CardType.ATTACK)` | constructor       | returns non-null `Card`; `getType()==ATTACK` | no           | `constructor_WithValidCardType_CreatesCard`           |
 
 ---
 
