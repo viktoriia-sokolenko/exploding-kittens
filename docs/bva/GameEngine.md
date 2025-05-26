@@ -1,77 +1,54 @@
-Here’s the fully refactored BVA for **GameEngine**, modeled on the Deck example—each Step 3 now lists concrete values or scenarios instead of “combine…”:
-
----
-
 # BVA Analysis for **GameEngine**
 
 #### Important Note
 
 All core methods (`startGame`, `playCard`, `nextTurn`, `eliminatePlayer`) end by invoking `checkWinCondition()`. The engine is “not started” until **startGame(...)** is called.
 
----
 
-## Method 0: **Constructor**
-
-### Step 1–3 Results
-
-|        | Input | Output / State Change                                                      |
-| ------ | ----- | -------------------------------------------------------------------------- |
-| Step 1 | none  | none (creates `deck`, `playerManager(deck)`, `turnManager(playerManager)`) |
-| Step 2 | —     | N/A—no validation                                                          |
-| Step 3 | —     | N/A                                                                        |
-
-### Step 4
-
-| Test Case | System under test  | Expected behavior                                             | Implemented? | Test name                         |
-| --------- | ------------------ | ------------------------------------------------------------- |--------------| --------------------------------- |
-| 1         | `new GameEngine()` | `deck` non-null; both managers injected with that same `deck` | no           | `ctor_initializesDeckAndManagers` |
-
----
-
-## Method 1: `public void startGame(int numberOfPlayers) throws InvalidNumberofPlayersException`
+## Method 1: ```public void startGame(int numberOfPlayers)```
 
 ### Step 1–3 Results
 
 |        | Input             | Output / State Change                                                                                                                          |
 | ------ | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | Step 1 | `numberOfPlayers` | none (delegates to playerManager.addPlayers(), makePlayersDrawTheirInitialHands(), turnManager.setPlayerManager())                             |
-| Step 2 | `<2`, `2–5`, `>5` | `<2` or `>5`: throws exception; otherwise proceeds                                                                                             |
-| Step 3 |                   | **1** → throws<br> **2** → adds 2 players, deals hands, sets turn manager, then `checkWinCondition()`<br> **5** → same as 2<br> **6** → throws |
+| Step 2 | Intervals `(2,5)` | Exception, game proceeds                                                                                                                       |
+| Step 3 | `<2`, `2–5`, `>5` | **1** → InvalidNumberofPlayersException<br> **2** → adds 2 players, deals hands, sets turn manager, then `checkWinCondition()`<br> **5** → same as 2<br> **6** → InvalidNumberofPlayersException |
 
 ### Step 4
 
 | Test Case | System under test | Expected behavior / state transition                                                  | Implemented? | Test name                                                        |
 | --------- | ----------------- | ------------------------------------------------------------------------------------- |--------------| ---------------------------------------------------------------- |
-| 1         | `startGame(1)`    | throws `InvalidNumberofPlayersException`                                              | no           | `startGame_tooFewPlayers_throwsInvalidNumberofPlayersException`  |
-| 2         | `startGame(6)`    | throws `InvalidNumberofPlayersException`                                              | no           | `startGame_tooManyPlayers_throwsInvalidNumberofPlayersException` |
-| 3         | `startGame(2)`    | calls in order: add 2 players → deal hands → set turn manager → `checkWinCondition()` | no           | `startGame_twoPlayers_initializesManagersAndChecksWinCondition`  |
-| 4         | `startGame(5)`    | same sequence with `n=5`                                                              | no           | `startGame_fivePlayers_initializesManagersAndChecksWinCondition` |
+| 1         | `startGame(1)`    | throws `InvalidNumberofPlayersException`                                              |              | `startGame_tooFewPlayers_throwsInvalidNumberofPlayersException`  |
+| 2         | `startGame(6)`    | throws `InvalidNumberofPlayersException`                                              |              | `startGame_tooManyPlayers_throwsInvalidNumberofPlayersException` |
+| 3         | `startGame(2)`    | calls in order: add 2 players → deal hands → set turn manager → `checkWinCondition()` |              | `startGame_twoPlayers_initializesManagersAndChecksWinCondition`  |
+| 4         | `startGame(5)`    | calls in order: add 5 players → deal hands → set turn manager → `checkWinCondition()` |              | `startGame_fivePlayers_initializesManagersAndChecksWinCondition` |
 
 ---
 
-## Method 2: `public void playCard(Player p, Card c)`
+## Method 2: `public void playCard(Player player, Card card)`
 
 ### Step 1–3 Results
 
-|        | Input 1: `Player p`                                       | Input 2: `Card c` | Step 3: Concrete test inputs                                                                                                                                                                                                          |
-| ------ | --------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Step 1 | any `p`                                                   | any `c`           | (call signature)                                                                                                                                                                                                                      |
-| Step 2 | • `p` or `c` null<br>• `p` not in game<br>• `c` unhandled |                   | (equivalence classes)                                                                                                                                                                                                                 |
-| Step 3 |                                                           |                   | 1. `p=null`, `c=validAttackCard`  <br> 2. `p=validPlayerInGame`, `c=null`  <br> 3. `p=playerNotInGame`, `c=validAttackCard`  <br> 4. `p=validPlayerInGame`, `c=validAttackCard`  <br> 5. `p=validPlayerInGame`, `c=unhandledCardType` |
+|        | Input 1                                                                  | Input 2                            | Output                                                                |
+| ------ | ------------------------------------------------------------------------ | ---------------------------------- | --------------------------------------------------------------------- |
+| Step 1 | any `player`                                                             | any `card`                         |                                                                       |  
+| Step 2 | Player Object, Case (Player in Game vs Not in Game)                      | Card Object                        |                                                                       |
+| Step 3 | null, validPlayerInGame, playerNotInGame                                 | null, all the different Card types |                                                                       |
 
 ### Step 4
 
 | Test Case | System under test                      | Expected behavior                                                                        | Implemented? | Test name                                               |
 | --------- | -------------------------------------- | ---------------------------------------------------------------------------------------- |--------------| ------------------------------------------------------- |
-| 1         | `playCard(null, validCard)`            | throws `NullPointerException`                                                            | no           | `playCard_nullPlayer_throwsNullPointerException`        |
-| 2         | `playCard(validPlayer, null)`          | throws `NullPointerException`                                                            | no           | `playCard_nullCard_throwsNullPointerException`          |
-| 3         | `playCard(playerNotInGame, validCard)` | throws `IllegalArgumentException("Player not in game")`                                  | no           | `playCard_unknownPlayer_throwsIllegalArgumentException` |
-| 4         | valid attack scenario                  | invokes `AttackCard.play(this,p)`; then `checkWinCondition()`                            | no           | `playCard_attack_delegatesEffectAndChecksWinCondition`  |
-| 5         | unhandled card type                    | throws `IllegalStateException("Unhandled card type")`; still calls `checkWinCondition()` | no           | `playCard_unhandledType_throwsAndChecksWinCondition`    |
+| 1         | `playCard(null, validCard)`            | throws `NullPointerException`                                                            |              | `playCard_nullPlayer_throwsNullPointerException`        |
+| 2         | `playCard(validPlayer, null)`          | throws `NullPointerException`                                                            |              | `playCard_nullCard_throwsNullPointerException`          |
+| 3         | `playCard(playerNotInGame, validCard)` | throws `IllegalArgumentException("Player not in game")`                                  |              | `playCard_unknownPlayer_throwsIllegalArgumentException` |
+| 4         | valid attack scenario                  | invokes `AttackCard.play(this,p)`; then `checkWinCondition()`                            |              | `playCard_attack_delegatesEffectAndChecksWinCondition`  |
+| 5         | unhandled card type                    | throws `IllegalStateException("Unhandled card type")`; still calls `checkWinCondition()` |              | `playCard_unhandledType_throwsAndChecksWinCondition`    |
 
 ---
 
-## Method 3: `public void nextTurn() throws NoCardsToMoveException`
+## Method 3: ```public void nextTurn()```
 
 ### Step 1–3 Results
 
@@ -86,7 +63,7 @@ All core methods (`startGame`, `playCard`, `nextTurn`, `eliminatePlayer`) end by
 | Test Case | System under test                     | Expected behavior                                                     | Implemented? | Test name                                                |
 | --------- | ------------------------------------- | --------------------------------------------------------------------- |--------------| -------------------------------------------------------- |
 | 1         | before `startGame(...)`               | throws `IllegalStateException("GameEngine not initialized")`          | no           | `nextTurn_beforeInit_throwsIllegalStateException`        |
-| 2         | after init, deck empty                | propagates `NoCardsToMoveException`; no `checkWinCondition()` call    | no           | `nextTurn_emptyDeck_propagatesNoCardsToMoveException`    |
+| 2         | after init, deck empty                | propagates `NoCardsToMoveException`; no `checkWinCondition()` call    | no           | `nextTurn_emptyDeck_throwsNoCardsToMoveException`        |
 | 3         | after init, deck ≥1, multiple players | calls `turnManager.endTurnAndDraw()` once; then `checkWinCondition()` | no           | `nextTurn_validInvocation_advancesAndChecksWinCondition` |
 
 ---
