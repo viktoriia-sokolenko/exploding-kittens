@@ -3,72 +3,75 @@
 
 **Items Planned**:
 1. Write BVAs for the following:
-   2. Game Manager
-   3. Game Engine
-   4. Game Controller
-   3. Turn Manager
-   3. Attack Card
-   4. See into the future
-   5. Skip
-   6. Nope
-   7. Refactor the card class
+   * Game Manager
+   * Game Engine
+   * Game Controller
+   * Turn Manager
+   * Attack Card
+   * See into the future
+   * Skip
+   * Nope
+   * Refactor the card class
 2. Implement the following:
-   2. Game Manager
-   3. Game Engine
-   4. Game Controller
-   3. Turn Manager
-   3. Attack Card
-   4. See into the future
-   5. Skip
-   6. Nope
-   7. Refactor the card class
-8. Finalize and merge the CardFactory and check into main
-9. Begin working on UI for the gaame
+   * Game Manager
+   * Game Engine
+   * Game Controller
+   * Turn Manager
+   * Attack Card
+   * See into the future
+   * Skip
+   * Nope
+   * Refactor the card class
+3. Finalize and merge the CardFactory and check into main
+4. Begin working on UI for the gaame
 
 # Part 2. Team Progress of the Week w.r.t Last Week's Planning :green_book:
 **Evaluation Date**: 5/18/2025 (at night)
 
 **Item Progress**:
 1. Write BVAs for the following:
-    2. DONE: Game Manager
-    3. DONE: Game Engine
-    4. DONE: Game Controller
-    3. DONE: Turn Manager
-    3. NOT STARTED: Attack Card
-    4. NOT STARTED: See into the future
-    5. NOT STARTED: Skip
-    6. NOT STARTED: Nope
-    7. IN PROGRESS: Refactor the card class
+    *  UNDER REVIEW: Game Manager
+    *  UNDER REVIEW: Game Engine
+    *  UNDER REVIEW: Game Controller
+    *  UNDER REVIEW: Turn Manager
+    *  IN PROGRESS: Attack Card
+    *  NOT STARTED: See into the future
+    *  IN PROGRESS: Skip
+    *  IN PROGRESS: Nope
+    *  IN PROGRESS: Refactor the card class
 2. Implement the following:
-    2. IN PROGRESS: Game Manager
-    3. IN PROGRESS: Game Engine
-    4. IN PROGRESS: Game Controller
-    3. IN PROGRESS: Turn Manager
-    3. NOT STARTED: Attack Card
-    4. NOT STARTED: See into the future
-    5. NOT STARTED: Skip
-    6. NOT STARTED: Nope
-    7. IN PROGRESS: Refactor the card class
-8. IN PROGRESS: Finalize and merge the CardFactory and check into main
+    *  IN PROGRESS: Game Manager
+    *  IN PROGRESS: Game Engine
+    *  IN PROGRESS: Game Controller
+    *  IN PROGRESS: Turn Manager
+    *  NOT STARTED: Attack Card
+    *  NOT STARTED: See into the future
+    *  NOT STARTED: Skip
+    *  NOT STARTED: Nope
+    *  IN PROGRESS: Refactor the card class
+3. IN PROGRESS: Finalize and merge the CardFactory and check into main
 
 # Part 3. Individual Progress of the Week :coffee:
 
-### Team member: : Paula Eyituoyo Fregen
+### Team member: : Paula Eyituoyo Fregene
 
 
 #### PR created:
 
-- [Attack Card Clas](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/50)
+- [AttackCard Class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/50) (initailized BVA)
+- [SkipCard Class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/51) (initailized BVA)
+- [NopeCard Class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/52) (initailized BVA)
 
 ### PR done and approved
 
-_competing project deadlines, will commit to more time for this project for this week_
+_Design structure and game logic need to be discussed with the group before I can start working on the code_ <br>
+_Awaiting Card Class method `play(Player player)` to be created before I can do the child `play` method_
 
 
 ### Other people's PR reviewed by you
 - [BVAs for core game logic](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/47)
 - [Refactor and fix Card Class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/48)
-- - [Card Factory](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/26)
+- [Card Factory](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/26)
 
 
 ### Team member: Ethan Joshua Pineda-Pardo
@@ -82,9 +85,6 @@ _competing project deadlines, will commit to more time for this project for this
 - [Card Factory](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/26)
 - [Week 7 Progress Report](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/45)
 
-### Other people's PR reviewed by you
-- [hand class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/35)
-- [mutation testing](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/42)
 
 
 ### Team member: Viktoriia Sokolenko
