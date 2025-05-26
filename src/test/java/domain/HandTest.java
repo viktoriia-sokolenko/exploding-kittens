@@ -247,7 +247,7 @@ public class HandTest {
 	@Test
 	public void getCountOfCardType_withCardNotInHand_returnsZero() {
 		Hand hand = handWithTwoCards();
-		CardType cardType = CardType.DEFUSE;
+		CardType cardType = CardType.ALTER_THE_FUTURE;
 		int expectedCount = 0;
 		assertEquals(expectedCount, hand.getCountOfCardType(cardType));
 	}
@@ -266,6 +266,36 @@ public class HandTest {
 		Hand hand = handWithFiveCardsAndThreeDuplicates();
 		final int expectedCount = 3;
 		assertEquals(expectedCount, hand.getCountOfCardType(duplicateCardType));
+	}
+
+	@Test
+	public void removeDefuseCard_withEmptyHand_throwsIllegalStateException() {
+		Hand emptyHand = new Hand();
+		assertThrows(IllegalStateException.class, () -> emptyHand.removeDefuseCard());
+	}
+
+	@Test
+	public void removeDefuseCard_withCardNotInHand_throwsIllegalArgumentException() {
+		Hand hand = handWithTwoCards();
+		assertThrows(IllegalArgumentException.class, () -> hand.removeDefuseCard());
+	}
+
+	@Test
+	public void removeDefuseCard_withCardInHand_removesCard() {
+		Hand hand = handWithOneCard(CardType.DEFUSE);
+		hand.removeDefuseCard();
+		assertTrue(hand.isEmpty());
+	}
+
+	@Test
+	public void removeDefuseCard_withTwoDefuseCardsInHand_removesOnlyOneCard() {
+		Hand hand = handWithTwoDefuseAndOneExtraCards();
+		hand.removeDefuseCard();
+
+		assertTrue(hand.containsCardType(CardType.DEFUSE));
+
+		int expectedNumberOfCards = 2;
+		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
 	}
 
 	private Card mockCard(CardType type) {
@@ -325,6 +355,19 @@ public class HandTest {
 		hand.addCard(extraCard1);
 		hand.addCard(extraCard2);
 		hand.addCard(duplicateCard3);
+
+		return hand;
+	}
+
+	private Hand handWithTwoDefuseAndOneExtraCards() {
+		Card extraCard = mockCard(CardType.SHUFFLE);
+		Card defuseCard1 = mockCard(CardType.DEFUSE);
+		Card defuseCard2 = mockCard(CardType.DEFUSE);
+
+		Hand hand = new Hand();
+		hand.addCard(defuseCard1);
+		hand.addCard(extraCard);
+		hand.addCard(defuseCard2);
 
 		return hand;
 	}
