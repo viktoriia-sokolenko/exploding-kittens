@@ -50,18 +50,21 @@
 
 ## Method 2: ```public boolean equals(Object o)``` and ```public int hashCode()``` (Equal and HashCode)
 #### Important Note:
-These methods are used for testing purposes, and some of the Java methods are used so that we can ensure and override the equals method of the object and its hashCode. This is something that allows methods like `AssertEqual` and determines whether two objects are part of the Card class. Which tests if two objects are equal. This BVA was created specially since it's beyond what we've learned in class.
+These methods are used for testing purposes, and some of the Java methods are used so that we can ensure and override the equals method of the object and its hashCode. This is something that allows methods like `AssertEqual` and determines whether two objects are part of the Card class. Note below that the Inputs and Outputs automatically align in the table below. For to clarity sake, 
+- Step 1: takes in an object to compare with inner object
+- Step 2: Case
+- Step 3: Null, Same Type, Different Type
 
 ### Step 1–3 Results
 
 |            | Input                              | Output / State Change                                                                                                                                  |
 | ---------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Step 1** | `o == this`                        | `true`                                                                                                                                                 |
-| **Step 2** | `o == null`                        | `false`                                                                                                                                                |
+| **Step 1** (an object) | `o == this`                        | `true`                                                                                                                                                 |
+| **Step 2** (Cases)| `o == null`                        | `false`                                                                                                                                                |
 |            | `!(o instanceof Card)`             | `false`                                                                                                                                                |
 |            | `o` a `Card` with same `type`      | `true`                                                                                                                                                 |
 |            | `o` a `Card` with different `type` | `false`                                                                                                                                                |
-| **Step 3** | comparisons:                       | 1. `normalCard.equals(normalCard)` <br> 2. `normalCard.equals(null)` <br> 3. `normalCard.equals("stringObject")` <br> 4. `normalCard.equals(anotherNormalCard)` <br> 5. `normalCard.equals(explodingKittenCard)` |
+| **Step 3** (the different cases) | Cases  (as depicted above)                     | 1. `normalCard.equals(normalCard)` <br> 2. `normalCard.equals(null)` <br> 3. `normalCard.equals("stringObject")` <br> 4. `normalCard.equals(anotherNormalCard)` <br> 5. `normalCard.equals(explodingKittenCard)` |
 
 ### Step 4 – equals()
 
