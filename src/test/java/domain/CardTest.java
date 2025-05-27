@@ -83,4 +83,9 @@ public class CardTest {
 		assertEquals(type, card.getCardType());
 	}
 
+	@Test
+	public void play_nullPlayer_throwsNullPointerException() {
+		Card testCard = new TestCard(CardType.ATTACK);
+		assertThrows(NullPointerException.class, () -> testCard.play(null));
+	}
 }
