@@ -25,8 +25,8 @@
 
 |               | Input             | Output                                       | Implemented? | Test name                                             |
 | ------------- | ----------------- | -------------------------------------------- |--------------|-------------------------------------------------------|
-| Test Case 1   | type `null`       | throws `NullPointerException`                | ✅            | `constructor_WithNullType_ThrowsNullPointerException` |
-| Test Case 2   | type `CardType.EXPLODING_KITTEN`     | returns non-null `Card`; `getCardType()==EXPLODING_KITTEN` | ✅ | `constructor_WithValidCardType_CreatesCard`           |
+| Test Case 1   | type `null`       | throws `NullPointerException`                | ✅            | `constructor_withNullType_throwsNullPointerException` |
+| Test Case 2   | type `CardType.EXPLODING_KITTEN`     | returns non-null `Card`; `getCardType()==EXPLODING_KITTEN` | ✅ | `constructor_withValidCardType_createsCard`           |
 
 ---  
 
@@ -67,18 +67,18 @@ These methods are used for testing purposes, and some of the Java methods are us
 
 | Test Case                              | System under test        | Expected behavior | Implemented? | Test name                            |
 | -------------------------------------- | ------------------------ | ----------------- |--------------| ------------------------------------ |
-| 1. `card.equals(card)`                 | `equals(this)`           | `true`            | ✅            | `equals_CompareWithItself_ReturnsTrue`            |
-| 2. `card1.equals(card2)` (same type)   | `equals(otherSameType)`  | `true`            | ✅            | `equals_CompareWithSameTypeCard_ReturnsTrue`        |
-| 3. `card.equals(null)`                 | `equals(null)`           | `false`           | ✅            | `equals_CompareWithNull_ReturnsFalse`           |
-| 4. `card.equals("stringObject")`       | `equals(differentClass)` | `false`           | ✅            | `equals_CompareWithDifferentClass_ReturnsFalse` |
-| 5. `card1.equals(card2)` (different types) | `equals(differentType)`      | `false`           | ✅            | `hashCode_DifferentCards_MayReturnDifferentHashCode` (covers different types)  |
+| 1. `card.equals(card)`                 | `equals(this)`           | `true`            | ✅            | `equals_compareWithItself_returnsTrue`            |
+| 2. `card1.equals(card2)` (same type)   | `equals(otherSameType)`  | `true`            | ✅            | `equals_compareWithSameTypeCard_returnsTrue`        |
+| 3. `card.equals(null)`                 | `equals(null)`           | `false`           | ✅            | `equals_compareWithNull_returnsFalse`           |
+| 4. `card.equals("stringObject")`       | `equals(differentClass)` | `false`           | ✅            | `equals_compareWithDifferentClass_returnsFalse` |
+| 5. `card1.equals(card2)` (different types) | `equals(differentType)`      | `false`           | ✅            | `hashCode_differentCards_mayReturnDifferentHashCode` (covers different types)  |
 
 ### Step 4 – hashCode()
 
 | Test Case                               | System under test | Expected behavior                                           | Implemented? | Test name                       |
 | --------------------------------------- | ----------------- | ----------------------------------------------------------- |--------------| ------------------------------- |
-| Test Case 1 | `hashCode()` | `card1.hashCode() == card2.hashCode()` (same type) | ✅ | `hashCode_SameCards_ReturnsSameHashCode`   |
-| Test Case 2 | `hashCode()` | `card1.hashCode()` vs `card2.hashCode()` likely different (different types) | ✅ | `hashCode_DifferentCards_MayReturnDifferentHashCode` |
+| Test Case 1 | `hashCode()` | `card1.hashCode() == card2.hashCode()` (same type) | ✅ | `hashCode_sameCards_returnsSameHashCode`   |
+| Test Case 2 | `hashCode()` | `card1.hashCode()` vs `card2.hashCode()` likely different (different types) | ✅ | `hashCode_differentCards_mayReturnDifferentHashCode` |
 
 ---
 
@@ -98,7 +98,7 @@ These methods are used for testing purposes, and some of the Java methods are us
 |              | System under test      | Expected behavior                                    | Implemented? | Test name                                        |
 | ------------ | ---------------------- | ---------------------------------------------------- |--------------| ------------------------------------------------ |
 | Test Case 1  | `testCard.play(null)`           | throws `NullPointerException`                       | ✅            | `play_nullPlayer_throwsNullPointerException`     |
-| Test Case 2  | `testCard.play(mockPlayer)`   | method executes without throwing (abstract contract works) | ✅ | `play_validPlayer_doesNotThrow`          |
+| Test Case 2  | `testCard.play(mockPlayer)`   | method executes without throwing (abstract contract works) | ✅ | `play_validPlayer_doesNotThrowException`          |
 
 #### Important Note for Method 3:
 **Specific card behavior testing is out of scope** for this abstract Card class BVA. Tests for actual game mechanics should be implemented in separate test classes:
