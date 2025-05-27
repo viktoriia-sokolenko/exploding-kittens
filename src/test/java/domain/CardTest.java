@@ -23,7 +23,7 @@ public class CardTest {
 	}
 
 	@Test
-	public void constructor_WithVa`lidCardType_CreatesCard() {
+	public void constructor_WithValidCardType_CreatesCard() {
 		CardType type = CardType.EXPLODING_KITTEN;
 		Card card = new TestCard(type);
 		assertEquals(type, card.getCardType());
