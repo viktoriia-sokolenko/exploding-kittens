@@ -1,8 +1,8 @@
 package domain;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import org.easymock.EasyMock;
 
 public class CardTest {
 
@@ -87,5 +87,12 @@ public class CardTest {
 	public void play_nullPlayer_throwsNullPointerException() {
 		Card testCard = new TestCard(CardType.ATTACK);
 		assertThrows(NullPointerException.class, () -> testCard.play(null));
+	}
+
+	@Test
+	public void play_validPlayer_doesNotThrow() {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		Card testCard = new TestCard(CardType.ATTACK);
+		assertDoesNotThrow(() -> testCard.play(mockPlayer));
 	}
 }
