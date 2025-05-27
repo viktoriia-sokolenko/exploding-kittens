@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Objects;
 
-public class Card {
+public abstract class Card {
 	private final CardType cardType;
 
 	public Card(CardType cardType) {
@@ -12,6 +12,8 @@ public class Card {
 	public CardType getCardType() {
 		return cardType;
 	}
+
+	public abstract void play(Player player);
 
 	public @Override boolean equals(Object obj) {
 		if (this == obj) {
