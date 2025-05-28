@@ -8,20 +8,18 @@ The `TurnManager` now **owns** a `Deck` (injected via constructor) and manages a
 
 ## Method 0: **Constructor**
 
-`public TurnManager(Deck deck)`
-
 ### Step 1–3 Results
 
-|            | Input                            | Output / State Change                        |
-| ---------- | -------------------------------- | -------------------------------------------- |
-| **Step 1** | `deck`                           | stores `deck`; `queue` and `current` unset   |
-| **Step 2** | `deck == null`<br>`deck != null` | throws NPE if null; otherwise proceeds       |
-| **Step 3** |                                  | 1. `deck = null`  <br> 2. `deck = validDeck` |
+|            | Input                                        | Output / State Change                                                                                             |
+| ---------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Step 1** | `deck`                                       | stores `deck`; `queue` and `current` remain unset                                                                 |
+| **Step 2** | `deck == null`<br>`deck != null`             | throws NPE if null; otherwise proceeds                                                                            |
+| **Step 3** | 1. `deck = null`  <br> 2. `deck = validDeck` | **1** → throws `NullPointerException("Deck is null")`<br>**2** → stores `deck`; `queue` and `current` still unset |
 
 ### Step 4
 
 | Test Case | System under test       | Expected behavior                              | Implemented? | Test name                                  |
-| --------- | ----------------------- | ---------------------------------------------- |--------------| ------------------------------------------ |
+| --------- | ----------------------- | ---------------------------------------------- | ------------ | ------------------------------------------ |
 | 0.1       | `new TurnManager(null)` | throws `NullPointerException("Deck is null")`  | no           | `ctor_nullDeck_throwsNullPointerException` |
 | 0.2       | `new TurnManager(deck)` | stores ref; queue/current remain uninitialized | no           | `ctor_validDeck_initializesState`          |
 
@@ -31,16 +29,16 @@ The `TurnManager` now **owns** a `Deck` (injected via constructor) and manages a
 
 ### Step 1–3 Results
 
-|            | Input                                                           | Output / State Change                                                                                                       |
-| ---------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **Step 1** | `PlayerManager pm`                                              | none (loads `pm.getPlayers()` into `queue`; sets `current`)                                                                 |
-| **Step 2** | `pm == null`<br>`pm.getPlayers()` empty<br>`size=1`<br>`size>1` | throws NPE if `pm` null; IAE if list empty; otherwise initializes queue/current                                             |
-| **Step 3** |                                                                 | 1. `pm = null`  <br> 2. `pm.getPlayers() = []`  <br> 3. `pm.getPlayers() = [p1]`  <br> 4. `pm.getPlayers() = [p1,p2,p3,p4]` |
+|            | Input                                                                                                                       | Output / State Change                                                                                                                                                                          |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Step 1** | `PlayerManager pm`                                                                                                          | none (loads `pm.getPlayers()` into `queue`; sets `current`)                                                                                                                                    |
+| **Step 2** | `pm == null`<br>`pm.getPlayers()` empty<br>`size=1`<br>`size>1`                                                             | throws NPE if `pm` null; IAE if list empty; otherwise initializes `queue` and `current`                                                                                                        |
+| **Step 3** | 1. `pm = null`  <br> 2. `pm.getPlayers() = []`  <br> 3. `pm.getPlayers() = [p1]`  <br> 4. `pm.getPlayers() = [p1,p2,p3,p4]` | **1** → throws `NullPointerException`<br>**2** → throws `IllegalArgumentException("No players provided")`<br>**3** → `queue=[p1]`, `current=p1`<br>**4** → `queue=[p1,p2,p3,p4]`, `current=p1` |
 
 ### Step 4
 
 | Test Case | System under test                 | Expected behavior                                        | Implemented? | Test name                                                   |
-| --------- | --------------------------------- | -------------------------------------------------------- |--------------| ----------------------------------------------------------- |
+| --------- | --------------------------------- | -------------------------------------------------------- | ------------ | ----------------------------------------------------------- |
 | 1         | `setPlayerManager(null)`          | throws `NullPointerException`                            | no           | `setPlayerManager_null_throwsNullPointerException`          |
 | 2         | `pm.getPlayers().isEmpty()`       | throws `IllegalArgumentException("No players provided")` | no           | `setPlayerManager_emptyList_throwsIllegalArgumentException` |
 | 3         | `pm.getPlayers() = [p1]`          | `queue = [p1]`; `current == p1`                          | no           | `setPlayerManager_singlePlayer_initializesCorrectly`        |
@@ -52,16 +50,16 @@ The `TurnManager` now **owns** a `Deck` (injected via constructor) and manages a
 
 ### Step 1–3 Results
 
-|            | Input                                    | Output                                                                                                                  |
-| ---------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **Step 1** | none                                     | returns `current`                                                                                                       |
-| **Step 2** | before vs. after `setPlayerManager(...)` | throws ISE if uninitialized; otherwise returns first in queue                                                           |
-| **Step 3** |                                          | 1. before `setPlayerManager` call  <br> 2. after `setPlayerManager([p1])`  <br> 3. after `setPlayerManager([p1,p2,p3])` |
+|            | Input                                                                                                              | Output / State Change                                                                                                 |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| **Step 1** | none                                                                                                               | returns `current`                                                                                                     |
+| **Step 2** | before vs. after `setPlayerManager(...)`                                                                           | throws ISE if uninitialized; otherwise returns first element of `queue`                                               |
+| **Step 3** | 1. before `setPlayerManager`  <br> 2. after `setPlayerManager([p1])`  <br> 3. after `setPlayerManager([p1,p2,p3])` | **1** → throws `IllegalStateException("TurnManager not initialized")`<br>**2** → returns `p1`<br>**3** → returns `p1` |
 
 ### Step 4
 
 | Test Case | System under test                 | Expected behavior                                             | Implemented? | Test name                                               |
-| --------- | --------------------------------- | ------------------------------------------------------------- |--------------| ------------------------------------------------------- |
+| --------- | --------------------------------- | ------------------------------------------------------------- | ------------ | ------------------------------------------------------- |
 | 1         | before any `setPlayerManager`     | throws `IllegalStateException("TurnManager not initialized")` | no           | `getCurrentActivePlayer_beforeSetup_throwsException`    |
 | 2         | after `setPlayerManager([p1])`    | returns `p1`                                                  | no           | `getCurrentActivePlayer_singlePlayer_returnsThatPlayer` |
 | 3         | after `setPlayerManager([p1,p2])` | returns `p1`                                                  | no           | `getCurrentActivePlayer_multiPlayers_initialFirst`      |
@@ -72,21 +70,21 @@ The `TurnManager` now **owns** a `Deck` (injected via constructor) and manages a
 
 ### Step 1–3 Results
 
-|            | Preconditions                                                                                    | Output / State Change                                                                                                                                                                                                                               |
-| ---------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Step 1** | none                                                                                             | removes `current` from front of queue, calls `deck.draw()` into that player, re-adds player to back if >1 remain, updates `current`                                                                                                                 |
-| **Step 2** | uninitialized; empty queue; deck empty with ≥1 player; deck≥1 & one player; deck≥1 & two players | throws ISE or NCME; otherwise rotates + draws                                                                                                                                                                                                       |
-| **Step 3** |                                                                                                  | 1. before `setPlayerManager`  <br> 2. after `setPlayerManager([])`  <br> 3. after `setPlayerManager([p1])`, `deck.size()==0`  <br> 4. after `setPlayerManager([p1])`, `deck.size()>=1`  <br> 5. after `setPlayerManager([p1,p2])`, `deck.size()>=2` |
+|            | Preconditions                                                                                                                                                                                                                                       | Output / State Change                                                                                                                                                                                                                                                                                                                                                      |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Step 1** | none                                                                                                                                                                                                                                                | removes `current` from front of `queue`, calls `deck.draw()`; re-adds player to back if >1 remain; updates `current`                                                                                                                                                                                                                                                       |
+| **Step 2** | uninitialized; empty queue; deck empty with ≥1 player; deck≥1 & one player; deck≥1 & two players                                                                                                                                                    | throws ISE or NCME; otherwise rotates + draws                                                                                                                                                                                                                                                                                                                              |
+| **Step 3** | 1. before `setPlayerManager`  <br> 2. after `setPlayerManager([])`  <br> 3. after `setPlayerManager([p1])`, `deck.size()==0`  <br> 4. after `setPlayerManager([p1])`, `deck.size()>=1`  <br> 5. after `setPlayerManager([p1,p2])`, `deck.size()>=2` | **1** → throws `IllegalStateException("TurnManager not initialized")`<br>**2** → throws `IllegalStateException("No players to manage")`<br>**3** → underlying `draw()` throws `NoCardsToMoveException`; `queue` unchanged<br>**4** → `p1` draws one card; `queue=[p1]`; `current=p1` (end‐of‐game)<br>**5** → `p1` draws one card, re-added; `queue=[p2,p1]`; `current=p2` |
 
 ### Step 4
 
-| Test Case | System under test                                   | Expected behavior                                                                                         | Implemented? | Test name                                               |
-| --------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |--------------| ------------------------------------------------------- |
-| 1         | before any `setPlayerManager`                       | throws `IllegalStateException("TurnManager not initialized")`                                             | no           | `endTurnAndDraw_beforeSetup_throwsException`            |
-| 2         | after `setPlayerManager([])`                        | throws `IllegalStateException("No players to manage")`                                                    | no           | `endTurnAndDraw_noPlayers_throwsException`              |
-| 3         | after `setPlayerManager([p1])`, `deck.size()==0`    | underlying `draw()` throws `NoSuchElementException`, wrapped as `NoCardsToMoveException`; queue unchanged | no           | `endTurnAndDraw_emptyDeck_throwsNoCardsToMoveException` |
-| 4         | after `setPlayerManager([p1])`, `deck.size()>=1`    | player draws 1 card; queue empty; `current` reflects end-of-game state                                    | no           | `endTurnAndDraw_singlePlayer_drawsAndEndsGame`          |
-| 5         | after `setPlayerManager([p1,p2])`, `deck.size()>=2` | `p1` draws+re-add; `current` advances to `p2`; queue = `[p2, p1]`                                         | no           | `endTurnAndDraw_twoPlayers_rotatesCorrectly`            |
+| Test Case | System under test                                   | Expected behavior                                                      | Implemented? | Test name                                               |
+| --------- | --------------------------------------------------- | ---------------------------------------------------------------------- | ------------ | ------------------------------------------------------- |
+| 1         | before any `setPlayerManager`                       | throws `IllegalStateException("TurnManager not initialized")`          | no           | `endTurnAndDraw_beforeSetup_throwsException`            |
+| 2         | after `setPlayerManager([])`                        | throws `IllegalStateException("No players to manage")`                 | no           | `endTurnAndDraw_noPlayers_throwsException`              |
+| 3         | after `setPlayerManager([p1])`, `deck.size()==0`    | underlying `draw()` throws `NoCardsToMoveException`, queue unchanged   | no           | `endTurnAndDraw_emptyDeck_throwsNoCardsToMoveException` |
+| 4         | after `setPlayerManager([p1])`, `deck.size()>=1`    | player draws 1 card; queue empty; `current` reflects end‐of‐game state | no           | `endTurnAndDraw_singlePlayer_drawsAndEndsGame`          |
+| 5         | after `setPlayerManager([p1,p2])`, `deck.size()>=2` | `p1` draws+re-add; `current` advances to `p2`; queue = `[p2, p1]`      | no           | `endTurnAndDraw_twoPlayers_rotatesCorrectly`            |
 
 ---
 
@@ -94,18 +92,18 @@ The `TurnManager` now **owns** a `Deck` (injected via constructor) and manages a
 
 ### Step 1–3 Results
 
-|            | Preconditions                                      | Output / State Change                                           |
-| ---------- | -------------------------------------------------- | --------------------------------------------------------------- |
-| **Step 1** | none                                               | removes `current`; re-adds if >1 remain; updates `current`      |
-| **Step 2** | uninitialized; empty queue; one player; ≥2 players | throws ISE or rotates accordingly                               |
-| **Step 3** |                                                    | 1. `queue=[]`  <br> 2. `queue=[p1]`  <br> 3. `queue=[p1,p2,p3]` |
+|            | Preconditions                                                   | Output / State Change                                                                                                                                                                                    |
+| ---------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Step 1** | none                                                            | removes `current`; re-adds if >1 remain; updates `current`                                                                                                                                               |
+| **Step 2** | uninitialized; empty queue; one player; ≥2 players              | throws ISE or rotates accordingly                                                                                                                                                                        |
+| **Step 3** | 1. `queue=[]`  <br> 2. `queue=[p1]`  <br> 3. `queue=[p1,p2,p3]` | **1** → throws `IllegalStateException("No players to manage")`<br>**2** → removes `p1`; queue=\[]; `current=p1` (end‐of‐game)<br>**3** → rotates: removes `p1`, re-adds; queue=\[p2,p3,p1]; `current=p2` |
 
 ### Step 4
 
 | Test Case | System under test  | Expected behavior                                         | Implemented? | Test name                                             |
-| --------- | ------------------ | --------------------------------------------------------- |--------------| ----------------------------------------------------- |
+| --------- | ------------------ | --------------------------------------------------------- | ------------ | ----------------------------------------------------- |
 | 1         | `queue=[]`         | throws `IllegalStateException("No players to manage")`    | no           | `endTurnWithoutDraw_noPlayers_throwsException`        |
-| 2         | `queue=[p1]`       | removes `p1`; queue empty; `current` reflects end-of-game | no           | `endTurnWithoutDraw_singlePlayer_endsGame`            |
+| 2         | `queue=[p1]`       | removes `p1`; queue empty; `current` reflects end‐of‐game | no           | `endTurnWithoutDraw_singlePlayer_endsGame`            |
 | 3         | `queue=[p1,p2,p3]` | rotates: removes `p1` + re-add to back; `current == p2`   | no           | `endTurnWithoutDraw_multiplePlayers_rotatesCorrectly` |
 
 ---
@@ -114,18 +112,18 @@ The `TurnManager` now **owns** a `Deck` (injected via constructor) and manages a
 
 ### Step 1–3 Results
 
-|            | Preconditions                                      | Output / State Change                                                                 |
-| ---------- | -------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| **Step 1** | none                                               | removes `current`; skips re-adding duplicates in multi-player case; updates `current` |
-| **Step 2** | uninitialized; empty queue; one player; >1 players | throws ISE or applies attack-specific rotation                                        |
-| **Step 3** |                                                    | 1. `queue=[]`  <br> 2. `queue=[p1]`  <br> 3. `queue=[p1,p2,p3]` (duplicates skipped)  |
+|            | Preconditions                                                   | Output / State Change                                                                                                                                                                     |
+| ---------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Step 1** | none                                                            | removes `current`; skips re-adding duplicates; updates `current`                                                                                                                          |
+| **Step 2** | uninitialized; empty queue; one player; >1 players              | throws ISE or applies attack‐specific rotation                                                                                                                                            |
+| **Step 3** | 1. `queue=[]`  <br> 2. `queue=[p1]`  <br> 3. `queue=[p1,p2,p3]` | **1** → throws `IllegalStateException("No players to manage")`<br>**2** → removes `p1`; queue=\[]; end‐of‐game<br>**3** → removes `p1`; re-adds one copy; queue=\[p2,p3,p1]; `current=p2` |
 
 ### Step 4
 
 | Test Case | System under test  | Expected behavior                                       | Implemented? | Test name                                                        |
-| --------- | ------------------ | ------------------------------------------------------- |--------------| ---------------------------------------------------------------- |
+| --------- | ------------------ | ------------------------------------------------------- | ------------ | ---------------------------------------------------------------- |
 | 1         | `queue=[]`         | throws `IllegalStateException("No players to manage")`  | no           | `endTurnWithoutDrawForAttacks_noPlayers_throwsException`         |
-| 2         | `queue=[p1]`       | removes `p1`; queue empty; end-of-game                  | no           | `endTurnWithoutDrawForAttacks_singlePlayer_endsGame`             |
+| 2         | `queue=[p1]`       | removes `p1`; queue empty; end‐of‐game                  | no           | `endTurnWithoutDrawForAttacks_singlePlayer_endsGame`             |
 | 3         | `queue=[p1,p2,p3]` | removes `p1`; re-adds exactly one `p1`; `current == p2` | no           | `endTurnWithoutDrawForAttacks_multiplePlayers_appliesAttackSkip` |
 
 ---
@@ -134,16 +132,16 @@ The `TurnManager` now **owns** a `Deck` (injected via constructor) and manages a
 
 ### Step 1–3 Results
 
-|            | Preconditions                                      | Output / State Change                                        |
-| ---------- | -------------------------------------------------- | ------------------------------------------------------------ |
-| **Step 1** | none                                               | inserts `current` at index 1                                 |
-| **Step 2** | uninitialized; empty queue; one player; ≥2 players | throws ISE or duplicates accordingly                         |
-| **Step 3** |                                                    | 1. `queue=[]`  <br> 2. `queue=[p1]`  <br> 3. `queue=[p1,p2]` |
+|            | Preconditions                                                | Output / State Change                                                                                                                             |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Step 1** | none                                                         | inserts `current` at index 1                                                                                                                      |
+| **Step 2** | uninitialized; empty queue; one player; ≥2 players           | throws ISE or duplicates accordingly                                                                                                              |
+| **Step 3** | 1. `queue=[]`  <br> 2. `queue=[p1]`  <br> 3. `queue=[p1,p2]` | **1** → throws `IllegalStateException("No players to manage")`<br>**2** → queue=\[p1,p1]; `current=p1`<br>**3** → queue=\[p1,p1,p2]; `current=p1` |
 
 ### Step 4
 
 | Test Case | System under test | Expected behavior                                      | Implemented? | Test name                                                 |
-| --------- | ----------------- | ------------------------------------------------------ |--------------| --------------------------------------------------------- |
+| --------- | ----------------- | ------------------------------------------------------ | ------------ | --------------------------------------------------------- |
 | 1         | `queue=[]`        | throws `IllegalStateException("No players to manage")` | no           | `addTurnForCurrentPlayer_noPlayers_throwsException`       |
 | 2         | `queue=[p1]`      | transforms to `[p1,p1]`; `current == p1`               | no           | `addTurnForCurrentPlayer_singlePlayer_duplicatesNextTurn` |
 | 3         | `queue=[p1,p2]`   | transforms to `[p1,p1,p2]`; `current == p1`            | no           | `addTurnForCurrentPlayer_multiplePlayers_insertsProperly` |
@@ -154,16 +152,16 @@ The `TurnManager` now **owns** a `Deck` (injected via constructor) and manages a
 
 ### Step 1–3 Results
 
-|            | Input                                                                        | Output / State Change                                                                                                                                                           |
-| ---------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Step 1** | `List<Player> activePlayers`                                                 | none (rebuilds `queue` from input; sets `current`)                                                                                                                              |
-| **Step 2** | `null`; empty list; contains old `current`; missing old `current`; reordered | throws NPE or IAE; otherwise resets queue/current                                                                                                                               |
-| **Step 3** |                                                                              | 1. `activePlayers = null`  <br> 2. `activePlayers = []`  <br> 3. `activePlayers = [oldCurrent,p2,...]`  <br> 4. `activePlayers = [p2,p3]`  <br> 5. `activePlayers = [p3,p1,p2]` |
+|            | Input                                                                                                                                                                           | Output / State Change                                                                                                                                                                                                                                       |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Step 1** | `List<Player> activePlayers`                                                                                                                                                    | none (rebuilds `queue` from input; sets `current`)                                                                                                                                                                                                          |
+| **Step 2** | `null`; empty list; contains old `current`; missing old `current`; reordered                                                                                                    | throws NPE or IAE; otherwise resets `queue` and `current`                                                                                                                                                                                                   |
+| **Step 3** | 1. `activePlayers = null`  <br> 2. `activePlayers = []`  <br> 3. `activePlayers = [oldCurrent,p2,...]`  <br> 4. `activePlayers = [p2,p3]`  <br> 5. `activePlayers = [p3,p1,p2]` | **1** → throws `NullPointerException`<br>**2** → throws `IllegalArgumentException("No players provided")`<br>**3** → `queue=[oldCurrent,p2,...]`; `current=oldCurrent`<br>**4** → `queue=[p2,p3]`; `current=p2`<br>**5** → `queue=[p3,p1,p2]`; `current=p3` |
 
 ### Step 4
 
 | Test Case | System under test              | Expected behavior                                        | Implemented? | Test name                                           |
-| --------- | ------------------------------ | -------------------------------------------------------- |--------------| --------------------------------------------------- |
+| --------- | ------------------------------ | -------------------------------------------------------- | ------------ | --------------------------------------------------- |
 | 1         | `syncWith(null)`               | throws `NullPointerException`                            | no           | `syncWith_null_throwsNullPointerException`          |
 | 2         | `syncWith([])`                 | throws `IllegalArgumentException("No players provided")` | no           | `syncWith_emptyList_throwsIllegalArgumentException` |
 | 3         | `syncWith([oldCurrent,p2,p3])` | `queue` matches input; `current == oldCurrent`           | no           | `syncWith_includesCurrent_keepsOrderAndCurrent`     |
@@ -176,16 +174,16 @@ The `TurnManager` now **owns** a `Deck` (injected via constructor) and manages a
 
 ### Step 1–3 Results
 
-|            | Preconditions                                  | Output                                                                                                     |
-| ---------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| **Step 1** | none                                           | returns snapshot of `queue`                                                                                |
-| **Step 2** | before setup; after setup; after sync/end-turn | throws ISE or returns list                                                                                 |
-| **Step 3** |                                                | 1. before `setPlayerManager`  <br> 2. after `setPlayerManager([p1,p2])`  <br> 3. after `syncWith([p2,p1])` |
+|            | Preconditions                                                                                                 | Output / State Change                                                                                                              |
+| ---------- | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Step 1** | none                                                                                                          | returns snapshot of `queue`                                                                                                        |
+| **Step 2** | before setup; after setup; after sync/end-turn                                                                | throws ISE or returns list                                                                                                         |
+| **Step 3** | 1. before `setPlayerManager`  <br> 2. after `setPlayerManager([p1,p2])`  <br> 3. after `syncWith([p3,p1,p2])` | **1** → throws `IllegalStateException("TurnManager not initialized")`<br>**2** → returns `[p1,p2]`<br>**3** → returns `[p3,p1,p2]` |
 
 ### Step 4
 
 | Test Case | System under test                    | Expected behavior                                             | Implemented? | Test name                                     |
-| --------- | ------------------------------------ | ------------------------------------------------------------- |--------------| --------------------------------------------- |
+| --------- | ------------------------------------ | ------------------------------------------------------------- | ------------ | --------------------------------------------- |
 | 1         | before any `setPlayerManager`        | throws `IllegalStateException("TurnManager not initialized")` | no           | `getTurnOrder_beforeSetup_throwsException`    |
 | 2         | after `setPlayerManager([p1,p2,p3])` | returns `[p1,p2,p3]`                                          | no           | `getTurnOrder_afterSetup_returnsInitialOrder` |
 | 3         | after `syncWith([p3,p1,p2])`         | returns `[p3,p1,p2]`                                          | no           | `getTurnOrder_afterMutations_reflectsQueue`   |
