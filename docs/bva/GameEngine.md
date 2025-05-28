@@ -30,16 +30,16 @@ All core methods (`startGame`, `playCard`, `nextTurn`, `eliminatePlayer`) end by
 
 ### Step 1–3 Results
 
-|        | Input 1                                                                  | Input 2                            | Output                                                                |
-| ------ | ------------------------------------------------------------------------ | ---------------------------------- | --------------------------------------------------------------------- |
-| Step 1 | any `player`                                                             | any `card`                         |                                                                       |  
-| Step 2 | Player Object, Case (Player in Game vs Not in Game)                      | Card Object                        |                                                                       |
-| Step 3 | null, validPlayerInGame, playerNotInGame                                 | null, all the different Card types |                                                                       |
+|        | Input                                                                                                                                                                                                | Output / State Change                                                                                                                                                                   |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Step 1 | any `player`, any `card`                                                                                                                                                                             | none                                                                                                                                                                                    |
+| Step 2 | • `player = null`<br>• `playerNotInGame`<br>• `card = null`<br>• `validPlayerInGame & validCard`                                                                                                     | **null inputs** → throws `NullPointerException`<br>**unknown player** → throws `IllegalArgumentException("Player not in game")`<br>**otherwise** → delegate to card logic               |
+| Step 3 | 1. `(null, validCard)`<br>2. `(validPlayerInGame, null)`<br>3. `(playerNotInGame, validCard)`<br>4. `(validPlayerInGame, attackCardInstance)`<br>5. `(validPlayerInGame, unhandledCardTypeInstance)` | 1 → NPE<br>2 → NPE<br>3 → IAE("Player not in game")<br>4 → call `AttackCard.play(this, player)` then `checkWinCondition()`<br>5 → ISE("Unhandled card type") then `checkWinCondition()` |
 
 ### Step 4
 
 | Test Case | System under test                      | Expected behavior                                                                        | Implemented? | Test name                                               |
-| --------- | -------------------------------------- | ---------------------------------------------------------------------------------------- |--------------| ------------------------------------------------------- |
+| --------- | -------------------------------------- | ---------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------------- |
 | 1         | `playCard(null, validCard)`            | throws `NullPointerException`                                                            |              | `playCard_nullPlayer_throwsNullPointerException`        |
 | 2         | `playCard(validPlayer, null)`          | throws `NullPointerException`                                                            |              | `playCard_nullCard_throwsNullPointerException`          |
 | 3         | `playCard(playerNotInGame, validCard)` | throws `IllegalArgumentException("Player not in game")`                                  |              | `playCard_unknownPlayer_throwsIllegalArgumentException` |
@@ -48,23 +48,23 @@ All core methods (`startGame`, `playCard`, `nextTurn`, `eliminatePlayer`) end by
 
 ---
 
-## Method 3: ```public void nextTurn()```
+## Method 3: `public void nextTurn()`
 
 ### Step 1–3 Results
 
-|        | Input                                                                     | Step 3: Concrete scenarios                                                                                                                                                                                                                        |
-| ------ | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Step 1 | none                                                                      | (call signature)                                                                                                                                                                                                                                  |
-| Step 2 | • before init<br>• deck empty after init<br>• deck has ≥1 card after init | (equivalence classes)                                                                                                                                                                                                                             |
-| Step 3 |                                                                           | 1. **Before init**: call `nextTurn()` immediately after constructor <br> 2. **Empty deck**: after `startGame(2)` and remove all cards, call `nextTurn()` <br> 3. **Non-empty deck**: after `startGame(3)`, call `nextTurn()` when ≥1 card remains |
+|        | Input                                                                                                                                                           | Output / State Change                                                                                                                                                                                        |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Step 1 | none                                                                                                                                                            | none                                                                                                                                                                                                         |
+| Step 2 | • before init<br>• deck empty after init<br>• deck has ≥1 card after init                                                                                       | none                                                                                                                                                                                                         |
+| Step 3 | 1. call `nextTurn()` before `startGame(...)`<br>2. after `startGame(2)`, deck emptied, then `nextTurn()`<br>3. after `startGame(3)`, deck ≥1, then `nextTurn()` | 1 → throws `IllegalStateException("GameEngine not initialized")`<br>2 → propagates `NoCardsToMoveException`; no `checkWinCondition()`<br>3 → calls `turnManager.endTurnAndDraw()` then `checkWinCondition()` |
 
 ### Step 4
 
 | Test Case | System under test                     | Expected behavior                                                     | Implemented? | Test name                                                |
-| --------- | ------------------------------------- | --------------------------------------------------------------------- |--------------| -------------------------------------------------------- |
-| 1         | before `startGame(...)`               | throws `IllegalStateException("GameEngine not initialized")`          | no           | `nextTurn_beforeInit_throwsIllegalStateException`        |
-| 2         | after init, deck empty                | propagates `NoCardsToMoveException`; no `checkWinCondition()` call    | no           | `nextTurn_emptyDeck_throwsNoCardsToMoveException`        |
-| 3         | after init, deck ≥1, multiple players | calls `turnManager.endTurnAndDraw()` once; then `checkWinCondition()` | no           | `nextTurn_validInvocation_advancesAndChecksWinCondition` |
+| --------- | ------------------------------------- | --------------------------------------------------------------------- | ------ | -------------------------------------------------------- |
+| 1         | before `startGame(...)`               | throws `IllegalStateException("GameEngine not initialized")`          |        | `nextTurn_beforeInit_throwsIllegalStateException`        |
+| 2         | after init, deck empty                | propagates `NoCardsToMoveException`; no `checkWinCondition()` call    |        | `nextTurn_emptyDeck_throwsNoCardsToMoveException`        |
+| 3         | after init, deck ≥1, multiple players | calls `turnManager.endTurnAndDraw()` once; then `checkWinCondition()` |        | `nextTurn_validInvocation_advancesAndChecksWinCondition` |
 
 ---
 
@@ -72,18 +72,24 @@ All core methods (`startGame`, `playCard`, `nextTurn`, `eliminatePlayer`) end by
 
 ### Step 1–3 Results
 
-|        | Input                                                                    | Step 3: Concrete test inputs                                                                                 |
-| ------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| Step 1 | `Player p`                                                               | (call signature)                                                                                             |
-| Step 2 | • `p` null<br>• `p` not managed<br>• `p` active<br>• `p` already removed | (equivalence classes)                                                                                        |
-| Step 3 |                                                                          | 1. `p = null`  <br> 2. `p = playerNotInGame`  <br> 3. `p = activePlayer`  <br> 4. `p = alreadyRemovedPlayer` |
+|        | Input                                                                                               | Output / State Change                                                                                                                                          |
+| ------ | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Step 1 | `Player p`                                                                                          | none                                                                                                                                                           |
+| Step 2 | • `p = null`<br>• `p = playerNotInGame`<br>• `p = activePlayer`<br>• `p = alreadyRemovedPlayer`     | none                                                                                                                                                           |
+| Step 3 | 1. `p = null`<br>2. `p = playerNotInGame`<br>3. `p = activePlayer`<br>4. `p = alreadyRemovedPlayer` | 1 → NPE<br>2 → IAE("Player not found")<br>3 → remove → `syncWith(...)` → `checkWinCondition()`<br>4 → ISE("Player already removed") then `checkWinCondition()` |
 
 ### Step 4
 
 | Test Case | System under test                       | Expected behavior                                                                                            | Implemented? | Test name                                                      |
-| --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------ |--------------| -------------------------------------------------------------- |
+| --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------ | -------------------------------------------------------------- |
 | 1         | `eliminatePlayer(null)`                 | throws `NullPointerException`                                                                                | no           | `eliminatePlayer_null_throwsNullPointerException`              |
 | 2         | `eliminatePlayer(playerNotInGame)`      | throws `IllegalArgumentException("Player not found")`                                                        | no           | `eliminatePlayer_unknownPlayer_throwsIllegalArgumentException` |
 | 3         | `eliminatePlayer(activePlayer)`         | calls: remove → sync → `checkWinCondition()`                                                                 | no           | `eliminatePlayer_active_removesSyncsAndChecksWinCondition`     |
 | 4         | `eliminatePlayer(alreadyRemovedPlayer)` | throws `IllegalStateException("Player already removed")`; still calls `checkWinCondition()` (sees >1 remain) | no           | `eliminatePlayer_alreadyRemoved_throwsAndChecksWinCondition`   |
+
+
+
+
+
+
 
