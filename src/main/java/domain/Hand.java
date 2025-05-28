@@ -59,7 +59,7 @@ public class Hand {
 	}
 
 	public void removeDefuseCard() {
-		Card defuseCard = new Card(CardType.DEFUSE);
+		Card defuseCard = new DefuseCard();
 		this.removeCard(defuseCard);
 	}
 
