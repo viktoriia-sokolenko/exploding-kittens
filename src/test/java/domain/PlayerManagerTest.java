@@ -58,4 +58,16 @@ public class PlayerManagerTest {
 
         assertTrue(exception.getMessage().contains("Number of players must be between 2 and 5"));
     }
+
+    @Test
+    void addPlayers_withValidNumber_createsThatManyPlayers() {
+        playerManager.addPlayers(3);
+
+        assertEquals(3, playerManager.getPlayers().size());
+        assertEquals(3, playerManager.getActivePlayers().size());
+
+        for (Player player : playerManager.getPlayers()) {
+            assertTrue(player.isInGame());
+        }
+    }
 }
