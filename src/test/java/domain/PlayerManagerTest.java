@@ -122,4 +122,21 @@ public class PlayerManagerTest {
         assertTrue(exception.getMessage().contains("Player not found"));
     }
 
+    @Test
+    void getActivePlayers_afterRemovals_returnsOnlyActivePlayers() {
+        playerManager.addPlayers(4);
+        List<Player> allPlayers = playerManager.getPlayers();
+
+        playerManager.removePlayerFromGame(allPlayers.get(0));
+        playerManager.removePlayerFromGame(allPlayers.get(2));
+
+        List<Player> activePlayers = playerManager.getActivePlayers();
+
+        assertEquals(2, activePlayers.size());
+        assertEquals(4, allPlayers.size());
+        for (Player player : activePlayers) {
+            assertTrue(player.isInGame());
+        }
+    }
+
 }
