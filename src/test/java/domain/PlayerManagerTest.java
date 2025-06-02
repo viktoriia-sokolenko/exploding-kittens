@@ -48,4 +48,14 @@ public class PlayerManagerTest {
 
         assertTrue(exception.getMessage().contains("Number of players must be between 2 and 5"));
     }
+
+    @Test
+    void addPlayers_withTooManyPlayers_throwsException() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> playerManager.addPlayers(6)
+        );
+
+        assertTrue(exception.getMessage().contains("Number of players must be between 2 and 5"));
+    }
 }
