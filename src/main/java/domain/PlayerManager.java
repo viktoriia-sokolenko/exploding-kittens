@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerManager {
     private final Deck deck;
@@ -39,6 +40,16 @@ public class PlayerManager {
             Player player = new Player(hand);
             players.add(player);
         }
+    }
+
+    public void removePlayerFromGame(Player player) {
+        Objects.requireNonNull(player, "Player cannot be null");
+
+        if (!players.contains(player)) {
+            throw new IllegalArgumentException("Player not found in game");
+        }
+
+        player.activeStatus = false;
     }
 
 }
