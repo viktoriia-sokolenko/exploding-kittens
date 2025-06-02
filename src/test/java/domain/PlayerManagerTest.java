@@ -99,4 +99,13 @@ public class PlayerManagerTest {
         assertEquals(3, playerManager.getPlayers().size());
     }
 
+    @Test
+    void removePlayerFromGame_withNullPlayer_throwsNullPointerException() {
+        playerManager.addPlayers(2);
+
+        assertThrows(NullPointerException.class, () -> {
+            playerManager.removePlayerFromGame(null);
+        });
+    }
+
 }
