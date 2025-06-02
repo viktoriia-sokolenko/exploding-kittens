@@ -25,11 +25,11 @@
     *  IN PROGRESS: Game Controller
     *  IN PROGRESS: Turn Manager
     *  IN PROGRESS: Attack Card
-    *  NOT STARTED: See into the future
+    *  IN PROGRESS: See into the future
     *  IN PROGRESS: Skip
-    *  NOT STARTED: Nope
+    *  IN PROGRESS: Nope
     *  DONE: Refactor the card class
-2. IN PRGRESS: Implementing UI (log statements)
+2. IN PROGRESS: Implementing UI (log statements)
 
 # Part 3. Individual Progress of the Week :coffee:
 
@@ -45,17 +45,19 @@
 ### PR done and approved
 
 _Awaiting for core logic and classes that are currently in IN-PROGRESS before being able to implement card classses_
+_helping Ethan with working on the todo items below_
 
 
 ### Other people's PR reviewed by you
-- [Refactor and fix Card Class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/48)
+- [Week 8 Progress Report](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/49)
+- [bvas for core game logic classes](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/47)
 
 
 ### Team member: Ethan Joshua Pineda-Pardo
 #### PR created:
 
-- [Refactor and Fix Card Class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/48)
-
+- [bvas for core game logic classes](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/47)
+  
 ### PR done and approved
 
 - [Refactor and Fix Card Class](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/48)
@@ -71,4 +73,3 @@ _helping Ethan with working on the todo items above_
 
 _helping Ethan with working on the todo items above_
 
-### Other people's PR reviewed by you
