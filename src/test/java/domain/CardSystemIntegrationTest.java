@@ -26,4 +26,18 @@ public class CardSystemIntegrationTest {
         cardManager.playCard(skipCard, player);
         assertEquals(0, player.getCardTypeCount(CardType.SKIP));
     }
+
+    @Test
+    void playSkipCard_playerDoesNotHaveCard_throwsException() {
+        SkipCard skipCard = new SkipCard();
+
+        assertEquals(0, player.getCardTypeCount(CardType.SKIP));
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> cardManager.playCard(skipCard, player)
+        );
+
+        assertTrue(exception.getMessage().contains("Player does not have this card type"));
+    }
 }
