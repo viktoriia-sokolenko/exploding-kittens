@@ -14,5 +14,12 @@ public class PlayerManager {
         this.players = new ArrayList<>();
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public List<Player> getActivePlayers() {
+        return new ArrayList<>();
+    }
 
 }
