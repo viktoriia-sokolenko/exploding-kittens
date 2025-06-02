@@ -10,19 +10,27 @@ public class CardManagerTest {
     private Player player;
     private Hand hand;
     private Card card;
+    private SkipCard skipCard;
 
     @BeforeEach
     void setUp() {
         cardManager = new CardManager();
         player  = EasyMock.createMock(Player.class);
         hand = EasyMock.createMock(Hand.class);
-        SkipCard skipCard = EasyMock.createMock(SkipCard.class);
+        skipCard = EasyMock.createMock(SkipCard.class);
     }
 
     @Test
     void playCard_withNullCard_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> {
             cardManager.playCard(null, player);
+        });
+    }
+
+    @Test
+    void playCard_withNullPlayer_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> {
+            cardManager.playCard(skipCard, null);
         });
     }
 }
