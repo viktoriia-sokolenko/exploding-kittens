@@ -12,4 +12,5 @@ public class TurnManager {
         this.turnQueue = new LinkedList<>();
         this.currentPlayer = null;
     }
+
 }

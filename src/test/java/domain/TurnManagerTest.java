@@ -35,4 +35,11 @@ public class TurnManagerTest {
 
         assertEquals("Deck cannot be null", exception.getMessage());
     }
+
+    @Test
+    void constructor_withValidDeck_initializesState() {
+        TurnManager tm = new TurnManager(deck);
+        assertNotNull(tm);
+        assertThrows(IllegalStateException.class, () -> tm.getCurrentActivePlayer());
+    }
 }
