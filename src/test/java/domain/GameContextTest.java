@@ -48,4 +48,10 @@ public class GameContextTest {
 
         verify(mockCurrentPlayer);
     }
+
+    // TODO: Don't do anything, but just a placeholder for now
+    @Test
+    void endTurnWithoutDrawing_doesNotThrow() {
+        assertDoesNotThrow(() -> gameContext.endTurnWithoutDrawing());
+    }
 }
