@@ -72,4 +72,14 @@ public class TurnManagerTest {
         List<Player> players = playerManager.getPlayers();
         assertEquals(players.get(0), currentPlayer);
     }
+
+    @Test
+    void getCurrentActivePlayer_beforeSetup_throwsIllegalStateException() {
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> turnManager.getCurrentActivePlayer()
+        );
+
+        assertTrue(exception.getMessage().contains("TurnManager not initialized"));
+    }
 }
