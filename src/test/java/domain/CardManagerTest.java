@@ -14,9 +14,9 @@ public class CardManagerTest {
     @BeforeEach
     void setUp() {
         cardManager = new CardManager();
-        mockPlayer = EasyMock.createMock(Player.class);
-        mockHand = EasyMock.createMock(Hand.class);
-        skipCard = new SkipCard();
+        player  = EasyMock.createMock(Player.class);
+        hand = EasyMock.createMock(Hand.class);
+        SkipCard skipCard = EasyMock.createMock(SkipCard.class);
     }
 
     @Test
