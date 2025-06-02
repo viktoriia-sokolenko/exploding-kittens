@@ -14,7 +14,7 @@ public class GameContext {
     }
 
     public void playCardFromCurrentPlayerHand(Card card) {
-
+        currentPlayer.playCard(card);
     }
 
     public void endTurnWithoutDrawing() {

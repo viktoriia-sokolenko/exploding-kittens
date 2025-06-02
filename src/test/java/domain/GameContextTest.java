@@ -36,4 +36,16 @@ public class GameContextTest {
         // Assert
         assertEquals(mockCurrentPlayer, result);
     }
+
+    @Test
+    void playCardFromCurrentPlayerHand_callsPlayerPlayCard() {
+        Card testCard = new SkipCard();
+        mockCurrentPlayer.playCard(testCard);
+        expectLastCall().once();
+        replay(mockCurrentPlayer);
+
+        gameContext.playCardFromCurrentPlayerHand(testCard);
+
+        verify(mockCurrentPlayer);
+    }
 }
