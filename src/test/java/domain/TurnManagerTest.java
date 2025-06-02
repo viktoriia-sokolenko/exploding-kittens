@@ -82,4 +82,12 @@ public class TurnManagerTest {
 
         assertTrue(exception.getMessage().contains("TurnManager not initialized"));
     }
+
+    @Test
+    void getCurrentActivePlayer_afterSetup_returnsFirstPlayer() {
+        turnManager.setPlayerManager(playerManager);
+        List<Player> players = playerManager.getPlayers();
+        Player current = turnManager.getCurrentActivePlayer();
+        assertEquals(players.get(0), current);
+    }
 }
