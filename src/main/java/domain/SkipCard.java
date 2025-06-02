@@ -9,4 +9,5 @@ public class SkipCard extends Card {
 	public void play(Player player) {
 		Objects.requireNonNull(player, "Player cannot be null");
 	}
+
 }
