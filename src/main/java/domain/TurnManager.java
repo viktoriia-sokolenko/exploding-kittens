@@ -29,5 +29,9 @@ public class TurnManager {
             throw new IllegalArgumentException("No players provided");
         }
 
+        this.turnQueue.clear();
+        this.turnQueue.addAll(players);
+        this.currentPlayer = this.turnQueue.peek();
+
     }
 }
