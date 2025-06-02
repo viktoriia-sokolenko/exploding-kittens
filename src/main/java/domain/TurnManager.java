@@ -20,4 +20,7 @@ public class TurnManager {
         return currentPlayer;
     }
 
+    public void setPlayerManager(PlayerManager playerManager) {
+        Objects.requireNonNull(playerManager, "PlayerManager cannot be null");
+    }
 }
