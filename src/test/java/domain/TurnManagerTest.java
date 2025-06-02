@@ -20,11 +20,19 @@ public class TurnManagerTest {
             // card that's basically implemented
         }
         deck = new Deck(cards);
-        turnManager = new TurnManager();
+        turnManager = new TurnManager(deck);
 
         playerManager = new PlayerManager(deck);
         playerManager.addPlayers(3);
     }
 
-    
+    @Test
+    void constructor_withNullDeck_throwsNullPointerException() {
+        NullPointerException exception = assertThrows(
+                NullPointerException.class,
+                () -> new TurnManager(null)
+        );
+
+        assertEquals("Deck cannot be null", exception.getMessage());
+    }
 }
