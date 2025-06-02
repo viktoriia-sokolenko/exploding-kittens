@@ -82,4 +82,21 @@ public class PlayerManagerTest {
             assertTrue(player.isInGame());
         }
     }
+
+    @Test
+    void removePlayerFromGame_withValidPlayer_marksInactive() {
+        playerManager.addPlayers(3);
+        List<Player> players = playerManager.getPlayers();
+        Player playerToRemove = players.get(0);
+
+        assertTrue(playerToRemove.isInGame());
+        assertEquals(3, playerManager.getActivePlayers().size());
+
+        playerManager.removePlayerFromGame(playerToRemove);
+
+        assertFalse(playerToRemove.isInGame());
+        assertEquals(2, playerManager.getActivePlayers().size());
+        assertEquals(3, playerManager.getPlayers().size());
+    }
+
 }
