@@ -16,7 +16,7 @@
 4. Begin working on UI for the game
 
 # Part 2. Team Progress of the Week w.r.t Last Week's Planning :green_book:
-**Evaluation Date**: 5/18/2025 (at night)
+**Evaluation Date**: 6/1/2025 (at night)
 
 **Item Progress**:
 1. Implement the following:
