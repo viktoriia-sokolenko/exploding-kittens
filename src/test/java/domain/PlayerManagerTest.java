@@ -30,4 +30,12 @@ public class PlayerManagerTest {
 
         assertEquals("Deck cannot be null", exception.getMessage());
     }
+
+    @Test
+    void constructor_withValidDeck_initializesEmptyManager() {
+        PlayerManager pm = new PlayerManager(mockDeck);
+
+        assertEquals(0, pm.getPlayers().size());
+        assertEquals(0, pm.getActivePlayers().size());
+    }
 }
