@@ -21,6 +21,9 @@ public class TurnManager {
     }
 
     public void setPlayerManager(PlayerManager playerManager) {
-        Objects.requireNonNull(playerManager, "PlayerManager cannot be null");
+        Objects.requireNonNull(playerManager,
+                "PlayerManager cannot be null");
+
+        
     }
 }

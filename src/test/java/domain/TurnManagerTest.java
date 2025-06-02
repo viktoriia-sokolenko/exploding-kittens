@@ -49,4 +49,16 @@ public class TurnManagerTest {
             turnManager.setPlayerManager(null);
         });
     }
+
+    @Test
+    void setPlayerManager_withEmptyPlayerList_throwsIllegalArgumentException() {
+        PlayerManager emptyPM = new PlayerManager(deck);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> turnManager.setPlayerManager(emptyPM)
+        );
+
+        assertTrue(exception.getMessage().contains("No players provided"));
+    }
 }
