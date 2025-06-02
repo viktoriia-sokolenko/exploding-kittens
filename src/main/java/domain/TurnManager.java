@@ -35,4 +35,9 @@ public class TurnManager {
 
     }
 
+    public void endTurnWithoutDraw() {
+        if (turnQueue.isEmpty()) {
+            throw new IllegalStateException("TurnManager not initialized");
+        }
+    }
 }
