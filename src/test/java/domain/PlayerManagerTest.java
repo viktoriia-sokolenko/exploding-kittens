@@ -108,4 +108,18 @@ public class PlayerManagerTest {
         });
     }
 
+    @Test
+    void removePlayerFromGame_withPlayerNotInGame_throwsIllegalArgumentException() {
+        playerManager.addPlayers(2);
+        Hand otherHand = new Hand();
+        Player otherPlayer = new Player(otherHand);
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> playerManager.removePlayerFromGame(otherPlayer)
+        );
+
+        assertTrue(exception.getMessage().contains("Player not found"));
+    }
+
 }
