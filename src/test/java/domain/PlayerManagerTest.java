@@ -70,4 +70,16 @@ public class PlayerManagerTest {
             assertTrue(player.isInGame());
         }
     }
+
+    @Test
+    void addPlayers_withTwoPlayers_initializesBothActive() {
+        playerManager.addPlayers(2);
+
+        List<Player> players = playerManager.getPlayers();
+        assertEquals(2, players.size());
+        for (Player player : players) {
+            assertEquals(0, player.getCardTypeCount(CardType.SKIP));
+            assertTrue(player.isInGame());
+        }
+    }
 }
