@@ -22,6 +22,10 @@ public class PlayerManager {
         return new ArrayList<>();
     }
 
-
+    public void addPlayers(int numberOfPlayers) {
+        if (numberOfPlayers < 2 || numberOfPlayers > 5) {
+            throw new IllegalArgumentException("Number of players must be between 2 and 5");
+        }
+    }
 
 }
