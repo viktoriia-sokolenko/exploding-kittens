@@ -90,4 +90,11 @@ public class TurnManagerTest {
         Player current = turnManager.getCurrentActivePlayer();
         assertEquals(players.get(0), current);
     }
+
+    @Test
+    void endTurnWithoutDraw_beforeSetup_throwsIllegalStateException() {
+        assertThrows(IllegalStateException.class, () -> {
+            turnManager.endTurnWithoutDraw();
+        });
+    }
 }

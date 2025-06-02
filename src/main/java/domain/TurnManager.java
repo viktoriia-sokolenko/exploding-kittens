@@ -34,4 +34,5 @@ public class TurnManager {
         this.currentPlayer = this.turnQueue.peek();
 
     }
+
 }
