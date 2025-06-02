@@ -38,4 +38,14 @@ public class PlayerManagerTest {
         assertEquals(0, pm.getPlayers().size());
         assertEquals(0, pm.getActivePlayers().size());
     }
+
+    @Test
+    void addPlayers_withTooFewPlayers_throwsException() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> playerManager.addPlayers(1)
+        );
+
+        assertTrue(exception.getMessage().contains("Number of players must be between 2 and 5"));
+    }
 }
