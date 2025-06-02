@@ -53,15 +53,15 @@ public class CardManagerTest {
 
     @Test
     void playCard_playerHasCard_executesCardEffect() {
+        CardEffect effectMock = EasyMock.createMock(CardEffect.class);
         EasyMock.expect(skipCard.getCardType()).andReturn(CardType.SKIP);
         EasyMock.expect(player.getCardTypeCount(CardType.SKIP)).andReturn(1);
-        player.playCard(EasyMock.anyObject(SkipCard.class));
+        EasyMock.expect(skipCard.createEffect()).andReturn(effectMock);
+        effectMock.execute(EasyMock.anyObject(GameContext.class));
         EasyMock.expectLastCall().once();
-        EasyMock.replay(skipCard);
-        EasyMock.replay(player);
+        EasyMock.replay(skipCard, player, effectMock);
         assertDoesNotThrow(() -> cardManager.playCard(skipCard, player));
-        EasyMock.verify(skipCard);
-        EasyMock.verify(player);
+        EasyMock.verify(skipCard, player, effectMock);
     }
 
 }
