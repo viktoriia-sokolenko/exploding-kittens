@@ -42,4 +42,11 @@ public class TurnManagerTest {
         assertNotNull(tm);
         assertThrows(IllegalStateException.class, () -> tm.getCurrentActivePlayer());
     }
+
+    @Test
+    void setPlayerManager_withNullPlayerManager_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> {
+            turnManager.setPlayerManager(null);
+        });
+    }
 }
