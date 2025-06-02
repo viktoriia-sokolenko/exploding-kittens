@@ -24,6 +24,9 @@ public class TurnManager {
         Objects.requireNonNull(playerManager,
                 "PlayerManager cannot be null");
 
-        
+        List<Player> players = playerManager.getPlayers();
+        if (players.isEmpty()) {
+            throw new IllegalArgumentException("No players provided");
+        }
     }
 }
