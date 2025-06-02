@@ -61,4 +61,15 @@ public class TurnManagerTest {
 
         assertTrue(exception.getMessage().contains("No players provided"));
     }
+
+    @Test
+    void setPlayerManager_withValidPlayers_initializesCurrentPlayer() {
+        turnManager.setPlayerManager(playerManager);
+
+        Player currentPlayer = turnManager.getCurrentActivePlayer();
+        assertNotNull(currentPlayer);
+
+        List<Player> players = playerManager.getPlayers();
+        assertEquals(players.get(0), currentPlayer);
+    }
 }
