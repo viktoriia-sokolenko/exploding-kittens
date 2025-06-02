@@ -20,4 +20,11 @@ public class SkipCardTests {
     void constructor_createsCardWithSkipType() {
         assertEquals(CardType.SKIP, skipCard.getCardType());
     }
+
+    @Test
+    void createEffect_returnsNonNullEffect() {
+        CardEffect effect = skipCard.createEffect();
+
+        assertNotNull(effect, "Effect cannot be null");
+    }
 }
