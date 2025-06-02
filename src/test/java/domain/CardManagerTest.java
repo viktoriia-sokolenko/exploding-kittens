@@ -33,4 +33,21 @@ public class CardManagerTest {
             cardManager.playCard(skipCard, null);
         });
     }
+
+    @Test
+    void playCard_playerDoesNotHaveCard_throwsIllegalArgumentException() {
+        EasyMock.expect(skipCard.getCardType()).andReturn(CardType.SKIP);
+        EasyMock.expect(player.getCardTypeCount(CardType.SKIP)).andReturn(0);
+        EasyMock.replay(skipCard, player);
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> cardManager.playCard(skipCard, player)
+        );
+        assertTrue(
+                ex.getMessage().contains("Player does not have this card type"),
+                "Expected exception message to mention missing card type"
+        );
+
+        EasyMock.verify(skipCard, player);
+    }
 }
