@@ -57,6 +57,7 @@ _helping Ethan with working on the todo items below_
 #### PR created:
 
 - [bvas for core game logic classes](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/47)
+- [Week 9 Progress Report](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/57)
   
 ### PR done and approved
 
