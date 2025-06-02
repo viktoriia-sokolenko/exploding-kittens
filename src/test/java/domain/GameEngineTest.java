@@ -49,5 +49,18 @@ public class GameEngineTest {
 
         assertDoesNotThrow(() -> gameEngine.playCard(player, skipCard));
         assertEquals(0, player.getCardTypeCount(CardType.SKIP));
+
+
+        // TODO: need to add  other validations when managers are implemented:
+        // - Game started check
+        // - Player in game check
+        // - Win condition check
     }
+
+    // TODO: methods that need to be imeplemented once we have the other
+    //  managers done
+    // public void startGame(int numberOfPlayers) { ... }
+    // public void nextTurn() { ... }
+    // public void eliminatePlayer(Player player) { ... }
+    // public void checkWinCondition() { ... }
 }
