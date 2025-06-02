@@ -44,8 +44,7 @@
 
 ### PR done and approved
 
-_Design structure and game logic need to be discussed with the group before I can start working on the code_ <br>
-_Awaiting Card Class method `play(Player player)` to be created before I can do the child `play` method_
+_Awaiting for core logic and classes that are currently in IN-PROGRESS before being able to implement card classses_
 
 
 ### Other people's PR reviewed by you
