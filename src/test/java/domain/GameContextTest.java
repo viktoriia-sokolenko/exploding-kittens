@@ -27,4 +27,13 @@ public class GameContextTest {
             new GameContext(null);
         });
     }
+
+    @Test
+    void getCurrentPlayer_returnsCurrentPlayer() {
+        // Act
+        Player result = gameContext.getCurrentPlayer();
+
+        // Assert
+        assertEquals(mockCurrentPlayer, result);
+    }
 }
