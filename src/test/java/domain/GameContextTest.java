@@ -20,4 +20,11 @@ public class GameContextTest {
     void constructor_withValidPlayer_createsGameContext() {
         assertNotNull(gameContext);
     }
+
+    @Test
+    void constructor_withNullPlayer_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> {
+            new GameContext(null);
+        });
+    }
 }
