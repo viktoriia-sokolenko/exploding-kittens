@@ -49,4 +49,9 @@ public class TurnManager {
         turnQueue.offer(current);
         this.currentPlayer = turnQueue.peek();
     }
+
+    public void syncWith(List<Player> activePlayers) {
+        this.turnQueue.clear();
+        this.turnQueue.addAll(activePlayers);
+    }
 }
