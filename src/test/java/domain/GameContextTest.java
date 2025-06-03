@@ -123,4 +123,9 @@ public class GameContextTest {
 
         verify(mockTurnManager);
     }
+
+    @Test
+    void addTurnForCurrentPlayer_withSimpleContext_doesNotThrow() {
+        assertDoesNotThrow(() -> gameContext.addTurnForCurrentPlayer());
+    }
 }
