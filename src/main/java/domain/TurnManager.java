@@ -70,4 +70,5 @@ public class TurnManager {
             list.add(1, currentPlayer);
         }
     }
+
 }

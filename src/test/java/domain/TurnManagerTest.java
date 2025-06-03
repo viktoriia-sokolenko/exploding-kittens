@@ -182,4 +182,11 @@ public class TurnManagerTest {
         Player current = turnManager.getCurrentActivePlayer();
         assertTrue(activePlayers.contains(current));
     }
+
+    @Test
+    void getTurnOrder_beforeSetup_throwsIllegalStateException() {
+        assertThrows(IllegalStateException.class, () -> {
+            turnManager.getTurnOrder();
+        });
+    }
 }
