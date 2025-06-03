@@ -97,4 +97,19 @@ public class TurnManagerTest {
             turnManager.endTurnWithoutDraw();
         });
     }
+
+    @Test
+    void endTurnWithoutDraw_withTwoPlayers_advancesToNextPlayer() {
+        PlayerManager twoPlayerManager = new PlayerManager(deck);
+        twoPlayerManager.addPlayers(2);
+        turnManager.setPlayerManager(twoPlayerManager);
+
+        List<Player> players = twoPlayerManager.getPlayers();
+        Player firstPlayer = players.get(0);
+        Player secondPlayer = players.get(1);
+
+        assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+        turnManager.endTurnWithoutDraw();
+        assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
+    }
 }
