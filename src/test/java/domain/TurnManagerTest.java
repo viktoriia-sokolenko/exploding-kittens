@@ -112,4 +112,19 @@ public class TurnManagerTest {
         turnManager.endTurnWithoutDraw();
         assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
     }
+
+    @Test
+    void endTurnWithoutDraw_withOnePlayer_staysOnSamePlayer() {
+        PlayerManager onePlayerManager = new PlayerManager(deck);
+        onePlayerManager.addPlayers(2);
+        turnManager.setPlayerManager(onePlayerManager);
+
+        List<Player> players = onePlayerManager.getPlayers();
+        onePlayerManager.removePlayerFromGame(players.get(1));
+        turnManager.syncWith(onePlayerManager.getActivePlayers());
+
+        Player remainingPlayer = onePlayerManager.getActivePlayers().get(0);
+        turnManager.endTurnWithoutDraw();
+        assertEquals(remainingPlayer, turnManager.getCurrentActivePlayer());
+    }
 }
