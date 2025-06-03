@@ -59,5 +59,10 @@ public class TurnManager {
         if (currentPlayer == null) {
             throw new IllegalStateException("TurnManager not initialized");
         }
+
+        if (turnQueue.size() > 1) {
+            LinkedList<Player> list = (LinkedList<Player>) turnQueue;
+            list.add(1, currentPlayer);
+        }
     }
 }
