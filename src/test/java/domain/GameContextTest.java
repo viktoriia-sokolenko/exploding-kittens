@@ -128,4 +128,19 @@ public class GameContextTest {
     void addTurnForCurrentPlayer_withSimpleContext_doesNotThrow() {
         assertDoesNotThrow(() -> gameContext.addTurnForCurrentPlayer());
     }
+
+    @Test
+    void endTurnWithoutDrawing_withFullContext_callsTurnManager() {
+        GameContext fullGameContext = new GameContext(mockTurnManager, mockPlayerManager,
+                mockDeck, mockCurrentPlayer, userInterface);
+
+        mockTurnManager.endTurnWithoutDraw();
+        expectLastCall().once();
+        replay(mockTurnManager);
+
+        fullGameContext.endTurnWithoutDrawing();
+
+        verify(mockTurnManager);
+    }
+
 }
