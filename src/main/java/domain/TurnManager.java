@@ -71,10 +71,12 @@ public class TurnManager {
         }
     }
 
-    public void  getTurnOrder() {
+    public List<Player> getTurnOrder() {
         if (turnQueue.isEmpty()) {
             throw new IllegalStateException("TurnManager not initialized");
         }
+
+        return new ArrayList<>(turnQueue);
     }
 
 }
