@@ -39,5 +39,14 @@ public class TurnManager {
         if (turnQueue.isEmpty()) {
             throw new IllegalStateException("TurnManager not initialized");
         }
+
+        currentPlayer.drawCard(deck);
+        advanceToNextPlayer();
+    }
+
+    private void advanceToNextPlayer() {
+        Player current = turnQueue.poll();
+        turnQueue.offer(current);
+        this.currentPlayer = turnQueue.peek();
     }
 }
