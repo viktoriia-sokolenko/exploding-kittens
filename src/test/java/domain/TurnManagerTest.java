@@ -158,4 +158,14 @@ public class TurnManagerTest {
             turnManager.syncWith(null);
         });
     }
+
+    @Test
+    void syncWith_withEmptyList_throwsIllegalArgumentException() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> turnManager.syncWith(new ArrayList<>())
+        );
+
+        assertTrue(exception.getMessage().contains("No players provided"));
+    }
 }
