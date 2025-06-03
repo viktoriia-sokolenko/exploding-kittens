@@ -80,7 +80,7 @@ public class GameContextTest {
     }
 
     @Test
-    void fullConstructor_withNullPlayerManager_throwsNullPointerException() {
+    void constructor_withNullPlayerManager_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> {
             new GameContext(mockTurnManager, null, mockDeck,
                     mockCurrentPlayer, userInterface);
@@ -88,10 +88,18 @@ public class GameContextTest {
     }
 
     @Test
-    void fullConstructor_withNullDeck_throwsNullPointerException() {
+    void constructor_withNullDeck_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> {
             new GameContext(mockTurnManager, mockPlayerManager, null,
                     mockCurrentPlayer, userInterface);
+        });
+    }
+
+    @Test
+    void constructor_withNullCurrentPlayer_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> {
+            new GameContext(mockTurnManager, mockPlayerManager, mockDeck,
+                    null, userInterface);
         });
     }
 }
