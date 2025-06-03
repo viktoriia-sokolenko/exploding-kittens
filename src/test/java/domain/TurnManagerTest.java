@@ -134,4 +134,21 @@ public class TurnManagerTest {
             turnManager.addTurnForCurrentPlayer();
         });
     }
+
+    @Test
+    void addTurnForCurrentPlayer_withValidSetup_duplicatesCurrentPlayerInQueue() {
+        turnManager.setPlayerManager(playerManager);
+        List<Player> players = playerManager.getPlayers();
+        Player firstPlayer = players.get(0);
+        Player secondPlayer = players.get(1);
+
+        assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+
+        turnManager.addTurnForCurrentPlayer();
+        turnManager.endTurnWithoutDraw();
+        assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+
+        turnManager.endTurnWithoutDraw();
+        assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
+    }
 }
