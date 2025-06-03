@@ -30,10 +30,7 @@ public class GameContextTest {
 
     @Test
     void getCurrentPlayer_returnsCurrentPlayer() {
-        // Act
         Player result = gameContext.getCurrentPlayer();
-
-        // Assert
         assertEquals(mockCurrentPlayer, result);
     }
 

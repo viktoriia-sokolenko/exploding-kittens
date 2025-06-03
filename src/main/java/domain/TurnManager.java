@@ -39,7 +39,7 @@ public class TurnManager {
         if (turnQueue.isEmpty()) {
             throw new IllegalStateException("TurnManager not initialized");
         }
-        
+
         advanceToNextPlayer();
     }
 
