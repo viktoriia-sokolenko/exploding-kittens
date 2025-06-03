@@ -71,4 +71,10 @@ public class TurnManager {
         }
     }
 
+    public void  getTurnOrder() {
+        if (turnQueue.isEmpty()) {
+            throw new IllegalStateException("TurnManager not initialized");
+        }
+    }
+
 }
