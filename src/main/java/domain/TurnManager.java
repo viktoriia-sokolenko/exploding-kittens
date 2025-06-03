@@ -51,6 +51,11 @@ public class TurnManager {
     }
 
     public void syncWith(List<Player> activePlayers) {
+        Objects.requireNonNull(activePlayers, "Active players list cannot be null");
+        if (activePlayers.isEmpty()) {
+            throw new IllegalArgumentException("No players provided");
+        }
+
         this.turnQueue.clear();
         this.turnQueue.addAll(activePlayers);
     }
