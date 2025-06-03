@@ -109,4 +109,18 @@ public class GameContextTest {
             new GameContext(mockTurnManager, mockPlayerManager, mockDeck, mockCurrentPlayer, null);
         });
     }
+
+    @Test
+    void addTurnForCurrentPlayer_withFullContext_callsTurnManager() {
+        GameContext fullGameContext = new GameContext(mockTurnManager, mockPlayerManager,
+                mockDeck, mockCurrentPlayer, userInterface);
+
+        mockTurnManager.addTurnForCurrentPlayer();
+        expectLastCall().once();
+        replay(mockTurnManager);
+
+        fullGameContext.addTurnForCurrentPlayer();
+
+        verify(mockTurnManager);
+    }
 }
