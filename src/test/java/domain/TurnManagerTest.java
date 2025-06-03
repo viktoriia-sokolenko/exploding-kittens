@@ -151,4 +151,11 @@ public class TurnManagerTest {
         turnManager.endTurnWithoutDraw();
         assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
     }
+
+    @Test
+    void syncWith_withNullList_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> {
+            turnManager.syncWith(null);
+        });
+    }
 }
