@@ -86,4 +86,12 @@ public class GameContextTest {
                     mockCurrentPlayer, userInterface);
         });
     }
+
+    @Test
+    void fullConstructor_withNullDeck_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> {
+            new GameContext(mockTurnManager, mockPlayerManager, null,
+                    mockCurrentPlayer, userInterface);
+        });
+    }
 }
