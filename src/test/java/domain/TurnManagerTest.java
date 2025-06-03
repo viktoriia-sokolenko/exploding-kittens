@@ -189,4 +189,16 @@ public class TurnManagerTest {
             turnManager.getTurnOrder();
         });
     }
+
+    @Test
+    void getTurnOrder_afterSetup_returnsCorrectOrder() {
+        turnManager.setPlayerManager(playerManager);
+        List<Player> expectedPlayers = playerManager.getPlayers();
+
+        List<Player> turnOrder = turnManager.getTurnOrder();
+        assertEquals(expectedPlayers.size(), turnOrder.size());
+        assertEquals(expectedPlayers.get(0), turnOrder.get(0));
+        assertEquals(expectedPlayers.get(1), turnOrder.get(1));
+        assertEquals(expectedPlayers.get(2), turnOrder.get(2));
+    }
 }
