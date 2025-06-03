@@ -70,4 +70,12 @@ public class GameContextTest {
         assertNotNull(fullGameContext);
         assertEquals(mockCurrentPlayer, fullGameContext.getCurrentPlayer());
     }
+
+    @Test
+    void constructor_withNullTurnManager_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> {
+            new GameContext(null, mockPlayerManager, mockDeck, mockCurrentPlayer,
+                    userInterface);
+        });
+    }
 }
