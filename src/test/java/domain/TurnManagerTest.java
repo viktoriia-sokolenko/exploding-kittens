@@ -168,4 +168,18 @@ public class TurnManagerTest {
 
         assertTrue(exception.getMessage().contains("No players provided"));
     }
+
+    @Test
+    void syncWith_withActivePlayers_updatesQueue() {
+        turnManager.setPlayerManager(playerManager);
+        List<Player> allPlayers = playerManager.getPlayers();
+
+        playerManager.removePlayerFromGame(allPlayers.get(1));
+        List<Player> activePlayers = playerManager.getActivePlayers();
+
+        turnManager.syncWith(activePlayers);
+
+        Player current = turnManager.getCurrentActivePlayer();
+        assertTrue(activePlayers.contains(current));
+    }
 }
