@@ -54,4 +54,10 @@ public class TurnManager {
         this.turnQueue.clear();
         this.turnQueue.addAll(activePlayers);
     }
+
+    public void addTurnForCurrentPlayer() {
+        if (currentPlayer == null) {
+            throw new IllegalStateException("TurnManager not initialized");
+        }
+    }
 }
