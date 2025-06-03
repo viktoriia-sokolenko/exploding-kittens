@@ -39,4 +39,10 @@ public class GameContext {
     public void endTurnWithoutDrawing() {
 
     }
+
+    public void addTurnForCurrentPlayer() {
+        if (turnManager != null) {
+            turnManager.addTurnForCurrentPlayer();
+        }
+    }
 }
