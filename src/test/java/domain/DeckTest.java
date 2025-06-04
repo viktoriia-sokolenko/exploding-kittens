@@ -590,6 +590,18 @@ public class DeckTest {
 		assertEquals(expectedCardList, actualCardList);
 	}
 
+	@Test
+	public void peekTopTwoCards_deckWithThreeCardsAndDuplicate_returnsLastDuplicateCards() {
+		Deck deck = deckWithThreeCardsAndDuplicate();
+		Card duplicateCard1 = deck.getCardAt(2);
+		Card duplicateCard2 = deck.getCardAt(1);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(duplicateCard1, duplicateCard2));
+
+		List <Card> actualCardList = deck.peekTopTwoCards();
+		assertEquals(expectedCardList, actualCardList);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
@@ -602,6 +614,13 @@ public class DeckTest {
 						mockCard(CardType.ALTER_THE_FUTURE)),
 				List.of(mockCard(CardType.SEE_THE_FUTURE),
 						mockCard(CardType.NUKE)));
+	}
+
+	private Deck deckWithThreeCardsAndDuplicate() {
+		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card card2 = mockCard(CardType.NORMAL);
+		Card card3 = mockCard(CardType.NORMAL);
+		return new Deck(List.of(card1, card2, card3));
 	}
 
 	private Card mockCard(CardType type) {
