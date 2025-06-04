@@ -16,6 +16,7 @@
 						"Player does not have this card type");
 			}
 
+			// TODO: GameContext need to use Dependency Injection
 			GameContext context = new GameContext(player);
 			CardEffect effect = card.createEffect();
 			effect.execute(context);
