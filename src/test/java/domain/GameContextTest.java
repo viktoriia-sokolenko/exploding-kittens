@@ -108,7 +108,8 @@ public class GameContextTest {
 	@Test
 	void fullConstructor_withNullUI_allowsNullUI() {
 		assertDoesNotThrow(() -> {
-			new GameContext(mockTurnManager, mockPlayerManager, mockDeck, mockCurrentPlayer, null);
+			new GameContext(mockTurnManager, mockPlayerManager, mockDeck,
+					mockCurrentPlayer, null);
 		});
 	}
 
