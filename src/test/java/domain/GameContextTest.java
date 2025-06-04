@@ -4,11 +4,8 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ui.UserInterface;
-import java.util.List;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.easymock.EasyMock.*;
 
 public class GameContextTest {
 	private GameContext gameContext;
