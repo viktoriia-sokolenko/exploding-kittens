@@ -24,6 +24,10 @@ public class Deck {
 		return this.deck.get(deck.size() - 1);
 	}
 
+	public List<Card> peekTopTwoCards() {
+		throw new NoSuchElementException("Deck is empty");
+	}
+
 	public Card draw() {
 		if (this.deck.isEmpty()) {
 			throw new NoSuchElementException("Deck is empty");

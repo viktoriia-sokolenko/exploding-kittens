@@ -545,6 +545,21 @@ public class DeckTest {
 		EasyMock.verify(rand);
 	}
 
+	@Test
+	public void peekTopTwoCards_emptyDeck_throwsNoSuchElementException() {
+		List<Card> emptyCardList = new ArrayList<>();
+
+		Deck deck = new Deck(emptyCardList);
+
+		String expectedMessage = "Deck is empty";
+
+		Exception exception = assertThrows(NoSuchElementException.class,
+				deck::peekTopTwoCards);
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
