@@ -9,25 +9,28 @@ import static org.easymock.EasyMock.*;
 public class CardEffectTests {
 
 	private GameContext mockGameContext;
+	private Player mockPlayer;
 
 	@BeforeEach
 	void setUp() {
 		mockGameContext = EasyMock.createMock(GameContext.class);
+		mockPlayer = EasyMock.createMock(Player.class);
 	}
 
 	@Test
 	void cardEffect_canBeImplemented() {
+		EasyMock.expect(mockGameContext.getCurrentPlayer()).andReturn(mockPlayer);
+		EasyMock.replay(mockGameContext, mockPlayer);
+
 		CardEffect testEffect = new CardEffect() {
 			@Override
 			public void execute(GameContext context) {
-				context.getCurrentPlayer();
+				Player player = context.getCurrentPlayer();
+				assertSame(player, mockPlayer);
 			}
 		};
 
-		expect(mockGameContext.getCurrentPlayer()).andReturn(null);
-		replay(mockGameContext);
-
 		assertDoesNotThrow(() -> testEffect.execute(mockGameContext));
-		verify(mockGameContext);
+		EasyMock.verify(mockGameContext, mockPlayer);
 	}
 }
