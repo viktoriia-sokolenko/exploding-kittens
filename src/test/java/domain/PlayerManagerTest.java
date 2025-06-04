@@ -7,15 +7,20 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class PlayerManagerTest {
+	private static final int NUM_CARDS = 20;
+	private static final int TOO_MANY_PLAYERS = 6;
+	private static final int DEFAULT_PLAYERS = 3;
+	private static final int FOUR_PLAYERS = 4;
+
 	private PlayerManager playerManager;
 	private Deck mockDeck;
 
 	@BeforeEach
 	void setUp() {
 		List<Card> cards = new ArrayList<>();
-		for (int i = 0; i < 20; i++) {
-			cards.add(new SkipCard()); // NOTE: adding skip cards because
-			// that's the only that is semi-completed
+		// Using SkipCard as it's the only card implemented currently.
+		for (int i = 0; i < NUM_CARDS; i++) {
+			cards.add(new SkipCard());
 		}
 		mockDeck = new Deck(cards);
 		playerManager = new PlayerManager(mockDeck);
@@ -46,25 +51,27 @@ public class PlayerManagerTest {
 				() -> playerManager.addPlayers(1)
 		);
 
-		assertTrue(exception.getMessage().contains("Number of players must be between 2 and 5"));
+		assertTrue(exception.getMessage()
+				.contains("Number of players must be between 2 and 5"));
 	}
 
 	@Test
 	void addPlayers_withTooManyPlayers_throwsException() {
 		IllegalArgumentException exception = assertThrows(
 				IllegalArgumentException.class,
-				() -> playerManager.addPlayers(6)
+				() -> playerManager.addPlayers(TOO_MANY_PLAYERS)
 		);
 
-		assertTrue(exception.getMessage().contains("Number of players must be between 2 and 5"));
+		assertTrue(exception.getMessage()
+				.contains("Number of players must be between 2 and 5"));
 	}
 
 	@Test
 	void addPlayers_withValidNumber_createsThatManyPlayers() {
-		playerManager.addPlayers(3);
+		playerManager.addPlayers(DEFAULT_PLAYERS);
 
-		assertEquals(3, playerManager.getPlayers().size());
-		assertEquals(3, playerManager.getActivePlayers().size());
+		assertEquals(DEFAULT_PLAYERS, playerManager.getPlayers().size());
+		assertEquals(DEFAULT_PLAYERS, playerManager.getActivePlayers().size());
 
 		for (Player player : playerManager.getPlayers()) {
 			assertTrue(player.isInGame());
@@ -85,18 +92,18 @@ public class PlayerManagerTest {
 
 	@Test
 	void removePlayerFromGame_withValidPlayer_marksInactive() {
-		playerManager.addPlayers(3);
+		playerManager.addPlayers(DEFAULT_PLAYERS);
 		List<Player> players = playerManager.getPlayers();
 		Player playerToRemove = players.get(0);
 
 		assertTrue(playerToRemove.isInGame());
-		assertEquals(3, playerManager.getActivePlayers().size());
+		assertEquals(DEFAULT_PLAYERS, playerManager.getActivePlayers().size());
 
 		playerManager.removePlayerFromGame(playerToRemove);
 
 		assertFalse(playerToRemove.isInGame());
 		assertEquals(2, playerManager.getActivePlayers().size());
-		assertEquals(3, playerManager.getPlayers().size());
+		assertEquals(DEFAULT_PLAYERS, playerManager.getPlayers().size());
 	}
 
 	@Test
@@ -124,7 +131,7 @@ public class PlayerManagerTest {
 
 	@Test
 	void getActivePlayers_afterRemovals_returnsOnlyActivePlayers() {
-		playerManager.addPlayers(4);
+		playerManager.addPlayers(FOUR_PLAYERS);
 		List<Player> allPlayers = playerManager.getPlayers();
 
 		playerManager.removePlayerFromGame(allPlayers.get(0));
@@ -133,10 +140,9 @@ public class PlayerManagerTest {
 		List<Player> activePlayers = playerManager.getActivePlayers();
 
 		assertEquals(2, activePlayers.size());
-		assertEquals(4, allPlayers.size());
+		assertEquals(FOUR_PLAYERS, allPlayers.size());
 		for (Player player : activePlayers) {
 			assertTrue(player.isInGame());
 		}
 	}
-
 }
