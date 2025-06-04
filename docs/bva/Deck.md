@@ -160,6 +160,25 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 5 | Rand, Deck `[card1, card2, card3]`     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: | shuffleDeck_deckWithThreeCards_orderChanges                   |
 | Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: | shuffleDeck_deckWithThreeCardsAndDuplicate_orderChanges       |
 
+## Method 7: `public Card peekTopTwoCards()`
+
+### Step 1-3 Results
+
+|        | Input                                                                                                 | Output                                                                                   |
+|--------|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| Step 1 | Deck of Cards                                                                                         | Two Cards on top of deck, i.e last index from deck                                       |
+| Step 2 | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates) | Collections of 1-2 Card objects or Exception                                             |
+| Step 3 | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                             | `[card1]`, `[card1, card2]`, duplicates `[card2.1, card2.2]` or `NoSuchElementException` |
+
+### Step 4:
+
+|             | System under test                | Expected output / state transition         | Implemented? | Test name                                                                |
+|-------------|----------------------------------|--------------------------------------------|--------------|--------------------------------------------------------------------------|
+| Test Case 1 | Deck `[]`                        | `NoSuchElementException` (“Deck is empty”) |              | peekTopTwoCards_emptyDeck_throwsNoSuchElementException                   |
+| Test Case 2 | Deck `[card1]`                   | Returns `[card1]`;                         |              | peekTopTwoCards_deckWithOneCard_returnsTheOnlyCard                       |
+| Test Case 3 | Deck `[card1, card2]`            | Returns `[card1, card2]`;                  |              | peekTopTwoCards_deckWithTwoCards_returnsTwoLastCards                     |
+| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `[card2.1, card2.2]`;              |              | peekTopTwoCards_deckWithThreeCardsAndDuplicate_returnsLastDuplicateCards |
+
 ## Method under test: `giveCardToPlayer(Player p)`
 
 |             | System under test (pre-state)                                                  | Expected output / state transition                                                                      | Implemented? |
