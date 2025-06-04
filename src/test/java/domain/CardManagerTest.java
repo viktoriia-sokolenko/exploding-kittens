@@ -8,15 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CardManagerTest {
 	private CardManager cardManager;
 	private Player player;
-	private Hand hand;
-	private Card card;
 	private SkipCard skipCard;
 
 	@BeforeEach
 	void setUp() {
 		cardManager = new CardManager();
 		player	= EasyMock.createMock(Player.class);
-		hand = EasyMock.createMock(Hand.class);
 		skipCard = EasyMock.createMock(SkipCard.class);
 	}
 

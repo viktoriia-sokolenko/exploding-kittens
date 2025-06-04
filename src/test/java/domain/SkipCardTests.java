@@ -8,12 +8,10 @@ import static org.easymock.EasyMock.*;
 
 public class SkipCardTests {
 	private SkipCard skipCard;
-	private GameContext mockGameContext;
 
 	@BeforeEach
 	void setUp() {
 		skipCard = new SkipCard();
-		mockGameContext = EasyMock.createMock(GameContext.class);
 	}
 
 	@Test
