@@ -84,8 +84,8 @@ public class DeckTest {
 	public void getCardAt_nonEmptyDeckWithIndexNegative_throwsIndexOutOfBoundsException() {
 		Card card1 = mockCard(CardType.NORMAL);
 		Card card2 = mockCard(CardType.NORMAL);
-		List<Card> CardList = new ArrayList<>(List.of(card1, card2));
-		Deck deck = new Deck(CardList);
+		List<Card> cardList = new ArrayList<>(List.of(card1, card2));
+		Deck deck = new Deck(cardList);
 		int index = -1;
 
 		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
@@ -571,6 +571,20 @@ public class DeckTest {
 		List<Card> expectedCardList = new ArrayList<>(List.of(expectedCard));
 
 		Deck deck = new Deck(expectedCardList);
+		List <Card> actualCardList = deck.peekTopTwoCards();
+
+		assertEquals(expectedCardList, actualCardList);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void peekTopTwoCards_deckWithTwoCards_returnsTwoLastCards(List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		Card expectedCard1 = cards.get(1);
+		Card expectedCard2 = cards.get(0);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(expectedCard1, expectedCard2));
 		List <Card> actualCardList = deck.peekTopTwoCards();
 
 		assertEquals(expectedCardList, actualCardList);
