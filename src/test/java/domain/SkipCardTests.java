@@ -7,24 +7,24 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.easymock.EasyMock.*;
 
 public class SkipCardTests {
-    private SkipCard skipCard;
-    private GameContext mockGameContext;
+	private SkipCard skipCard;
+	private GameContext mockGameContext;
 
-    @BeforeEach
-    void setUp() {
-        skipCard = new SkipCard();
-        mockGameContext = EasyMock.createMock(GameContext.class);
-    }
+	@BeforeEach
+	void setUp() {
+		skipCard = new SkipCard();
+		mockGameContext = EasyMock.createMock(GameContext.class);
+	}
 
-    @Test
-    void constructor_createsCardWithSkipType() {
-        assertEquals(CardType.SKIP, skipCard.getCardType());
-    }
+	@Test
+	void constructor_createsCardWithSkipType() {
+		assertEquals(CardType.SKIP, skipCard.getCardType());
+	}
 
-    @Test
-    void createEffect_returnsNonNullEffect() {
-        CardEffect effect = skipCard.createEffect();
+	@Test
+	void createEffect_returnsNonNullEffect() {
+		CardEffect effect = skipCard.createEffect();
 
-        assertNotNull(effect, "Effect cannot be null");
-    }
+		assertNotNull(effect, "Effect cannot be null");
+	}
 }

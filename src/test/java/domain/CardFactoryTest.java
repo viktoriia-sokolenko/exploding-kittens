@@ -148,9 +148,9 @@ public class CardFactoryTest {
 	@Test
 	public void createCards_withMultipleDifferentTypes_returnsCorrectTypeForEachCardType() {
 		CardFactory factory = new CardFactory();
-		Card normal    = factory.createCard(CardType.NORMAL);
+		Card normal	   = factory.createCard(CardType.NORMAL);
 		Card exploding = factory.createCard(CardType.EXPLODING_KITTEN);
-		Card defuse    = factory.createCard(CardType.DEFUSE);
+		Card defuse	   = factory.createCard(CardType.DEFUSE);
 
 		assertInstanceOf(NormalCard.class, normal);
 		assertInstanceOf(ExpoldingKittenCard.class, exploding);

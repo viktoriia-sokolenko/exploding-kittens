@@ -2,7 +2,7 @@ package domain;
 
 //import java.util.Objects;
 
-public class NormalCard  extends Card {
+public class NormalCard	 extends Card {
 	public NormalCard() { super(CardType.NORMAL); }
 
 	@Override

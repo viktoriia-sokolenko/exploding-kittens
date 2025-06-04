@@ -5,51 +5,52 @@ import java.util.List;
 import java.util.Objects;
 
 public class PlayerManager {
-    private final Deck deck;
-    private final List<Player> players;
+	private final Deck deck;
+	private final List<Player> players;
 
-    public PlayerManager(Deck deck) {
-        if (deck == null) {
-            throw new NullPointerException("Deck cannot be null");
-        }
-        this.deck = deck;
-        this.players = new ArrayList<>();
-    }
+	public PlayerManager(Deck deck) {
+		if (deck == null) {
+			throw new NullPointerException("Deck cannot be null");
+		}
+		this.deck = deck;
+		this.players = new ArrayList<>();
+	}
 
-    public List<Player> getPlayers() {
-        return players;
-    }
+	public List<Player> getPlayers() {
+		return players;
+	}
 
-    public List<Player> getActivePlayers() {
-        List<Player> active = new ArrayList<>();
-        for (Player p : players) {
-            if (p.isInGame()) {
-                active.add(p);
-            }
-        }
-        return active;
-    }
+	public List<Player> getActivePlayers() {
+		List<Player> active = new ArrayList<>();
+		for (Player p : players) {
+			if (p.isInGame()) {
+				active.add(p);
+			}
+		}
+		return active;
+	}
 
-    public void addPlayers(int numberOfPlayers) {
-        if (numberOfPlayers < 2 || numberOfPlayers > 5) {
-            throw new IllegalArgumentException("Number of players must be between 2 and 5");
-        }
+	public void addPlayers(int numberOfPlayers) {
+		if (numberOfPlayers < 2 || numberOfPlayers > 5) {
+			throw new IllegalArgumentException(
+					"Number of players must be between 2 and 5");
+		}
 
-        for (int i = 0; i < numberOfPlayers; i++) {
-            Hand hand = new Hand();
-            Player player = new Player(hand);
-            players.add(player);
-        }
-    }
+		for (int i = 0; i < numberOfPlayers; i++) {
+			Hand hand = new Hand();
+			Player player = new Player(hand);
+			players.add(player);
+		}
+	}
 
-    public void removePlayerFromGame(Player player) {
-        Objects.requireNonNull(player, "Player cannot be null");
+	public void removePlayerFromGame(Player player) {
+		Objects.requireNonNull(player, "Player cannot be null");
 
-        if (!players.contains(player)) {
-            throw new IllegalArgumentException("Player not found in game");
-        }
+		if (!players.contains(player)) {
+			throw new IllegalArgumentException("Player not found in game");
+		}
 
-        player.activeStatus = false;
-    }
+		player.activeStatus = false;
+	}
 
 }

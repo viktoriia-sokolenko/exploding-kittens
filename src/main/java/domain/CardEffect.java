@@ -1,5 +1,5 @@
 package domain;
 
 public interface CardEffect {
-    void execute(GameContext context);
+	void execute(GameContext context);
 }
