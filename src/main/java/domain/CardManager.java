@@ -12,7 +12,8 @@
 			int count = player.getCardTypeCount(type);
 
 			if (count <= 0) {
-				throw new IllegalArgumentException("Player does not have this card type");
+				throw new IllegalArgumentException(
+						"Player does not have this card type");
 			}
 
 			GameContext context = new GameContext(player);
