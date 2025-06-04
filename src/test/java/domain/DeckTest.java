@@ -4,6 +4,7 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.*;
@@ -558,6 +559,18 @@ public class DeckTest {
 
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void peekTopTwoCards_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+		Card expectedCard = mockCard(testCardType);
+		List<Card> expectedCardList = new ArrayList<>(List.of(expectedCard));
+
+		Deck deck = new Deck(expectedCardList);
+		List <Card> actualCardList = deck.peekTopTwoCards();
+
+		assertEquals(expectedCardList, actualCardList);
 	}
 
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
