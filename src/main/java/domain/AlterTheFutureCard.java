@@ -1,9 +1,11 @@
 package domain;
 
-//import java.util.Objects;
-
 public class AlterTheFutureCard extends Card {
-	public AlterTheFutureCard() { super(CardType.ALTER_THE_FUTURE); }
+
+	public AlterTheFutureCard() {
+		super(CardType.ALTER_THE_FUTURE);
+	}
+
 	@Override
 	public CardEffect createEffect() {
 		// Temporary empty implementation
