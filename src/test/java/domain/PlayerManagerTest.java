@@ -45,7 +45,7 @@ public class PlayerManagerTest {
 	}
 
 	@Test
-	void addPlayers_withTooFewPlayers_throwsException() {
+	void addPlayers_withTooFewPlayers_throwsIllegalArgumentException() {
 		IllegalArgumentException exception = assertThrows(
 				IllegalArgumentException.class,
 				() -> playerManager.addPlayers(1)
@@ -56,7 +56,7 @@ public class PlayerManagerTest {
 	}
 
 	@Test
-	void addPlayers_withTooManyPlayers_throwsException() {
+	void addPlayers_withTooManyPlayers_throwsIllegalArgumentException() {
 		IllegalArgumentException exception = assertThrows(
 				IllegalArgumentException.class,
 				() -> playerManager.addPlayers(TOO_MANY_PLAYERS)
@@ -91,7 +91,7 @@ public class PlayerManagerTest {
 	}
 
 	@Test
-	void removePlayerFromGame_withValidPlayer_marksInactive() {
+	void removePlayerFromGame_withValidPlayer_marksPlayerInactive() {
 		playerManager.addPlayers(DEFAULT_PLAYERS);
 		List<Player> players = playerManager.getPlayers();
 		Player playerToRemove = players.get(0);
