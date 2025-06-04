@@ -7,6 +7,8 @@ import java.util.Objects;
 public class PlayerManager {
 	private final Deck deck;
 	private final List<Player> players;
+	private static final int MIN_PLAYERS = 2;
+	private static final int MAX_PLAYERS = 5;
 
 	public PlayerManager(Deck deck) {
 		if (deck == null) {
@@ -31,7 +33,7 @@ public class PlayerManager {
 	}
 
 	public void addPlayers(int numberOfPlayers) {
-		if (numberOfPlayers < 2 || numberOfPlayers > 5) {
+		if (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS) {
 			throw new IllegalArgumentException(
 					"Number of players must be between 2 and 5");
 		}
