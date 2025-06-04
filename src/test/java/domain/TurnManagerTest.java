@@ -43,7 +43,9 @@ public class TurnManagerTest {
 	@Test
 	void constructor_withValidDeck_initializesState() {
 		assertNotNull(turnManager);
-		assertThrows(IllegalStateException.class, () -> turnManager.getCurrentActivePlayer());
+		assertThrows(IllegalStateException.class, () -> {
+			turnManager.getCurrentActivePlayer();
+		});
 	}
 
 	@Test
