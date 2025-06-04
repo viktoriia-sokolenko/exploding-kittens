@@ -1,6 +1,7 @@
 # BVA Analysis for DECK
 
 #### Important Note
+Whenever you see `card1` without specifying its type, that means I am using Parametrized Testing, and the test runs for cards with all the available card types.
 
 Whenever you see the keywords "non-empty list" or noticed that the states takes in a list of two
 cards without specifying the Card Type (i.e `[card1, card2]`), that means that the test cases uses a Parameterized Test

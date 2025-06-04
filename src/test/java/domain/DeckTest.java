@@ -29,9 +29,10 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
-	@Test
-	public void peekTop_deckWithOneCard_returnsTheOnlyCard() {
-		Card expectedCard = mockCard(CardType.NORMAL);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void peekTop_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+		Card expectedCard = mockCard(testCardType);
 		List<Card> cardList = new ArrayList<>(List.of(expectedCard));
 
 		Deck deck = new Deck(cardList);
@@ -83,8 +84,8 @@ public class DeckTest {
 	public void getCardAt_nonEmptyDeckWithIndexNegative_throwsIndexOutOfBoundsException() {
 		Card card1 = mockCard(CardType.NORMAL);
 		Card card2 = mockCard(CardType.NORMAL);
-		List<Card> emptyCardList = new ArrayList<>(List.of(card1, card2));
-		Deck deck = new Deck(emptyCardList);
+		List<Card> CardList = new ArrayList<>(List.of(card1, card2));
+		Deck deck = new Deck(CardList);
 		int index = -1;
 
 		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
@@ -213,9 +214,10 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
-	@Test
-	public void drawAndGetDeckSize_deckWithOneCard_returnsEmptyDeck() {
-		Card card = mockCard(CardType.NORMAL);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void drawAndGetDeckSize_deckWithOneCard_returnsEmptyDeck(CardType testCardType) {
+		Card card = mockCard(testCardType);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 
 		Deck deck = new Deck(cardList);
@@ -453,9 +455,10 @@ public class DeckTest {
 		EasyMock.verify(rand);
 	}
 
-	@Test
-	public void shuffleDeck_deckWithOneCard_orderRemainTheSame() {
-		Card card = mockCard(CardType.SKIP);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void shuffleDeck_deckWithOneCard_orderRemainTheSame(CardType testCardType) {
+		Card card = mockCard(testCardType);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 		Random rand = EasyMock.createMock(Random.class);
 		EasyMock.replay(rand);
