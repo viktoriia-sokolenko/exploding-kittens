@@ -49,19 +49,18 @@ public class GameContextTest {
 
 	@Test
 	void playCardFromCurrentPlayerHand_callsPlayerPlayCard() {
-		Card testCard = new SkipCard();
+		Card testCard = EasyMock.createMock(SkipCard.class);
 		mockCurrentPlayer.playCard(testCard);
-		expectLastCall().once();
-		replay(mockCurrentPlayer);
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockCurrentPlayer, testCard);
 
 		gameContext.playCardFromCurrentPlayerHand(testCard);
-
-		verify(mockCurrentPlayer);
+		EasyMock.verify(mockCurrentPlayer, testCard);
 	}
 
 	// TODO: Don't do anything, but just a placeholder for now
 	@Test
-	void endTurnWithoutDrawing_doesNotThrow() {
+	void endTurnWithoutDrawing_doesNotThrowException() {
 		assertDoesNotThrow(() -> gameContext.endTurnWithoutDrawing());
 	}
 
@@ -122,16 +121,16 @@ public class GameContextTest {
 				mockDeck, mockCurrentPlayer, userInterface);
 
 		mockTurnManager.addTurnForCurrentPlayer();
-		expectLastCall().once();
-		replay(mockTurnManager);
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockTurnManager);
 
 		fullGameContext.addTurnForCurrentPlayer();
 
-		verify(mockTurnManager);
+		EasyMock.verify(mockTurnManager);
 	}
 
 	@Test
-	void addTurnForCurrentPlayer_withSimpleContext_doesNotThrow() {
+	void addTurnForCurrentPlayer_withSimpleContext_doesNotThrowException() {
 		assertDoesNotThrow(() -> gameContext.addTurnForCurrentPlayer());
 	}
 
@@ -142,12 +141,12 @@ public class GameContextTest {
 				mockDeck, mockCurrentPlayer, userInterface);
 
 		mockTurnManager.endTurnWithoutDraw();
-		expectLastCall().once();
-		replay(mockTurnManager);
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockTurnManager);
 
 		fullGameContext.endTurnWithoutDrawing();
 
-		verify(mockTurnManager);
+		EasyMock.verify(mockTurnManager);
 	}
 
 }
