@@ -67,7 +67,8 @@ public class GameContextTest {
 
 	@Test
 	void constructor_withValidParameters_createsGameContext() {
-		GameContext fullGameContext = new GameContext(mockTurnManager, mockPlayerManager,
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface);
 		assertNotNull(fullGameContext);
 		assertEquals(mockCurrentPlayer, fullGameContext.getCurrentPlayer());
@@ -76,7 +77,8 @@ public class GameContextTest {
 	@Test
 	void constructor_withNullTurnManager_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
-			new GameContext(null, mockPlayerManager, mockDeck, mockCurrentPlayer,
+			new GameContext(null, mockPlayerManager,
+					mockDeck, mockCurrentPlayer,
 					userInterface);
 		});
 	}
@@ -115,7 +117,8 @@ public class GameContextTest {
 
 	@Test
 	void addTurnForCurrentPlayer_withFullContext_callsTurnManager() {
-		GameContext fullGameContext = new GameContext(mockTurnManager, mockPlayerManager,
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface);
 
 		mockTurnManager.addTurnForCurrentPlayer();
@@ -134,7 +137,8 @@ public class GameContextTest {
 
 	@Test
 	void endTurnWithoutDrawing_withFullContext_callsTurnManager() {
-		GameContext fullGameContext = new GameContext(mockTurnManager, mockPlayerManager,
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface);
 
 		mockTurnManager.endTurnWithoutDraw();

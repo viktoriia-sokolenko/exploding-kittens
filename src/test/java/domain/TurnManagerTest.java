@@ -11,20 +11,24 @@ public class TurnManagerTest {
 	private TurnManager turnManager;
 	private Deck deck;
 	private PlayerManager playerManager;
+	private static final int NUM_CARDS = 20;
+	private static final int DEFAULT_NUM_PLAYERS = 3;
 
 	@BeforeEach
 	void setUp() {
 		List<Card> cards = new ArrayList<>();
-		for (int i = 0; i < 20; i++) {
-			cards.add(new SkipCard()); // Placeholder for since this is only
-			// card that's basically implemented
+		for (int i = 0; i < NUM_CARDS; i++) {
+			// Using SkipCard since it’s the only fully implemented card type
+			// currently.
+			cards.add(new SkipCard());
 		}
 		deck = new Deck(cards);
 		turnManager = new TurnManager(deck);
 
 		playerManager = new PlayerManager(deck);
-		playerManager.addPlayers(3);
+		playerManager.addPlayers(DEFAULT_NUM_PLAYERS);
 	}
+
 
 	@Test
 	void constructor_withNullDeck_throwsNullPointerException() {
