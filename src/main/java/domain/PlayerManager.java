@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,15 +12,12 @@ public class PlayerManager {
 	private static final int MAX_PLAYERS = 5;
 
 	public PlayerManager(Deck deck) {
-		if (deck == null) {
-			throw new NullPointerException("Deck cannot be null");
-		}
-		this.deck = deck;
+		this.deck = Objects.requireNonNull(deck, "Deck cannot be null");
 		this.players = new ArrayList<>();
 	}
 
 	public List<Player> getPlayers() {
-		return players;
+		return Collections.unmodifiableList(players);
 	}
 
 	public List<Player> getActivePlayers() {
