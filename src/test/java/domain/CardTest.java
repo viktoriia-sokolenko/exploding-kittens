@@ -10,14 +10,11 @@ public class CardTest {
 			super(cardType);
 		}
 
-		// ADD THIS METHOD - it's required by the abstract Card class
 		@Override
 		public CardEffect createEffect() {
-			// Return a simple test implementation
 			return new CardEffect() {
 				@Override
 				public void execute(GameContext context) {
-					// Simple test effect - just return
 				}
 			};
 		}
