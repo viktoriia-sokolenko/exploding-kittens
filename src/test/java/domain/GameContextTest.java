@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ui.UserInterface;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameContextTest {
@@ -133,6 +135,20 @@ public class GameContextTest {
 		fullGameContext.endTurnWithoutDrawing();
 
 		EasyMock.verify(mockTurnManager);
+	}
+
+	@Test
+	void viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException() {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+		mockDeck.peekTopTwoCards();
+		EasyMock.expectLastCall()
+				.andThrow(new NoSuchElementException("Deck is empty"));
+		EasyMock.replay(mockDeck);
+		assertThrows(NoSuchElementException.class,
+				() -> fullGameContext.viewTopTwoCardsFromDeck());
+		EasyMock.verify(mockDeck);
 	}
 
 }

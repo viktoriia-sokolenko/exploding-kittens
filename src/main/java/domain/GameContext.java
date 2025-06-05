@@ -2,6 +2,7 @@ package domain;
 
 import ui.UserInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class GameContext {
@@ -48,5 +49,9 @@ public class GameContext {
 		if (turnManager != null) {
 			turnManager.addTurnForCurrentPlayer();
 		}
+	}
+
+	public List<Card> viewTopTwoCardsFromDeck() {
+		return deck.peekTopTwoCards();
 	}
 }
