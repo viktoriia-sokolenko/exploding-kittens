@@ -34,7 +34,7 @@ public class GameContext {
 		this.userInterface = null;
 	}
 
-	public Player getCurrentPlayer() {
+	Player getCurrentPlayer() {
 		return currentPlayer;
 	}
 

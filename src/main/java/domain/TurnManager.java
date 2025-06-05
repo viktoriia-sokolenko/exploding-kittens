@@ -13,7 +13,7 @@ public class TurnManager {
 		this.currentPlayer = null;
 	}
 
-	public Player getCurrentActivePlayer() {
+	Player getCurrentActivePlayer() {
 		if (currentPlayer == null) {
 			throw new IllegalStateException("TurnManager not initialized");
 		}
