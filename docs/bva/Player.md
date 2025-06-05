@@ -33,7 +33,7 @@ I am using Parametrized Testing, so whenever I use `testCardType1` or `testCard1
 | Test Case 3 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `[...DEFUSE...}`      | Hand `without DEFUSE card`,  Player is in the game | :white_check_mark: | drawExplodingKittenCard_withDefuseInHand_insertsDrawnCardBackIntoDeck |
 | Test Case 4 | deck `non-empty`, card `EXPLODING_KITTEN`, hand `without DEFUSE card` | Player is not in the game                          | :white_check_mark: | drawExplodingKittenCard_withDefuseNotInHand_removesPlayer             |
 
-## Method under test: `playCard(Card card)`
+## Method under test: `removeCardFromHand(Card card)`
 ### Step 1-3 Results
 |        | Input 1                                    | Input 2                                                                                                | Input 3                              | Output                                                                                                |
 |--------|--------------------------------------------|--------------------------------------------------------------------------------------------------------|--------------------------------------|-------------------------------------------------------------------------------------------------------|
