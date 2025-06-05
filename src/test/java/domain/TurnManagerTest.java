@@ -218,4 +218,13 @@ public class TurnManagerTest {
 
 		assertTrue(exception.getMessage().contains("Player cannot be null"));
 	}
+
+	@Test
+	void getTurnsCountFor_emptyQueue_returnsZero() {
+		Hand hand = new Hand();
+		Player player = new Player(hand);
+		int EXPECTED_COUNT = 0;
+		int actualCount = turnManager.getTurnsFor(player);
+		assertEquals(EXPECTED_COUNT, actualCount);
+	}
 }

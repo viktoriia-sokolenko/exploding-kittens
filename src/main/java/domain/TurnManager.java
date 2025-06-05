@@ -80,7 +80,13 @@ public class TurnManager {
 
 	public int getTurnsFor(Player player) {
 		Objects.requireNonNull(player, "Player cannot be null");
-		return 0;
+		int count = 0;
+		for (Player queuePlayer : turnQueue) {
+			if (player.equals(queuePlayer)) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 }

@@ -211,7 +211,7 @@ This method is mainly used for Testing and not for game logic. :)
 |             | System Under Test                                          | Expected Output                                 | Implemented?        | Test Name                                                     |
 |-------------|------------------------------------------------------------|-------------------------------------------------|---------------------|---------------------------------------------------------------|
 | Test Case 1 | `player = null`, queue is empty                            | `NullPointerException("Player Cannot be Null")` | :white_check_mark:  | `getTurnsCountFor_nullPlayer_throwsNullPointerException`      |
-| Test Case 2 | `player = player1`, queue is `[]`                          | `0`                                             |                     | `getTurnsCountFor_emptyQueue_returnsZero`                     |
+| Test Case 2 | `player = player1`, queue is `[]`                          | `0`                                             | :white_check_mark:  | `getTurnsCountFor_emptyQueue_returnsZero`                     |
 | Test Case 3 | `player = player1`, queue is `[player1]`                   | `1`                                             |                     | `getTurnsCountFor_playerInQueueWithOne_returnsOne`            |
 | Test Case 4 | `player = player2`, queue is `[player1]`                   | `0`                                             |                     | `getTurnsCountFor_playerNotInQueueWithOne_returnsZero`        |
 | Test Case 5 | `player = player2`, queue is `[player2, player2]`          | `2`                                             |                     | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo`   |
