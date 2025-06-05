@@ -9,7 +9,13 @@ public class SeeTheFutureCard extends Card {
 
 	@Override
 	public CardEffect createEffect() {
-		// Temporary empty implementation
-		return null;
+		return new SeeTheFutureEffect();
+	}
+
+	private static class SeeTheFutureEffect implements CardEffect {
+		@Override
+		public void execute(GameContext context) {
+			return;
+		}
 	}
 }
