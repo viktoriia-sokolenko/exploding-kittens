@@ -227,4 +227,18 @@ public class TurnManagerTest {
 		int actualCount = turnManager.getTurnsFor(player);
 		assertEquals(EXPECTED_COUNT, actualCount);
 	}
+
+	@Test
+	void getTurnsCountFor_playerInQueueWithTwo_returnsOne() {
+		PlayerManager mockedPlayerManager = new PlayerManager(deck);
+		mockedPlayerManager.addPlayers(2);
+		turnManager.setPlayerManager(mockedPlayerManager);
+		List<Player> players = mockedPlayerManager.getPlayers();
+		Player player1 = players.get(0);
+
+		int EXPECTED_COUNT = 1;
+		int actualCount = turnManager.getTurnsFor(player1);
+		assertEquals(EXPECTED_COUNT, actualCount);
+	}
+
 }
