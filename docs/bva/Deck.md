@@ -161,7 +161,7 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 5 | Rand, Deck `[card1, card2, card3]`     | Order changes _or_ remains statistically different over many runs; deck content invariant `[card3, card1, card2]`     | :white_check_mark: | shuffleDeck_deckWithThreeCards_orderChanges                   |
 | Test Case 6 | Rand, Deck `[card1, card2.1, card2.2]` | Order changes _or_ remains statistically different over many runs; deck content invariant `[card2.1, card2.2, card1]` | :white_check_mark: | shuffleDeck_deckWithThreeCardsAndDuplicate_orderChanges       |
 
-## Method 7: `public Card peekTopTwoCards()`
+## Method 7: `public List<Card> peekTopTwoCards()`
 
 ### Step 1-3 Results
 
