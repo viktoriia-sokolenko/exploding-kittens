@@ -41,10 +41,10 @@ I am using Parametrized Testing, so whenever I use `testCardType1` or `testCard1
 | Step 2 | Cases                                      | Cases                                                                                                  | Boolean                              | Boolean or exception                                                                                  |
 | Step 3 | null pointer, not in the hand; in the hand | NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | true, false                          | Has card, does not have card or NullPointerException, IllegalArgumentException, IllegalStateException |
 ### Step 4:
-|             | System under test                          | Expected output                                                      | Implemented?       | Test name                                                 |
-|-------------|--------------------------------------------|----------------------------------------------------------------------|--------------------|-----------------------------------------------------------|
-| Test Case 1 | Card `null`, hand `non-empty`              | `NullPointerException`  ("Card cannot be null")                      | :white_check_mark: | playCard_withNullCard_throwsNullPointerException          |
-| Test Case 2 | Card `testCard1`, hand `[]`                | `IllegalStateException` (“Hand empty: can not remove card”)          | :white_check_mark: | playCard_withEmptyHand_throwsIllegalStateException        |
-| Test Case 3 | Card `testCard1`, hand `without testCard1` | `IllegalArgumentException` (“Card not in hand: can not remove card”) | :white_check_mark: | playCard_withCardNotInHand_throwsIllegalArgumentException |
-| Test Case 4 | Card `testCard2`, hand `[...testCard2...]` | hand `without testCard2`                                             | :white_check_mark: | playCard_withCardInHand_removesCardFromHand               |
+|             | System under test                          | Expected output                                                      | Implemented?       | Test name                                                           |
+|-------------|--------------------------------------------|----------------------------------------------------------------------|--------------------|---------------------------------------------------------------------|
+| Test Case 1 | Card `null`, hand `non-empty`              | `NullPointerException`  ("Card cannot be null")                      | :white_check_mark: | removeCardFromHand_withNullCard_throwsNullPointerException          |
+| Test Case 2 | Card `testCard1`, hand `[]`                | `IllegalStateException` (“Hand empty: can not remove card”)          | :white_check_mark: | removeCardFromHand_withEmptyHand_throwsIllegalStateException        |
+| Test Case 3 | Card `testCard1`, hand `without testCard1` | `IllegalArgumentException` (“Card not in hand: can not remove card”) | :white_check_mark: | removeCardFromHand_withCardNotInHand_throwsIllegalArgumentException |
+| Test Case 4 | Card `testCard2`, hand `[...testCard2...]` | hand `without testCard2`                                             | :white_check_mark: | removeCardFromHand_withCardInHand_removesCard                       |
 
