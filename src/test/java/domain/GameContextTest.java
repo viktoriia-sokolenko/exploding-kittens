@@ -183,6 +183,21 @@ public class GameContextTest {
 		EasyMock.verify(mockDeck);
 	}
 
+	@Test
+	void viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsDuplicates() {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+		Card duplicateCard1 = mockCard(CardType.SKIP);
+		Card duplicateCard2 = mockCard(CardType.SKIP);
+		List<Card> expectedCardList = List.of(duplicateCard1, duplicateCard2);
+		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
+		EasyMock.replay(mockDeck);
+		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
+		assertEquals(expectedCardList, actualCardList);
+		EasyMock.verify(mockDeck);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);

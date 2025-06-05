@@ -14,9 +14,9 @@ I am using Parametrized Testing, so whenever I use `testCard`, it means that the
 
 ### Step 4:
 
-|             | System under test         | Expected output / state transition         | Implemented?       | Test name                                                                        |
-|-------------|---------------------------|--------------------------------------------|--------------------|----------------------------------------------------------------------------------|
-| Test Case 1 | Deck `[]`                 | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException                   |
-| Test Case 2 | Deck `[testCard]`         | Returns `[testCard]`;                      | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard                       |
-| Test Case 3 | Deck `[NORMAL, FAVOR]`    | Returns `[NORMAL, FAVOR]`;                 | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithTwoCards_returnsTwoLastCards                     |
-| Test Case 4 | Deck `[NUKE, SKIP, SKIP]` | Returns `[SKIP, SKIP]`;                    |                    | viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsLastDuplicateCards |
+|             | System under test        | Expected output / state transition         | Implemented?       | Test name                                                                |
+|-------------|--------------------------|--------------------------------------------|--------------------|--------------------------------------------------------------------------|
+| Test Case 1 | Deck `[]`                | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException           |
+| Test Case 2 | Deck `[testCard]`        | Returns `[testCard]`;                      | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard               |
+| Test Case 3 | Deck `[NORMAL, FAVOR]`   | Returns `[NORMAL, FAVOR]`;                 | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithTwoCards_returnsTwoLastCards             |
+| Test Case 4 | Deck `[..., SKIP, SKIP]` | Returns `[SKIP, SKIP]`;                    | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsDuplicates |
