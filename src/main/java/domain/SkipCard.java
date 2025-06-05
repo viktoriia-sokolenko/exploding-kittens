@@ -13,7 +13,6 @@ public class SkipCard extends Card {
 	private static class SkipEffect implements CardEffect {
 		@Override
 		public void execute(GameContext context) {
-			context.playCardFromCurrentPlayerHand(new SkipCard());
 			context.endTurnWithoutDrawing();
 		}
 	}

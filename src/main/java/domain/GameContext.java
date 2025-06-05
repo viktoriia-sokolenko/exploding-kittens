@@ -38,10 +38,6 @@ public class GameContext {
 		return currentPlayer;
 	}
 
-	public void playCardFromCurrentPlayerHand(Card card) {
-		currentPlayer.playCard(card);
-	}
-
 	public void endTurnWithoutDrawing() {
 		if (turnManager != null) {
 			turnManager.endTurnWithoutDraw();

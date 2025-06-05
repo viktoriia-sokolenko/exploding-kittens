@@ -44,17 +44,6 @@ public class GameContextTest {
 		assertEquals(mockCurrentPlayer, result);
 	}
 
-	@Test
-	void playCardFromCurrentPlayerHand_callsPlayerPlayCard() {
-		Card testCard = EasyMock.createMock(SkipCard.class);
-		mockCurrentPlayer.playCard(testCard);
-		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockCurrentPlayer, testCard);
-
-		gameContext.playCardFromCurrentPlayerHand(testCard);
-		EasyMock.verify(mockCurrentPlayer, testCard);
-	}
-
 	// TODO: Don't do anything, but just a placeholder for now
 	@Test
 	void endTurnWithoutDrawing_doesNotThrowException() {

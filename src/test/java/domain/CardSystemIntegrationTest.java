@@ -29,6 +29,8 @@ public class CardSystemIntegrationTest {
 
 	@Test
 	void playSkipCard_playerDoesNotHaveCard_throwsIllegalArgumentException() {
+		NormalCard normalCard = new NormalCard();
+		hand.addCard(normalCard);
 		SkipCard skipCard = new SkipCard();
 
 		assertEquals(0, player.getCardTypeCount(CardType.SKIP));
@@ -38,7 +40,8 @@ public class CardSystemIntegrationTest {
 				() -> cardManager.playCard(skipCard, player)
 		);
 
-		assertTrue(exception.getMessage().contains("Player does not have this card type"));
+		assertTrue(exception.getMessage()
+				.contains("Card not in hand: can not remove card"));
 	}
 
 	@Test

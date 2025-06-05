@@ -33,26 +33,28 @@ public class CardManagerTest {
 
 	@Test
 	void playCard_playerDoesNotHaveCard_throwsIllegalArgumentException() {
-		EasyMock.expect(skipCard.getCardType()).andReturn(CardType.SKIP);
-		EasyMock.expect(player.getCardTypeCount(CardType.SKIP)).andReturn(0);
-		EasyMock.replay(skipCard, player);
+		player.removeCardFromHand(skipCard);
+		EasyMock.expectLastCall()
+				.andThrow(new IllegalArgumentException
+						("Card not in hand: can not remove card"));
+		EasyMock.replay(player);
 		IllegalArgumentException ex = assertThrows(
 				IllegalArgumentException.class,
 				() -> cardManager.playCard(skipCard, player)
 		);
 		assertTrue(
-				ex.getMessage().contains("Player does not have this card type"),
+				ex.getMessage().contains("Card not in hand: can not remove card"),
 				"Expected exception message to mention missing card type"
 		);
 
-		EasyMock.verify(skipCard, player);
+		EasyMock.verify(player);
 	}
 
 	@Test
 	void playCard_playerHasCard_executesCardEffect() {
+		player.removeCardFromHand(skipCard);
+		EasyMock.expectLastCall().once();
 		CardEffect effectMock = EasyMock.createMock(CardEffect.class);
-		EasyMock.expect(skipCard.getCardType()).andReturn(CardType.SKIP);
-		EasyMock.expect(player.getCardTypeCount(CardType.SKIP)).andReturn(1);
 		EasyMock.expect(skipCard.createEffect()).andReturn(effectMock);
 		effectMock.execute(EasyMock.anyObject(GameContext.class));
 		EasyMock.expectLastCall().once();
