@@ -2,7 +2,9 @@ package domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -205,5 +207,15 @@ public class TurnManagerTest {
 		assertEquals(expectedPlayers.get(0), turnOrder.get(0));
 		assertEquals(expectedPlayers.get(1), turnOrder.get(1));
 		assertEquals(expectedPlayers.get(2), turnOrder.get(2));
+	}
+
+	@Test
+	void getTurnsCountFor_nullPlayer_throwsNullPointerException() {
+		NullPointerException exception = assertThrows(
+				NullPointerException.class,
+				() -> turnManager.getTurnsFor(null)
+		);
+
+		assertTrue(exception.getMessage().contains("Player cannot be null"));
 	}
 }

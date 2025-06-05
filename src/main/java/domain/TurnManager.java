@@ -78,4 +78,9 @@ public class TurnManager {
 		return new ArrayList<>(turnQueue);
 	}
 
+	public int getTurnsFor(Player player) {
+		Objects.requireNonNull(player, "Player cannot be null");
+		return 0;
+	}
+
 }

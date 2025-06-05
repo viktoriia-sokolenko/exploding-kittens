@@ -192,7 +192,7 @@
 | 2         | after `setPlayerManager([p1,p2,p3])` | returns `[p1,p2,p3]`                                          | no           | `getTurnOrder_afterSetup_returnsInitialOrder` |
 | 3         | after `syncWith([p3,p1,p2])`         | returns `[p3,p1,p2]`                                          | no           | `getTurnOrder_afterMutations_reflectsQueue`   |
 
-## Method 9: `public int getTurnsFor(Player player)`
+## Method 9: `public int getTurnsCountFor(Player player)`
 
 #### Note:
 
@@ -208,11 +208,11 @@ This method is mainly used for Testing and not for game logic. :)
 
 ### Step 4
 
-|             | System Under Test                                          | Expected Output                                 | Implemented? | Test Name                                                |
-|-------------|------------------------------------------------------------|-------------------------------------------------|--------------|----------------------------------------------------------|
-| Test Case 1 | `player = null`, queue is empty                            | `NullPointerException("Player Cannot be Null")` |              | `getTurnsFor_nullPlayer_throwsNullPointerException`      |
-| Test Case 2 | `player = player1`, queue is `[]`                          | `0`                                             |              | `getTurnsFor_emptyQueue_returnsZero`                     |
-| Test Case 3 | `player = player1`, queue is `[player1]`                   | `1`                                             |              | `getTurnsFor_playerInQueueWithOne_returnsOne`            |
-| Test Case 4 | `player = player2`, queue is `[player1]`                   | `0`                                             |              | `getTurnsFor_playerNotInQueueWithOne_returnsZero`        |
-| Test Case 5 | `player = player2`, queue is `[player2, player2]`          | `2`                                             |              | `getTurnsFor_duplicatePlayerInQueueWithTwo_returnsTwo`   |
-| Test Case 6 | `player = player5`, queue is `[player3, player4, player5]` | `1`                                             |              | `getTurnsFor_playerInQueueWithThree_returnsCorrectCount` |
+|             | System Under Test                                          | Expected Output                                 | Implemented?        | Test Name                                                     |
+|-------------|------------------------------------------------------------|-------------------------------------------------|---------------------|---------------------------------------------------------------|
+| Test Case 1 | `player = null`, queue is empty                            | `NullPointerException("Player Cannot be Null")` | :white_check_mark:  | `getTurnsCountFor_nullPlayer_throwsNullPointerException`      |
+| Test Case 2 | `player = player1`, queue is `[]`                          | `0`                                             |                     | `getTurnsCountFor_emptyQueue_returnsZero`                     |
+| Test Case 3 | `player = player1`, queue is `[player1]`                   | `1`                                             |                     | `getTurnsCountFor_playerInQueueWithOne_returnsOne`            |
+| Test Case 4 | `player = player2`, queue is `[player1]`                   | `0`                                             |                     | `getTurnsCountFor_playerNotInQueueWithOne_returnsZero`        |
+| Test Case 5 | `player = player2`, queue is `[player2, player2]`          | `2`                                             |                     | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo`   |
+| Test Case 6 | `player = player5`, queue is `[player3, player4, player5]` | `1`                                             |                     | `getTurnsCountFor_playerInQueueWithThree_returnsCorrectCount` |
