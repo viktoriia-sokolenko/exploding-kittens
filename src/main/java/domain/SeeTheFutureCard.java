@@ -15,7 +15,7 @@ public class SeeTheFutureCard extends Card {
 	private static class SeeTheFutureEffect implements CardEffect {
 		@Override
 		public void execute(GameContext context) {
-			return;
+			context.viewTopTwoCardsFromDeck();
 		}
 	}
 }
