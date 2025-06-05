@@ -23,7 +23,7 @@ public class Player {
 		}
 	}
 
-	public void playCard(Card card) {
+	public void removeCardFromHand(Card card) {
 		hand.removeCard(card);
 	}
 
