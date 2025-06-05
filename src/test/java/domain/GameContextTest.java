@@ -3,8 +3,11 @@ package domain;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import ui.UserInterface;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -149,6 +152,27 @@ public class GameContextTest {
 		assertThrows(NoSuchElementException.class,
 				() -> fullGameContext.viewTopTwoCardsFromDeck());
 		EasyMock.verify(mockDeck);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+		List<Card> expectedCardList = List.of(mockCard(testCardType));
+		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
+		EasyMock.replay(mockDeck);
+		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
+		assertEquals(expectedCardList, actualCardList);
+		EasyMock.verify(mockDeck);
+	}
+
+	private Card mockCard(CardType cardType) {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+		EasyMock.replay(mockCard);
+		return mockCard;
 	}
 
 }
