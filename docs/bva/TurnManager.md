@@ -124,11 +124,11 @@
 
 ### Step 4
 
-| Test Case | System under test  | Expected behavior                                       | Implemented? | Test name                                                        |
-|-----------|--------------------|---------------------------------------------------------|--------------|------------------------------------------------------------------|
-| 1         | `queue=[]`         | throws `IllegalStateException("No players to manage")`  | no           | `endTurnWithoutDrawForAttacks_noPlayers_throwsException`         |
-| 2         | `queue=[p1]`       | removes `p1`; queue empty; end‐of‐game                  | no           | `endTurnWithoutDrawForAttacks_singlePlayer_endsGame`             |
-| 3         | `queue=[p1,p2,p3]` | removes `p1`; re-adds exactly one `p1`; `current == p2` | no           | `endTurnWithoutDrawForAttacks_multiplePlayers_appliesAttackSkip` |
+| Test Case | System under test  | Expected behavior                                       | Implemented?        | Test name                                                            |
+|-----------|--------------------|---------------------------------------------------------|---------------------|----------------------------------------------------------------------|
+| 1         | `queue=[]`         | throws `IllegalStateException("No players to manage")`  | :white_check_mark:  | `endTurnWithoutDrawForAttacks_noPlayers_throwsIllegalStateException` |
+| 2         | `queue=[p1]`       | removes `p1`; queue empty; end‐of‐game                  | no                  | `endTurnWithoutDrawForAttacks_singlePlayer_endsGame`                 |
+| 3         | `queue=[p1,p2,p3]` | removes `p1`; re-adds exactly one `p1`; `current == p2` | no                  | `endTurnWithoutDrawForAttacks_multiplePlayers_appliesAttackSkip`     |
 
 ---
 

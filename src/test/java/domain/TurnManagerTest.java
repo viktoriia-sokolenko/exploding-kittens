@@ -136,6 +136,13 @@ public class TurnManagerTest {
 	}
 
 	@Test
+	void endTurnWithoutDrawForAttacks_noPlayers_throwsIllegalStateException() {
+		assertThrows(IllegalStateException.class, () -> {
+			turnManager.endTurnWithoutDrawForAttacks();
+		});
+	}
+
+	@Test
 	void addTurnForCurrentPlayer_beforeSetup_throwsIllegalStateException() {
 		assertThrows(IllegalStateException.class, () -> {
 			turnManager.addTurnForCurrentPlayer();

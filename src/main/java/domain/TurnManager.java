@@ -37,10 +37,16 @@ public class TurnManager {
 
 	public void endTurnWithoutDraw() {
 		if (turnQueue.isEmpty()) {
-			throw new IllegalStateException("TurnManager not initialized");
+			throw new IllegalStateException("No players to manage");
 		}
 
 		advanceToNextPlayer();
+	}
+
+	public void endTurnWithoutDrawForAttacks() {
+		if (turnQueue.isEmpty()) {
+			throw new IllegalStateException("No players to manage");
+		}
 	}
 
 	private void advanceToNextPlayer() {
