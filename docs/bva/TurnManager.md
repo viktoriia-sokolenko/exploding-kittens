@@ -210,11 +210,11 @@ Exactly 2 Elements for turnQueue because PlayerManager have a requirement that t
 
 ### Step 4
 
-|             | System Under Test                                                            | Expected Output                                 | Implemented?        | Test Name                                                     |
-|-------------|------------------------------------------------------------------------------|-------------------------------------------------|---------------------|---------------------------------------------------------------|
-| Test Case 1 | `player = null`, queue is empty                                              | `NullPointerException("Player Cannot be Null")` | :white_check_mark:  | `getTurnsCountFor_nullPlayer_throwsNullPointerException`      |
-| Test Case 2 | `player = player`, queue is `[]`                                             | `0`                                             | :white_check_mark:  | `getTurnsCountFor_emptyQueue_returnsZero`                     |
-| Test Case 3 | `player = player1`, queue is `[player1, player2]`                            | `1`                                             | :white_check_mark:  | `getTurnsCountFor_playerInQueueWithTwo_returnsOne`            |
-| Test Case 4 | `player = player3`, queue is `[player1, player2]`                            | `0`                                             | :white_check_mark:  | `getTurnsCountFor_playerNotInQueueWithTwo_returnsZero`        |
-| Test Case 5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark:  | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo`   |
-| Test Case 6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             |                     | `getTurnsCountFor_playerInQueueWithThree_returnsCorrectCount` |
+|             | System Under Test                                                            | Expected Output                                 | Implemented?        | Test Name                                                   |
+|-------------|------------------------------------------------------------------------------|-------------------------------------------------|---------------------|-------------------------------------------------------------|
+| Test Case 1 | `player = null`, queue is empty                                              | `NullPointerException("Player Cannot be Null")` | :white_check_mark:  | `getTurnsCountFor_nullPlayer_throwsNullPointerException`    |
+| Test Case 2 | `player = player`, queue is `[]`                                             | `0`                                             | :white_check_mark:  | `getTurnsCountFor_emptyQueue_returnsZero`                   |
+| Test Case 3 | `player = player1`, queue is `[player1, player2]`                            | `1`                                             | :white_check_mark:  | `getTurnsCountFor_playerInQueueWithTwo_returnsOne`          |
+| Test Case 4 | `player = player3`, queue is `[player1, player2]`                            | `0`                                             | :white_check_mark:  | `getTurnsCountFor_playerNotInQueueWithTwo_returnsZero`      |
+| Test Case 5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark:  | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo` |
+| Test Case 6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             | :white_check_mark:  | `getTurnsCountFor_playerInQueueWithFive_retur nsOne`        |

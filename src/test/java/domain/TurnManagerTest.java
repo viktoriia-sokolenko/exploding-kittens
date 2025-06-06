@@ -271,4 +271,20 @@ public class TurnManagerTest {
 		assertEquals(EXPECTED_COUNT, actualCount);
 	}
 
+	@Test
+	void getTurnsCountFor_playerInQueueWithFive_returnsOne() {
+		playerManager.addPlayers(2);
+		final int QUEUE_FIVE = 5;
+		int queueSize = playerManager.getPlayers().size();
+		assertEquals(QUEUE_FIVE, queueSize);
+
+		final int INDEX_FOUR = 4;
+		turnManager.setPlayerManager(playerManager);
+		Player player5 = playerManager.getPlayers().get(INDEX_FOUR);
+
+		final int EXPECTED_COUNT = 1;
+		int actualCount = turnManager.getTurnsFor(player5);
+		assertEquals(EXPECTED_COUNT, actualCount);
+	}
+
 }
