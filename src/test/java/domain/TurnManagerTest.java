@@ -20,8 +20,8 @@ public class TurnManagerTest {
 	void setUp() {
 		List<Card> cards = new ArrayList<>();
 		for (int i = 0; i < NUM_CARDS; i++) {
-			// Using SkipCard and AttackCard since it’s the only fully implemented card type
-			// currently.
+			// Using SkipCard and AttackCard since it’s the only fully implemented
+			// card type currently.
 			cards.add(new SkipCard());
 			cards.add(new AttackCard());
 		}

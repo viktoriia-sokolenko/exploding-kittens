@@ -2,6 +2,7 @@ package domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -48,18 +49,13 @@ public class CardSystemIntegrationTest {
 	void playMultipleSkipCards_integrationTest_worksCorrectly() {
 		SkipCard skipCard1 = new SkipCard();
 		SkipCard skipCard2 = new SkipCard();
-
 		hand.addCard(skipCard1);
 		hand.addCard(skipCard2);
-
 		assertEquals(2, player.getCardTypeCount(CardType.SKIP));
 
 		cardManager.playCard(skipCard1, player);
-
 		assertEquals(1, player.getCardTypeCount(CardType.SKIP));
-
 		cardManager.playCard(skipCard2, player);
-
 		assertEquals(0, player.getCardTypeCount(CardType.SKIP));
 	}
 }

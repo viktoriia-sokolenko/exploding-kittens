@@ -12,8 +12,9 @@ public class GameContext {
 	private final UserInterface userInterface;
 
 	public GameContext(TurnManager turnManager, PlayerManager playerManager,
-					   Deck deck, Player currentPlayer, UserInterface
-							   userInterface) {
+		Deck deck, Player currentPlayer,
+		UserInterface userInterface) {
+
 		this.turnManager = Objects.requireNonNull(turnManager,
 				"TurnManager cannot be null");
 		this.playerManager = Objects.requireNonNull(playerManager,
