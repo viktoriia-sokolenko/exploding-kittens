@@ -21,7 +21,7 @@ public class AttackCardTests {
 	}
 
 	@Test
-	void createEffect_returnsNonNullEffect() {
+	void createEffect_attackCard_returnsNonNullEffect() {
 		CardEffect effect = attackCard.createEffect();
 
 		assertNotNull(effect, "Effect cannot be null");
