@@ -1,5 +1,6 @@
 package domain;
 
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,5 +25,18 @@ public class AttackCardTests {
 		CardEffect effect = attackCard.createEffect();
 
 		assertNotNull(effect, "Effect cannot be null");
+	}
+
+	@Test
+	void attackEffect_execute_callsEndTurnWithoutDrawingForAttacks() {
+		GameContext gameContext = EasyMock.createMock(GameContext.class);
+		CardEffect cardEffect = attackCard.createEffect();
+
+		gameContext.endTurnWithoutDrawingForAttacks();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(gameContext);
+
+		cardEffect.execute(gameContext);
+		EasyMock.verify(gameContext);
 	}
 }
