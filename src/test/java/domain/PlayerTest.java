@@ -209,6 +209,19 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
+	@Test
+	public void addCardToHand_withNullCard_throwsNullPointerException() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.addCard(null);
+		EasyMock.expectLastCall().andThrow(new NullPointerException("Card cannot be null"));
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		assertThrows(NullPointerException.class, () -> player.addCardToHand(null));
+
+		EasyMock.verify(mockHand);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);

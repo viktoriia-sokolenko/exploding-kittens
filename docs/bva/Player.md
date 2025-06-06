@@ -56,7 +56,7 @@ I am using Parametrized Testing, so whenever I use `testCardType1` or `testCard1
 | Step 2 | Cases                                                                                                        | Boolean or exception                                          |
 | Step 3 | null, NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | true, false                                                   |
 ### Step 4:
-|             | System under test (pre-state)  | Expected output / state transition             | Implemented? | Test name                                             |
-|-------------|--------------------------------|------------------------------------------------|--------------|-------------------------------------------------------|
-| Test Case 1 | Hand `[...]`, card `null`      | `NullPointerException` ("Card cannot be null") |              | addCardToHand_withNullCard_throwsNullPointerException |
-| Test Case 2 | Hand `[...]`, card `testCard2` | Hand `[...testCard2]`                          |              | addCardToHand_withValidCard_insertsCard               |
+|             | System under test (pre-state)  | Expected output / state transition             | Implemented?       | Test name                                             |
+|-------------|--------------------------------|------------------------------------------------|--------------------|-------------------------------------------------------|
+| Test Case 1 | Hand `[...]`, card `null`      | `NullPointerException` ("Card cannot be null") | :white_check_mark: | addCardToHand_withNullCard_throwsNullPointerException |
+| Test Case 2 | Hand `[...]`, card `testCard2` | Hand `[...testCard2]`                          |                    | addCardToHand_withValidCard_insertsCard               |
