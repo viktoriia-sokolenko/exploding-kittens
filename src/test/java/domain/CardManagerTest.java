@@ -3,6 +3,9 @@ package domain;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardManagerTest {
@@ -31,20 +34,18 @@ public class CardManagerTest {
 		});
 	}
 
-	//TODO: once all card effects are implemented,
-	// turn this test into parametrized test to test
-	// whether playCard throws IllegalArgumentException
-	// for all card types when player does not have them
-	@Test
-	void playCard_playerDoesNotHaveCard_throwsIllegalArgumentException() {
-		player.removeCardFromHand(skipCard);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	void playCard_playerDoesNotHaveCard_throwsIllegalArgumentException(CardType testCardType) {
+		Card mockCard = mockCard(testCardType);
+		player.removeCardFromHand(mockCard);
 		EasyMock.expectLastCall()
 				.andThrow(new IllegalArgumentException
 						("Card not in hand: can not remove card"));
 		EasyMock.replay(player);
 		IllegalArgumentException ex = assertThrows(
 				IllegalArgumentException.class,
-				() -> cardManager.playCard(skipCard, player)
+				() -> cardManager.playCard(mockCard, player)
 		);
 		assertTrue(
 				ex.getMessage().contains("Card not in hand: can not remove card"),
@@ -69,6 +70,13 @@ public class CardManagerTest {
 		EasyMock.replay(skipCard, player, effectMock);
 		assertDoesNotThrow(() -> cardManager.playCard(skipCard, player));
 		EasyMock.verify(skipCard, player, effectMock);
+	}
+
+	private Card mockCard(CardType cardType) {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+		EasyMock.replay(mockCard);
+		return mockCard;
 	}
 
 }
