@@ -153,6 +153,27 @@ public class TurnManagerTest {
 		assertEquals(TURN_THREE, turnManager.getTurnsFor(secondPlayer));
 	}
 
+	@Test
+	void endTurnWithoutDrawForAttacks_withThreePlayers_incrementTurnForPlayerThree() {
+		final int THREE_PLAYERS = 3;
+		PlayerManager twoPlayerManager = new PlayerManager(deck);
+		twoPlayerManager.addPlayers(THREE_PLAYERS);
+		turnManager.setPlayerManager(twoPlayerManager);
+
+		List<Player> players = twoPlayerManager.getPlayers();
+		Player firstPlayer = players.get(0);
+		Player secondPlayer = players.get(1);
+		Player thirdPlayer = players.get(2);
+
+		final int TURN_THREE = 3;
+		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+		turnManager.endTurnWithoutDraw();
+		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
+		turnManager.endTurnWithoutDrawForAttacks();
+		assertEquals(thirdPlayer, turnManager.getCurrentActivePlayer());
+		assertEquals(TURN_THREE, turnManager.getTurnsFor(thirdPlayer));
+	}
+
 
 	@Test
 	void addTurnForCurrentPlayer_beforeSetup_throwsIllegalStateException() {

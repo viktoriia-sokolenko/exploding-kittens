@@ -116,19 +116,26 @@
 
 ### Step 1–3 Results
 
-|            | Preconditions                                                   | Output / State Change                                                                                                                                                                     |
-|------------|-----------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | none                                                            | removes `current`; skips re-adding duplicates; updates `current`                                                                                                                          |
-| **Step 2** | uninitialized; empty queue; one player; >1 players              | throws ISE or applies attack‐specific rotation                                                                                                                                            |
-| **Step 3** | 1. `queue=[]`  <br> 2. `queue=[p1]`  <br> 3. `queue=[p1,p2,p3]` | **1** → throws `IllegalStateException("No players to manage")`<br>**2** → removes `p1`; queue=\[]; end‐of‐game<br>**3** → removes `p1`; re-adds one copy; queue=\[p2,p3,p1]; `current=p2` |
+|            | Input                                                                                                      | Output / State Change                                                             |
+|------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Step 1** | The current contents of the `turnQueue`                                                                    | Queue updated: current advances, next gets 2 turns                                |
+| **Step 2** | Collection (Empty, Exactly 2 Element, Exactly 5 Elements (Max), Element containing duplicates)             | Next player receives 2 turns, player order preserved, or Exception                |
+| **Step 3** | `[]`, `[player1, player2]`, `[player1, player2, player1]`, `[player1, player2, player3, player4, player5]` | `IllegalStateException("No players to manage")`, Correct advancement or exception |
+
+##### Note:
+
+* Exactly 2 Elements for turnQueue because PlayerManager have a requirement that there should be between 2 and 5 players
+  in TurnManager.
+* Don't need to test 5 Elements (two is more than enough) since the integration test for Game should allow testing
+  multiple players and each doing their different turns and card
 
 ### Step 4
 
-| Test Case | System under test  | Expected behavior                                       | Implemented?        | Test name                                                            |
-|-----------|--------------------|---------------------------------------------------------|---------------------|----------------------------------------------------------------------|
-| 1         | `queue=[]`         | throws `IllegalStateException("No players to manage")`  | :white_check_mark:  | `endTurnWithoutDrawForAttacks_noPlayers_throwsIllegalStateException` |
-| 2         | `queue=[p1]`       | removes `p1`; queue empty; end‐of‐game                  | no                  | `endTurnWithoutDrawForAttacks_singlePlayer_endsGame`                 |
-| 3         | `queue=[p1,p2,p3]` | removes `p1`; re-adds exactly one `p1`; `current == p2` | no                  | `endTurnWithoutDrawForAttacks_multiplePlayers_appliesAttackSkip`     |
+| Test Case | System under test                                                          | Expected behavior                                                                                         | Implemented?        | Test name                                                                   |
+|-----------|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|---------------------|-----------------------------------------------------------------------------|
+| 1         | `queue=[]`                                                                 | throws `IllegalStateException("No players to manage")`                                                    | :white_check_mark:  | `endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException `      |
+| 2         | `queue=[player1, player2]`                                                 | removes `player1`; re-adds exactly one `player1`; `current == player2`, `player2` now have two turns more | :white_check_mark:  | `endTurnWithoutDrawForAttacks_withTwoPlayers_incrementTurnForPlayerTwo `    |
+| 3         | `queue=[player1,player2,player3]` player2 is the one that will play attack | removes `player2`; re-adds exactly one `player2`; `current == player3`, `player3` now have two turns more | :white_check_mark:  | `endTurnWithoutDrawForAttacks_withThreePlayers_incrementTurnForPlayerThree` |
 
 ---
 
@@ -205,16 +212,19 @@ This method is mainly used for Testing and not for game logic. :)
 | **Step 1** | A player that wants to know how many turns they have | The current contents of the `turnQueue`                                                                    | Number of times the player appears in `turnQueue`                                |
 | **Step 2** | `Player` Object                                      | Collection (Empty, Exactly 2 Element, Exactly 5 Elements (Max), Element containing duplicates)             | Integer or Exception                                                             |
 | **Step 3** | `null`, Valid `Player`                               | `[]`, `[player1, player2]`, `[player1, player2, player1]`, `[player1, player2, player3, player4, player5]` | **null** → throws `NullPointerException("Player Cannot be Null")`, `0`, `1`, `2` |
+
 ##### Note:
-Exactly 2 Elements for turnQueue because PlayerManager have a requirement that there should be between 2 and 5 players in TurnManager.
+
+Exactly 2 Elements for turnQueue because PlayerManager have a requirement that there should be between 2 and 5 players
+in TurnManager.
 
 ### Step 4
 
-|             | System Under Test                                                            | Expected Output                                 | Implemented?        | Test Name                                                   |
-|-------------|------------------------------------------------------------------------------|-------------------------------------------------|---------------------|-------------------------------------------------------------|
-| Test Case 1 | `player = null`, queue is empty                                              | `NullPointerException("Player Cannot be Null")` | :white_check_mark:  | `getTurnsCountFor_nullPlayer_throwsNullPointerException`    |
-| Test Case 2 | `player = player`, queue is `[]`                                             | `0`                                             | :white_check_mark:  | `getTurnsCountFor_emptyQueue_returnsZero`                   |
-| Test Case 3 | `player = player1`, queue is `[player1, player2]`                            | `1`                                             | :white_check_mark:  | `getTurnsCountFor_playerInQueueWithTwo_returnsOne`          |
-| Test Case 4 | `player = player3`, queue is `[player1, player2]`                            | `0`                                             | :white_check_mark:  | `getTurnsCountFor_playerNotInQueueWithTwo_returnsZero`      |
-| Test Case 5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark:  | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo` |
-| Test Case 6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             | :white_check_mark:  | `getTurnsCountFor_playerInQueueWithFive_retur nsOne`        |
+|             | System Under Test                                                            | Expected Output                                 | Implemented?       | Test Name                                                   |
+|-------------|------------------------------------------------------------------------------|-------------------------------------------------|--------------------|-------------------------------------------------------------|
+| Test Case 1 | `player = null`, queue is empty                                              | `NullPointerException("Player Cannot be Null")` | :white_check_mark: | `getTurnsCountFor_nullPlayer_throwsNullPointerException`    |
+| Test Case 2 | `player = player`, queue is `[]`                                             | `0`                                             | :white_check_mark: | `getTurnsCountFor_emptyQueue_returnsZero`                   |
+| Test Case 3 | `player = player1`, queue is `[player1, player2]`                            | `1`                                             | :white_check_mark: | `getTurnsCountFor_playerInQueueWithTwo_returnsOne`          |
+| Test Case 4 | `player = player3`, queue is `[player1, player2]`                            | `0`                                             | :white_check_mark: | `getTurnsCountFor_playerNotInQueueWithTwo_returnsZero`      |
+| Test Case 5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark: | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo` |
+| Test Case 6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             | :white_check_mark: | `getTurnsCountFor_playerInQueueWithFive_retur nsOne`        |
