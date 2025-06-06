@@ -34,10 +34,8 @@ public class TurnManagerTest {
 
 	@Test
 	void constructor_withNullDeck_throwsNullPointerException() {
-		NullPointerException exception = assertThrows(
-				NullPointerException.class,
-				() -> new TurnManager(null)
-		);
+		NullPointerException exception = assertThrows(NullPointerException.class,
+				() -> new TurnManager(null));
 
 		assertEquals("Deck cannot be null", exception.getMessage());
 	}
@@ -61,10 +59,8 @@ public class TurnManagerTest {
 	void setPlayerManager_withEmptyPlayerList_throwsIllegalArgumentException() {
 		PlayerManager emptyPM = new PlayerManager(deck);
 
-		IllegalArgumentException exception = assertThrows(
-				IllegalArgumentException.class,
-				() -> turnManager.setPlayerManager(emptyPM)
-		);
+		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+				() -> turnManager.setPlayerManager(emptyPM));
 
 		assertTrue(exception.getMessage().contains("No players provided"));
 	}
@@ -82,10 +78,8 @@ public class TurnManagerTest {
 
 	@Test
 	void getCurrentActivePlayer_beforeSetup_throwsIllegalStateException() {
-		IllegalStateException exception = assertThrows(
-				IllegalStateException.class,
-				() -> turnManager.getCurrentActivePlayer()
-		);
+		IllegalStateException exception = assertThrows(IllegalStateException.class,
+				() -> turnManager.getCurrentActivePlayer());
 
 		assertTrue(exception.getMessage().contains("TurnManager not initialized"));
 	}
@@ -136,11 +130,29 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void endTurnWithoutDrawForAttacks_noPlayers_throwsIllegalStateException() {
+	void endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException() {
 		assertThrows(IllegalStateException.class, () -> {
 			turnManager.endTurnWithoutDrawForAttacks();
 		});
 	}
+
+	@Test
+	void endTurnWithoutDrawForAttacks_withTwoPlayers_incrementTurnForPlayerTwo() {
+		PlayerManager twoPlayerManager = new PlayerManager(deck);
+		twoPlayerManager.addPlayers(2);
+		turnManager.setPlayerManager(twoPlayerManager);
+
+		List<Player> players = twoPlayerManager.getPlayers();
+		Player firstPlayer = players.get(0);
+		Player secondPlayer = players.get(1);
+
+		final int TURN_THREE = 3;
+		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+		turnManager.endTurnWithoutDrawForAttacks();
+		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
+		assertEquals(TURN_THREE, turnManager.getTurnsFor(secondPlayer));
+	}
+
 
 	@Test
 	void addTurnForCurrentPlayer_beforeSetup_throwsIllegalStateException() {
@@ -175,10 +187,8 @@ public class TurnManagerTest {
 
 	@Test
 	void syncWith_withEmptyList_throwsIllegalArgumentException() {
-		IllegalArgumentException exception = assertThrows(
-				IllegalArgumentException.class,
-				() -> turnManager.syncWith(new ArrayList<>())
-		);
+		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+				() -> turnManager.syncWith(new ArrayList<>()));
 
 		assertTrue(exception.getMessage().contains("No players provided"));
 	}
@@ -218,10 +228,8 @@ public class TurnManagerTest {
 
 	@Test
 	void getTurnsCountFor_nullPlayer_throwsNullPointerException() {
-		NullPointerException exception = assertThrows(
-				NullPointerException.class,
-				() -> turnManager.getTurnsFor(null)
-		);
+		NullPointerException exception = assertThrows(NullPointerException.class,
+				() -> turnManager.getTurnsFor(null));
 
 		assertTrue(exception.getMessage().contains("Player cannot be null"));
 	}
@@ -264,7 +272,6 @@ public class TurnManagerTest {
 
 	@Test
 	void getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo() {
-		Hand hand = new Hand();
 		PlayerManager mockedPlayerManager = new PlayerManager(deck);
 		mockedPlayerManager.addPlayers(2);
 		turnManager.setPlayerManager(mockedPlayerManager);

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class TurnManager {
 	private final Deck deck;
-	private Queue<Player> turnQueue;
+	private final Queue<Player> turnQueue;
 	private Player currentPlayer;
 
 	public TurnManager(Deck deck) {
@@ -47,6 +47,10 @@ public class TurnManager {
 		if (turnQueue.isEmpty()) {
 			throw new IllegalStateException("No players to manage");
 		}
+
+		this.endTurnWithoutDraw();
+		this.addTurnForCurrentPlayer();
+		this.addTurnForCurrentPlayer();
 	}
 
 	private void advanceToNextPlayer() {
