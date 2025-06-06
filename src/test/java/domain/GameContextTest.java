@@ -51,6 +51,11 @@ public class GameContextTest {
 	}
 
 	@Test
+	void endTurnWithoutDrawingForAttacks_doesNotThrowException() {
+		assertDoesNotThrow(() -> gameContext.endTurnWithoutDrawingForAttacks());
+	}
+
+	@Test
 	void constructor_withValidParameters_createsGameContext() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
