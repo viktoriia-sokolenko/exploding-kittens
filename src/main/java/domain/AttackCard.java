@@ -14,8 +14,7 @@ public class AttackCard extends Card {
 	private static class AttackEffect implements CardEffect {
 		@Override
 		public void execute(GameContext context) {
-			// End Turn without drawing
-			// Next Player Take Two Turns in a Row
+			context.endTurnWithoutDrawingForAttacks();
 		}
 	}
 }
