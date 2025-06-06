@@ -200,11 +200,11 @@ This method is mainly used for Testing and not for game logic. :)
 
 ### Step 1–3 Results
 
-|            | Input 1                                              | Input 2                                                                                           | Output / State Change                                                            |
-|------------|------------------------------------------------------|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| **Step 1** | A player that wants to know how many turns they have | The current contents of the `turnQueue`                                                           | Number of times the player appears in `turnQueue`                                |
-| **Step 2** | `Player` Object                                      | Collection (Empty, Exactly 2 Element, Exactly 5 Elements (Max), Element containing duplicates)    | Integer or Exception                                                             |
-| **Step 3** | `null`, Valid `Player`                               | `[]`, `[player1, player2]`, `[player2, player2]`, `[player1, player2, player3, player4, player5]` | **null** → throws `NullPointerException("Player Cannot be Null")`, `0`, `1`, `2` |
+|            | Input 1                                              | Input 2                                                                                                    | Output / State Change                                                            |
+|------------|------------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| **Step 1** | A player that wants to know how many turns they have | The current contents of the `turnQueue`                                                                    | Number of times the player appears in `turnQueue`                                |
+| **Step 2** | `Player` Object                                      | Collection (Empty, Exactly 2 Element, Exactly 5 Elements (Max), Element containing duplicates)             | Integer or Exception                                                             |
+| **Step 3** | `null`, Valid `Player`                               | `[]`, `[player1, player2]`, `[player1, player2, player1]`, `[player1, player2, player3, player4, player5]` | **null** → throws `NullPointerException("Player Cannot be Null")`, `0`, `1`, `2` |
 ##### Note:
 Exactly 2 Elements for turnQueue because PlayerManager have a requirement that there should be between 2 and 5 players in TurnManager.
 
@@ -216,5 +216,5 @@ Exactly 2 Elements for turnQueue because PlayerManager have a requirement that t
 | Test Case 2 | `player = player`, queue is `[]`                                             | `0`                                             | :white_check_mark:  | `getTurnsCountFor_emptyQueue_returnsZero`                     |
 | Test Case 3 | `player = player1`, queue is `[player1, player2]`                            | `1`                                             | :white_check_mark:  | `getTurnsCountFor_playerInQueueWithTwo_returnsOne`            |
 | Test Case 4 | `player = player3`, queue is `[player1, player2]`                            | `0`                                             | :white_check_mark:  | `getTurnsCountFor_playerNotInQueueWithTwo_returnsZero`        |
-| Test Case 5 | `player = player2`, queue is `[player2, player2]`                            | `2`                                             |                     | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo`   |
+| Test Case 5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark:  | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo`   |
 | Test Case 6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             |                     | `getTurnsCountFor_playerInQueueWithThree_returnsCorrectCount` |

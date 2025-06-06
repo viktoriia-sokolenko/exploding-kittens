@@ -255,4 +255,20 @@ public class TurnManagerTest {
 		assertEquals(EXPECTED_COUNT, actualCount);
 	}
 
+	@Test
+	void getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo() {
+		Hand hand = new Hand();
+		PlayerManager mockedPlayerManager = new PlayerManager(deck);
+		mockedPlayerManager.addPlayers(2);
+		turnManager.setPlayerManager(mockedPlayerManager);
+		Player player1 = mockedPlayerManager.getPlayers().get(0);
+
+		assertEquals(player1, turnManager.getCurrentActivePlayer());
+		turnManager.addTurnForCurrentPlayer();
+
+		final int EXPECTED_COUNT = 2;
+		int actualCount = turnManager.getTurnsFor(player1);
+		assertEquals(EXPECTED_COUNT, actualCount);
+	}
+
 }
