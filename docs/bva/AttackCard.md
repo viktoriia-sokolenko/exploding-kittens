@@ -4,11 +4,11 @@
 
 ### Step 1-3 Results
 
-|        | Input                     | Output                                                      |
-|--------|---------------------------|-------------------------------------------------------------|
-| Step 1 | Attack Card               | AttackCardEffect class that implements CardEffect interface |
-| Step 2 | AttackCard Object         | AttackEffect Object                                         |
-| Step 3 | SeeTheFutureCard instance | AttackEffect Instance                                       |
+|        | Input               | Output                                                      |
+|--------|---------------------|-------------------------------------------------------------|
+| Step 1 | Attack Card         | AttackCardEffect class that implements CardEffect interface |
+| Step 2 | AttackCard Object   | AttackEffect Object                                         |
+| Step 3 | AttackCard instance | AttackEffect Instance                                       |
 
 ### Step 4:
 
