@@ -140,4 +140,19 @@ public class GameContextTest {
 		EasyMock.verify(mockTurnManager);
 	}
 
+	@Test
+	void endTurnWithoutDrawingForAttacks_withFullContext_callsTurnManager() {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+
+		mockTurnManager.endTurnWithoutDrawForAttacks();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockTurnManager);
+
+		fullGameContext.endTurnWithoutDrawingForAttacks();
+
+		EasyMock.verify(mockTurnManager);
+	}
+
 }
