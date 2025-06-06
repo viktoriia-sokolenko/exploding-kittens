@@ -31,6 +31,10 @@ public class CardManagerTest {
 		});
 	}
 
+	//TODO: once all card effects are implemented,
+	// turn this test into parametrized test to test
+	// whether playCard throws IllegalArgumentException
+	// for all card types when player does not have them
 	@Test
 	void playCard_playerDoesNotHaveCard_throwsIllegalArgumentException() {
 		player.removeCardFromHand(skipCard);
@@ -50,6 +54,10 @@ public class CardManagerTest {
 		EasyMock.verify(player);
 	}
 
+	//TODO: once all card effects are implemented
+	// turn this test into parametrized test to test
+	// whether playCard executes CardEffect for all card types
+	// if player has that card in hand
 	@Test
 	void playCard_playerHasCard_executesCardEffect() {
 		player.removeCardFromHand(skipCard);
