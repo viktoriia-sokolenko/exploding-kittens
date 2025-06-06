@@ -59,4 +59,4 @@ I am using Parametrized Testing, so whenever I use `testCardType1` or `testCard1
 |             | System under test (pre-state)  | Expected output / state transition             | Implemented?       | Test name                                             |
 |-------------|--------------------------------|------------------------------------------------|--------------------|-------------------------------------------------------|
 | Test Case 1 | Hand `[...]`, card `null`      | `NullPointerException` ("Card cannot be null") | :white_check_mark: | addCardToHand_withNullCard_throwsNullPointerException |
-| Test Case 2 | Hand `[...]`, card `testCard2` | Hand `[...testCard2]`                          |                    | addCardToHand_withValidCard_insertsCard               |
+| Test Case 2 | Hand `[...]`, card `testCard1` | Hand `[...testCard1]`                          | :white_check_mark: | addCardToHand_withValidCard_insertsCard               |

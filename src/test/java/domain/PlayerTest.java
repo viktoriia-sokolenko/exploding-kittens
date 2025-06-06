@@ -222,6 +222,22 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void addCardToHand_withValidCard_insertsCard(CardType testCardType) {
+		Card mockCard = mockCard(testCardType);
+
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.addCard(mockCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		player.addCardToHand(mockCard);
+
+		EasyMock.verify(mockHand);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
