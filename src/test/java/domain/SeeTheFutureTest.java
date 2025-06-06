@@ -3,14 +3,13 @@ package domain;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SeeTheFutureTest {
 	@Test
-	void createEffect_SeeTheFutureCard_returnsNonNullEffect() {
+	void createEffect_seeTheFutureCard_returnsNonNullEffect() {
 		SeeTheFutureCard seeTheFutureCard = new SeeTheFutureCard();
 		CardEffect effect = seeTheFutureCard.createEffect();
 
@@ -18,7 +17,7 @@ public class SeeTheFutureTest {
 	}
 
 	@Test
-	void executeEffect_SeeTheFutureCard_callsGameContext() {
+	void execute_seeTheFutureEffect_callsViewTopTwoCardsFromDeck() {
 		SeeTheFutureCard seeTheFutureCard = new SeeTheFutureCard();
 		CardEffect seeTheFutureEffect = seeTheFutureCard.createEffect();
 		List<Card> mockCards = List.of(EasyMock.createMock(Card.class),

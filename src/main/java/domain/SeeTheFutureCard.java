@@ -1,7 +1,5 @@
 package domain;
 
-//import java.util.Objects;
-
 public class SeeTheFutureCard extends Card {
 	public SeeTheFutureCard() {
 		super(CardType.SEE_THE_FUTURE);
