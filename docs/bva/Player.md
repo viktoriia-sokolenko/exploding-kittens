@@ -52,7 +52,7 @@ I am using Parametrized Testing, so whenever I use `testCardType1` or `testCard1
 ### Step 1-3 Results
 |        | Input 1                                                                                                      | Output 1                                                      | 
 |--------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| Step 1 | a card type                                                                                                  | the state of the hand (does hand has drawn card) or exception |
+| Step 1 | Card                                                                                                         | the state of the hand (does hand has drawn card) or exception |
 | Step 2 | Cases                                                                                                        | Boolean or exception                                          |
 | Step 3 | null, NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | true, false                                                   |
 ### Step 4:
