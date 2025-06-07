@@ -1,5 +1,6 @@
 package domain;
 
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -139,19 +140,20 @@ public class TurnManagerTest {
 
 	@Test
 	void endTurnWithoutDrawForAttacks_withTwoPlayers_incrementTurnForPlayerTwo() {
-		PlayerManager twoPlayerManager = new PlayerManager(deck);
-		twoPlayerManager.addPlayers(2);
-		turnManager.setPlayerManager(twoPlayerManager);
+		Player firstPlayer = EasyMock.createMock(Player.class);
+		Player secondPlayer = EasyMock.createMock(Player.class);
+		PlayerManager twoPlayerManager = EasyMock.createMock(PlayerManager.class);
+		EasyMock.expect(twoPlayerManager.getPlayers()).andReturn(List.of(firstPlayer, secondPlayer));
+		EasyMock.replay(twoPlayerManager, firstPlayer, secondPlayer);
 
-		List<Player> players = twoPlayerManager.getPlayers();
-		Player firstPlayer = players.get(0);
-		Player secondPlayer = players.get(1);
+		turnManager.setPlayerManager(twoPlayerManager);
 
 		final int TURN_THREE = 3;
 		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
 		turnManager.endTurnWithoutDrawForAttacks();
 		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
 		assertEquals(TURN_THREE, turnManager.getTurnsFor(secondPlayer));
+		EasyMock.verify(twoPlayerManager, firstPlayer, secondPlayer);
 	}
 
 	@Test
