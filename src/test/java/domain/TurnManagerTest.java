@@ -158,15 +158,14 @@ public class TurnManagerTest {
 
 	@Test
 	void endTurnWithoutDrawForAttacks_withThreePlayers_incrementTurnForPlayerThree() {
-		final int THREE_PLAYERS = 3;
-		PlayerManager twoPlayerManager = new PlayerManager(deck);
-		twoPlayerManager.addPlayers(THREE_PLAYERS);
-		turnManager.setPlayerManager(twoPlayerManager);
+		Player firstPlayer = EasyMock.createMock(Player.class);
+		Player secondPlayer = EasyMock.createMock(Player.class);
+		Player thirdPlayer = EasyMock.createMock(Player.class);
+		PlayerManager threePlayerManager = EasyMock.createMock(PlayerManager.class);
+		EasyMock.expect(threePlayerManager.getPlayers()).andReturn(List.of(firstPlayer, secondPlayer, thirdPlayer));
+		EasyMock.replay(threePlayerManager, firstPlayer, secondPlayer, thirdPlayer);
 
-		List<Player> players = twoPlayerManager.getPlayers();
-		Player firstPlayer = players.get(0);
-		Player secondPlayer = players.get(1);
-		Player thirdPlayer = players.get(2);
+		turnManager.setPlayerManager(threePlayerManager);
 
 		final int TURN_THREE = 3;
 		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
@@ -175,6 +174,7 @@ public class TurnManagerTest {
 		turnManager.endTurnWithoutDrawForAttacks();
 		assertEquals(thirdPlayer, turnManager.getCurrentActivePlayer());
 		assertEquals(TURN_THREE, turnManager.getTurnsFor(thirdPlayer));
+		EasyMock.verify(threePlayerManager, firstPlayer, secondPlayer, thirdPlayer);
 	}
 
 
