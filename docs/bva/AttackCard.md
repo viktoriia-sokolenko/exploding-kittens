@@ -33,6 +33,6 @@ Within the AttackCard class, there is also an AttackEffect instance within that 
 
 ### Step 4:
 
-|             | System under test | Expected output / state transition                   | Implemented?       | Test name                                                  |
-|-------------|-------------------|------------------------------------------------------|--------------------|------------------------------------------------------------|
-| Test Case 1 | gameContext       | calls gameContext.endTurnWithoutDrawingForAttacks()  | :white_check_mark: | attackEffect_execute_callsEndTurnWithoutDrawingForAttacks  |
+|             | System under test | Expected output / state transition                   | Implemented?       | Test name                                                     |
+|-------------|-------------------|------------------------------------------------------|--------------------|---------------------------------------------------------------|
+| Test Case 1 | gameContext       | calls gameContext.endTurnWithoutDrawingForAttacks()  | :white_check_mark: | execute_attackCardEffect_callsEndTurnWithoutDrawingForAttacks |

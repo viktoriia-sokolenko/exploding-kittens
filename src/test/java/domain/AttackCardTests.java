@@ -28,7 +28,7 @@ public class AttackCardTests {
 	}
 
 	@Test
-	void attackEffect_execute_callsEndTurnWithoutDrawingForAttacks() {
+	void execute_attackCardEffect_callsEndTurnWithoutDrawingForAttacks() {
 		GameContext gameContext = EasyMock.createMock(GameContext.class);
 		CardEffect cardEffect = attackCard.createEffect();
 
