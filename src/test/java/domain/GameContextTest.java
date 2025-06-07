@@ -159,6 +159,28 @@ public class GameContextTest {
 		EasyMock.verify(mockPlayerGiver);
 	}
 
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	void transferCardBetweenPlayers_withCardInHand_transfersCard(CardType testCardType) {
+		Card testCard = mockCard(testCardType);
+
+		Player mockPlayerGiver = EasyMock.createMock(Player.class);
+		mockPlayerGiver.removeCardFromHand(testCard);
+		EasyMock.expectLastCall().once();
+
+		mockCurrentPlayer.addCardToHand(testCard);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockPlayerGiver, mockCurrentPlayer);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+		fullGameContext.transferCardBetweenPlayers(testCard, mockPlayerGiver);
+
+		EasyMock.verify(mockPlayerGiver, mockCurrentPlayer);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);

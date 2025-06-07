@@ -53,5 +53,6 @@ public class GameContext {
 	public void transferCardBetweenPlayers(
 			Card card, Player playerGiver) {
 		playerGiver.removeCardFromHand(card);
+		currentPlayer.addCardToHand(card);
 	}
 }
