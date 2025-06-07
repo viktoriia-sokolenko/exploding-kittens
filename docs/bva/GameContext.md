@@ -14,7 +14,7 @@ I am using Parametrized Testing, so whenever I use `testCard`, it means that the
 
 ### Step 4:
 
-|             | System under test                                                     | Expected output / state transition                                      | Implemented? | Test name                                                                   |
-|-------------|-----------------------------------------------------------------------|-------------------------------------------------------------------------|--------------|-----------------------------------------------------------------------------|
-| Test Case 1 | Card `[testCard]`, playerGiver hand `without testCard`, currentPlayer | `IllegalArgumentException` (“Card not in hand: can not remove card”)    |              | transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException |
-| Test Case 2 | Card `[testCard]`, playerGiver hand `[...testCard]`, currentPlayer    | playerGiver hand `without testCard`, currentPlayer hand `[...testCard]` |              | transferCardBetweenPlayers_withCardInHand_transfersCard                     |
+|             | System under test                                                     | Expected output / state transition                                      | Implemented?       | Test name                                                                   |
+|-------------|-----------------------------------------------------------------------|-------------------------------------------------------------------------|--------------------|-----------------------------------------------------------------------------|
+| Test Case 1 | Card `[testCard]`, playerGiver hand `without testCard`, currentPlayer | `IllegalArgumentException` (“Card not in hand: can not remove card”)    | :white_check_mark: | transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException |
+| Test Case 2 | Card `[testCard]`, playerGiver hand `[...testCard]`, currentPlayer    | playerGiver hand `without testCard`, currentPlayer hand `[...testCard]` |                    | transferCardBetweenPlayers_withCardInHand_transfersCard                     |

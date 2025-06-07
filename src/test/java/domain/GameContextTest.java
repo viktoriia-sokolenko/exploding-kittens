@@ -3,6 +3,8 @@ package domain;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import ui.UserInterface;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -133,6 +135,35 @@ public class GameContextTest {
 		fullGameContext.endTurnWithoutDrawing();
 
 		EasyMock.verify(mockTurnManager);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
+			CardType testCardType) {
+		Card testCard = mockCard(testCardType);
+
+		Player mockPlayerGiver = EasyMock.createMock(Player.class);
+		mockPlayerGiver.removeCardFromHand(testCard);
+		EasyMock.expectLastCall()
+				.andThrow(new IllegalArgumentException
+						("Card not in hand: can not remove card"));
+		EasyMock.replay(mockPlayerGiver);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+		assertThrows(IllegalArgumentException.class, () ->
+		{ fullGameContext.transferCardBetweenPlayers(testCard, mockPlayerGiver); });
+
+		EasyMock.verify(mockPlayerGiver);
+	}
+
+	private Card mockCard(CardType cardType) {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+		EasyMock.replay(mockCard);
+		return mockCard;
 	}
 
 }

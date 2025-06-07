@@ -49,4 +49,9 @@ public class GameContext {
 			turnManager.addTurnForCurrentPlayer();
 		}
 	}
+
+	public void transferCardBetweenPlayers(
+			Card card, Player playerGiver) {
+		playerGiver.removeCardFromHand(card);
+	}
 }
