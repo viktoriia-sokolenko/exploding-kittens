@@ -27,7 +27,7 @@ public class Player {
 		hand.addCard(card);
 	}
 
-	public void playCard(Card card) {
+	public void removeCardFromHand(Card card) {
 		hand.removeCard(card);
 	}
 
