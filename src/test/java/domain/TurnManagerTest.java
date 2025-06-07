@@ -143,7 +143,8 @@ public class TurnManagerTest {
 		Player firstPlayer = EasyMock.createMock(Player.class);
 		Player secondPlayer = EasyMock.createMock(Player.class);
 		PlayerManager twoPlayerManager = EasyMock.createMock(PlayerManager.class);
-		EasyMock.expect(twoPlayerManager.getPlayers()).andReturn(List.of(firstPlayer, secondPlayer));
+		EasyMock.expect(twoPlayerManager.getPlayers())
+				.andReturn(List.of(firstPlayer, secondPlayer));
 		EasyMock.replay(twoPlayerManager, firstPlayer, secondPlayer);
 
 		turnManager.setPlayerManager(twoPlayerManager);
@@ -162,7 +163,8 @@ public class TurnManagerTest {
 		Player secondPlayer = EasyMock.createMock(Player.class);
 		Player thirdPlayer = EasyMock.createMock(Player.class);
 		PlayerManager threePlayerManager = EasyMock.createMock(PlayerManager.class);
-		EasyMock.expect(threePlayerManager.getPlayers()).andReturn(List.of(firstPlayer, secondPlayer, thirdPlayer));
+		EasyMock.expect(threePlayerManager.getPlayers())
+				.andReturn(List.of(firstPlayer, secondPlayer, thirdPlayer));
 		EasyMock.replay(threePlayerManager, firstPlayer, secondPlayer, thirdPlayer);
 
 		turnManager.setPlayerManager(threePlayerManager);
