@@ -1,6 +1,10 @@
 package ui;
 
 
+import domain.CardType;
+import domain.Hand;
+import domain.Player;
+
 import java.util.Scanner;
 
 public class UserInterface {
@@ -56,4 +60,25 @@ public class UserInterface {
             }
         }
     }
+
+    public void displayPlayerHand(Player player) {
+        Hand hand = player.getHand();
+        int total = hand.getNumberOfCards();
+
+        System.out.println("\nYour hand:");
+        if (total == 0) {
+            System.out.println("  (empty)\n");
+            return;
+        }
+
+        int index = 0;
+        for (CardType type : CardType.values()) {
+            int count = hand.getCountOfCardType(type);
+            for (int i = 0; i < count; i++) {
+                System.out.printf("  %d: %s%n", index++, type);
+            }
+        }
+        System.out.println();
+    }
+
 }
