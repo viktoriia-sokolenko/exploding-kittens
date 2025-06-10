@@ -4,6 +4,8 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -370,5 +372,15 @@ public class HandTest {
 		hand.addCard(defuseCard2);
 
 		return hand;
+	}
+
+	@Test
+	public void getAllCards_withEmptyHand_returnsEmptyList() {
+		Hand hand = new Hand();
+
+		List<Card> cards = hand.getAllCards();
+
+		assertNotNull(cards, "getAllCards() should never return null");
+		assertTrue(cards.isEmpty(), "an empty hand should produce an empty list");
 	}
 }
