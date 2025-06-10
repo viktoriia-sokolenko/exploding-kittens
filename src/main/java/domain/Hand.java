@@ -1,8 +1,6 @@
 package domain;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Hand {
 	private final Map<CardType, Integer> cards;

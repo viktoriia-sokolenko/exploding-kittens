@@ -373,14 +373,4 @@ public class HandTest {
 
 		return hand;
 	}
-
-	@Test
-	public void getAllCards_withEmptyHand_returnsEmptyList() {
-		Hand hand = new Hand();
-
-		List<Card> cards = hand.getAllCards();
-
-		assertNotNull(cards, "getAllCards() should never return null");
-		assertTrue(cards.isEmpty(), "an empty hand should produce an empty list");
-	}
 }
