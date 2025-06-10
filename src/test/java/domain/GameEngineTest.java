@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameEngineTest {
     private GameEngine gameEngine;
     private TurnManager mockTurnManager;
-    private Player mockPlayerManager;
+    private PlayerManager mockPlayerManager;
     private UserInterface mockUserInterface;
     private Deck mockDeck;
 
     @BeforeEach
     public void setUp() {
         mockTurnManager = EasyMock.createMock(TurnManager.class);
-        mockPlayerManager = EasyMock.createMock(Player.class);
+        mockPlayerManager = EasyMock.createMock(PlayerManager.class);
         mockUserInterface = EasyMock.createMock(UserInterface.class);
         mockDeck = EasyMock.createMock(Deck.class);
 
