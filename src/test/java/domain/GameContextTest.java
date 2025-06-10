@@ -138,7 +138,7 @@ public class GameContextTest {
 
 		EasyMock.verify(mockTurnManager);
 	}
-  
+
 	@Test
 	void viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
@@ -151,11 +151,11 @@ public class GameContextTest {
 		assertThrows(NoSuchElementException.class,
 				() -> fullGameContext.viewTopTwoCardsFromDeck());
 		EasyMock.verify(mockDeck);
-  }
-    
-  @ParameterizedTest
-	@EnumSource(CardType.class)  
-  void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface);
@@ -195,8 +195,8 @@ public class GameContextTest {
 		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
 		assertEquals(expectedCardList, actualCardList);
 		EasyMock.verify(mockDeck);
-  }
-    
+	}
+
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
@@ -247,5 +247,4 @@ public class GameContextTest {
 		EasyMock.replay(mockCard);
 		return mockCard;
 	}
-
 }

@@ -51,12 +51,12 @@ public class GameContext {
 		}
 	}
 
-  public void transferCardBetweenPlayers(
-			Card card, Player playerGiver) {
+	public void transferCardBetweenPlayers(Card card, Player playerGiver) {
 		playerGiver.removeCardFromHand(card);
 		currentPlayer.addCardToHand(card);
-  
-  public List<Card> viewTopTwoCardsFromDeck() {
+	}
+
+	public List<Card> viewTopTwoCardsFromDeck() {
 		return deck.peekTopTwoCards();
 	}
 }
