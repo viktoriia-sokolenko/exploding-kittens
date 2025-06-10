@@ -24,8 +24,7 @@ public class GameEngine {
                 "playerManager must not be null");
         this.deck          = Objects.requireNonNull(deck,
                 "deck must not be null");
-        this.userInterface = Objects.requireNonNull(userInterface,
-                "userInterface must not be null");
+        this.userInterface = userInterface;
     }
 
 

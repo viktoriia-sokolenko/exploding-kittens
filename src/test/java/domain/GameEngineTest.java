@@ -70,4 +70,14 @@ public class GameEngineTest {
         );
         assertEquals("deck must not be null", ex.getMessage());
     }
+
+    @Test
+    void constructor_withNullUI_allowsNullUI() {
+        assertDoesNotThrow(() -> new GameEngine(
+                mockTurnManager,
+                mockPlayerManager,
+                mockDeck,
+                null
+        ));
+    }
 }
