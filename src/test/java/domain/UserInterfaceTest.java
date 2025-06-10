@@ -121,7 +121,7 @@ public class UserInterfaceTest {
     }
 
     @Test
-    void displayCardPlayed_andDrawnCard_showCorrectText() {
+    void displayCardPlayed_showCorrectText() {
         UserInterface ui = new UserInterface();
         Card c = new SkipCard();
 
