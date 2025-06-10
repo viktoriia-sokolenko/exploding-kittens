@@ -159,7 +159,7 @@ public class GameContextTest {
 		EasyMock.verify(mockTurnManager);
 	}
 
-  	@Test
+	@Test
 	void viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
