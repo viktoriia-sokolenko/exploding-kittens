@@ -29,4 +29,9 @@ public class UserInterface {
     public void displayError(String message) {
         System.err.println("Error: " + message);
     }
+
+    public String getUserInput() {
+        System.out.print("> ");
+        return scanner.nextLine();
+    }
 }
