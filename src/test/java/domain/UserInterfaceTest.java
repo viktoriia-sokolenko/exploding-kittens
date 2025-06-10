@@ -83,4 +83,19 @@ public class UserInterfaceTest {
         assertEquals(3, n);
         assertEquals("", errContent.toString());
     }
+
+    @Test
+    void getNumberOfPlayers_invalidThenValid_promptsUntilGood() {
+        String input = String.join("\n",
+                "foo", "6", "2");
+        System.setIn(new ByteArrayInputStream((input + "\n").getBytes()));
+        UserInterface ui = new UserInterface();
+        int n = ui.getNumberOfPlayers();
+        assertEquals(2, n);
+        String err = errContent.toString();
+        int occurrences = err.split(
+                "Please enter a number between 2 and 5", -1)
+                .length - 1;
+        assertEquals(2, occurrences);
+    }
 }

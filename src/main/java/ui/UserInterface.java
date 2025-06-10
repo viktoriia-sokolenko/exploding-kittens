@@ -46,6 +46,8 @@ public class UserInterface {
                 if (numberOfPlayers >= MIN_NUMBER_OF_PLAYERS &&
                         numberOfPlayers <= MAX_NUMBER_OF_PLAYERS) {
                     return numberOfPlayers;
+                } else {
+                    displayError("Please enter a number between 2 and 5");
                 }
             } catch (NumberFormatException ignored) {
                 displayError("Please enter a number between 2 and 5");
