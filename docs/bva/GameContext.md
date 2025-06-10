@@ -1,6 +1,25 @@
 # BVA Analysis for GameContext
+
 #### Important Note
-I am using Parametrized Testing, so whenever I use `testCard`, it means that the test runs for cards with all the available card types.
+
+I am using Parametrized Testing, so whenever I use `testCard`, it means that the test runs for cards with all the
+available card types.
+
+## Method 6: `public void endTurnWithoutDrawingForAttacks()`
+
+### Step 1-3 Results
+
+|        | Input                 | Output                                                   |
+|--------|-----------------------|----------------------------------------------------------|
+| Step 1 | Game Context          | calls `endTurnWithoutDrawingForAttacks` from TurnManager |
+| Step 2 | Game Context Object   | calls `endTurnWithoutDrawingForAttacks` from TurnManager |
+| Step 3 | Game Context Instance | calls `endTurnWithoutDrawingForAttacks` from TurnManager |
+
+### Step 4:
+
+|             | System under test         | Expected output / state transition                       | Implemented?       | Test name                                                        |
+|-------------|---------------------------|----------------------------------------------------------|--------------------|------------------------------------------------------------------|
+| Test Case 1 | Context fully initialized | calls `endTurnWithoutDrawingForAttacks` from TurnManager | :white_check_mark: | endTurnWithoutDrawingForAttacks_withFullContext_callsTurnManager |
 
 ## Method: `public void transferCardBetweenPlayers(Card card, Player playerGiver)`
 

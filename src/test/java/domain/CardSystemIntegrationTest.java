@@ -53,15 +53,10 @@ public class CardSystemIntegrationTest {
 
 		hand.addCard(skipCard1);
 		hand.addCard(skipCard2);
-
 		assertEquals(2, player.getCardTypeCount(CardType.SKIP));
-
 		cardManager.playCard(skipCard1, player, gameContext);
-
 		assertEquals(1, player.getCardTypeCount(CardType.SKIP));
-
 		cardManager.playCard(skipCard2, player, gameContext);
-
 		assertEquals(0, player.getCardTypeCount(CardType.SKIP));
 	}
 }

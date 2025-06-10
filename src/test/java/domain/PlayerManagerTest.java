@@ -18,9 +18,9 @@ public class PlayerManagerTest {
 	@BeforeEach
 	void setUp() {
 		List<Card> cards = new ArrayList<>();
-		// Using SkipCard as it's the only card implemented currently.
 		for (int i = 0; i < NUM_CARDS; i++) {
 			cards.add(new SkipCard());
+			cards.add(new AttackCard());
 		}
 		mockDeck = new Deck(cards);
 		playerManager = new PlayerManager(mockDeck);

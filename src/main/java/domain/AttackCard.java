@@ -8,7 +8,13 @@ public class AttackCard extends Card {
 
 	@Override
 	public CardEffect createEffect() {
-		// Temporary empty implementation
-		return null;
+		return new AttackEffect();
+	}
+
+	private static class AttackEffect implements CardEffect {
+		@Override
+		public void execute(GameContext context) {
+			context.endTurnWithoutDrawingForAttacks();
+		}
 	}
 }
