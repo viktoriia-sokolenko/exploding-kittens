@@ -43,11 +43,17 @@ public class GameEngineTest {
 		Player player = new Player(hand);
 		SkipCard skipCard = new SkipCard();
 
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck, mockUI);
 		hand.addCard(skipCard);
-
 		assertEquals(1, player.getCardTypeCount(CardType.SKIP));
-
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
 		assertDoesNotThrow(() -> gameEngine.playCard(player, skipCard));
+
 		assertEquals(0, player.getCardTypeCount(CardType.SKIP));
+		EasyMock.verify(mockTurnManager);
 	}
+
+
 }
