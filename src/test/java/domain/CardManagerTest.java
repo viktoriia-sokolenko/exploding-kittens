@@ -12,25 +12,34 @@ public class CardManagerTest {
 	private CardManager cardManager;
 	private Player player;
 	private SkipCard skipCard;
+	private GameContext gameContext;
 
 	@BeforeEach
 	void setUp() {
 		cardManager = new CardManager();
 		player	= EasyMock.createMock(Player.class);
 		skipCard = EasyMock.createMock(SkipCard.class);
+		gameContext = EasyMock.createMock(GameContext.class);
 	}
 
 	@Test
 	void playCard_withNullCard_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
-			cardManager.playCard(null, player);
+			cardManager.playCard(null, player, gameContext);
 		});
 	}
 
 	@Test
 	void playCard_withNullPlayer_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
-			cardManager.playCard(skipCard, null);
+			cardManager.playCard(skipCard, null, gameContext);
+		});
+	}
+
+	@Test
+	void playCard_withNullGameContext_throwsNullPointerException() {
+		assertThrows(NullPointerException.class, () -> {
+			cardManager.playCard(skipCard, player, null);
 		});
 	}
 
@@ -45,7 +54,7 @@ public class CardManagerTest {
 		EasyMock.replay(player);
 		IllegalArgumentException ex = assertThrows(
 				IllegalArgumentException.class,
-				() -> cardManager.playCard(mockCard, player)
+				() -> cardManager.playCard(mockCard, player, gameContext)
 		);
 		assertTrue(
 				ex.getMessage().contains("Card not in hand: can not remove card"),
@@ -55,10 +64,6 @@ public class CardManagerTest {
 		EasyMock.verify(player);
 	}
 
-	//TODO: once all card effects are implemented
-	// turn this test into parametrized test to test
-	// whether playCard executes CardEffect for all card types
-	// if player has that card in hand
 	@Test
 	void playCard_playerHasCard_executesCardEffect() {
 		player.removeCardFromHand(skipCard);
@@ -68,7 +73,7 @@ public class CardManagerTest {
 		effectMock.execute(EasyMock.anyObject(GameContext.class));
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(skipCard, player, effectMock);
-		assertDoesNotThrow(() -> cardManager.playCard(skipCard, player));
+		assertDoesNotThrow(() -> cardManager.playCard(skipCard, player, gameContext));
 		EasyMock.verify(skipCard, player, effectMock);
 	}
 

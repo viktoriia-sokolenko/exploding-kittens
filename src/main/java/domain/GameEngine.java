@@ -12,7 +12,7 @@ public class GameEngine {
 	public void playCard(Player player, Card card) {
 		Objects.requireNonNull(player, "Player cannot be null");
 		Objects.requireNonNull(card, "Card cannot be null");
-
-		cardManager.playCard(card, player);
+		GameContext gameContext = new GameContext(player);
+		cardManager.playCard(card, player, gameContext);
 	}
 }

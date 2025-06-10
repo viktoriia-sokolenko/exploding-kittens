@@ -2,6 +2,7 @@ package domain;
 
 import ui.UserInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class GameContext {
@@ -50,9 +51,12 @@ public class GameContext {
 		}
 	}
 
-	public void transferCardBetweenPlayers(
+  public void transferCardBetweenPlayers(
 			Card card, Player playerGiver) {
 		playerGiver.removeCardFromHand(card);
 		currentPlayer.addCardToHand(card);
+  
+  public List<Card> viewTopTwoCardsFromDeck() {
+		return deck.peekTopTwoCards();
 	}
 }

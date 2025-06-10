@@ -7,6 +7,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import ui.UserInterface;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameContextTest {
@@ -46,7 +49,6 @@ public class GameContextTest {
 		assertEquals(mockCurrentPlayer, result);
 	}
 
-	// TODO: Don't do anything, but just a placeholder for now
 	@Test
 	void endTurnWithoutDrawing_doesNotThrowException() {
 		assertDoesNotThrow(() -> gameContext.endTurnWithoutDrawing());
@@ -136,7 +138,65 @@ public class GameContextTest {
 
 		EasyMock.verify(mockTurnManager);
 	}
+  
+	@Test
+	void viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException() {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+		mockDeck.peekTopTwoCards();
+		EasyMock.expectLastCall()
+				.andThrow(new NoSuchElementException("Deck is empty"));
+		EasyMock.replay(mockDeck);
+		assertThrows(NoSuchElementException.class,
+				() -> fullGameContext.viewTopTwoCardsFromDeck());
+		EasyMock.verify(mockDeck);
+  }
+    
+  @ParameterizedTest
+	@EnumSource(CardType.class)  
+  void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+		List<Card> expectedCardList = List.of(mockCard(testCardType));
+		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
+		EasyMock.replay(mockDeck);
+		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
+		assertEquals(expectedCardList, actualCardList);
+		EasyMock.verify(mockDeck);
+	}
 
+	@Test
+	void viewTopTwoCardsFromDeck_deckWithTwoCards_returnsTwoLastCards() {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+		Card card1 = mockCard(CardType.NORMAL);
+		Card card2 = mockCard(CardType.FAVOR);
+		List<Card> expectedCardList = List.of(card1, card2);
+		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
+		EasyMock.replay(mockDeck);
+		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
+		assertEquals(expectedCardList, actualCardList);
+		EasyMock.verify(mockDeck);
+	}
+
+	@Test
+	void viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsDuplicates() {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+		Card duplicateCard1 = mockCard(CardType.SKIP);
+		Card duplicateCard2 = mockCard(CardType.SKIP);
+		List<Card> expectedCardList = List.of(duplicateCard1, duplicateCard2);
+		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
+		EasyMock.replay(mockDeck);
+		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
+		assertEquals(expectedCardList, actualCardList);
+		EasyMock.verify(mockDeck);
+  }
+    
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
