@@ -156,7 +156,7 @@ public class TurnManagerTest {
     PlayerManager playerManagerWithThreePlayers = mockPlayerManager(3);
     turnManager.setPlayerManager(playerManagerWithThreePlayers);
     
-    List<Player> players = playerManagerWithTwoPlayers.getPlayers();
+    List<Player> players = playerManagerWithThreePlayers.getPlayers();
 		Player firstPlayer = players.get(0);
 		Player secondPlayer = players.get(1);
     Player thirdPlayer = players.get(2);
@@ -296,7 +296,7 @@ public class TurnManagerTest {
 		Player thirdPlayer = mockPlayer();
 
 		final int EXPECTED_COUNT = 0;
-		int actualCount = turnManager.getTurnsFor(player3);
+		int actualCount = turnManager.getTurnsFor(thirdPlayer);
 		assertEquals(EXPECTED_COUNT, actualCount);
     
     EasyMock.verify(playerManagerWithTwoPlayers);
