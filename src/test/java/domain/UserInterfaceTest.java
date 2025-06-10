@@ -3,6 +3,7 @@ package domain;
 import domain.*;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.*;
+import ui.UserInterface;
 
 import java.io.*;
 import java.util.Arrays;
@@ -31,5 +32,15 @@ public class UserInterfaceTest {
         System.setOut(originalOut);
         System.setErr(originalErr);
         System.setIn(originalIn);
+    }
+
+    @Test
+    void displayWelcome_printsExpectedHeader() {
+        UserInterface ui = new UserInterface();
+        assertDoesNotThrow(ui.displayWelcome());
+        String out = outContent.toString();
+        assertTrue(out.contains("================================="));
+        assertTrue(out.contains("   EXPLODING KITTENS GAME"));
+        assertTrue(out.contains("================================="));
     }
 }
