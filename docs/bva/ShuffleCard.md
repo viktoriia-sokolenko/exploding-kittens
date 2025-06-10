@@ -12,9 +12,9 @@
 
 ### Step 4:
 
-|             | System under test | Expected output / state transition | Implemented? | Test name                                     |
-|-------------|-------------------|------------------------------------|--------------|-----------------------------------------------|
-| Test Case 1 | ShuffleCard       | returns non-null object            |              | createEffect_shuffleCard_returnsNonNullEffect |
+|             | System under test | Expected output / state transition | Implemented?        | Test name                                     |
+|-------------|-------------------|------------------------------------|---------------------|-----------------------------------------------|
+| Test Case 1 | ShuffleCard       | returns non-null object            | :white_check_mark:  | createEffect_shuffleCard_returnsNonNullEffect |
 
 # BVA Analysis for shuffleEffect
 

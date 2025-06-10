@@ -1,13 +1,19 @@
 package domain;
 
-//import java.util.Objects;
-
-public class ShuffleCard  extends Card {
-	public ShuffleCard() { super(CardType.SHUFFLE); }
+public class ShuffleCard extends Card {
+	public ShuffleCard() {
+		super(CardType.SHUFFLE);
+	}
 
 	@Override
 	public CardEffect createEffect() {
-		// Temporary empty implementation
-		return null;
+		return new ShuffleEffect();
+	}
+
+	private static class ShuffleEffect implements CardEffect {
+		@Override
+		public void execute(GameContext context) {
+
+		}
 	}
 }
