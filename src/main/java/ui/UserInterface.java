@@ -85,4 +85,8 @@ public class UserInterface {
     public void displayCardPlayed(Card card) {
         System.out.println("You played: " + card.getCardType() + "\n");
     }
+
+    public void displayDrawnCard(Card card) {
+        System.out.println("You drew: " + card.getCardType() + "\n");
+    }
 }
