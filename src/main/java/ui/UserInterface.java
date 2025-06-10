@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class UserInterface {
     private final Scanner scanner;
+    private final int MAX_NUMBER_OF_PLAYERS = 5;
+    private final int MIN_NUMBER_OF_PLAYERS = 2;
 
     public UserInterface() {
         this.scanner = new Scanner(System.in);
@@ -33,5 +35,21 @@ public class UserInterface {
     public String getUserInput() {
         System.out.print("> ");
         return scanner.nextLine();
+    }
+
+    public int getNumberOfPlayers() {
+        while (true) {
+            System.out.print("How many players? (2-5)");
+            String input = scanner.nextLine();
+            try {
+                int numberOfPlayers = Integer.parseInt(input);
+                if (numberOfPlayers >= MIN_NUMBER_OF_PLAYERS &&
+                        numberOfPlayers <= MAX_NUMBER_OF_PLAYERS) {
+                    return numberOfPlayers;
+                }
+            } catch (NumberFormatException ignored) {
+                displayError("Please enter a number between 2 and 5");
+            }
+        }
     }
 }
