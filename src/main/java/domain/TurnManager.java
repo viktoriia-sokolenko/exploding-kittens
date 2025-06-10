@@ -4,7 +4,7 @@ import java.util.*;
 
 public class TurnManager {
 	private final Deck deck;
-	private Queue<Player> turnQueue;
+	private final Queue<Player> turnQueue;
 	private Player currentPlayer;
 
 	public TurnManager(Deck deck) {
@@ -37,10 +37,20 @@ public class TurnManager {
 
 	public void endTurnWithoutDraw() {
 		if (turnQueue.isEmpty()) {
-			throw new IllegalStateException("TurnManager not initialized");
+			throw new IllegalStateException("No players to manage");
 		}
 
 		advanceToNextPlayer();
+	}
+
+	public void endTurnWithoutDrawForAttacks() {
+		if (turnQueue.isEmpty()) {
+			throw new IllegalStateException("No players to manage");
+		}
+
+		this.endTurnWithoutDraw();
+		this.addTurnForCurrentPlayer();
+		this.addTurnForCurrentPlayer();
 	}
 
 	private void advanceToNextPlayer() {
@@ -79,4 +89,14 @@ public class TurnManager {
 		return new ArrayList<>(turnQueue);
 	}
 
+	public int getTurnsFor(Player player) {
+		Objects.requireNonNull(player, "Player cannot be null");
+		int count = 0;
+		for (Player queuePlayer : turnQueue) {
+			if (player.equals(queuePlayer)) {
+				count++;
+			}
+		}
+		return count;
+	}
 }

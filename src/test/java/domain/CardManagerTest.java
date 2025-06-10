@@ -73,6 +73,7 @@ public class CardManagerTest {
 		effectMock.execute(EasyMock.anyObject(GameContext.class));
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(skipCard, player, effectMock);
+
 		assertDoesNotThrow(() -> cardManager.playCard(skipCard, player, gameContext));
 		EasyMock.verify(skipCard, player, effectMock);
 	}
