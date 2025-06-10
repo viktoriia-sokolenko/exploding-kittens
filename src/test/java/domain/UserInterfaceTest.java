@@ -119,4 +119,17 @@ public class UserInterfaceTest {
         assertTrue(out.contains("0: SKIP"));
         assertTrue(out.contains("1: SKIP"));
     }
+
+    @Test
+    void displayCardPlayed_andDrawnCard_showCorrectText() {
+        UserInterface ui = new UserInterface();
+        Card c = new SkipCard();
+
+        ui.displayCardPlayed(c);
+        assertTrue(outContent.toString().contains("You played: SKIP"));
+        outContent.reset();
+
+        ui.displayDrawnCard(c);
+        assertTrue(outContent.toString().contains("You drew: SKIP"));
+    }
 }
