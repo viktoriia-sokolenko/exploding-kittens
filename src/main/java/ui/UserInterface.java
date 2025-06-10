@@ -4,6 +4,7 @@ package ui;
 import domain.CardType;
 import domain.Hand;
 import domain.Player;
+import domain.Card;
 
 import java.util.Scanner;
 
@@ -81,4 +82,7 @@ public class UserInterface {
         System.out.println();
     }
 
+    public void displayCardPlayed(Card card) {
+        System.out.println("You played: " + card.getCardType() + "\n");
+    }
 }
