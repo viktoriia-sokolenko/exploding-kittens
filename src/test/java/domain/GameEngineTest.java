@@ -92,4 +92,17 @@ public class GameEngineTest {
 
         assertEquals("Player cannot be null", exception.getMessage());
     }
+
+    @Test
+    void playCard_withNullCard_throwsNullPointerException() {
+        Hand hand   = new Hand();
+        Player player = new Player(hand);
+
+        NullPointerException exception = assertThrows(
+                NullPointerException.class,
+                () -> gameEngine.playCard(player, null)
+        );
+
+        assertEquals("Card cannot be null", exception.getMessage());
+    }
 }
