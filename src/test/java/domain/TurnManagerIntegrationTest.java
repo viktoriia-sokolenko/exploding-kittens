@@ -20,8 +20,6 @@ public class TurnManagerIntegrationTest {
 	void setUp() {
 		List<Card> cards = new ArrayList<>();
 		for (int i = 0; i < NUM_CARDS; i++) {
-			// Using SkipCard since it’s the only fully implemented card type
-			// currently.
 			cards.add(new SkipCard());
 		}
 		deck = new Deck(cards);
