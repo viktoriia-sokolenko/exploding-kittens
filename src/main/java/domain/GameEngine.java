@@ -30,5 +30,18 @@ public class GameEngine {
     public void playCard(Player player, Card card) {
         Objects.requireNonNull(player, "Player cannot be null");
         Objects.requireNonNull(card, "Card cannot be null");
+
+        GameContext gameContext = createGameContext(player);
+        cardManager.playCard(card, player, gameContext);
+    }
+
+    private GameContext createGameContext(Player player) {
+        return new GameContext(
+                turnManager,
+                playerManager,
+                deck,
+                player,
+                userInterface
+        );
     }
 }
