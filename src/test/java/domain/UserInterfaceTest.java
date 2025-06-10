@@ -74,4 +74,13 @@ public class UserInterfaceTest {
         assertEquals("hello world", result);
         assertTrue(outContent.toString().contains("> "));
     }
+
+    @Test
+    void getNumberOfPlayers_validFirst_tryReturnsImmediately() {
+        System.setIn(new ByteArrayInputStream("3\n".getBytes()));
+        UserInterface ui = new UserInterface();
+        int n = ui.getNumberOfPlayers();
+        assertEquals(3, n);
+        assertEquals("", errContent.toString());
+    }
 }
