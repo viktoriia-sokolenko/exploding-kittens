@@ -27,5 +27,7 @@ public class GameEngine {
         this.userInterface = userInterface;
     }
 
-
+    public void playCard(Player player, Card card) {
+        Objects.requireNonNull(player, "Player cannot be null");
+    }
 }
