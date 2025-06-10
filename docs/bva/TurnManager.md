@@ -6,8 +6,6 @@
   eliminates players—that’s `PlayerManager`’s job—but it handles all turn‐advancement operations and can draw cards when
   ending a turn.
 
-* Whenever you see, `p1` or `p` with a number, we are referring to player.
-
 ---
 
 ## Method 0: **Constructor**

@@ -3,51 +3,30 @@ package domain;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
 import java.util.ArrayList;
 
 public class TurnManagerTest {
 
 	private TurnManager turnManager;
-	private Deck deck;
-	private PlayerManager playerManager;
-	private static final int NUM_CARDS = 20;
 	private static final int DEFAULT_NUM_PLAYERS = 3;
 
 	@BeforeEach
 	void setUp() {
-		List<Card> cards = new ArrayList<>();
-		for (int i = 0; i < NUM_CARDS; i++) {
-			// Using SkipCard and AttackCard since it’s the only fully implemented
-			// card type currently.
-			cards.add(new SkipCard());
-			cards.add(new AttackCard());
-		}
-		deck = new Deck(cards);
+		Deck deck = EasyMock.createMock(Deck.class);
 		turnManager = new TurnManager(deck);
-
-		playerManager = new PlayerManager(deck);
-		playerManager.addPlayers(DEFAULT_NUM_PLAYERS);
 	}
 
 
 	@Test
 	void constructor_withNullDeck_throwsNullPointerException() {
-		NullPointerException exception = assertThrows(NullPointerException.class,
-				() -> new TurnManager(null));
+		NullPointerException exception = assertThrows(
+				NullPointerException.class,
+				() -> new TurnManager(null)
+		);
 
 		assertEquals("Deck cannot be null", exception.getMessage());
-	}
-
-	@Test
-	void constructor_withValidDeck_initializesState() {
-		assertNotNull(turnManager);
-		assertThrows(IllegalStateException.class, () -> {
-			turnManager.getCurrentActivePlayer();
-		});
 	}
 
 	@Test
@@ -59,39 +38,54 @@ public class TurnManagerTest {
 
 	@Test
 	void setPlayerManager_withEmptyPlayerList_throwsIllegalArgumentException() {
-		PlayerManager emptyPM = new PlayerManager(deck);
+		PlayerManager emptyPlayerManager = EasyMock.createMock(PlayerManager.class);
+		List<Player> emptyPlayers = new ArrayList<>();
+		EasyMock.expect(emptyPlayerManager.getPlayers()).andReturn(emptyPlayers);
+		EasyMock.replay(emptyPlayerManager);
 
-		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-				() -> turnManager.setPlayerManager(emptyPM));
-
+		IllegalArgumentException exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> turnManager.setPlayerManager(emptyPlayerManager)
+		);
 		assertTrue(exception.getMessage().contains("No players provided"));
+
+		EasyMock.verify(emptyPlayerManager);
 	}
 
 	@Test
 	void setPlayerManager_withValidPlayers_initializesCurrentPlayer() {
-		turnManager.setPlayerManager(playerManager);
-
+		PlayerManager playerManagerWithThreePlayers =
+				mockPlayerManager(DEFAULT_NUM_PLAYERS);
+		turnManager.setPlayerManager(playerManagerWithThreePlayers);
 		Player currentPlayer = turnManager.getCurrentActivePlayer();
 		assertNotNull(currentPlayer);
-
-		List<Player> players = playerManager.getPlayers();
+		List<Player> players = playerManagerWithThreePlayers.getPlayers();
+    
 		assertEquals(players.get(0), currentPlayer);
+
+		EasyMock.verify(playerManagerWithThreePlayers);
 	}
 
 	@Test
 	void getCurrentActivePlayer_beforeSetup_throwsIllegalStateException() {
-		IllegalStateException exception = assertThrows(IllegalStateException.class,
-				() -> turnManager.getCurrentActivePlayer());
+		IllegalStateException exception = assertThrows(
+				IllegalStateException.class,
+				() -> turnManager.getCurrentActivePlayer()
+		);
 
 		assertTrue(exception.getMessage().contains("TurnManager not initialized"));
 	}
 
 	@Test
 	void getCurrentActivePlayer_afterSetup_returnsFirstPlayer() {
-		turnManager.setPlayerManager(playerManager);
-		List<Player> players = playerManager.getPlayers();
+		PlayerManager playerManagerWithThreePlayers =
+				mockPlayerManager(DEFAULT_NUM_PLAYERS);
+		turnManager.setPlayerManager(playerManagerWithThreePlayers);
+		List<Player> players = playerManagerWithThreePlayers.getPlayers();
 		Player current = turnManager.getCurrentActivePlayer();
 		assertEquals(players.get(0), current);
+
+		EasyMock.verify(playerManagerWithThreePlayers);
 	}
 
 	@Test
@@ -103,32 +97,33 @@ public class TurnManagerTest {
 
 	@Test
 	void endTurnWithoutDraw_withTwoPlayers_advancesToNextPlayer() {
-		PlayerManager twoPlayerManager = new PlayerManager(deck);
-		twoPlayerManager.addPlayers(2);
-		turnManager.setPlayerManager(twoPlayerManager);
+		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 
-		List<Player> players = twoPlayerManager.getPlayers();
+		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
 		Player firstPlayer = players.get(0);
 		Player secondPlayer = players.get(1);
 
 		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
 		turnManager.endTurnWithoutDraw();
 		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
+
+		EasyMock.verify(playerManagerWithTwoPlayers);
 	}
 
 	@Test
 	void endTurnWithoutDraw_withOnePlayer_staysOnSamePlayer() {
-		PlayerManager onePlayerManager = new PlayerManager(deck);
-		onePlayerManager.addPlayers(2);
-		turnManager.setPlayerManager(onePlayerManager);
+    PlayerManager playerManager = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManager);
 
-		List<Player> players = onePlayerManager.getPlayers();
-		onePlayerManager.removePlayerFromGame(players.get(1));
-		turnManager.syncWith(onePlayerManager.getActivePlayers());
+		Player remainingPlayer = EasyMock.createMock(Player.class);
+		List<Player> remainingPlayerList = List.of(remainingPlayer);
+		turnManager.syncWith(remainingPlayerList);
 
-		Player remainingPlayer = onePlayerManager.getActivePlayers().get(0);
 		turnManager.endTurnWithoutDraw();
 		assertEquals(remainingPlayer, turnManager.getCurrentActivePlayer());
+
+		EasyMock.verify(playerManager);
 	}
 
 	@Test
@@ -140,34 +135,31 @@ public class TurnManagerTest {
 
 	@Test
 	void endTurnWithoutDrawForAttacks_withTwoPlayers_incrementTurnForPlayerTwo() {
-		Player firstPlayer = EasyMock.createMock(Player.class);
-		Player secondPlayer = EasyMock.createMock(Player.class);
-		PlayerManager twoPlayerManager = EasyMock.createMock(PlayerManager.class);
-		EasyMock.expect(twoPlayerManager.getPlayers())
-				.andReturn(List.of(firstPlayer, secondPlayer));
-		EasyMock.replay(twoPlayerManager, firstPlayer, secondPlayer);
+    PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 
-		turnManager.setPlayerManager(twoPlayerManager);
-
+		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
+		Player firstPlayer = players.get(0);
+		Player secondPlayer = players.get(1);
+    
 		final int TURN_THREE = 3;
 		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
 		turnManager.endTurnWithoutDrawForAttacks();
 		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
 		assertEquals(TURN_THREE, turnManager.getTurnsFor(secondPlayer));
-		EasyMock.verify(twoPlayerManager, firstPlayer, secondPlayer);
+    
+    EasyMock.verify(playerManagerWithTwoPlayers);
 	}
 
 	@Test
 	void endTurnWithoutDrawForAttacks_withThreePlayers_incrementTurnForPlayerThree() {
-		Player firstPlayer = EasyMock.createMock(Player.class);
-		Player secondPlayer = EasyMock.createMock(Player.class);
-		Player thirdPlayer = EasyMock.createMock(Player.class);
-		PlayerManager threePlayerManager = EasyMock.createMock(PlayerManager.class);
-		EasyMock.expect(threePlayerManager.getPlayers())
-				.andReturn(List.of(firstPlayer, secondPlayer, thirdPlayer));
-		EasyMock.replay(threePlayerManager, firstPlayer, secondPlayer, thirdPlayer);
-
-		turnManager.setPlayerManager(threePlayerManager);
+    PlayerManager playerManagerWithThreePlayers = mockPlayerManager(3);
+    turnManager.setPlayerManager(playerManagerWithThreePlayers);
+    
+    List<Player> players = playerManagerWithTwoPlayers.getPlayers();
+		Player firstPlayer = players.get(0);
+		Player secondPlayer = players.get(1);
+    Player thirdPlayer = players.get(2);
 
 		final int TURN_THREE = 3;
 		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
@@ -176,9 +168,9 @@ public class TurnManagerTest {
 		turnManager.endTurnWithoutDrawForAttacks();
 		assertEquals(thirdPlayer, turnManager.getCurrentActivePlayer());
 		assertEquals(TURN_THREE, turnManager.getTurnsFor(thirdPlayer));
-		EasyMock.verify(threePlayerManager, firstPlayer, secondPlayer, thirdPlayer);
+    
+		EasyMock.verify(playerManagerWithThreePlayers);
 	}
-
 
 	@Test
 	void addTurnForCurrentPlayer_beforeSetup_throwsIllegalStateException() {
@@ -189,8 +181,11 @@ public class TurnManagerTest {
 
 	@Test
 	void addTurnForCurrentPlayer_withValidSetup_duplicatesCurrentPlayerInQueue() {
-		turnManager.setPlayerManager(playerManager);
-		List<Player> players = playerManager.getPlayers();
+		PlayerManager playerManagerWithThreePlayers =
+				mockPlayerManager(DEFAULT_NUM_PLAYERS);
+		turnManager.setPlayerManager(playerManagerWithThreePlayers);
+
+		List<Player> players = playerManagerWithThreePlayers.getPlayers();
 		Player firstPlayer = players.get(0);
 		Player secondPlayer = players.get(1);
 
@@ -202,6 +197,8 @@ public class TurnManagerTest {
 
 		turnManager.endTurnWithoutDraw();
 		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
+
+		EasyMock.verify(playerManagerWithThreePlayers);
 	}
 
 	@Test
@@ -213,24 +210,27 @@ public class TurnManagerTest {
 
 	@Test
 	void syncWith_withEmptyList_throwsIllegalArgumentException() {
-		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-				() -> turnManager.syncWith(new ArrayList<>()));
+		IllegalArgumentException exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> turnManager.syncWith(new ArrayList<>())
+		);
 
 		assertTrue(exception.getMessage().contains("No players provided"));
 	}
 
 	@Test
 	void syncWith_withActivePlayers_updatesQueue() {
-		turnManager.setPlayerManager(playerManager);
-		List<Player> allPlayers = playerManager.getPlayers();
+		PlayerManager playerManagerWithThreePlayers =
+				mockPlayerManager(DEFAULT_NUM_PLAYERS);
+		turnManager.setPlayerManager(playerManagerWithThreePlayers);
 
-		playerManager.removePlayerFromGame(allPlayers.get(1));
-		List<Player> activePlayers = playerManager.getActivePlayers();
-
+		List<Player> activePlayers = mockTwoPlayersList();
 		turnManager.syncWith(activePlayers);
 
 		Player current = turnManager.getCurrentActivePlayer();
 		assertTrue(activePlayers.contains(current));
+
+		EasyMock.verify(playerManagerWithThreePlayers);
 	}
 
 	@Test
@@ -242,14 +242,19 @@ public class TurnManagerTest {
 
 	@Test
 	void getTurnOrder_afterSetup_returnsCorrectOrder() {
-		turnManager.setPlayerManager(playerManager);
-		List<Player> expectedPlayers = playerManager.getPlayers();
+		PlayerManager playerManagerWithThreePlayers =
+				mockPlayerManager(DEFAULT_NUM_PLAYERS);
+		turnManager.setPlayerManager(playerManagerWithThreePlayers);
+
+		List<Player> expectedPlayers = playerManagerWithThreePlayers.getPlayers();
 
 		List<Player> turnOrder = turnManager.getTurnOrder();
 		assertEquals(expectedPlayers.size(), turnOrder.size());
 		assertEquals(expectedPlayers.get(0), turnOrder.get(0));
 		assertEquals(expectedPlayers.get(1), turnOrder.get(1));
 		assertEquals(expectedPlayers.get(2), turnOrder.get(2));
+    
+    EasyMock.verify(playerManagerWithThreePlayers);
 	}
 
 	@Test
@@ -262,8 +267,7 @@ public class TurnManagerTest {
 
 	@Test
 	void getTurnsCountFor_emptyQueue_returnsZero() {
-		Hand hand = new Hand();
-		Player player = new Player(hand);
+		Player player = mockPlayer();
 
 		final int EXPECTED_COUNT = 0;
 		int actualCount = turnManager.getTurnsFor(player);
@@ -272,59 +276,83 @@ public class TurnManagerTest {
 
 	@Test
 	void getTurnsCountFor_playerInQueueWithTwo_returnsOne() {
-		PlayerManager mockedPlayerManager = new PlayerManager(deck);
-		mockedPlayerManager.addPlayers(2);
-		turnManager.setPlayerManager(mockedPlayerManager);
-		List<Player> players = mockedPlayerManager.getPlayers();
-		Player player1 = players.get(0);
+    PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
+
+		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
+		Player firstPlayer = players.get(0);
 
 		final int EXPECTED_COUNT = 1;
-		int actualCount = turnManager.getTurnsFor(player1);
+		int actualCount = turnManager.getTurnsFor(firstPlayer);
 		assertEquals(EXPECTED_COUNT, actualCount);
+    
+    EasyMock.verify(playerManagerWithTwoPlayers);
 	}
 
 	@Test
 	void getTurnsCountFor_playerNotInQueueWithTwo_returnsZero() {
-		Hand hand = new Hand();
-		PlayerManager mockedPlayerManager = new PlayerManager(deck);
-		mockedPlayerManager.addPlayers(2);
-		turnManager.setPlayerManager(mockedPlayerManager);
-		Player player3 = new Player(hand);
+		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
+		Player thirdPlayer = mockPlayer();
 
 		final int EXPECTED_COUNT = 0;
 		int actualCount = turnManager.getTurnsFor(player3);
 		assertEquals(EXPECTED_COUNT, actualCount);
+    
+    EasyMock.verify(playerManagerWithTwoPlayers);
 	}
 
 	@Test
 	void getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo() {
-		PlayerManager mockedPlayerManager = new PlayerManager(deck);
-		mockedPlayerManager.addPlayers(2);
-		turnManager.setPlayerManager(mockedPlayerManager);
-		Player player1 = mockedPlayerManager.getPlayers().get(0);
+		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
+		Player firstPlayer = playerManagerWithTwoPlayers.getPlayers().get(0);
 
-		assertEquals(player1, turnManager.getCurrentActivePlayer());
+		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
 		turnManager.addTurnForCurrentPlayer();
 
 		final int EXPECTED_COUNT = 2;
-		int actualCount = turnManager.getTurnsFor(player1);
+		int actualCount = turnManager.getTurnsFor(firstPlayer);
 		assertEquals(EXPECTED_COUNT, actualCount);
+    EasyMock.verify(playerManagerWithTwoPlayers);
 	}
 
 	@Test
 	void getTurnsCountFor_playerInQueueWithFive_returnsOne() {
-		playerManager.addPlayers(2);
+		PlayerManager playerManagerWithFivePlayers = mockPlayerManager(5);
 		final int QUEUE_FIVE = 5;
-		int queueSize = playerManager.getPlayers().size();
+		int queueSize = playerManagerWithFivePlayers.getPlayers().size();
 		assertEquals(QUEUE_FIVE, queueSize);
 
 		final int INDEX_FOUR = 4;
-		turnManager.setPlayerManager(playerManager);
-		Player player5 = playerManager.getPlayers().get(INDEX_FOUR);
+		turnManager.setPlayerManager(playerManagerWithFivePlayers);
+		Player fifthPlayer = playerManagerWithFivePlayers.getPlayers().get(INDEX_FOUR);
 
 		final int EXPECTED_COUNT = 1;
-		int actualCount = turnManager.getTurnsFor(player5);
+		int actualCount = turnManager.getTurnsFor(fifthPlayer);
 		assertEquals(EXPECTED_COUNT, actualCount);
+    EasyMock.verify(playerManagerWithFivePlayers);
 	}
 
+	private PlayerManager mockPlayerManager(int numPlayers) {
+		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
+		List<Player> players = new ArrayList<>();
+		for (int i = 0; i < numPlayers; i++) {
+			players.add(mockPlayer());
+		}
+		EasyMock.expect(playerManager.getPlayers()).andStubReturn(players);
+		EasyMock.replay(playerManager);
+		return playerManager;
+	}
+
+	private List<Player> mockTwoPlayersList() {
+		List<Player> players = new ArrayList<>();
+		players.add(mockPlayer());
+		players.add(mockPlayer());
+		return players;
+	}
+
+	private Player mockPlayer() {
+		return EasyMock.createMock(Player.class);
+	}
 }

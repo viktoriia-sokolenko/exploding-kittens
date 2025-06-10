@@ -4,15 +4,13 @@
 
 	public class CardManager {
 
-		public void playCard(Card card, Player player) {
+		public void playCard(Card card, Player player, GameContext gameContext) {
 			Objects.requireNonNull(card, "Card cannot be null");
 			Objects.requireNonNull(player, "Player cannot be null");
 
 			player.removeCardFromHand(card);
 
-			// TODO: GameContext need to use Dependency Injection
-			GameContext context = new GameContext(player);
 			CardEffect effect = card.createEffect();
-			effect.execute(context);
+			effect.execute(gameContext);
 		}
 	}

@@ -14,7 +14,6 @@ public class GameContext {
 	public GameContext(TurnManager turnManager, PlayerManager playerManager,
 		Deck deck, Player currentPlayer,
 		UserInterface userInterface) {
-
 		this.turnManager = Objects.requireNonNull(turnManager,
 				"TurnManager cannot be null");
 		this.playerManager = Objects.requireNonNull(playerManager,

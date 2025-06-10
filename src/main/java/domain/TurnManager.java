@@ -67,6 +67,7 @@ public class TurnManager {
 
 		this.turnQueue.clear();
 		this.turnQueue.addAll(activePlayers);
+		this.currentPlayer = this.turnQueue.peek();
 	}
 
 	public void addTurnForCurrentPlayer() {
@@ -98,5 +99,4 @@ public class TurnManager {
 		}
 		return count;
 	}
-
 }
