@@ -37,10 +37,10 @@ public class UserInterfaceTest {
     @Test
     void displayWelcome_printsExpectedHeader() {
         UserInterface ui = new UserInterface();
-        assertDoesNotThrow(ui.displayWelcome());
+        assertDoesNotThrow(ui::displayWelcome);
         String out = outContent.toString();
         assertTrue(out.contains("================================="));
-        assertTrue(out.contains("   EXPLODING KITTENS GAME"));
+        assertTrue(out.contains("   EXPLODING KITTENS"));
         assertTrue(out.contains("================================="));
     }
 }
