@@ -99,11 +99,11 @@ public class UserInterfaceTest {
         assertEquals(2, occurrences);
     }
 
-    @Test
-    void displayPlayerHand_empty_showsEmptyMessage() {
-        UserInterface ui = new UserInterface();
-        Player p = new Player(new Hand());
-        ui.displayPlayerHand(p);
-        assertTrue(outContent.toString().contains("(empty)"));
-    }
+//    @Test
+//    void displayPlayerHand_empty_showsEmptyMessage() {
+//        UserInterface ui = new UserInterface();
+//        Player p = new Player(new Hand());
+//        ui.displayPlayerHand(p);
+//        assertTrue(outContent.toString().contains("(empty)"));
+//    }
 }

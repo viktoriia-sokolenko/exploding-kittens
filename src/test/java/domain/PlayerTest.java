@@ -223,4 +223,19 @@ public class PlayerTest {
 		return mockDeck;
 	}
 
+	@Test
+	public void getHand_returnsPlayerHand() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.replay(mockHand);
+		Player player = new Player(mockHand);
+
+		Hand returnedHand = player.getHand();
+		assertSame(mockHand, returnedHand,
+				"getPlayerHand() " +
+						"should return the hand passed into the constructor");
+
+		EasyMock.verify(mockHand);
+	}
+
+
 }
