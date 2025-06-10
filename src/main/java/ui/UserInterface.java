@@ -26,5 +26,7 @@ public class UserInterface {
         System.out.println("  quit          - Exit the game\n");
     }
 
-
+    public void displayError(String message) {
+        System.err.println("Error: " + message);
+    }
 }
