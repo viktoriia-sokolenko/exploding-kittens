@@ -13,7 +13,7 @@ public class ShuffleCard extends Card {
 	private static class ShuffleEffect implements CardEffect {
 		@Override
 		public void execute(GameContext context) {
-
+			context.shuffleDeckFromDeck();
 		}
 	}
 }

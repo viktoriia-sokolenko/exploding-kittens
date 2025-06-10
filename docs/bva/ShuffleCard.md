@@ -30,6 +30,6 @@
 
 ### Step 4:
 
-|             | System under test | Expected output / state transition      | Implemented? | Test name                                     |
-|-------------|-------------------|-----------------------------------------|--------------|-----------------------------------------------|
-| Test Case 1 | mockContext       | calls mockContext.shuffleDeckFromDeck() |              | execute_shuffleEffect_callShuffleDeckFromDeck |
+|             | System under test | Expected output / state transition      | Implemented?        | Test name                                     |
+|-------------|-------------------|-----------------------------------------|---------------------|-----------------------------------------------|
+| Test Case 1 | mockContext       | calls mockContext.shuffleDeckFromDeck() | :white_check_mark:  | execute_shuffleEffect_callShuffleDeckFromDeck |
