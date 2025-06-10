@@ -65,4 +65,13 @@ public class UserInterfaceTest {
         String err = errContent.toString();
         assertTrue(err.contains("Error: oops"));
     }
+
+    @Test
+    void getUserInput_readsLineAndPrompts() {
+        System.setIn(new ByteArrayInputStream("hello world\n".getBytes()));
+        UserInterface ui = new UserInterface();
+        String result = ui.getUserInput();
+        assertEquals("hello world", result);
+        assertTrue(outContent.toString().contains("> "));
+    }
 }
