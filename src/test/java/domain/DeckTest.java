@@ -4,6 +4,7 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.*;
@@ -28,9 +29,10 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
-	@Test
-	public void peekTop_deckWithOneCard_returnsTheOnlyCard() {
-		Card expectedCard = mockCard(CardType.NORMAL);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void peekTop_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+		Card expectedCard = mockCard(testCardType);
 		List<Card> cardList = new ArrayList<>(List.of(expectedCard));
 
 		Deck deck = new Deck(cardList);
@@ -82,8 +84,8 @@ public class DeckTest {
 	public void getCardAt_nonEmptyDeckWithIndexNegative_throwsIndexOutOfBoundsException() {
 		Card card1 = mockCard(CardType.NORMAL);
 		Card card2 = mockCard(CardType.NORMAL);
-		List<Card> emptyCardList = new ArrayList<>(List.of(card1, card2));
-		Deck deck = new Deck(emptyCardList);
+		List<Card> cardList = new ArrayList<>(List.of(card1, card2));
+		Deck deck = new Deck(cardList);
 		int index = -1;
 
 		Exception exception = assertThrows(IndexOutOfBoundsException.class, () -> {
@@ -212,9 +214,10 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
-	@Test
-	public void drawAndGetDeckSize_deckWithOneCard_returnsEmptyDeck() {
-		Card card = mockCard(CardType.NORMAL);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void drawAndGetDeckSize_deckWithOneCard_returnsEmptyDeck(CardType testCardType) {
+		Card card = mockCard(testCardType);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 
 		Deck deck = new Deck(cardList);
@@ -452,9 +455,10 @@ public class DeckTest {
 		EasyMock.verify(rand);
 	}
 
-	@Test
-	public void shuffleDeck_deckWithOneCard_orderRemainTheSame() {
-		Card card = mockCard(CardType.SKIP);
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void shuffleDeck_deckWithOneCard_orderRemainTheSame(CardType testCardType) {
+		Card card = mockCard(testCardType);
 		List<Card> cardList = new ArrayList<>(List.of(card));
 		Random rand = EasyMock.createMock(Random.class);
 		EasyMock.replay(rand);
@@ -545,6 +549,59 @@ public class DeckTest {
 		EasyMock.verify(rand);
 	}
 
+	@Test
+	public void peekTopTwoCards_emptyDeck_throwsNoSuchElementException() {
+		List<Card> emptyCardList = new ArrayList<>();
+
+		Deck deck = new Deck(emptyCardList);
+
+		String expectedMessage = "Deck is empty";
+
+		Exception exception = assertThrows(NoSuchElementException.class,
+				deck::peekTopTwoCards);
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void peekTopTwoCards_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+		Card expectedCard = mockCard(testCardType);
+		List<Card> expectedCardList = new ArrayList<>(List.of(expectedCard));
+
+		Deck deck = new Deck(expectedCardList);
+		List <Card> actualCardList = deck.peekTopTwoCards();
+
+		assertEquals(expectedCardList, actualCardList);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void peekTopTwoCards_deckWithTwoCards_returnsTwoLastCards(List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		Card expectedCard1 = cards.get(1);
+		Card expectedCard2 = cards.get(0);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(expectedCard1, expectedCard2));
+		List <Card> actualCardList = deck.peekTopTwoCards();
+
+		assertEquals(expectedCardList, actualCardList);
+	}
+
+	@Test
+	public void peekTopTwoCards_deckWithThreeCardsAndDuplicate_returnsLastDuplicateCards() {
+		Deck deck = deckWithThreeCardsAndDuplicate();
+		Card duplicateCard1 = deck.getCardAt(2);
+		Card duplicateCard2 = deck.getCardAt(1);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(duplicateCard1, duplicateCard2));
+
+		List <Card> actualCardList = deck.peekTopTwoCards();
+		assertEquals(expectedCardList, actualCardList);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
@@ -557,6 +614,13 @@ public class DeckTest {
 						mockCard(CardType.ALTER_THE_FUTURE)),
 				List.of(mockCard(CardType.SEE_THE_FUTURE),
 						mockCard(CardType.NUKE)));
+	}
+
+	private Deck deckWithThreeCardsAndDuplicate() {
+		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card card2 = mockCard(CardType.NORMAL);
+		Card card3 = mockCard(CardType.NORMAL);
+		return new Deck(List.of(card1, card2, card3));
 	}
 
 	private Card mockCard(CardType type) {

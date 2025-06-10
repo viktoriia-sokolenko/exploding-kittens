@@ -1,7 +1,5 @@
 package domain;
 
-//import java.util.Objects;
-
 public class SeeTheFutureCard extends Card {
 	public SeeTheFutureCard() {
 		super(CardType.SEE_THE_FUTURE);
@@ -9,7 +7,13 @@ public class SeeTheFutureCard extends Card {
 
 	@Override
 	public CardEffect createEffect() {
-		// Temporary empty implementation
-		return null;
+		return new SeeTheFutureEffect();
+	}
+
+	private static class SeeTheFutureEffect implements CardEffect {
+		@Override
+		public void execute(GameContext context) {
+			context.viewTopTwoCardsFromDeck();
+		}
 	}
 }
