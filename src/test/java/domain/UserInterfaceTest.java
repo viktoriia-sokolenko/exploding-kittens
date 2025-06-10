@@ -43,4 +43,18 @@ public class UserInterfaceTest {
         assertTrue(out.contains("   EXPLODING KITTENS"));
         assertTrue(out.contains("================================="));
     }
+
+    @Test
+    void displayHelp_printsAllCommands() {
+        UserInterface ui = new UserInterface();
+        ui.displayHelp();
+        String out = outContent.toString();
+        assertTrue(out.contains("Available commands:"));
+        assertTrue(out.contains("play <index>"));
+        assertTrue(out.contains("draw"));
+        assertTrue(out.contains("hand"));
+        assertTrue(out.contains("status"));
+        assertTrue(out.contains("help"));
+        assertTrue(out.contains("quit"));
+    }
 }
