@@ -57,4 +57,12 @@ public class UserInterfaceTest {
         assertTrue(out.contains("help"));
         assertTrue(out.contains("quit"));
     }
+
+    @Test
+    void displayError_printsToStderr() {
+        UserInterface ui = new UserInterface();
+        ui.displayError("oops");
+        String err = errContent.toString();
+        assertTrue(err.contains("Error: oops"));
+    }
 }
