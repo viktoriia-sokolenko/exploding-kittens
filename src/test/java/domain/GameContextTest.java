@@ -49,7 +49,6 @@ public class GameContextTest {
 		assertEquals(mockCurrentPlayer, result);
 	}
 
-	// TODO: Don't do anything, but just a placeholder for now
 	@Test
 	void endTurnWithoutDrawing_doesNotThrowException() {
 		assertDoesNotThrow(() -> gameContext.endTurnWithoutDrawing());

@@ -4,7 +4,6 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.easymock.EasyMock.*;
 
 public class SkipCardTests {
 	private SkipCard skipCard;
@@ -20,9 +19,21 @@ public class SkipCardTests {
 	}
 
 	@Test
-	void createEffect_returnsNonNullEffect() {
+	void createEffect_skipCard_returnsNonNullEffect() {
 		CardEffect effect = skipCard.createEffect();
 
 		assertNotNull(effect, "Effect cannot be null");
+	}
+
+	@Test
+	void execute_skipEffect_callsEndTurnWithoutDrawing() {
+		SkipCard skipCard = new SkipCard();
+		CardEffect skipEffect = skipCard.createEffect();
+		GameContext mockGameContext = EasyMock.createMock(GameContext.class);
+		mockGameContext.endTurnWithoutDrawing();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockGameContext);
+		skipEffect.execute(mockGameContext);
+		EasyMock.verify(mockGameContext);
 	}
 }
