@@ -1,5 +1,6 @@
 package ui;
 
+
 import java.util.Scanner;
 
 public class UserInterface {
@@ -36,6 +37,7 @@ public class UserInterface {
         System.out.print("> ");
         return scanner.nextLine();
     }
+
 
     public int getNumberOfPlayers() {
         while (true) {
