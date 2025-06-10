@@ -13,7 +13,8 @@ public abstract class Card {
 		return cardType;
 	}
 
-	public abstract void play(Player player);
+	public abstract CardEffect createEffect();
+
 
 	public @Override boolean equals(Object obj) {
 		if (this == obj) {

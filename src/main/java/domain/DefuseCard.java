@@ -1,6 +1,6 @@
 package domain;
 
-import java.util.Objects;
+//import java.util.Objects;
 
 public class DefuseCard extends Card {
 	public DefuseCard() {
@@ -8,7 +8,8 @@ public class DefuseCard extends Card {
 	}
 
 	@Override
-	public void play(Player player) {
-		Objects.requireNonNull(player, "Player cannot be null");
+	public CardEffect createEffect() {
+		// Temporary empty implementation
+		return null;
 	}
 }
