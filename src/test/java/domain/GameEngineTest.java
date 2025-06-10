@@ -42,4 +42,18 @@ public class GameEngineTest {
         assertEquals("turnManager must not be null",
                 thrown.getMessage());
     }
+
+    @Test
+    void constructor_withNullPlayerManager_throwsNullPointerException() {
+        NullPointerException ex = assertThrows(
+                NullPointerException.class,
+                () -> new GameEngine(
+                        mockTurnManager,
+                        null,
+                        mockDeck,
+                        mockUserInterface
+                )
+        );
+        assertEquals("playerManager must not be null", ex.getMessage());
+    }
 }
