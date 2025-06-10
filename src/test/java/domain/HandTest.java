@@ -271,13 +271,13 @@ public class HandTest {
 	@Test
 	public void removeDefuseCard_withEmptyHand_throwsIllegalStateException() {
 		Hand emptyHand = new Hand();
-		assertThrows(IllegalStateException.class, () -> emptyHand.removeDefuseCard());
+		assertThrows(IllegalStateException.class, emptyHand::removeDefuseCard);
 	}
 
 	@Test
 	public void removeDefuseCard_withCardNotInHand_throwsIllegalArgumentException() {
 		Hand hand = handWithTwoCards();
-		assertThrows(IllegalArgumentException.class, () -> hand.removeDefuseCard());
+		assertThrows(IllegalArgumentException.class, hand::removeDefuseCard);
 	}
 
 	@Test

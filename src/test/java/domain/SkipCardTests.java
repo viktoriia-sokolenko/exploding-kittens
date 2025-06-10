@@ -19,6 +19,7 @@ public class SkipCardTests {
 	}
 
 	@Test
+
 	void createEffect_skipCard_returnsNonNullEffect() {
 		CardEffect effect = skipCard.createEffect();
 

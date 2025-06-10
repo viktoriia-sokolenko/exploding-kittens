@@ -55,6 +55,11 @@ public class GameContextTest {
 	}
 
 	@Test
+	void endTurnWithoutDrawingForAttacks_doesNotThrowException() {
+		assertDoesNotThrow(() -> gameContext.endTurnWithoutDrawingForAttacks());
+	}
+
+	@Test
 	void constructor_withValidParameters_createsGameContext() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
@@ -135,6 +140,21 @@ public class GameContextTest {
 		EasyMock.replay(mockTurnManager);
 
 		fullGameContext.endTurnWithoutDrawing();
+
+		EasyMock.verify(mockTurnManager);
+	}
+
+	@Test
+	void endTurnWithoutDrawingForAttacks_withFullContext_callsTurnManager() {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+
+		mockTurnManager.endTurnWithoutDrawForAttacks();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockTurnManager);
+
+		fullGameContext.endTurnWithoutDrawingForAttacks();
 
 		EasyMock.verify(mockTurnManager);
 	}
