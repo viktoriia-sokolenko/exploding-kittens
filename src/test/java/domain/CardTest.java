@@ -115,4 +115,13 @@ public class CardTest {
 		Card card2 = new TestCard(CardType.ATTACK);
 		assertNotEquals(card1, card2);
 	}
+
+	@Test
+	public void equals_nullCheckComesBefore_CheckIfClassesNotEqual() {
+		Card card = new TestCard(CardType.NORMAL);
+
+		assertFalse(card.equals(null));
+		boolean result = card.equals(null);
+		assertFalse(result);
+	}
 }
