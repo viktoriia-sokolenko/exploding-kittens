@@ -1,7 +1,11 @@
 package domain;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Random;
+
 import ui.UserInterface;
 
 public class GameEngine {
@@ -47,5 +51,30 @@ public class GameEngine {
 				player,
 				userInterface
 		);
+	}
+
+	public static GameEngine createNewGame() {
+		UserInterface userInterface = new UserInterface();
+		CardFactory cardFactory = new CardFactory();
+
+		userInterface.displayWelcome();
+		int numberOfPlayers = userInterface.getNumberOfPlayers();
+
+		// TODO: this needs to be an actual array of cards
+		// will create a method to implement this
+		List<Card> startingDeck = new ArrayList<>();
+
+		Deck deck = new Deck(startingDeck);
+
+		deck.shuffleDeck(new Random());
+
+		PlayerManager playerManager = new PlayerManager(deck);
+		TurnManager turnManager = new TurnManager(deck);
+
+		playerManager.addPlayers(numberOfPlayers);
+		turnManager.setPlayerManager(playerManager);
+
+		return new GameEngine(turnManager, playerManager, deck, userInterface,
+				cardFactory);
 	}
 }

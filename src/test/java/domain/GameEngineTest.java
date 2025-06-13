@@ -4,6 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.easymock.EasyMock;
 import ui.UserInterface;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameEngineTest {
@@ -145,9 +149,16 @@ public class GameEngineTest {
 
 	@Test
 	public void createNewGame_createsValidGameEngine() {
-		// This tests the static factory method, but since it has UI interaction,
-		// we would need to mock System.in for comprehensive testing
-		GameEngine engine = GameEngine.createNewGame();
-		assertNotNull(engine);
+		InputStream originalIn = System.in;
+
+		try {
+			String simulatedInput = "3\n";
+			System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+			GameEngine engine = GameEngine.createNewGame();
+			assertNotNull(engine);
+		} finally {
+			System.setIn(originalIn);
+		}
 	}
 }
