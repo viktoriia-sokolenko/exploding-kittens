@@ -49,4 +49,8 @@ public class Player {
 	public boolean hasCardType(CardType cardType) {
 		return hand.containsCardType(cardType);
 	}
+
+	public void addCardToHand(Card card) {
+		hand.addCard(card);
+	}
 }
