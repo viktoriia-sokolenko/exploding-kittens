@@ -387,12 +387,13 @@ public class HandTest {
 	@EnumSource(value = CardType.class,
 			names = {"EXPLODING_KITTEN", "UNKNOWN_CARD_FOR_TEST"}, mode =
 			EnumSource.Mode.EXCLUDE)
-	public void getAvailableCardTypes_withOneCardInHand_returnsListWithOneType(CardType testCardType) {
-		Hand handWithOneCard = handWithOneCard(testCardType);
+	// i had to make the parm name ct because of max line length from spotbugs
+	public void getCardTypes_withOneCardInHand_returnsOneType(CardType ct) {
+		Hand handWithOneCard = handWithOneCard(ct);
 		List<CardType> availableTypes = handWithOneCard.getAvailableCardTypes();
 
 		assertEquals(1, availableTypes.size());
-		assertTrue(availableTypes.contains(testCardType));
+		assertTrue(availableTypes.contains(ct));
 	}
 
 	@Test
@@ -421,11 +422,11 @@ public class HandTest {
 	}
 
 	@Test
-	public void getAvailableCardTypes_withFiveCardsAndThreeDuplicates_returnsThreeUniqueTypes() {
+	public void getAvailableCardTypes_withFiveCardsAndThreeDuplicates_returnsThreeUniqueType() {
 		Hand hand = handWithFiveCardsAndThreeDuplicates();
 		List<CardType> availableTypes = hand.getAvailableCardTypes();
-
-		assertEquals(3, availableTypes.size());
+		final int NUMBER_OF_CARD_TYPES = 3;
+		assertEquals(NUMBER_OF_CARD_TYPES, availableTypes.size());
 		assertTrue(availableTypes.contains(CardType.DEFUSE));
 		assertTrue(availableTypes.contains(CardType.ATTACK));
 		assertTrue(availableTypes.contains(CardType.FAVOR));
