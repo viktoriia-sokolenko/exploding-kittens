@@ -2,7 +2,7 @@ package domain;
 
 
 import java.util.*;
-
+import java.security.SecureRandom;
 import ui.UserInterface;
 
 public class GameEngine {
@@ -103,8 +103,8 @@ public class GameEngine {
 				numberOfPlayers);
 
 		Deck deck = new Deck(startingDeck);
-
-		deck.shuffleDeck(new Random());
+		// https://docs.oracle.com/javase/8/docs/api/java/security/SecureRandom.html
+		deck.shuffleDeck(new SecureRandom());
 
 		PlayerManager playerManager = new PlayerManager(deck);
 		TurnManager turnManager = new TurnManager(deck);

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameEngineTest {
@@ -188,7 +190,8 @@ public class GameEngineTest {
 
 		try {
 			String simulatedInput = "3\n";
-			System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+			System.setIn(new ByteArrayInputStream(simulatedInput
+					.getBytes(StandardCharsets.UTF_8)));
 
 			GameEngine engine = GameEngine.createNewGame();
 			assertNotNull(engine);
@@ -237,11 +240,13 @@ public class GameEngineTest {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream));
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
-			assertEquals("", outputStream.toString());
+			assertEquals("", outputStream.
+					toString(StandardCharsets.UTF_8));
 		} finally {
 			System.setOut(originalOut);
 		}
@@ -260,12 +265,13 @@ public class GameEngineTest {
 		EasyMock.replay(mockPlayer);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream));
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));;
 
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			assertEquals("Available cards: attack\n",
-					outputStream.toString());
+					outputStream.toString(StandardCharsets.UTF_8));
 		} finally {
 			System.setOut(originalOut);
 		}
@@ -286,12 +292,13 @@ public class GameEngineTest {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream));
+		System.setOut(new PrintStream(outputStream,
+				true, StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			assertEquals("Available cards: attack, skip, favor\n",
-					outputStream.toString());
+					outputStream.toString(StandardCharsets.UTF_8));
 		} finally {
 			System.setOut(originalOut);
 		}
@@ -311,14 +318,15 @@ public class GameEngineTest {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream));
+		System.setOut(new PrintStream(outputStream,
+				true, StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			assertEquals(
 					"Available cards: see the future, " +
 							"alter the future\n",
-					outputStream.toString());
+					outputStream.toString(StandardCharsets.UTF_8));
 		} finally {
 			System.setOut(originalOut);
 		}
@@ -340,14 +348,15 @@ public class GameEngineTest {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream));
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			assertEquals(
 					"Available cards: skip, " +
 							"see the future, normal, defuse\n",
-					outputStream.toString());
+					outputStream.toString(StandardCharsets.UTF_8));
 		} finally {
 			System.setOut(originalOut);
 		}
@@ -367,14 +376,15 @@ public class GameEngineTest {
 		EasyMock.replay(mockPlayer);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream));
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			assertEquals(
 					"Available cards:" +
 							" exploding kitten\n",
-					outputStream.toString());
+					outputStream.toString(StandardCharsets.UTF_8));
 		} finally {
 			System.setOut(originalOut);
 		}
@@ -392,11 +402,12 @@ public class GameEngineTest {
 		EasyMock.replay(mockPlayer);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream));
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
-			String output = outputStream.toString();
+			String output = outputStream.toString(StandardCharsets.UTF_8);
 			assertTrue(output.startsWith("Available cards: "));
 			assertTrue(output.endsWith("\n"));
 			assertTrue(output.contains("see the future"));
