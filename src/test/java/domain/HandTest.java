@@ -520,4 +520,14 @@ public class HandTest {
 		CardType result = emptyHand.parseCardType("ATTACK");
 		assertNull(result);
 	}
+
+	@ParameterizedTest
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN", "UNKNOWN_CARD_FOR_TEST"},
+			mode = EnumSource.Mode.EXCLUDE)
+	public void parseCardType_withExactMatchInHand_returnsCardType(CardType testCardType) {
+		Hand hand = handWithOneCard(testCardType);
+		CardType result = hand.parseCardType(testCardType.name());
+		assertEquals(testCardType, result);
+	}
 }
