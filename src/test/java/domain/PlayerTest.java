@@ -495,4 +495,22 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
+	@Test
+	public void getAvailableCardTypes_withCardsInHand_returnsAvailableTypes() {
+		java.util.List<CardType> availableTypes = java.util.Arrays.asList(
+				CardType.ATTACK, CardType.SKIP, CardType.DEFUSE);
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.getAvailableCardTypes()).andReturn(availableTypes);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		java.util.List<CardType> result = player.getAvailableCardTypes();
+		assertEquals(3, result.size());
+		assertTrue(result.contains(CardType.ATTACK));
+		assertTrue(result.contains(CardType.SKIP));
+		assertTrue(result.contains(CardType.DEFUSE));
+
+		EasyMock.verify(mockHand);
+	}
+
 }
