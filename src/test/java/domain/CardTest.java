@@ -124,4 +124,13 @@ public class CardTest {
 		boolean result = card.equals(null);
 		assertFalse(result);
 	}
+
+	@Test
+	public void equals_checkIfTwoCardsAreEqual_returnsTrue() {
+		Card card1 = new TestCard(CardType.NORMAL);
+		Card card2 = new TestCard(CardType.NORMAL);
+
+		assertTrue(card1.equals(card2));
+		assertTrue(card2.equals(card1));
+	}
 }
