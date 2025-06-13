@@ -1,5 +1,6 @@
 package domain;
 
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,12 +18,7 @@ public class PlayerManagerTest {
 
 	@BeforeEach
 	void setUp() {
-		List<Card> cards = new ArrayList<>();
-		for (int i = 0; i < NUM_CARDS; i++) {
-			cards.add(new SkipCard());
-			cards.add(new AttackCard());
-		}
-		mockDeck = new Deck(cards);
+		mockDeck = mockDeck();
 		playerManager = new PlayerManager(mockDeck);
 	}
 
@@ -118,8 +114,7 @@ public class PlayerManagerTest {
 	@Test
 	void removePlayerFromGame_withPlayerNotInGame_throwsIllegalArgumentException() {
 		playerManager.addPlayers(2);
-		Hand otherHand = new Hand();
-		Player otherPlayer = new Player(otherHand);
+		Player otherPlayer = mockPlayer();
 
 		IllegalArgumentException exception = assertThrows(
 				IllegalArgumentException.class,
@@ -144,5 +139,13 @@ public class PlayerManagerTest {
 		for (Player player : activePlayers) {
 			assertTrue(player.isInGame());
 		}
+	}
+
+	private Deck mockDeck() {
+		return EasyMock.createMock(Deck.class);
+	}
+
+	private Player mockPlayer() {
+		return EasyMock.createMock(Player.class);
 	}
 }
