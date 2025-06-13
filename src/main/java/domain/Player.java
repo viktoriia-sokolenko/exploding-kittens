@@ -49,4 +49,7 @@ public class Player {
 		return hand.getNumberOfCards();
 	}
 
+	public boolean hasCardType(CardType cardType) {
+		return hand.containsCardType(cardType);
+	}
 }
