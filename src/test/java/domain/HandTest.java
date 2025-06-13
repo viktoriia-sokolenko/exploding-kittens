@@ -646,4 +646,11 @@ public class HandTest {
 		CardType result = hand.parseCardType(" alter the future ");
 		assertEquals(CardType.ALTER_THE_FUTURE, result);
 	}
+
+	@Test
+	public void parseCardType_withPartialMatchInMiddle_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ALTER_THE_FUTURE);
+		CardType result = hand.parseCardType("THE");
+		assertEquals(CardType.ALTER_THE_FUTURE, result);
+	}
 }
