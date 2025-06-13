@@ -69,4 +69,11 @@ public class Hand {
 	private boolean isValidCount (Integer count) {
 		return count != null;
 	}
+
+	public void getCardAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException("Index cannot be negative");
+
+		}
+	}
 }
