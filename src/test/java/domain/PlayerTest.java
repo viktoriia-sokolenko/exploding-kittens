@@ -316,4 +316,16 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@Test
+	public void hasCardType_withExplodingKitten_returnsTrue() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.containsCardType(CardType.EXPLODING_KITTEN)).andReturn(true);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		assertTrue(player.hasCardType(CardType.EXPLODING_KITTEN));
+
+		EasyMock.verify(mockHand);
+	}
 }
