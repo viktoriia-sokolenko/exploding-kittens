@@ -505,4 +505,25 @@ public class GameEngineTest {
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockPlayer);
 	}
+
+	@Test
+	public void handlePlayCommand_withEmptyParts_displaysUsageError() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+
+		mockUserInterface.
+				displayError("Usage: play <card_type>" +
+						" (e.g., 'play skip' or 'play attack')");
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		String[] parts = {};
+		gameEngine.handlePlayCommand(parts, mockPlayer);
+
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockPlayer);
+	}
 }
