@@ -646,4 +646,26 @@ public class GameEngineTest {
 		assertThrows(NullPointerException.class,
 				() -> gameEngine.handleDrawCommand(null));
 	}
+
+	@Test
+	public void handleDrawCommand_withEmptyDeck_displaysErrorAndReturns() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(0);
+		EasyMock.replay(mockDeck);
+
+		mockUserInterface.displayError("Deck is empty!");
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		gameEngine.handleDrawCommand(mockPlayer);
+
+		EasyMock.verify(mockPlayer);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockUserInterface);
+	}
 }
