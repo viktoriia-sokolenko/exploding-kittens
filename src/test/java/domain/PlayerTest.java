@@ -506,7 +506,8 @@ public class PlayerTest {
 
 		Player player = new Player(mockHand);
 		java.util.List<CardType> result = player.getAvailableCardTypes();
-		assertEquals(3, result.size());
+		final int NUMBER_OF_CARD_TYPES = 3;
+		assertEquals(NUMBER_OF_CARD_TYPES, result.size());
 		assertTrue(result.contains(CardType.ATTACK));
 		assertTrue(result.contains(CardType.SKIP));
 		assertTrue(result.contains(CardType.DEFUSE));
