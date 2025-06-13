@@ -565,4 +565,11 @@ public class HandTest {
 		CardType result = hand.parseCardType("  ATTACK  ");
 		assertEquals(CardType.ATTACK, result);
 	}
+
+	@Test
+	public void parseCardType_withPartialMatchStartsWith_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("ATT");
+		assertEquals(CardType.ATTACK, result);
+	}
 }
