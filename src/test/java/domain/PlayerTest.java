@@ -367,4 +367,18 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@Test
+	public void removeDefuseCard_withEmptyHand_throwsIllegalStateException() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.removeDefuseCard();
+		EasyMock.expectLastCall().andThrow(new IllegalStateException(
+				"Hand empty: can not remove card"));
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		assertThrows(IllegalStateException.class, player::removeDefuseCard);
+
+		EasyMock.verify(mockHand);
+	}
 }
