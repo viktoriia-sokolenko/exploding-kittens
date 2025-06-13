@@ -394,4 +394,14 @@ public class HandTest {
 		assertEquals(1, availableTypes.size());
 		assertTrue(availableTypes.contains(testCardType));
 	}
+
+	@Test
+	public void getAvailableCardTypes_withTwoCardsInHand_returnsListWithTwoTypes() {
+		Hand hand = handWithTwoCards();
+		List<CardType> availableTypes = hand.getAvailableCardTypes();
+
+		assertEquals(2, availableTypes.size());
+		assertTrue(availableTypes.contains(CardType.SEE_THE_FUTURE));
+		assertTrue(availableTypes.contains(CardType.SHUFFLE));
+	}
 }
