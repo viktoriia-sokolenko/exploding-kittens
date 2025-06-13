@@ -60,6 +60,21 @@ public class GameEngineTest {
 		return mockCard;
 	}
 
+//	private Player createMockPlayerWithMultipleCards() {
+//		Player mockPlayer = EasyMock.createMock(Player.class);
+//
+//		// Create a mock SkipCard to return when asked for card at index 0
+//		Card mockSkipCard = createMockCard(CardType.SKIP);
+//
+//		// Mock the methods that would be called by getCardFromHandByIndex
+//		EasyMock.expect(mockPlayer.get)).andReturn(mockSkipCard);
+//		EasyMock.expect(mockPlayer.getNumberOfCards()).andStubReturn(5);
+//		EasyMock.expect(mockPlayer.isInGame()).andStubReturn(true);
+//
+//		EasyMock.replay(mockPlayer);
+//		return mockPlayer;
+//	}
+
 	private void setupMocksForStartGame() {
 		List<Player> players = Arrays.asList(createMockPlayer(), createMockPlayer());
 		EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(players);
@@ -86,6 +101,15 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 
 		EasyMock.replay(mockPlayerManager, mockDeck, mockCardFactory, mockUserInterface);
+	}
+
+	private Player createMockPlayerWithCards() {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.getCardTypeCount(EasyMock.anyObject())).andStubReturn(1);
+		EasyMock.expect(mockPlayer.getNumberOfCards()).andStubReturn(5);
+		EasyMock.expect(mockPlayer.isInGame()).andStubReturn(true);
+		EasyMock.replay(mockPlayer);
+		return mockPlayer;
 	}
 
 	@Test
@@ -243,8 +267,19 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
-		gameEngine.processCommands(input, mockPlayer);
+		gameEngine.processCommand(input, mockPlayer);
 
 		EasyMock.verify(mockUserInterface);
 	}
+//
+//	@Test
+//	public void getCardFromHandByIndex_withValidIndex_returnsCard() {
+//		gameEngine = createValidGameEngine();
+//		Player mockPlayer = createMockPlayerWithMultipleCards();
+//
+//		Card result = gameEngine.getCardFromHandByIndex(mockPlayer, 0);
+//
+//		assertNotNull(result);
+//		assertEquals(CardType.SKIP, result.getCardType());
+//	}
 }
