@@ -477,4 +477,14 @@ public class GameEngineTest {
 		assertThrows(NullPointerException.class,
 				() -> gameEngine.handlePlayCommand(null, mockPlayer));
 	}
+
+	@Test
+	public void handlePlayCommand_withNullPlayer_throwsNullPointerException() {
+		gameEngine = createValidGameEngine();
+		String[] parts = {"play", "skip"};
+
+		assertThrows(NullPointerException.class,
+				() -> gameEngine.handlePlayCommand(parts, null));
+	}
+
 }
