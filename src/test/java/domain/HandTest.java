@@ -544,4 +544,11 @@ public class HandTest {
 		CardType result = hand.parseCardType("attack");
 		assertEquals(CardType.ATTACK, result);
 	}
+
+	@Test
+	public void parseCardType_withMixedCaseExactMatch_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.SEE_THE_FUTURE);
+		CardType result = hand.parseCardType("See_The_Future");
+		assertEquals(CardType.SEE_THE_FUTURE, result);
+	}
 }
