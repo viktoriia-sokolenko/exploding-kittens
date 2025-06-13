@@ -95,33 +95,4 @@ public class Hand {
 						+ cardType);
 		}
 	}
-
-	public Card getCardAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException("Index cannot be negative");
-		}
-
-		if (isEmpty()) {
-			throw new IndexOutOfBoundsException("Hand is empty");
-		}
-
-		if (index >= getNumberOfCards()) {
-			throw new IndexOutOfBoundsException("Index out of bounds");
-		}
-
-		int currentIndex = 0;
-
-		for (Map.Entry<CardType, Integer> entry : cards.entrySet()) {
-			CardType cardType = entry.getKey();
-			int count = entry.getValue();
-			if (index < currentIndex + count) {
-				return createCardByType(cardType);
-			}
-			currentIndex += count;
-		}
-
-		throw new IndexOutOfBoundsException("Index out of bounds");
-	}
-
-
 }
