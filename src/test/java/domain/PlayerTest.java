@@ -351,4 +351,20 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@Test
+	public void addCardToHand_withExplodingKittenCard_throwsIllegalArgumentException() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.addCard(EasyMock.anyObject(Card.class));
+		EasyMock.expectLastCall().andThrow(new IllegalArgumentException(
+				"Exploding Kitten should not be added to Hand"));
+		EasyMock.replay(mockHand);
+
+		Card explodingKittenCard = mockCard(CardType.EXPLODING_KITTEN);
+		Player player = new Player(mockHand);
+		assertThrows(IllegalArgumentException.class,
+				() -> player.addCardToHand(explodingKittenCard));
+
+		EasyMock.verify(mockHand);
+	}
 }
