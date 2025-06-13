@@ -271,15 +271,4 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockUserInterface);
 	}
-//
-//	@Test
-//	public void getCardFromHandByIndex_withValidIndex_returnsCard() {
-//		gameEngine = createValidGameEngine();
-//		Player mockPlayer = createMockPlayerWithMultipleCards();
-//
-//		Card result = gameEngine.getCardFromHandByIndex(mockPlayer, 0);
-//
-//		assertNotNull(result);
-//		assertEquals(CardType.SKIP, result.getCardType());
-//	}
 }
