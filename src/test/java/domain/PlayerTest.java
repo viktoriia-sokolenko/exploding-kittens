@@ -466,4 +466,18 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@Test
+	public void parseCardType_withNoMatch_returnsNull() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.parseCardType("INVALID"))
+				.andReturn(null);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		CardType result = player.parseCardType("INVALID");
+		assertNull(result);
+
+		EasyMock.verify(mockHand);
+	}
 }
