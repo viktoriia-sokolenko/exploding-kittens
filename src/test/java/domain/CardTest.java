@@ -108,4 +108,11 @@ public class CardTest {
 		Card card2 = new AnotherTestCard(type);
 		assertNotEquals(card1, card2);
 	}
+
+	@Test
+	public void equals_compareWithDifferentCardType_returnsFalse() {
+		Card card1 = new TestCard(CardType.NORMAL);
+		Card card2 = new TestCard(CardType.ATTACK);
+		assertNotEquals(card1, card2);
+	}
 }
