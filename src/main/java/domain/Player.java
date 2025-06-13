@@ -57,4 +57,8 @@ public class Player {
 	public void removeDefuseCard() {
 		hand.removeDefuseCard();
 	}
+
+	public CardType parseCardType(String input) {
+		return hand.parseCardType(input);
+	}
 }
