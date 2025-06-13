@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.easymock.EasyMock;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import ui.UserInterface;
 
@@ -229,5 +230,21 @@ public class GameEngineTest {
 				-> card.getCardType() == CardType.SKIP));
 		assertTrue(deck.stream().anyMatch(card
 				-> card.getCardType() == CardType.FAVOR));
+	}
+
+	@ParameterizedTest
+	@NullAndEmptySource
+	@ValueSource(strings = {"   ", "\t", "\n"})
+	public void processCommand_withNullOrEmptyInput_displaysError(String input) {
+		gameEngine = createValidGameEngine();
+		Player mockPlayer = createMockPlayer();
+
+		mockUserInterface.displayError("Please enter a command. Type 'help' for available commands.");
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		gameEngine.processCommands(input, mockPlayer);
+
+		EasyMock.verify(mockUserInterface);
 	}
 }
