@@ -572,4 +572,12 @@ public class HandTest {
 		CardType result = hand.parseCardType("ATT");
 		assertEquals(CardType.ATTACK, result);
 	}
+
+	@Test
+	public void parseCardType_withPartialMatchContains_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.SEE_THE_FUTURE);
+		CardType result = hand.parseCardType("FUTURE");
+		assertEquals(CardType.SEE_THE_FUTURE, result);
+	}
+
 }
