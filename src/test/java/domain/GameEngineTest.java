@@ -531,4 +531,58 @@ public class GameEngineTest {
 		EasyMock.verify(mockSkipCard);
 		EasyMock.verify(mockEffect);
 	}
+
+	private List<Card> createMockCardList(CardType cardType, int count) {
+		List<Card> cards = new ArrayList<>();
+		for (int i = 0; i < count; i++) {
+			Card mockCard = EasyMock.createMock(Card.class);
+			EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+			EasyMock.replay(mockCard);
+			cards.add(mockCard);
+		}
+		return cards;
+	}
+
+	@Test
+	public void createInitialDeck_whenNoNormalCardsNeeded_doesNotAddNormalCards() {
+		CardFactory mockFactory = EasyMock.createMock(CardFactory.class);
+
+		final int ONE_CARD = 1;
+		final int TWO_CARDS = 2;
+
+		final int FOUR_CARDS = 4;
+		final int FIVE_CARDS = 5;
+		EasyMock.expect(mockFactory.createCards(CardType.ATTACK, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.ATTACK, 4));
+		EasyMock.expect(mockFactory.createCards(CardType.SKIP, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SKIP, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.FAVOR, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.FAVOR, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SHUFFLE, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE,
+						FIVE_CARDS))
+				.andReturn(createMockCardList(CardType.SEE_THE_FUTURE,
+						FIVE_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.ALTER_THE_FUTURE,
+						FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.ALTER_THE_FUTURE,
+						FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.NUKE, ONE_CARD))
+				.andReturn(createMockCardList(CardType.NUKE, ONE_CARD));
+		EasyMock.expect(mockFactory.createCards(CardType.DEFUSE, TWO_CARDS))
+				.andReturn(createMockCardList(CardType.DEFUSE, TWO_CARDS));
+
+		EasyMock.replay(mockFactory);
+
+		final int TWO_PLAYERS = 2;
+		List<Card> deck = GameEngine.createInitialDeck(mockFactory, TWO_PLAYERS);
+
+		long normalCardCount = deck.stream()
+				.filter(card -> card.getCardType() == CardType.NORMAL)
+				.count();
+		assertEquals(0, normalCardCount);
+
+		EasyMock.verify(mockFactory);
+	}
 }
