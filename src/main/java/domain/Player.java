@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.List;
+
 public class Player {
 	Hand hand;
 	boolean activeStatus = true;
@@ -60,5 +62,9 @@ public class Player {
 
 	public CardType parseCardType(String input) {
 		return hand.parseCardType(input);
+	}
+
+	public List<CardType> getAvailableCardTypes() {
+		return hand.getAvailableCardTypes();
 	}
 }
