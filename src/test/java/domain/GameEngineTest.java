@@ -638,4 +638,12 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockFactory);
 	}
+
+	@Test
+	public void handleDrawCommand_withNullPlayer_throwsNullPointerException() {
+		gameEngine = createValidGameEngine();
+
+		assertThrows(NullPointerException.class,
+				() -> gameEngine.handleDrawCommand(null));
+	}
 }
