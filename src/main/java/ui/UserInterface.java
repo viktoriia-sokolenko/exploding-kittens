@@ -65,18 +65,17 @@ public class UserInterface {
 	}
 
 	public void displayPlayerHand(Player player) {
-		Hand hand = player.getHand();
-		int total = hand.getNumberOfCards();
+		int playersNumberOfCards = player.getNumberOfCards();
 
 		System.out.println("\nYour hand:");
-		if (total == 0) {
+		if (playersNumberOfCards == 0) {
 			System.out.println("  (empty)\n");
 			return;
 		}
 
 		int index = 0;
 		for (CardType type : CardType.values()) {
-			int count = hand.getCountOfCardType(type);
+			int count = player.getCardTypeCount(type);
 			for (int i = 0; i < count; i++) {
 				System.out.printf("	 %d: %s%n", index++, type);
 			}

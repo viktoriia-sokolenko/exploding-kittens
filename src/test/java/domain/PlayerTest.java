@@ -225,43 +225,31 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void getHand_returnsPlayerHand() {
-		Hand mockHand = EasyMock.createMock(Hand.class);
-		EasyMock.replay(mockHand);
-		Player player = new Player(mockHand);
-
-		Hand returnedHand = player.getHand();
-		assertSame(mockHand, returnedHand,
-				"getPlayerHand() " +
-						"should return the hand " +
-						"passed into the constructor");
-
-		EasyMock.verify(mockHand);
-	}
-
-	@Test
 	public void getNumberOfCards_returnsNumberOfCards() {
+		final int NUMBER_OF_CARDS = 5;
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		EasyMock.expect(mockHand.getNumberOfCards()).andReturn(5);
+		EasyMock.expect(mockHand.getNumberOfCards())
+				.andReturn(NUMBER_OF_CARDS);
 		EasyMock.replay(mockHand);
 
 		Player player = new Player(mockHand);
 		int result = player.getNumberOfCards();
 
-		assertEquals(5, result);
+		assertEquals(NUMBER_OF_CARDS, result);
 		EasyMock.verify(mockHand);
 	}
 
 	@Test
 	public void getNumberOfCards_withManyCards_returnsCorrectCount() {
+		final int NUMBER_OF_CARDS = 15;
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		EasyMock.expect(mockHand.getNumberOfCards()).andReturn(15);
+		EasyMock.expect(mockHand.getNumberOfCards())
+				.andReturn(NUMBER_OF_CARDS);
 		EasyMock.replay(mockHand);
 
 		Player player = new Player(mockHand);
 		int result = player.getNumberOfCards();
-
-		assertEquals(15, result);
+		assertEquals(NUMBER_OF_CARDS, result);
 		EasyMock.verify(mockHand);
 	}
 
@@ -296,7 +284,8 @@ public class PlayerTest {
 	@EnumSource(CardType.class)
 	public void hasCardType_withCardInHand_returnsTrue(CardType testCardType) {
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		EasyMock.expect(mockHand.containsCardType(testCardType)).andReturn(true);
+		EasyMock.expect(mockHand.containsCardType(testCardType))
+				.andReturn(true);
 		EasyMock.replay(mockHand);
 
 		Player player = new Player(mockHand);
@@ -308,7 +297,8 @@ public class PlayerTest {
 	@Test
 	public void hasCardType_withDefuseCard_returnsTrue() {
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		EasyMock.expect(mockHand.containsCardType(CardType.DEFUSE)).andReturn(true);
+		EasyMock.expect(mockHand.containsCardType(CardType.DEFUSE))
+				.andReturn(true);
 		EasyMock.replay(mockHand);
 
 		Player player = new Player(mockHand);
@@ -320,7 +310,8 @@ public class PlayerTest {
 	@Test
 	public void hasCardType_withExplodingKitten_returnsTrue() {
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		EasyMock.expect(mockHand.containsCardType(CardType.EXPLODING_KITTEN)).andReturn(true);
+		EasyMock.expect(mockHand.containsCardType(CardType.EXPLODING_KITTEN))
+				.andReturn(true);
 		EasyMock.replay(mockHand);
 
 		Player player = new Player(mockHand);
