@@ -95,4 +95,14 @@ public class Hand {
 						+ cardType);
 		}
 	}
+
+	public List<CardType> getAvailableCardTypes() {
+		List<CardType> availableTypes = new ArrayList<>();
+		for (CardType type : CardType.values()) {
+			if (getCountOfCardType(type) > 0) {
+				availableTypes.add(type);
+			}
+		}
+		return availableTypes;
+	}
 }
