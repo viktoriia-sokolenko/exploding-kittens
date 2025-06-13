@@ -763,7 +763,8 @@ public class GameEngineTest {
 				.andReturn(false);
 		EasyMock.replay(mockPlayer);
 
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(10);
+		final int DECK_SIZE = 10;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(DECK_SIZE);
 		EasyMock.expect(mockDeck.draw()).andReturn(mockExplodingKitten);
 		EasyMock.replay(mockDeck);
 
@@ -810,8 +811,8 @@ public class GameEngineTest {
 		mockPlayer.addCardToHand(mockSkipCard);
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockPlayer);
-
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(5);
+		final int DECK_SIZE = 5;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(DECK_SIZE);
 		EasyMock.expect(mockDeck.draw()).andReturn(mockSkipCard);
 		EasyMock.replay(mockDeck);
 
@@ -843,7 +844,8 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockPlayer);
 
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(8);
+		final int DECK_SIZE = 8;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(DECK_SIZE);
 		EasyMock.expect(mockDeck.draw()).andReturn(mockDefuseCard);
 		EasyMock.replay(mockDeck);
 
