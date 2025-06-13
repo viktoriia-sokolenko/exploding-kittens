@@ -395,4 +395,18 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@Test
+	public void removeDefuseCard_withDefuseCardInHand_removesDefuseCard() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.removeDefuseCard();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		player.removeDefuseCard();
+
+		EasyMock.verify(mockHand);
+	}
+
 }
