@@ -540,4 +540,16 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@Test
+	public void hasEmptyHand_withCardsInHand_returnsFalse() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.isEmpty()).andReturn(false);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		assertFalse(player.hasEmptyHand());
+
+		EasyMock.verify(mockHand);
+	}
 }
