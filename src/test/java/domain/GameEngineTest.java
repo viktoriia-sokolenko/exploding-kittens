@@ -214,25 +214,12 @@ public class GameEngineTest {
 		}
 	}
 
-	private List<Card> invokeCreateInitialDeck(CardFactory factory,
-											   int numPlayers) {
-		try {
-			java.lang.reflect.Method method = GameEngine.class.
-					getDeclaredMethod("createInitialDeck",
-							CardFactory.class, int.class);
-			method.setAccessible(true);
-			return (List<Card>) method.invoke(null, factory, numPlayers);
-		} catch (Exception e) {
-			fail("Failed to invoke createInitialDeck: " + e.getMessage());
-			return null;
-		}
-	}
 
 	@ParameterizedTest
 	@ValueSource(ints = {2, 3, 4, 5})
 	public void createInitialDeck_withValidPlayerCount_createsCorrectDeck(int numPlayers) {
 		CardFactory factory = new CardFactory();
-		List<Card> deck = invokeCreateInitialDeck(factory, numPlayers);
+		List<Card> deck = GameEngine.createInitialDeck(factory, numPlayers);
 
 		assertNotNull(deck);
 		assertFalse(deck.isEmpty());

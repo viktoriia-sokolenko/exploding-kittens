@@ -53,6 +53,34 @@ public class GameEngine {
 		);
 	}
 
+	public static List<Card> createInitialDeck(CardFactory cardFactory,
+												int numberOfPlayers) {
+
+        List<Card> deck = new ArrayList<>();
+		deck.addAll(cardFactory.createCards(CardType.ATTACK, 4));
+		deck.addAll(cardFactory.createCards(CardType.SKIP, 4));
+		deck.addAll(cardFactory.createCards(CardType.FAVOR, 4));
+		deck.addAll(cardFactory.createCards(CardType.SHUFFLE, 4));
+		deck.addAll(cardFactory.createCards(CardType.SEE_THE_FUTURE,
+				5));
+		deck.addAll(cardFactory.createCards(CardType.ALTER_THE_FUTURE,
+				4));
+		deck.addAll(cardFactory.createCards(CardType.NUKE, 1));
+		// We're giving the players two extra defuses in the deck
+		deck.addAll(cardFactory.createCards(CardType.DEFUSE, 2));
+
+		int currentCards = deck.size();
+		int targetNumberOfCards = 56 - numberOfPlayers;
+		int numberOfCardsNeeded = currentCards - targetNumberOfCards;
+
+		if (numberOfCardsNeeded > 0) {
+			deck.addAll(cardFactory.createCards(CardType.NORMAL,
+					numberOfCardsNeeded));
+		}
+
+		return deck;
+	}
+
 	public static GameEngine createNewGame() {
 		UserInterface userInterface = new UserInterface();
 		CardFactory cardFactory = new CardFactory();
@@ -60,9 +88,8 @@ public class GameEngine {
 		userInterface.displayWelcome();
 		int numberOfPlayers = userInterface.getNumberOfPlayers();
 
-		// TODO: this needs to be an actual array of cards
-		// will create a method to implement this
-		List<Card> startingDeck = new ArrayList<>();
+		List<Card> startingDeck = createInitialDeck(cardFactory,
+				numberOfPlayers);
 
 		Deck deck = new Deck(startingDeck);
 
