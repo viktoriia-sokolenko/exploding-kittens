@@ -480,4 +480,19 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@Test
+	public void getAvailableCardTypes_withEmptyHand_returnsEmptyList() {
+		java.util.List<CardType> emptyList = new java.util.ArrayList<>();
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.getAvailableCardTypes()).andReturn(emptyList);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		java.util.List<CardType> result = player.getAvailableCardTypes();
+		assertTrue(result.isEmpty());
+
+		EasyMock.verify(mockHand);
+	}
+
 }
