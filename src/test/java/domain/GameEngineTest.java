@@ -50,7 +50,10 @@ public class GameEngineTest {
 
 	private Player createMockPlayer() {
 		Player mockPlayer = EasyMock.createMock(Player.class);
-		EasyMock.expect(mockPlayer.getNumberOfCards()).andStubReturn(5);
+		final int NUMBER_OF_CARDS = 5;
+		EasyMock.expect(mockPlayer
+				.getNumberOfCards())
+				.andStubReturn(NUMBER_OF_CARDS);
 		EasyMock.expect(mockPlayer.isInGame()).andStubReturn(true);
 		EasyMock.replay(mockPlayer);
 		return mockPlayer;
@@ -62,59 +65,7 @@ public class GameEngineTest {
 		EasyMock.replay(mockCard);
 		return mockCard;
 	}
-
-//	private Player createMockPlayerWithMultipleCards() {
-//		Player mockPlayer = EasyMock.createMock(Player.class);
-//
-//		// Create a mock SkipCard to return when asked for card at index 0
-//		Card mockSkipCard = createMockCard(CardType.SKIP);
-//
-//		// Mock the methods that would be called by getCardFromHandByIndex
-//		EasyMock.expect(mockPlayer.get)).andReturn(mockSkipCard);
-//		EasyMock.expect(mockPlayer.getNumberOfCards()).andStubReturn(5);
-//		EasyMock.expect(mockPlayer.isInGame()).andStubReturn(true);
-//
-//		EasyMock.replay(mockPlayer);
-//		return mockPlayer;
-//	}
-
-	private void setupMocksForStartGame() {
-		List<Player> players = Arrays.asList(createMockPlayer(), createMockPlayer());
-		EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(players);
-
-		for (Player player : players) {
-			for (int i = 0; i < 4; i++) {
-				player.drawCard(mockDeck);
-				EasyMock.expectLastCall();
-			}
-
-		}
-		for (int i = 0; i < players.size() - 1; i++) {
-			EasyMock.expect(mockCardFactory.createCard(CardType.EXPLODING_KITTEN))
-					.andReturn(createMockCard(CardType.EXPLODING_KITTEN));
-			EasyMock.expect(mockDeck.getDeckSize()).andReturn(10);
-			mockDeck.insertCardAt(EasyMock.anyObject(), EasyMock.anyInt());
-			EasyMock.expectLastCall();
-		}
-
-		EasyMock.expect(mockCardFactory.createCard(CardType.DEFUSE))
-				.andReturn(createMockCard(CardType.DEFUSE)).times(players.size());
-
-		mockUserInterface.displayHelp();
-		EasyMock.expectLastCall();
-
-		EasyMock.replay(mockPlayerManager, mockDeck, mockCardFactory, mockUserInterface);
-	}
-
-	private Player createMockPlayerWithCards() {
-		Player mockPlayer = EasyMock.createMock(Player.class);
-		EasyMock.expect(mockPlayer.getCardTypeCount(EasyMock.anyObject())).andStubReturn(1);
-		EasyMock.expect(mockPlayer.getNumberOfCards()).andStubReturn(5);
-		EasyMock.expect(mockPlayer.isInGame()).andStubReturn(true);
-		EasyMock.replay(mockPlayer);
-		return mockPlayer;
-	}
-
+	
 	@Test
 	public void constructor_withNullTurnManager_throwsNullPointerException() {
 		NullPointerException thrown = assertThrows(
