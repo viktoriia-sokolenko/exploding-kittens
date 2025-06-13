@@ -407,7 +407,8 @@ public class HandTest {
 
 	@ParameterizedTest
 	@EnumSource(value = CardType.class,
-			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
+			names = {"EXPLODING_KITTEN", "UNKNOWN_CARD_FOR_TEST"}, mode =
+			EnumSource.Mode.EXCLUDE)
 	public void getCardAt_withOneCardAtIndexZero_returnsCorrectCardType
 			(CardType testCardType) {
 		Hand hand = handWithOneCard(testCardType);

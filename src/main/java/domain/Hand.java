@@ -70,7 +70,33 @@ public class Hand {
 		return count != null;
 	}
 
-	public void getCardAt(int index) {
+	private Card createCardByType(CardType cardType) {
+		switch (cardType) {
+			case SKIP:
+				return new SkipCard();
+			case ATTACK:
+				return new AttackCard();
+			case FAVOR:
+				return new FavorCard();
+			case DEFUSE:
+				return new DefuseCard();
+			case SEE_THE_FUTURE:
+				return new SeeTheFutureCard();
+			case SHUFFLE:
+				return new ShuffleCard();
+			case ALTER_THE_FUTURE:
+				return new AlterTheFutureCard();
+			case NORMAL:
+				return new NormalCard();
+			case NUKE:
+				return new NukeCard();
+			default:
+				throw new IllegalArgumentException("Unknown card type: "
+						+ cardType);
+		}
+	}
+
+	public Card getCardAt(int index) {
 		if (index < 0) {
 			throw new IndexOutOfBoundsException("Index cannot be negative");
 		}
@@ -83,5 +109,19 @@ public class Hand {
 			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
 
+		int currentIndex = 0;
+
+		for (Map.Entry<CardType, Integer> entry : cards.entrySet()) {
+			CardType cardType = entry.getKey();
+			int count = entry.getValue();
+			if (index < currentIndex + count) {
+				return createCardByType(cardType);
+			}
+			currentIndex += count;
+		}
+
+		throw new IndexOutOfBoundsException("Index out of bounds");
 	}
+
+
 }
