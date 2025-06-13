@@ -53,4 +53,7 @@ public class PlayerManager {
 		player.activeStatus = false;
 	}
 
+	public Player getPlayerByIndex(int index) {
+		throw new IndexOutOfBoundsException("Index out of bounds");
+	}
 }

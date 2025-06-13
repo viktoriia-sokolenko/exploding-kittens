@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
-import java.util.ArrayList;
 
 public class PlayerManagerTest {
 	private static final int NUM_CARDS = 20;
@@ -139,6 +138,12 @@ public class PlayerManagerTest {
 		for (Player player : activePlayers) {
 			assertTrue(player.isInGame());
 		}
+	}
+
+	@Test
+	void getPlayerByIndex_withNegativeIndex_throwsIndexOutOfBoundsException() {
+		assertThrows(IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(-1));
 	}
 
 	private Deck mockDeck() {

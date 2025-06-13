@@ -159,10 +159,10 @@ The `PlayerManager` oversees player setup, hand allocation via an injected `Deck
 | Step 2 | Array Indices (Index are -1, 0, 1, size, size+1) | Collection                                                     | Player Object or Index                |
 | Step 3 | `-1`, `0`, `1`, `size`                           | empty list; list with 1 element; list with more than 1 element | Player or `IndexOutOfBoundsException` |               |
 ### Step 4:
-|             | System under test                        | Expected output             | Implemented? | Test name                                                                   |
-|-------------|------------------------------------------|-----------------------------|--------------|-----------------------------------------------------------------------------|
-| Test Case 1 | index `-1`, players `[player1, player2]` | `IndexOutOfBoundsException` |              | getPlayerByIndex_withNegativeIndex_throwsIndexOutOfBoundsException          |
-| Test Case 2 | index `1`, players `[]`                  | `IndexOutOfBoundsException` |              | getNumberOfCards_noPlayersWithPositiveIndex_throwsIndexOutOfBoundsException |
-| Test Case 3 | index `2`, players `[player1, player2]`  | `IndexOutOfBoundsException` |              | getNumberOfCards_twoPlayersWithTwoIndex_throwsIndexOutOfBoundsException     |
-| Test Case 4 | index `0`, players `[player]`            | `player`                    |              | getNumberOfCards_onePlayerWithZeroIndex_returnsOnlyPlayer                   |
-| Test Case 5 | index `1`, players `[player1, player2]`  | `player2`                   |              | getNumberOfCards_twoPlayersWithOneIndex_returnsSecondPlayer                 |
+|             | System under test                        | Expected output             | Implemented?       | Test name                                                                   |
+|-------------|------------------------------------------|-----------------------------|--------------------|-----------------------------------------------------------------------------|
+| Test Case 1 | index `-1`, players `[player1, player2]` | `IndexOutOfBoundsException` | :white_check_mark: | getPlayerByIndex_withNegativeIndex_throwsIndexOutOfBoundsException          |
+| Test Case 2 | index `1`, players `[]`                  | `IndexOutOfBoundsException` |                    | getNumberOfCards_noPlayersWithPositiveIndex_throwsIndexOutOfBoundsException |
+| Test Case 3 | index `2`, players `[player1, player2]`  | `IndexOutOfBoundsException` |                    | getNumberOfCards_twoPlayersWithTwoIndex_throwsIndexOutOfBoundsException     |
+| Test Case 4 | index `0`, players `[player]`            | `player`                    |                    | getNumberOfCards_onePlayerWithZeroIndex_returnsOnlyPlayer                   |
+| Test Case 5 | index `1`, players `[player1, player2]`  | `player2`                   |                    | getNumberOfCards_twoPlayersWithOneIndex_returnsSecondPlayer                 |
