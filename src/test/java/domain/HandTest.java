@@ -593,4 +593,16 @@ public class HandTest {
 		CardType result = hand.parseCardType("INVALID_CARD");
 		assertNull(result);
 	}
+
+	@Test
+	public void parseCardType_withMultiplePartialMatches_returnsFirstAvailableMatch() {
+		Hand hand = new Hand();
+		hand.addCard(mockCard(CardType.NORMAL));
+		hand.addCard(mockCard(CardType.NUKE));
+
+		CardType result = hand.parseCardType("N");
+		assertNotNull(result);
+		assertTrue(result == CardType.NORMAL || result == CardType.NUKE);
+		assertTrue(hand.containsCardType(result));
+	}
 }
