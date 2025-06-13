@@ -121,5 +121,8 @@ public class GameEngine {
 	}
 
 
-
+	public void handlePlayCommand(String[] parts, Player currentPlayer) {
+		Objects.requireNonNull(parts, "Player cannot be null");
+		Objects.requireNonNull(currentPlayer, "Card cannot be null");
+	}
 }
