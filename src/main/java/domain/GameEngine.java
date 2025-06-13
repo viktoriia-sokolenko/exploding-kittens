@@ -155,4 +155,8 @@ public class GameEngine {
 		playCard(currentPlayer, cardToPlay);
 		userInterface.displayCardPlayed(cardToPlay);
 	}
+
+	public void handleDrawCommand(Player currentPlayer) {
+		Objects.requireNonNull(currentPlayer, "Player cannot be null");
+	}
 }
