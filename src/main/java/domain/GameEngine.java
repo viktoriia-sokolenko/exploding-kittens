@@ -125,7 +125,9 @@ public class GameEngine {
 				System.out.print(available.get(i)
 						.name().toLowerCase()
 						.replace("_", " "));
-				if (i < available.size() - 1) System.out.print(", ");
+				if (i < available.size() - 1) {
+					System.out.print(", ");
+				};
 			}
 			System.out.println();
 		}
