@@ -397,4 +397,11 @@ public class HandTest {
 		assertThrows(IndexOutOfBoundsException.class, ()
 				-> hand.getCardAt(1));
 	}
+
+	@Test
+	public void getCardAt_withTwoCardsAndIndexOutOfBounds_throwsIndexOutOfBoundsException() {
+		Hand hand = handWithTwoCards();
+		assertThrows(IndexOutOfBoundsException.class, ()
+				-> hand.getCardAt(2));
+	}
 }
