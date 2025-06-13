@@ -419,4 +419,15 @@ public class HandTest {
 				.count();
 		assertEquals(1, normalCount);
 	}
+
+	@Test
+	public void getAvailableCardTypes_withFiveCardsAndThreeDuplicates_returnsThreeUniqueTypes() {
+		Hand hand = handWithFiveCardsAndThreeDuplicates();
+		List<CardType> availableTypes = hand.getAvailableCardTypes();
+
+		assertEquals(3, availableTypes.size());
+		assertTrue(availableTypes.contains(CardType.DEFUSE));
+		assertTrue(availableTypes.contains(CardType.ATTACK));
+		assertTrue(availableTypes.contains(CardType.FAVOR));
+	}
 }
