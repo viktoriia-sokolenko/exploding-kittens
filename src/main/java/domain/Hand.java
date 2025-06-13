@@ -73,7 +73,15 @@ public class Hand {
 	public void getCardAt(int index) {
 		if (index < 0) {
 			throw new IndexOutOfBoundsException("Index cannot be negative");
-
 		}
+
+		if (isEmpty()) {
+			throw new IndexOutOfBoundsException("Hand is empty");
+		}
+
+		if (index >= getNumberOfCards()) {
+			throw new IndexOutOfBoundsException("Index out of bounds");
+		}
+
 	}
 }
