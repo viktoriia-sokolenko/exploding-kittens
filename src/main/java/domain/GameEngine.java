@@ -124,5 +124,14 @@ public class GameEngine {
 	public void handlePlayCommand(String[] parts, Player currentPlayer) {
 		Objects.requireNonNull(parts, "Player cannot be null");
 		Objects.requireNonNull(currentPlayer, "Card cannot be null");
+
+		final int MINIMUM_NUMBER_OF_PARTS = 2;
+		if (parts.length < MINIMUM_NUMBER_OF_PARTS) {
+			userInterface.displayError
+					("Usage: play <card_type> " +
+							"(e.g., 'play skip'" +
+							" or 'play attack')");
+			return;
+		}
 	}
 }
