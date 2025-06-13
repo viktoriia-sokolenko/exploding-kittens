@@ -1,10 +1,7 @@
 package domain;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 import ui.UserInterface;
 
@@ -134,6 +131,12 @@ public class GameEngine {
 			return;
 		}
 
+		String cardTypeName = String.join(" ", Arrays.copyOfRange(parts,
+				1, parts.length));
+		CardType cardTypeToPlay = currentPlayer.parseCardType(cardTypeName);
 
+		Card cardToPlay = cardFactory.createCard(cardTypeToPlay);
+		playCard(currentPlayer, cardToPlay);
+		userInterface.displayCardPlayed(cardToPlay);
 	}
 }
