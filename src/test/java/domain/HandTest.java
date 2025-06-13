@@ -510,7 +510,7 @@ public class HandTest {
 	@Test
 	public void parseCardType_withWhitespaceOnlyString_returnsNull() {
 		Hand hand = handWithOneCard(CardType.ATTACK);
-		CardType result = hand.parseCardType("   ");
+		CardType result = hand.parseCardType("	 ");
 		assertNull(result);
 	}
 
@@ -562,7 +562,7 @@ public class HandTest {
 	@Test
 	public void parseCardType_withLeadingAndTrailingWhitespace_returnsCardType() {
 		Hand hand = handWithOneCard(CardType.ATTACK);
-		CardType result = hand.parseCardType("  ATTACK  ");
+		CardType result = hand.parseCardType("	ATTACK	");
 		assertEquals(CardType.ATTACK, result);
 	}
 

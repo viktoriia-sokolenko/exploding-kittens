@@ -258,7 +258,7 @@ public class GameEngineTest {
 		assertTrue(deck.stream().anyMatch(card
 				-> card.getCardType() == CardType.FAVOR));
 	}
-	
+
 	@Test
 	public void showAvailableCardTypes_withNullPlayer_throwsNullPointerException() {
 		gameEngine = createValidGameEngine();

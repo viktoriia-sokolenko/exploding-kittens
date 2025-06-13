@@ -53,7 +53,7 @@ public class GameEngine {
 	public static List<Card> createInitialDeck(CardFactory cardFactory,
 												int numberOfPlayers) {
 
-        List<Card> deck = new ArrayList<>();
+		List<Card> deck = new ArrayList<>();
 		deck.addAll(cardFactory.createCards(CardType.ATTACK, 4));
 		deck.addAll(cardFactory.createCards(CardType.SKIP, 4));
 		deck.addAll(cardFactory.createCards(CardType.FAVOR, 4));
