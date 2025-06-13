@@ -619,4 +619,11 @@ public class HandTest {
 		CardType result = hand.parseCardType("shuf");
 		assertEquals(CardType.SHUFFLE, result);
 	}
+
+	@Test
+	public void parseCardType_withDuplicateCardsInHand_returnsCardType() {
+		Hand hand = handWithThreeCardsAndDuplicates();
+		CardType result = hand.parseCardType("NORMAL");
+		assertEquals(CardType.NORMAL, result);
+	}
 }
