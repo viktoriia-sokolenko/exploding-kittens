@@ -440,4 +440,32 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@Test
+	public void showAvailableCardTypes_withAllCardTypes_printsCompleteList() {
+		gameEngine = createValidGameEngine();
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		List<CardType> allCardTypes = Arrays.asList(CardType.values());
+		EasyMock.expect(mockPlayer.getAvailableCardTypes()).andReturn(allCardTypes);
+		EasyMock.replay(mockPlayer);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream));
+
+		try {
+			gameEngine.showAvailableCardTypes(mockPlayer);
+			String output = outputStream.toString();
+			assertTrue(output.startsWith("Available cards: "));
+			assertTrue(output.endsWith("\n"));
+			assertTrue(output.contains("see the future"));
+			assertTrue(output.contains("alter the future"));
+			assertTrue(output.contains("exploding kitten"));
+			assertTrue(output.contains(", "));
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayer);
+	}
+
 }
