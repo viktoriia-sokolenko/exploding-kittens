@@ -499,4 +499,11 @@ public class HandTest {
 		CardType result = hand.parseCardType(null);
 		assertNull(result);
 	}
+
+	@Test
+	public void parseCardType_withEmptyString_returnsNull() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("");
+		assertNull(result);
+	}
 }
