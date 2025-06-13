@@ -580,4 +580,10 @@ public class HandTest {
 		assertEquals(CardType.SEE_THE_FUTURE, result);
 	}
 
+	@Test
+	public void parseCardType_withPartialMatchNotInHand_returnsNull() {
+		Hand hand = handWithTwoCards();
+		CardType result = hand.parseCardType("DEF");
+		assertNull(result);
+	}
 }
