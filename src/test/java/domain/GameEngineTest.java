@@ -7,6 +7,8 @@ import ui.UserInterface;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,6 +35,54 @@ public class GameEngineTest {
 				mockUserInterface,
 				mockCardFactory
 		);
+	}
+
+	private GameEngine createValidGameEngine() {
+		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+	}
+
+	private Player createMockPlayer() {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.getNumberOfCards()).andStubReturn(5);
+		EasyMock.expect(mockPlayer.isInGame()).andStubReturn(true);
+		EasyMock.replay(mockPlayer);
+		return mockPlayer;
+	}
+
+	private Card createMockCard(CardType cardType) {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+		EasyMock.replay(mockCard);
+		return mockCard;
+	}
+
+	private void setupMocksForStartGame() {
+		List<Player> players = Arrays.asList(createMockPlayer(), createMockPlayer());
+		EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(players);
+
+		for (Player player : players) {
+			for (int i = 0; i < 4; i++) {
+				player.drawCard(mockDeck);
+				EasyMock.expectLastCall();
+			}
+
+		}
+		for (int i = 0; i < players.size() - 1; i++) {
+			EasyMock.expect(mockCardFactory.createCard(CardType.EXPLODING_KITTEN))
+					.andReturn(createMockCard(CardType.EXPLODING_KITTEN));
+			EasyMock.expect(mockDeck.getDeckSize()).andReturn(10);
+			mockDeck.insertCardAt(EasyMock.anyObject(), EasyMock.anyInt());
+			EasyMock.expectLastCall();
+		}
+
+		EasyMock.expect(mockCardFactory.createCard(CardType.DEFUSE))
+				.andReturn(createMockCard(CardType.DEFUSE)).times(players.size());
+
+		mockUserInterface.displayHelp();
+		EasyMock.expectLastCall();
+
+		EasyMock.replay(mockPlayerManager, mockDeck, mockCardFactory, mockUserInterface);
 	}
 
 	@Test
