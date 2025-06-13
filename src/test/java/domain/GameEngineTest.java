@@ -701,4 +701,53 @@ public class GameEngineTest {
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockTurnManager);
 	}
+
+	@Test
+	public void handleDrawCommand_withExplodingKitten_usesDefuseAndEndsTurn() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Card mockExplodingKitten = createMockCard(CardType.EXPLODING_KITTEN);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.hasCardType(CardType.DEFUSE))
+				.andReturn(true);
+		mockPlayer.removeDefuseCard();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(10).times(2);
+		EasyMock.expect(mockDeck.draw()).andReturn(mockExplodingKitten);
+		mockDeck.insertCardAt(EasyMock.eq(mockExplodingKitten),
+				EasyMock.anyInt());
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockDeck);
+
+		mockUserInterface.displayDrawnCard(mockExplodingKitten);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		mockTurnManager.advanceToNextPlayer();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.handleDrawCommand(mockPlayer);
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+			assertTrue
+					(output.contains("You drew an Exploding Kitten" +
+							" but used a Defuse card!"));
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayer);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockTurnManager);
+	}
 }
