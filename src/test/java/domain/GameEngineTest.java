@@ -750,4 +750,48 @@ public class GameEngineTest {
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockTurnManager);
 	}
+
+	@Test
+	public void handleDrawCommand_withExplodingKittenAndNoDefuse_removesPlayerAndReturns() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Card mockExplodingKitten = createMockCard(CardType.EXPLODING_KITTEN);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.hasCardType(CardType.DEFUSE)).andReturn(false);
+		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(10);
+		EasyMock.expect(mockDeck.draw()).andReturn(mockExplodingKitten);
+		EasyMock.replay(mockDeck);
+
+		mockUserInterface.displayDrawnCard(mockExplodingKitten);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		mockPlayerManager.removePlayerFromGame(mockPlayer);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockPlayerManager);
+
+		EasyMock.replay(mockTurnManager);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.handleDrawCommand(mockPlayer);
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+			assertTrue(output.contains("BOOM! You drew an Exploding Kitten and had no Defuse card!"));
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayer);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockTurnManager);
+	}
 }
