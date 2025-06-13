@@ -487,4 +487,22 @@ public class GameEngineTest {
 				() -> gameEngine.handlePlayCommand(parts, null));
 	}
 
+	@Test
+	public void handlePlayCommand_withInsufficientParts_displaysUsageError() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+
+		mockUserInterface.displayError("Usage: play <card_type> (e.g., 'play skip' or 'play attack')");
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		String[] parts = {"play"};
+		gameEngine.handlePlayCommand(parts, mockPlayer);
+
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockPlayer);
+	}
 }
