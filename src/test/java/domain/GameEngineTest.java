@@ -413,4 +413,31 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@Test
+	public void showAvailableCardTypes_withSingleCardTypeWithUnderscore_formatsCorrectly() {
+		gameEngine = createValidGameEngine();
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		List<CardType> singleUnderscoreCard =
+				List.of(CardType.EXPLODING_KITTEN);
+		EasyMock.expect(mockPlayer.getAvailableCardTypes()
+		).andReturn(singleUnderscoreCard);
+		EasyMock.replay(mockPlayer);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream));
+
+		try {
+			gameEngine.showAvailableCardTypes(mockPlayer);
+			assertEquals(
+					"Available cards:" +
+							" exploding kitten\n",
+					outputStream.toString());
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayer);
+	}
+
 }
