@@ -25,6 +25,10 @@ public class GameEngineTest {
 	private UserInterface mockUserInterface;
 	private Deck mockDeck;
 	private CardFactory mockCardFactory;
+	private static final int MIN_PLAYERS = 2;
+	private static final int MAX_PLAYERS = 5;
+	private static final int THREE_PLAYERS = 3;
+	private static final int FOUR_PLAYERS = 4;
 
 	@BeforeEach
 	public void setUp() {
@@ -65,7 +69,7 @@ public class GameEngineTest {
 		EasyMock.replay(mockCard);
 		return mockCard;
 	}
-	
+
 	@Test
 	public void constructor_withNullTurnManager_throwsNullPointerException() {
 		NullPointerException thrown = assertThrows(
@@ -195,7 +199,7 @@ public class GameEngineTest {
 
 
 	@ParameterizedTest
-	@ValueSource(ints = {2, 3, 4, 5})
+	@ValueSource(ints = {MIN_PLAYERS, THREE_PLAYERS, FOUR_PLAYERS, MAX_PLAYERS})
 	public void createInitialDeck_withValidPlayerCount_createsCorrectDeck(int numPlayers) {
 		CardFactory factory = new CardFactory();
 		List<Card> deck = GameEngine.createInitialDeck(factory, numPlayers);
@@ -327,7 +331,10 @@ public class GameEngineTest {
 		gameEngine = createValidGameEngine();
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		List<CardType> mixedCardsList = Arrays.asList(
-				CardType.SKIP, CardType.SEE_THE_FUTURE, CardType.NORMAL, CardType.DEFUSE);
+				CardType.SKIP,
+				CardType.SEE_THE_FUTURE,
+				CardType.NORMAL,
+				CardType.DEFUSE);
 		EasyMock.expect(mockPlayer.getAvailableCardTypes()).andReturn(mixedCardsList);
 		EasyMock.replay(mockPlayer);
 
@@ -430,7 +437,11 @@ public class GameEngineTest {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
 
-		mockUserInterface.displayError("Usage: play <card_type> (e.g., 'play skip' or 'play attack')");
+		mockUserInterface
+				.displayError(
+						"Usage: play <card_type> " +
+								"(e.g., 'play skip'" +
+								" or 'play attack')");
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
