@@ -291,4 +291,17 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void hasCardType_withCardInHand_returnsTrue(CardType testCardType) {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.containsCardType(testCardType)).andReturn(true);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		assertTrue(player.hasCardType(testCardType));
+
+		EasyMock.verify(mockHand);
+	}
 }
