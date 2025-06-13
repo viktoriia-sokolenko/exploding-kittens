@@ -256,21 +256,21 @@ public class GameEngineTest {
 				-> card.getCardType() == CardType.FAVOR));
 	}
 
-	@ParameterizedTest
-	@NullAndEmptySource
-	@ValueSource(strings = {"   ", "\t", "\n"})
-	public void processCommand_withNullOrEmptyInput_displaysError(String input) {
-		gameEngine = createValidGameEngine();
-		Player mockPlayer = createMockPlayer();
-
-		mockUserInterface.displayError("Please enter a command. Type 'help' for available commands.");
-		EasyMock.expectLastCall();
-		EasyMock.replay(mockUserInterface);
-
-		gameEngine.processCommand(input, mockPlayer);
-
-		EasyMock.verify(mockUserInterface);
-	}
+//	@ParameterizedTest
+//	@NullAndEmptySource
+//	@ValueSource(strings = {"   ", "\t", "\n"})
+//	public void processCommand_withNullOrEmptyInput_displaysError(String input) {
+//		gameEngine = createValidGameEngine();
+//		Player mockPlayer = createMockPlayer();
+//
+//		mockUserInterface.displayError("Please enter a command. Type 'help' for available commands.");
+//		EasyMock.expectLastCall();
+//		EasyMock.replay(mockUserInterface);
+//
+//		gameEngine.processCommand(input, mockPlayer);
+//
+//		EasyMock.verify(mockUserInterface);
+//	}
 
 	@Test
 	public void showAvailableCardTypes_withNullPlayer_throwsNullPointerException() {

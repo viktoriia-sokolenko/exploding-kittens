@@ -104,4 +104,9 @@ public class GameEngine {
 		return new GameEngine(turnManager, playerManager, deck, userInterface,
 				cardFactory);
 	}
+
+	public void showAvailableCardTypes(Player player) {
+		Objects.requireNonNull(player, "Player cannot be null");
+	}
+
 }
