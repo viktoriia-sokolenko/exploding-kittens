@@ -20,6 +20,21 @@ public class CardTest {
 		}
 	}
 
+	private static class AnotherTestCard extends Card {
+		public AnotherTestCard(CardType cardType) {
+			super(cardType);
+		}
+
+		@Override
+		public CardEffect createEffect() {
+			return new CardEffect() {
+				@Override
+				public void execute(GameContext context) {
+				}
+			};
+		}
+	}
+
 	@Test
 	public void constructor_withNullType_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> new TestCard(null));
@@ -84,5 +99,13 @@ public class CardTest {
 		CardType type = CardType.ATTACK;
 		Card card = new TestCard(type);
 		assertEquals(type, card.getCardType());
+	}
+
+	@Test
+	public void equals_compareWithDifferentCardSubclass_returnsFalse() {
+		CardType type = CardType.NORMAL;
+		Card card1 = new TestCard(type);
+		Card card2 = new AnotherTestCard(type);
+		assertNotEquals(card1, card2);
 	}
 }
