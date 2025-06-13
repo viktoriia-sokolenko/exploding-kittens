@@ -359,4 +359,32 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockPlayer);
 	}
+
+	@Test
+	public void showAvailableCardTypes_withUnderscoreCardType_replacesUnderscoresWithSpaces() {
+		gameEngine = createValidGameEngine();
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		List<CardType> underscoreCardsList = Arrays.asList(
+				CardType.SEE_THE_FUTURE, CardType.ALTER_THE_FUTURE);
+		EasyMock.expect(mockPlayer.getAvailableCardTypes())
+				.andReturn(underscoreCardsList);
+		EasyMock.replay(mockPlayer);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream));
+
+		try {
+			gameEngine.showAvailableCardTypes(mockPlayer);
+			assertEquals(
+					"Available cards: see the future, " +
+							"alter the future\n",
+					outputStream.toString());
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayer);
+	}
+
 }
