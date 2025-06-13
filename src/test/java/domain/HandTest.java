@@ -159,46 +159,43 @@ public class HandTest {
 	}
 
 	@Test
-	public void removeCard_withNullCard_throwsNullPointerException() {
+	public void removeCardType_withNullCard_throwsNullPointerException() {
 		Hand hand = handWithOneCard(CardType.ATTACK);
-		assertThrows(NullPointerException.class, () -> hand.removeCard(null));
+		assertThrows(NullPointerException.class, () -> hand.removeCardType(null));
 	}
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	public void removeCard_withEmptyHand_throwsIllegalStateException(CardType testCardType) {
+	public void removeCardType_withEmptyHand_throwsIllegalStateException(
+			CardType testCardType) {
 		Hand emptyHand = new Hand();
-		Card card = mockCard(testCardType);
-		assertThrows(IllegalStateException.class, () -> emptyHand.removeCard(card));
+		assertThrows(IllegalStateException.class,
+				() -> emptyHand.removeCardType(testCardType));
 	}
 
 	@Test
-	public void removeCard_withCardNotInHand_throwsIllegalArgumentException() {
+	public void removeCardType_withCardNotInHand_throwsIllegalArgumentException() {
 		Hand hand = handWithTwoCards();
-		Card card = mockCard(CardType.DEFUSE);
-		assertThrows(IllegalArgumentException.class, () -> hand.removeCard(card));
+		CardType cardType = CardType.DEFUSE;
+		assertThrows(IllegalArgumentException.class, () -> hand.removeCardType(cardType));
 	}
 
 	@ParameterizedTest
 	@EnumSource(value = CardType.class,
 			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
-	public void removeCard_withOneCardInHand_emptiesHand(CardType testCardType) {
-		Card card = mockCard(testCardType);
-
+	public void removeCardType_withOneCardInHand_emptiesHand(CardType testCardType) {
 		Hand hand = handWithOneCard(testCardType);
-		hand.removeCard(card);
+		hand.removeCardType(testCardType);
 
 		assertTrue(hand.isEmpty());
 		assertFalse(hand.containsCardType(testCardType));
 	}
 
 	@Test
-	public void removeCard_withTwoCardsInHand_removesCard() {
+	public void removeCardType_withTwoCardsInHand_removesCard() {
 		CardType cardType = CardType.SEE_THE_FUTURE;
-		Card card = mockCard(cardType);
-
 		Hand hand = handWithTwoCards();
-		hand.removeCard(card);
+		hand.removeCardType(cardType);
 
 		int expectedNumberOfCards = 1;
 		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
@@ -207,12 +204,10 @@ public class HandTest {
 	}
 
 	@Test
-	public void removeCard_withDuplicateCardsInHand_removesOnlyOneCard() {
+	public void removeCardType_withDuplicateCardsInHand_removesOnlyOneCard() {
 		CardType cardType = CardType.NORMAL;
-		Card card = mockCard(cardType);
-
 		Hand hand = handWithThreeCardsAndDuplicates();
-		hand.removeCard(card);
+		hand.removeCardType(cardType);
 
 		int expectedNumberOfCards = 2;
 		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());

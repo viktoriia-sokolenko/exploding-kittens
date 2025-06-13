@@ -148,7 +148,7 @@ public class PlayerTest {
 	@Test
 	public void removeCardFromHand_withNullCard_throwsNullPointerException() {
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		mockHand.removeCard(null);
+		mockHand.removeCardType(null);
 		EasyMock.expectLastCall().andThrow(new NullPointerException("Card cannot be null"));
 		EasyMock.replay(mockHand);
 
@@ -163,7 +163,7 @@ public class PlayerTest {
 	public void removeCardFromHand_withEmptyHand_throwsIllegalStateException
 			(CardType testCardType) {
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		mockHand.removeCard(EasyMock.anyObject(Card.class));
+		mockHand.removeCardType(testCardType);
 		EasyMock.expectLastCall()
 				.andThrow(new IllegalStateException
 						("Hand empty: can not remove card"));
@@ -171,7 +171,7 @@ public class PlayerTest {
 
 		Player player = new Player(mockHand);
 		assertThrows(IllegalStateException.class,
-				() -> player.removeCardFromHand(mockCard(testCardType)));
+				() -> player.removeCardFromHand(testCardType));
 
 		EasyMock.verify(mockHand);
 	}
@@ -181,7 +181,7 @@ public class PlayerTest {
 	public void removeCardFromHand_withCardNotInHand_throwsIllegalArgumentException
 			(CardType testCardType) {
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		mockHand.removeCard(EasyMock.anyObject(Card.class));
+		mockHand.removeCardType(testCardType);
 		EasyMock.expectLastCall()
 				.andThrow(new IllegalArgumentException
 						("Card not in hand: can not remove card"));
@@ -189,7 +189,7 @@ public class PlayerTest {
 
 		Player player = new Player(mockHand);
 		assertThrows(IllegalArgumentException.class,
-				() -> player.removeCardFromHand(mockCard(testCardType)));
+				() -> player.removeCardFromHand(testCardType));
 
 		EasyMock.verify(mockHand);
 	}
@@ -199,13 +199,12 @@ public class PlayerTest {
 			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
 	public void removeCardFromHand_withCardInHand_removesCard(CardType testCardType) {
 		Hand mockHand = EasyMock.createMock(Hand.class);
-		mockHand.removeCard(EasyMock.anyObject(Card.class));
+		mockHand.removeCardType(testCardType);
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockHand);
 
-		Card testCard = mockCard(testCardType);
 		Player player = new Player(mockHand);
-		player.removeCardFromHand(testCard);
+		player.removeCardFromHand(testCardType);
 
 		EasyMock.verify(mockHand);
 	}

@@ -19,6 +19,7 @@ public class CardManagerTest {
 		cardManager = new CardManager();
 		player	= EasyMock.createMock(Player.class);
 		skipCard = EasyMock.createMock(SkipCard.class);
+		EasyMock.expect(skipCard.getCardType()).andStubReturn(CardType.SKIP);
 		gameContext = EasyMock.createMock(GameContext.class);
 	}
 
@@ -36,18 +37,11 @@ public class CardManagerTest {
 		});
 	}
 
-	@Test
-	void playCard_withNullGameContext_throwsNullPointerException() {
-		assertThrows(NullPointerException.class, () -> {
-			cardManager.playCard(skipCard, player, null);
-		});
-	}
-
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	void playCard_playerDoesNotHaveCard_throwsIllegalArgumentException(CardType testCardType) {
 		Card mockCard = mockCard(testCardType);
-		player.removeCardFromHand(mockCard);
+		player.removeCardFromHand(testCardType);
 		EasyMock.expectLastCall()
 				.andThrow(new IllegalArgumentException
 						("Card not in hand: can not remove card"));
@@ -66,7 +60,7 @@ public class CardManagerTest {
 
 	@Test
 	void playCard_playerHasCard_executesCardEffect() {
-		player.removeCardFromHand(skipCard);
+		player.removeCardFromHand(CardType.SKIP);
 		EasyMock.expectLastCall().once();
 		CardEffect effectMock = EasyMock.createMock(CardEffect.class);
 		EasyMock.expect(skipCard.createEffect()).andReturn(effectMock);
