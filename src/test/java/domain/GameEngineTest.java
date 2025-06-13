@@ -271,4 +271,17 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockUserInterface);
 	}
+
+	@Test
+	public void showAvailableCardTypes_withNullPlayer_throwsNullPointerException() {
+		gameEngine = createValidGameEngine();
+
+		NullPointerException exception = assertThrows(
+				NullPointerException.class,
+				() -> gameEngine.showAvailableCardTypes(null)
+		);
+
+		assertEquals("Player cannot be null", exception.getMessage());
+	}
+
 }
