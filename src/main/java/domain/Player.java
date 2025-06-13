@@ -41,9 +41,6 @@ public class Player {
 		}
 	}
 
-	public Hand getHand() {
-		return hand;
-	}
 
 	public int getNumberOfCards() {
 		return hand.getNumberOfCards();
