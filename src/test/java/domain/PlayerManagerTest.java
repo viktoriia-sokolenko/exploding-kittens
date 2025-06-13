@@ -163,10 +163,23 @@ public class PlayerManagerTest {
 	@Test
 	void getPlayerByIndex_twoPlayersWithZeroIndex_returnsFirstPlayer() {
 		playerManager.addPlayers(2);
-		List <Player> players = playerManager.getPlayers();
-		Player expectedPlayer = players.get(0);
-		Player actualPlayer = playerManager.getPlayerByIndex(0);
-		assertEquals(expectedPlayer, actualPlayer);
+		List <Player> allPlayers = playerManager.getPlayers();
+		assertDoesNotThrow(() -> {
+			Player expectedPlayer = allPlayers.get(0);
+			Player actualPlayer = playerManager.getPlayerByIndex(0);
+			assertEquals(expectedPlayer, actualPlayer);
+		});
+	}
+
+	@Test
+	void getPlayerByIndex_twoPlayersWithOneIndex_returnsSecondPlayer() {
+		playerManager.addPlayers(2);
+		List <Player> allPlayers = playerManager.getPlayers();
+		assertDoesNotThrow(() -> {
+			Player expectedPlayer = allPlayers.get(1);
+			Player actualPlayer = playerManager.getPlayerByIndex(1);
+			assertEquals(expectedPlayer, actualPlayer);
+		});
 	}
 
 	private Deck mockDeck() {
