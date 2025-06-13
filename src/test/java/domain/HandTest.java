@@ -373,4 +373,10 @@ public class HandTest {
 
 		return hand;
 	}
+
+	@Test
+	public void getCardAt_withNegativeIndex_throwsIndexOutOfBoundsException() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		assertThrows(IndexOutOfBoundsException.class, () -> hand.getCardAt(-1));
+	}
 }
