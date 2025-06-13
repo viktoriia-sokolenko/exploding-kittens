@@ -380,4 +380,10 @@ public class HandTest {
 		assertThrows(IndexOutOfBoundsException.class, () ->
 				hand.getCardAt(-1));
 	}
+
+	@Test
+	public void getCardAt_withEmptyHand_throwsIndexOutOfBoundsException() {
+		Hand emptyHand = new Hand();
+		assertThrows(IndexOutOfBoundsException.class, () -> emptyHand.getCardAt(0));
+	}
 }
