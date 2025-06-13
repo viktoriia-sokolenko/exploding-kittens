@@ -464,4 +464,20 @@ public class HandTest {
 		assertTrue(availableTypesAfter.contains(CardType.SKIP));
 	}
 
+	@Test
+	public void getAvailableCardTypes_afterAddingCard_includesNewType() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		Card newCard = mockCard(CardType.DEFUSE);
+
+		List<CardType> availableTypesBefore = hand.getAvailableCardTypes();
+		assertEquals(1, availableTypesBefore.size());
+		assertTrue(availableTypesBefore.contains(CardType.ATTACK));
+		hand.addCard(newCard);
+		List<CardType> availableTypesAfter = hand.getAvailableCardTypes();
+
+		assertEquals(2, availableTypesAfter.size());
+		assertTrue(availableTypesAfter.contains(CardType.ATTACK));
+		assertTrue(availableTypesAfter.contains(CardType.DEFUSE));
+	}
+
 }
