@@ -160,6 +160,15 @@ public class PlayerManagerTest {
 				() -> playerManager.getPlayerByIndex(2));
 	}
 
+	@Test
+	void getPlayerByIndex_twoPlayersWithZeroIndex_returnsFirstPlayer() {
+		playerManager.addPlayers(2);
+		List <Player> players = playerManager.getPlayers();
+		Player expectedPlayer = players.get(0);
+		Player actualPlayer = playerManager.getPlayerByIndex(0);
+		assertEquals(expectedPlayer, actualPlayer);
+	}
+
 	private Deck mockDeck() {
 		return EasyMock.createMock(Deck.class);
 	}
