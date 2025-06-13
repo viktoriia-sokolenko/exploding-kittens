@@ -251,4 +251,5 @@ public class PlayerTest {
 		assertEquals(5, result);
 		EasyMock.verify(mockHand);
 	}
+
 }
