@@ -69,33 +69,7 @@ public class Hand {
 	private boolean isValidCount (Integer count) {
 		return count != null;
 	}
-
-	private Card createCardByType(CardType cardType) {
-		switch (cardType) {
-			case SKIP:
-				return new SkipCard();
-			case ATTACK:
-				return new AttackCard();
-			case FAVOR:
-				return new FavorCard();
-			case DEFUSE:
-				return new DefuseCard();
-			case SEE_THE_FUTURE:
-				return new SeeTheFutureCard();
-			case SHUFFLE:
-				return new ShuffleCard();
-			case ALTER_THE_FUTURE:
-				return new AlterTheFutureCard();
-			case NORMAL:
-				return new NormalCard();
-			case NUKE:
-				return new NukeCard();
-			default:
-				throw new IllegalArgumentException("Unknown card type: "
-						+ cardType);
-		}
-	}
-
+	
 	public List<CardType> getAvailableCardTypes() {
 		List<CardType> availableTypes = new ArrayList<>();
 		for (CardType type : CardType.values()) {
