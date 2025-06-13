@@ -669,6 +669,7 @@ public class GameEngineTest {
 		EasyMock.verify(mockUserInterface);
 	}
 
+
 	@Test
 	public void handleDrawCommand_withNormalCard_addsCardToHandAndEndsTurn() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
@@ -689,7 +690,7 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
-		mockTurnManager.endTurnWithoutDraw();
+		mockTurnManager.advanceToNextPlayer();
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockTurnManager);
 
