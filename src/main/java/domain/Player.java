@@ -67,4 +67,8 @@ public class Player {
 	public List<CardType> getAvailableCardTypes() {
 		return hand.getAvailableCardTypes();
 	}
+
+	public boolean hasEmptyHand() {
+		return hand.isEmpty();
+	}
 }
