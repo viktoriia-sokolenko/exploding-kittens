@@ -107,6 +107,17 @@ public class GameEngine {
 
 	public void showAvailableCardTypes(Player player) {
 		Objects.requireNonNull(player, "Player cannot be null");
+		List<CardType> available = player.getAvailableCardTypes();
+		if (!available.isEmpty()) {
+			System.out.print("Available cards: ");
+			for (int i = 0; i < available.size(); i++) {
+				System.out.print(available.get(i)
+						.name().toLowerCase()
+						.replace("_", " "));
+				if (i < available.size() - 1) System.out.print(", ");
+			}
+			System.out.println();
+		}
 	}
 
 }
