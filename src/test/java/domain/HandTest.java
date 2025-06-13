@@ -404,4 +404,19 @@ public class HandTest {
 		assertTrue(availableTypes.contains(CardType.SEE_THE_FUTURE));
 		assertTrue(availableTypes.contains(CardType.SHUFFLE));
 	}
+
+	@Test
+	public void getAvailableCardTypes_withDuplicateCardsInHand_returnsUniqueTypes() {
+		Hand hand = handWithThreeCardsAndDuplicates();
+		List<CardType> availableTypes = hand.getAvailableCardTypes();
+
+		assertEquals(2, availableTypes.size());
+		assertTrue(availableTypes.contains(CardType.SKIP));
+		assertTrue(availableTypes.contains(CardType.NORMAL));
+
+		long normalCount = availableTypes.stream()
+				.filter(type -> type == CardType.NORMAL)
+				.count();
+		assertEquals(1, normalCount);
+	}
 }
