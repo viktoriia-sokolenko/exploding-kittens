@@ -668,4 +668,36 @@ public class GameEngineTest {
 		EasyMock.verify(mockDeck);
 		EasyMock.verify(mockUserInterface);
 	}
+
+	@Test
+	public void handleDrawCommand_withNormalCard_addsCardToHandAndEndsTurn() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Card mockNormalCard = createMockCard(CardType.NORMAL);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		mockPlayer.addCardToHand(mockNormalCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(10);
+		EasyMock.expect(mockDeck.draw()).andReturn(mockNormalCard);
+		EasyMock.replay(mockDeck);
+
+		mockUserInterface.displayDrawnCard(mockNormalCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		gameEngine.handleDrawCommand(mockPlayer);
+
+		EasyMock.verify(mockPlayer);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockTurnManager);
+	}
 }
