@@ -292,7 +292,8 @@ public class GameEngineTest {
 		gameEngine = createValidGameEngine();
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		List<CardType> emptyList = new ArrayList<>();
-		EasyMock.expect(mockPlayer.getAvailableCardTypes()).andReturn(emptyList);
+		EasyMock.expect(mockPlayer.getAvailableCardTypes())
+				.andReturn(emptyList);
 		EasyMock.replay(mockPlayer);
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -315,7 +316,8 @@ public class GameEngineTest {
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		List<CardType> singleCardList = Arrays.asList(CardType.ATTACK);
-		EasyMock.expect(mockPlayer.getAvailableCardTypes()).andReturn(singleCardList);
+		EasyMock.expect(mockPlayer.getAvailableCardTypes())
+				.andReturn(singleCardList);
 		EasyMock.replay(mockPlayer);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
@@ -324,6 +326,32 @@ public class GameEngineTest {
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			assertEquals("Available cards: attack\n",
+					outputStream.toString());
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	public void showAvailableCardTypes_withMultipleCardTypes_printsCommaSeparatedList() {
+		gameEngine = createValidGameEngine();
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		List<CardType> multipleCardsList = Arrays.asList(
+				CardType.ATTACK, CardType.SKIP, CardType.FAVOR);
+		EasyMock.expect(mockPlayer.getAvailableCardTypes())
+				.andReturn(multipleCardsList);
+		EasyMock.replay(mockPlayer);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream));
+
+		try {
+			gameEngine.showAvailableCardTypes(mockPlayer);
+			assertEquals("Available cards: attack, skip, favor\n",
 					outputStream.toString());
 		} finally {
 			System.setOut(originalOut);
