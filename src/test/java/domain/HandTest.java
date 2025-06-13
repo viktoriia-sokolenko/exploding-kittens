@@ -626,4 +626,18 @@ public class HandTest {
 		CardType result = hand.parseCardType("NORMAL");
 		assertEquals(CardType.NORMAL, result);
 	}
+
+	@Test
+	public void parseCardType_afterRemovingAllCardsOfType_returnsNull() {
+		Hand hand = handWithOneCard(CardType.FAVOR);
+		Card favorCard = mockCard(CardType.FAVOR);
+
+		CardType resultBefore = hand.parseCardType("FAVOR");
+		assertEquals(CardType.FAVOR, resultBefore);
+
+		hand.removeCard(favorCard);
+		CardType resultAfter = hand.parseCardType("FAVOR");
+		assertNull(resultAfter);
+	}
+
 }
