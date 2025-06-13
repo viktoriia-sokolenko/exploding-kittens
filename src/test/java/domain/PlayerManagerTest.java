@@ -142,8 +142,15 @@ public class PlayerManagerTest {
 
 	@Test
 	void getPlayerByIndex_withNegativeIndex_throwsIndexOutOfBoundsException() {
+		playerManager.addPlayers(2);
 		assertThrows(IndexOutOfBoundsException.class,
 				() -> playerManager.getPlayerByIndex(-1));
+	}
+
+	@Test
+	void getPlayerByIndex_noPlayersWithPositiveIndex_throwsIndexOutOfBoundsException() {
+		assertThrows(IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(1));
 	}
 
 	private Deck mockDeck() {

@@ -162,7 +162,7 @@ The `PlayerManager` oversees player setup, hand allocation via an injected `Deck
 |             | System under test                        | Expected output             | Implemented?       | Test name                                                                   |
 |-------------|------------------------------------------|-----------------------------|--------------------|-----------------------------------------------------------------------------|
 | Test Case 1 | index `-1`, players `[player1, player2]` | `IndexOutOfBoundsException` | :white_check_mark: | getPlayerByIndex_withNegativeIndex_throwsIndexOutOfBoundsException          |
-| Test Case 2 | index `1`, players `[]`                  | `IndexOutOfBoundsException` |                    | getNumberOfCards_noPlayersWithPositiveIndex_throwsIndexOutOfBoundsException |
-| Test Case 3 | index `2`, players `[player1, player2]`  | `IndexOutOfBoundsException` |                    | getNumberOfCards_twoPlayersWithTwoIndex_throwsIndexOutOfBoundsException     |
-| Test Case 4 | index `0`, players `[player]`            | `player`                    |                    | getNumberOfCards_onePlayerWithZeroIndex_returnsOnlyPlayer                   |
-| Test Case 5 | index `1`, players `[player1, player2]`  | `player2`                   |                    | getNumberOfCards_twoPlayersWithOneIndex_returnsSecondPlayer                 |
+| Test Case 2 | index `1`, players `[]`                  | `IndexOutOfBoundsException` | :white_check_mark: | getPlayerByIndex_noPlayersWithPositiveIndex_throwsIndexOutOfBoundsException |
+| Test Case 3 | index `2`, players `[player1, player2]`  | `IndexOutOfBoundsException` |                    | getPlayerByIndex_twoPlayersWithTwoIndex_throwsIndexOutOfBoundsException     |
+| Test Case 4 | index `0`, players `[player]`            | `player`                    |                    | getPlayerByIndex_onePlayerWithZeroIndex_returnsOnlyPlayer                   |
+| Test Case 5 | index `1`, players `[player1, player2]`  | `player2`                   |                    | getPlayerByIndex_twoPlayersWithOneIndex_returnsSecondPlayer                 |
