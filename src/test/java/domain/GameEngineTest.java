@@ -387,4 +387,30 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@Test
+	public void showAvailableCardTypes_withMixedCardTypes_formatsAllCorrectly() {
+		gameEngine = createValidGameEngine();
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		List<CardType> mixedCardsList = Arrays.asList(
+				CardType.SKIP, CardType.SEE_THE_FUTURE, CardType.NORMAL, CardType.DEFUSE);
+		EasyMock.expect(mockPlayer.getAvailableCardTypes()).andReturn(mixedCardsList);
+		EasyMock.replay(mockPlayer);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream));
+
+		try {
+			gameEngine.showAvailableCardTypes(mockPlayer);
+			assertEquals(
+					"Available cards: skip, " +
+							"see the future, normal, defuse\n",
+					outputStream.toString());
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayer);
+	}
+
 }
