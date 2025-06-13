@@ -80,7 +80,8 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream("3\n".getBytes()));
 		UserInterface ui = new UserInterface();
 		int n = ui.getNumberOfPlayers();
-		assertEquals(3, n);
+		final int NUMBER_OF_PLAYERS = 3;
+		assertEquals(NUMBER_OF_PLAYERS, n);
 		assertEquals("", errContent.toString());
 	}
 
@@ -91,12 +92,14 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream((input + "\n").getBytes()));
 		UserInterface ui = new UserInterface();
 		int n = ui.getNumberOfPlayers();
-		assertEquals(2, n);
+		final int NUMBER_OF_PLAYERS = 2;
+		assertEquals(NUMBER_OF_PLAYERS, n);
 		String err = errContent.toString();
 		int occurrences = err.split(
 				"Please enter a number between 2 and 5", -1)
 				.length - 1;
-		assertEquals(2, occurrences);
+		final int NUM_OF_OCCURENCES = 2;
+		assertEquals(NUM_OF_OCCURENCES, occurrences);
 	}
 
 	@Test

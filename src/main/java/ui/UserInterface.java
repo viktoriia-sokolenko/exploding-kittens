@@ -18,9 +18,10 @@ public class UserInterface {
 	}
 
 	public void displayWelcome() {
-		System.out.println("=================================");
-		System.out.println("   EXPLODING KITTENS");
-		System.out.println("==================================\n");
+		final String border = "=================================";
+		System.out.println(border);
+		System.out.println("\tEXPLODING KITTENS");
+		System.out.println(border + "\n");
 	}
 
 	public void displayHelp() {

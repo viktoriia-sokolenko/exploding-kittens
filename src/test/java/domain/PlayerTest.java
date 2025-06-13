@@ -197,7 +197,8 @@ public class PlayerTest {
 	@ParameterizedTest
 	@EnumSource(value = CardType.class,
 			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
-	public void removeCardFromHand_withCardInHand_removesCard(CardType testCardType) {
+	public void removeCardFromHand_withCardInHand_removesCard
+			(CardType testCardType) {
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		mockHand.removeCard(EasyMock.anyObject(Card.class));
 		EasyMock.expectLastCall();
@@ -232,7 +233,8 @@ public class PlayerTest {
 		Hand returnedHand = player.getHand();
 		assertSame(mockHand, returnedHand,
 				"getPlayerHand() " +
-						"should return the hand passed into the constructor");
+						"should return the hand " +
+						"passed into the constructor");
 
 		EasyMock.verify(mockHand);
 	}
