@@ -526,4 +526,34 @@ public class GameEngineTest {
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockPlayer);
 	}
+
+	@Test
+	public void handlePlayCommand_withValidCardType_playsCard() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Card mockSkipCard = createMockCard(CardType.SKIP);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.parseCardType("skip")).andReturn(CardType.SKIP);
+		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockCardFactory.createCard(CardType.SKIP)).andReturn(mockSkipCard);
+		EasyMock.replay(mockCardFactory);
+
+		mockUserInterface.displayCardPlayed(mockSkipCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		String[] parts = {"play", "skip"};
+		gameEngine.handlePlayCommand(parts, mockPlayer);
+
+		EasyMock.verify(mockPlayer);
+		EasyMock.verify(mockCardFactory);
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockTurnManager);
+	}
 }
