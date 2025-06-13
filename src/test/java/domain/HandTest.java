@@ -586,4 +586,11 @@ public class HandTest {
 		CardType result = hand.parseCardType("DEF");
 		assertNull(result);
 	}
+
+	@Test
+	public void parseCardType_withNoMatch_returnsNull() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("INVALID_CARD");
+		assertNull(result);
+	}
 }
