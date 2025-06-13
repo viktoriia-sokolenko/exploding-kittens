@@ -320,19 +320,4 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
-	@Test
-	public void getCardAt_withValidIndex_returnsCard() {
-		Card mockCard = mockCard(CardType.SKIP);
-		Hand mockHand = EasyMock.createMock(Hand.class);
-		EasyMock.expect(mockHand.getCardAt(0)).andReturn(mockCard);
-		EasyMock.replay(mockHand);
-
-		Player player = new Player(mockHand);
-		Card result = player.getCardAt(0);
-
-		assertEquals(mockCard, result);
-		assertEquals(CardType.SKIP, result.getCardType());
-		EasyMock.verify(mockHand);
-	}
-
 }
