@@ -480,4 +480,16 @@ public class HandTest {
 		assertTrue(availableTypesAfter.contains(CardType.DEFUSE));
 	}
 
+	@Test
+	public void getAvailableCardTypes_returnsNewListInstance() {
+		Hand hand = handWithTwoCards();
+
+		List<CardType> availableTypes1 = hand.getAvailableCardTypes();
+		List<CardType> availableTypes2 = hand.getAvailableCardTypes();
+
+		assertNotSame(availableTypes1, availableTypes2);
+
+		assertEquals(availableTypes1.size(), availableTypes2.size());
+		assertTrue(availableTypes1.containsAll(availableTypes2));
+	}
 }
