@@ -558,4 +558,11 @@ public class HandTest {
 		CardType result = hand.parseCardType("see the future");
 		assertEquals(CardType.SEE_THE_FUTURE, result);
 	}
+
+	@Test
+	public void parseCardType_withLeadingAndTrailingWhitespace_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("  ATTACK  ");
+		assertEquals(CardType.ATTACK, result);
+	}
 }
