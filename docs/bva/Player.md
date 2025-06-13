@@ -48,3 +48,43 @@ I am using Parametrized Testing, so whenever I use `testCardType1` or `testCard1
 | Test Case 3 | Card `testCard1`, hand `without testCard1` | `IllegalArgumentException` (“Card not in hand: can not remove card”) | :white_check_mark: | removeCardFromHand_withCardNotInHand_throwsIllegalArgumentException |
 | Test Case 4 | Card `testCard2`, hand `[...testCard2...]` | hand `without testCard2`                                             | :white_check_mark: | removeCardFromHand_withCardInHand_removesCard                       |
 
+
+## Method under test: `getNumberOfCards()`
+
+### Step 1‑3 Results
+
+||Input 1 (state of hand)|Input 2|Output (count)|
+|---|---|---|---|
+|**Step 1**|number of cards currently in hand|—|integer (`0 … n`)|
+|**Step 2**|**Cases**|—|**Count**|
+|**Step 3**|`0`, `5`, `15` cards|—|`0`; `5`; `15`|
+
+### Step 4
+
+||System under test|Expected output|Implemented?|Test name|
+|---|---|---|---|---|
+|Test Case 1|Hand with **5** cards|`5`|✅|`getNumberOfCards_returnsNumberOfCards`|
+|Test Case 2|Hand with **15** cards|`15`|✅|`getNumberOfCards_withManyCards_returnsCorrectCount`|
+
+---
+
+## Method under test: `hasCardType(CardType cardType)`
+
+### Step 1‑3 Results
+
+||Input 1 (cardType)|Input 2 (state of hand)|Output|
+|---|---|---|---|
+|**Step 1**|a `CardType` value (or `null`)|whether the hand contains that card type|`true`, `false`, or exception|
+|**Step 2**|**Cases**|**Cases**|**Boolean / exception**|
+|**Step 3**|`null`; any `CardType`|contains card; does not contain card|`true`; `false`; `NullPointerException`|
+
+### Step 4
+
+||System under test|Expected output|Implemented?|Test name|
+|---|---|---|---|---|
+|Test Case 1|`cardType = null`|`NullPointerException` ("CardType cannot be null")|✅|`hasCardType_withNullCardType_throwsNullPointerException`|
+|Test Case 2|Hand **without** `testCardType1`|`false`|✅|`hasCardType_withCardNotInHand_returnsFalse`|
+|Test Case 3|Hand **with** `testCardType1`|`true`|✅|`hasCardType_withCardInHand_returnsTrue`|
+|Test Case 4|Hand **with** `DEFUSE`|`true`|✅|`hasCardType_withDefuseCard_returnsTrue`|
+|Test Case 5|Hand **with** `EXPLODING_KITTEN`|`true`|✅|`hasCardType_withExplodingKitten_returnsTrue`|
+
