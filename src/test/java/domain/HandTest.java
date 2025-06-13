@@ -530,4 +530,11 @@ public class HandTest {
 		CardType result = hand.parseCardType(testCardType.name());
 		assertEquals(testCardType, result);
 	}
+
+	@Test
+	public void parseCardType_withExactMatchNotInHand_returnsNull() {
+		Hand hand = handWithTwoCards();
+		CardType result = hand.parseCardType("DEFUSE");
+		assertNull(result);
+	}
 }
