@@ -537,4 +537,11 @@ public class HandTest {
 		CardType result = hand.parseCardType("DEFUSE");
 		assertNull(result);
 	}
+
+	@Test
+	public void parseCardType_withLowercaseExactMatch_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("attack");
+		assertEquals(CardType.ATTACK, result);
+	}
 }
