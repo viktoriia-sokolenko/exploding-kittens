@@ -50,24 +50,38 @@ public class GameEngine {
 		);
 	}
 
-	public static List<Card> createInitialDeck(CardFactory cardFactory,
-												int numberOfPlayers) {
+	public static List<Card> createInitialDeck
+			(CardFactory cardFactory, int numberOfPlayers) {
 
 		List<Card> deck = new ArrayList<>();
-		deck.addAll(cardFactory.createCards(CardType.ATTACK, 4));
-		deck.addAll(cardFactory.createCards(CardType.SKIP, 4));
-		deck.addAll(cardFactory.createCards(CardType.FAVOR, 4));
-		deck.addAll(cardFactory.createCards(CardType.SHUFFLE, 4));
-		deck.addAll(cardFactory.createCards(CardType.SEE_THE_FUTURE,
-				5));
-		deck.addAll(cardFactory.createCards(CardType.ALTER_THE_FUTURE,
-				4));
-		deck.addAll(cardFactory.createCards(CardType.NUKE, 1));
+		final int NUMBER_OF_ESSENTIAL_CARDS = 4;
+		final int NUMBER_OF_NUKE_CARDS = 1;
+		final int NUMBER_OF_EXTRA_DEFUSE_CARDS = 2;
+		final int NUMBER_OF_SEE_THE_CARDS = 5;
+		deck.addAll(cardFactory
+				.createCards(CardType.ATTACK, NUMBER_OF_ESSENTIAL_CARDS));
+		deck.addAll(cardFactory
+				.createCards(CardType.SKIP, NUMBER_OF_ESSENTIAL_CARDS));
+		deck.addAll(cardFactory
+				.createCards(CardType.FAVOR, NUMBER_OF_ESSENTIAL_CARDS));
+		deck.addAll(cardFactory
+				.createCards(CardType.SHUFFLE, NUMBER_OF_ESSENTIAL_CARDS));
+		deck.addAll(cardFactory
+				.createCards(CardType.SEE_THE_FUTURE,
+				NUMBER_OF_SEE_THE_CARDS));
+		deck.addAll(cardFactory
+				.createCards(CardType.ALTER_THE_FUTURE,
+				NUMBER_OF_ESSENTIAL_CARDS));
+		deck.addAll(cardFactory
+				.createCards(CardType.NUKE, NUMBER_OF_NUKE_CARDS));
 		// We're giving the players two extra defuses in the deck
-		deck.addAll(cardFactory.createCards(CardType.DEFUSE, 2));
+		deck.addAll(cardFactory
+				.createCards
+						(CardType.DEFUSE, NUMBER_OF_EXTRA_DEFUSE_CARDS));
 
 		int currentCards = deck.size();
-		int targetNumberOfCards = 56 - numberOfPlayers;
+		final int TARGET_NUMBER_OF_CARDS = 56;
+		int targetNumberOfCards = TARGET_NUMBER_OF_CARDS - numberOfPlayers;
 		int numberOfCardsNeeded = currentCards - targetNumberOfCards;
 
 		if (numberOfCardsNeeded > 0) {
