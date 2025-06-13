@@ -10,14 +10,12 @@ public class GameEngine {
 	private final PlayerManager playerManager;
 	private final Deck deck;
 	private final UserInterface userInterface;
-	private final CardFactory cardFactory;
 
 	public GameEngine(
 			TurnManager turnManager,
 			PlayerManager playerManager,
 			Deck deck,
-			UserInterface userInterface,
-			CardFactory cardFactory
+			UserInterface userInterface
 	) {
 		this.cardManager   = new CardManager();
 		this.turnManager   = Objects.requireNonNull(turnManager,
@@ -27,8 +25,6 @@ public class GameEngine {
 		this.deck		   = Objects.requireNonNull(deck,
 				"deck must not be null");
 		this.userInterface = userInterface;
-		this.cardFactory = Objects.requireNonNull(cardFactory,
-				"cardFactory cannot be null");
 	}
 
 	public void playCard(Player player, Card card) {
