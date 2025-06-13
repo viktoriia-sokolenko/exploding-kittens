@@ -6,6 +6,7 @@ import domain.Hand;
 import domain.Player;
 import domain.Card;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -14,7 +15,7 @@ public class UserInterface {
 	private static final int MIN_NUMBER_OF_PLAYERS = 2;
 
 	public UserInterface() {
-		this.scanner = new Scanner(System.in);
+		this.scanner = new Scanner(System.in, StandardCharsets.UTF_8);
 	}
 
 	public void displayWelcome() {

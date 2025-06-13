@@ -239,5 +239,16 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
+	@Test
+	public void getNumberOfCards_returnsNumberOfCards() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.getNumberOfCards()).andReturn(5);
+		EasyMock.replay(mockHand);
 
+		Player player = new Player(mockHand);
+		int result = player.getNumberOfCards();
+
+		assertEquals(5, result);
+		EasyMock.verify(mockHand);
+	}
 }
