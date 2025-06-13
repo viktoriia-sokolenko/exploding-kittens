@@ -9,7 +9,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 import ui.UserInterface;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -283,5 +286,28 @@ public class GameEngineTest {
 
 		assertEquals("Player cannot be null", exception.getMessage());
 	}
+
+	@Test
+	public void showAvailableCardTypes_withEmptyHand_printsNothing() {
+		gameEngine = createValidGameEngine();
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		List<CardType> emptyList = new ArrayList<>();
+		EasyMock.expect(mockPlayer.getAvailableCardTypes()).andReturn(emptyList);
+		EasyMock.replay(mockPlayer);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream));
+
+		try {
+			gameEngine.showAvailableCardTypes(mockPlayer);
+			assertEquals("", outputStream.toString());
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayer);
+	}
+
 
 }
