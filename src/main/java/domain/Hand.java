@@ -105,4 +105,11 @@ public class Hand {
 		}
 		return availableTypes;
 	}
+
+	public CardType parseCardType(String input) {
+		if (input == null || input.trim().isEmpty()) {
+			return null;
+		}
+		return CardType.ATTACK;
+	}
 }
