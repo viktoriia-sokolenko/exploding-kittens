@@ -119,7 +119,7 @@ public class Hand {
 			CardType cardType = CardType.valueOf(normalizedCardType);
 			return containsCardType(cardType) ? cardType : null;
 		} catch (IllegalArgumentException error) {
-			for (CardType cardType : CardType.values()) {
+			for (CardType cardType : getAvailableCardTypes()) {
 				if (cardType.name().startsWith(normalizedCardType) ||
 						cardType.name().contains(normalizedCardType)) {
 					return cardType;
