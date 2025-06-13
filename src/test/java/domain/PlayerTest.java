@@ -452,4 +452,18 @@ public class PlayerTest {
 
 		EasyMock.verify(mockHand);
 	}
+
+	@Test
+	public void parseCardType_withPartialMatch_returnsCardType() {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.parseCardType("ATT"))
+				.andReturn(CardType.ATTACK);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		CardType result = player.parseCardType("ATT");
+		assertEquals(CardType.ATTACK, result);
+
+		EasyMock.verify(mockHand);
+	}
 }
