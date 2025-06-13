@@ -468,4 +468,13 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@Test
+	public void handlePlayCommand_withNullParts_throwsNullPointerException() {
+		gameEngine = createValidGameEngine();
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+
+		assertThrows(NullPointerException.class,
+				() -> gameEngine.handlePlayCommand(null, mockPlayer));
+	}
 }
