@@ -387,4 +387,14 @@ public class HandTest {
 		assertThrows(IndexOutOfBoundsException.class, ()
 				-> emptyHand.getCardAt(0));
 	}
+
+	@ParameterizedTest
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
+	public void getCardAt_withIndexOutOfBounds_throwsIndexOutOfBoundsException
+			(CardType testCardType) {
+		Hand hand = handWithOneCard(testCardType);
+		assertThrows(IndexOutOfBoundsException.class, ()
+				-> hand.getCardAt(1));
+	}
 }
