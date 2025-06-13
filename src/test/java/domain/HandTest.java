@@ -492,4 +492,11 @@ public class HandTest {
 		assertEquals(availableTypes1.size(), availableTypes2.size());
 		assertTrue(availableTypes1.containsAll(availableTypes2));
 	}
+
+	@Test
+	public void parseCardType_withNullInput_returnsNull() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType(null);
+		assertNull(result);
+	}
 }
