@@ -752,14 +752,15 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void handleDrawCommand_withExplodingKittenAndNoDefuse_removesPlayerAndReturns() {
+	public void handleDrawCommand_withExplodingKittenAndNoDefuse_removesPlayer() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory);
 
 		Card mockExplodingKitten = createMockCard(CardType.EXPLODING_KITTEN);
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
-		EasyMock.expect(mockPlayer.hasCardType(CardType.DEFUSE)).andReturn(false);
+		EasyMock.expect(mockPlayer.hasCardType(CardType.DEFUSE))
+				.andReturn(false);
 		EasyMock.replay(mockPlayer);
 
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(10);
@@ -778,12 +779,15 @@ public class GameEngineTest {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.handleDrawCommand(mockPlayer);
 			String output = outputStream.toString(StandardCharsets.UTF_8);
-			assertTrue(output.contains("BOOM! You drew an Exploding Kitten and had no Defuse card!"));
+			assertTrue(output.contains
+					("BOOM! You drew an Exploding Kitten and had" +
+							" no Defuse card!"));
 		} finally {
 			System.setOut(originalOut);
 		}
@@ -792,6 +796,38 @@ public class GameEngineTest {
 		EasyMock.verify(mockDeck);
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockTurnManager);
+	}
+
+	@Test
+	public void handleDrawCommand_withSkipCard_addsCardToHandAndEndsTurn() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Card mockSkipCard = createMockCard(CardType.SKIP);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		mockPlayer.addCardToHand(mockSkipCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(5);
+		EasyMock.expect(mockDeck.draw()).andReturn(mockSkipCard);
+		EasyMock.replay(mockDeck);
+
+		mockUserInterface.displayDrawnCard(mockSkipCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		mockTurnManager.advanceToNextPlayer();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		gameEngine.handleDrawCommand(mockPlayer);
+
+		EasyMock.verify(mockPlayer);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockTurnManager);
 	}
 }
