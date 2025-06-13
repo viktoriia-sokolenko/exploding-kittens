@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 import ui.UserInterface;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -23,8 +24,10 @@ public class UserInterfaceTest {
 	public void setUpStreams() {
 		outContent = new ByteArrayOutputStream();
 		errContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(outContent));
-		System.setErr(new PrintStream(errContent));
+		System.setOut(new PrintStream(outContent, true,
+				StandardCharsets.UTF_8));
+		System.setErr(new PrintStream(errContent, true,
+				StandardCharsets.UTF_8));
 	}
 
 	@AfterEach
@@ -38,7 +41,7 @@ public class UserInterfaceTest {
 	void displayWelcome_printsExpectedHeader() {
 		UserInterface ui = new UserInterface();
 		assertDoesNotThrow(ui::displayWelcome);
-		String out = outContent.toString();
+		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("================================="));
 		assertTrue(out.contains("	EXPLODING KITTENS"));
 		assertTrue(out.contains("================================="));
@@ -48,7 +51,7 @@ public class UserInterfaceTest {
 	void displayHelp_printsAllCommands() {
 		UserInterface ui = new UserInterface();
 		ui.displayHelp();
-		String out = outContent.toString();
+		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("Available commands:"));
 		assertTrue(out.contains("play <index>"));
 		assertTrue(out.contains("draw"));
@@ -62,39 +65,42 @@ public class UserInterfaceTest {
 	void displayError_printsToStderr() {
 		UserInterface ui = new UserInterface();
 		ui.displayError("oops");
-		String err = errContent.toString();
+		String err = errContent.toString(StandardCharsets.UTF_8);
 		assertTrue(err.contains("Error: oops"));
 	}
 
 	@Test
 	void getUserInput_readsLineAndPrompts() {
-		System.setIn(new ByteArrayInputStream("hello world\n".getBytes()));
+		System.setIn(new ByteArrayInputStream("hello world\n"
+				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 		String result = ui.getUserInput();
 		assertEquals("hello world", result);
-		assertTrue(outContent.toString().contains("> "));
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 	}
 
 	@Test
 	void getNumberOfPlayers_validFirst_tryReturnsImmediately() {
-		System.setIn(new ByteArrayInputStream("3\n".getBytes()));
+		System.setIn(new ByteArrayInputStream("3\n"
+				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 		int n = ui.getNumberOfPlayers();
 		final int NUMBER_OF_PLAYERS = 3;
 		assertEquals(NUMBER_OF_PLAYERS, n);
-		assertEquals("", errContent.toString());
+		assertEquals("", errContent.toString(StandardCharsets.UTF_8));
 	}
 
 	@Test
 	void getNumberOfPlayers_invalidThenValid_promptsUntilGood() {
 		String input = String.join("\n",
 				"foo", "6", "2");
-		System.setIn(new ByteArrayInputStream((input + "\n").getBytes()));
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 		int n = ui.getNumberOfPlayers();
 		final int NUMBER_OF_PLAYERS = 2;
 		assertEquals(NUMBER_OF_PLAYERS, n);
-		String err = errContent.toString();
+		String err = errContent.toString(StandardCharsets.UTF_8);
 		int occurrences = err.split(
 				"Please enter a number between 2 and 5", -1)
 				.length - 1;
@@ -107,7 +113,8 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface();
 		Player p = new Player(new Hand());
 		ui.displayPlayerHand(p);
-		assertTrue(outContent.toString().contains("(empty)"));
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains("(empty)"));
 	}
 
 	@Test
@@ -118,7 +125,7 @@ public class UserInterfaceTest {
 		h.addCard(new SkipCard());
 		Player p = new Player(h);
 		ui.displayPlayerHand(p);
-		String out = outContent.toString();
+		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("0: SKIP"));
 		assertTrue(out.contains("1: SKIP"));
 	}
@@ -129,7 +136,8 @@ public class UserInterfaceTest {
 		Card c = new SkipCard();
 
 		ui.displayCardPlayed(c);
-		assertTrue(outContent.toString().contains("You played: SKIP"));
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).
+				contains("You played: SKIP"));
 		outContent.reset();
 	}
 
@@ -139,10 +147,12 @@ public class UserInterfaceTest {
 		Card card = new SkipCard();
 
 		ui.displayCardPlayed(card);
-		assertTrue(outContent.toString().contains("You played: SKIP"));
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).
+				contains("You played: SKIP"));
 		outContent.reset();
 
 		ui.displayDrawnCard(card);
-		assertTrue(outContent.toString().contains("You drew: SKIP"));
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).
+				contains("You drew: SKIP"));
 	}
 }
