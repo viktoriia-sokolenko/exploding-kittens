@@ -110,6 +110,22 @@ public class Hand {
 		if (input == null || input.trim().isEmpty()) {
 			return null;
 		}
-		return CardType.ATTACK;
+
+		String normalizedCardType = input
+				.trim().toUpperCase()
+				.replace(" ", "_");
+
+		try {
+			CardType cardType = CardType.valueOf(normalizedCardType);
+			return containsCardType(cardType) ? cardType : null;
+		} catch (IllegalArgumentException error) {
+			for (CardType cardType : CardType.values()) {
+				if (cardType.name().startsWith(normalizedCardType) ||
+						cardType.name().contains(normalizedCardType)) {
+					return cardType;
+				}
+			}
+		}
+		return null;
 	}
 }
