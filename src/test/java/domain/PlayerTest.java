@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -513,4 +514,18 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
+	@Test
+	public void getAvailableCardTypes_withOneCardType_returnsListWithOneType() {
+		java.util.List<CardType> singleTypeList = List.of(CardType.FAVOR);
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.getAvailableCardTypes()).andReturn(singleTypeList);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		java.util.List<CardType> result = player.getAvailableCardTypes();
+		assertEquals(1, result.size());
+		assertTrue(result.contains(CardType.FAVOR));
+
+		EasyMock.verify(mockHand);
+	}
 }
