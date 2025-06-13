@@ -553,7 +553,7 @@ public class GameEngineTest {
 		final int FOUR_CARDS = 4;
 		final int FIVE_CARDS = 5;
 		EasyMock.expect(mockFactory.createCards(CardType.ATTACK, FOUR_CARDS))
-				.andReturn(createMockCardList(CardType.ATTACK, 4));
+				.andReturn(createMockCardList(CardType.ATTACK, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SKIP, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SKIP, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.FAVOR, FOUR_CARDS))
@@ -607,10 +607,14 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.FAVOR, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SHUFFLE, TWO_CARDS));
-		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE, FIVE_CARDS))
-				.andReturn(createMockCardList(CardType.SEE_THE_FUTURE, THREE_CARDS));
-		EasyMock.expect(mockFactory.createCards(CardType.ALTER_THE_FUTURE, FOUR_CARDS))
-				.andReturn(createMockCardList(CardType.ALTER_THE_FUTURE, TWO_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE,
+						FIVE_CARDS))
+				.andReturn(createMockCardList(CardType.
+						SEE_THE_FUTURE, THREE_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.ALTER_THE_FUTURE,
+						FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.
+						ALTER_THE_FUTURE, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.NUKE, ONE_CARD))
 				.andReturn(createMockCardList(CardType.NUKE, ONE_CARD));
 		EasyMock.expect(mockFactory.createCards(CardType.DEFUSE, TWO_CARDS))
