@@ -158,5 +158,9 @@ public class GameEngine {
 
 	public void handleDrawCommand(Player currentPlayer) {
 		Objects.requireNonNull(currentPlayer, "Player cannot be null");
+
+		if (deck.getDeckSize() == 0) {
+			userInterface.displayError("Deck is empty!");
+		}
 	}
 }
