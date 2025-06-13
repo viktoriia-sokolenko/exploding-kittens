@@ -143,5 +143,11 @@ public class GameEngineTest {
 		EasyMock.verify(mockTurnManager);
 	}
 
-
+	@Test
+	public void createNewGame_createsValidGameEngine() {
+		// This tests the static factory method, but since it has UI interaction,
+		// we would need to mock System.in for comprehensive testing
+		GameEngine engine = GameEngine.createNewGame();
+		assertNotNull(engine);
+	}
 }
