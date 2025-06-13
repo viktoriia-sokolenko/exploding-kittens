@@ -382,4 +382,16 @@ public class HandTest {
 		assertTrue(availableTypes.isEmpty());
 		assertEquals(0, availableTypes.size());
 	}
+
+	@ParameterizedTest
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN", "UNKNOWN_CARD_FOR_TEST"}, mode =
+			EnumSource.Mode.EXCLUDE)
+	public void getAvailableCardTypes_withOneCardInHand_returnsListWithOneType(CardType testCardType) {
+		Hand handWithOneCard = handWithOneCard(testCardType);
+		List<CardType> availableTypes = handWithOneCard.getAvailableCardTypes();
+
+		assertEquals(1, availableTypes.size());
+		assertTrue(availableTypes.contains(testCardType));
+	}
 }
