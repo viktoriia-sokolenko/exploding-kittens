@@ -605,4 +605,11 @@ public class HandTest {
 		assertTrue(result == CardType.NORMAL || result == CardType.NUKE);
 		assertTrue(hand.containsCardType(result));
 	}
+
+	@Test
+	public void parseCardType_withSingleCharacterMatch_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.SKIP);
+		CardType result = hand.parseCardType("S");
+		assertEquals(CardType.SKIP, result);
+	}
 }
