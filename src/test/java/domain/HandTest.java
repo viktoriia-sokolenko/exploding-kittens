@@ -612,4 +612,11 @@ public class HandTest {
 		CardType result = hand.parseCardType("S");
 		assertEquals(CardType.SKIP, result);
 	}
+
+	@Test
+	public void parseCardType_withPartialMatchCaseInsensitive_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.SHUFFLE);
+		CardType result = hand.parseCardType("shuf");
+		assertEquals(CardType.SHUFFLE, result);
+	}
 }
