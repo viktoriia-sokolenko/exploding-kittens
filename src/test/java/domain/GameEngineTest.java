@@ -12,6 +12,7 @@ public class GameEngineTest {
 	private PlayerManager mockPlayerManager;
 	private UserInterface mockUserInterface;
 	private Deck mockDeck;
+	private CardFactory mockCardFactory;
 
 	@BeforeEach
 	public void setUp() {
@@ -19,12 +20,14 @@ public class GameEngineTest {
 		mockPlayerManager = EasyMock.createMock(PlayerManager.class);
 		mockUserInterface = EasyMock.createMock(UserInterface.class);
 		mockDeck = EasyMock.createMock(Deck.class);
+		mockCardFactory = EasyMock.createMock(CardFactory.class);
 
 		gameEngine = new GameEngine(
 				mockTurnManager,
 				mockPlayerManager,
 				mockDeck,
-				mockUserInterface
+				mockUserInterface,
+				mockCardFactory
 		);
 	}
 
@@ -36,7 +39,8 @@ public class GameEngineTest {
 						null,
 						mockPlayerManager,
 						mockDeck,
-						mockUserInterface
+						mockUserInterface,
+						mockCardFactory
 				)
 		);
 		assertEquals("turnManager must not be null",
@@ -51,7 +55,8 @@ public class GameEngineTest {
 						mockTurnManager,
 						null,
 						mockDeck,
-						mockUserInterface
+						mockUserInterface,
+						mockCardFactory
 				)
 		);
 		assertEquals("playerManager must not be null", ex.getMessage());
@@ -65,7 +70,8 @@ public class GameEngineTest {
 						mockTurnManager,
 						mockPlayerManager,
 						null,
-						mockUserInterface
+						mockUserInterface,
+						mockCardFactory
 				)
 		);
 		assertEquals("deck must not be null", ex.getMessage());
@@ -77,8 +83,20 @@ public class GameEngineTest {
 				mockTurnManager,
 				mockPlayerManager,
 				mockDeck,
-				null
+				null,
+				mockCardFactory
 		));
+	}
+
+	@Test
+	void constructor_withNullCardFactory_throwsNullPointerException() {
+		assertThrows(NullPointerException.class, () ->
+				new GameEngine(
+						mockTurnManager,
+						mockPlayerManager,
+						mockDeck,
+						mockUserInterface,
+						null));
 	}
 
 	@Test

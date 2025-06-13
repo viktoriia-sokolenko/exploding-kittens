@@ -30,6 +30,7 @@ public class UserInterfaceTest {
 				StandardCharsets.UTF_8));
 	}
 
+
 	@AfterEach
 	public void restoreStreams() {
 		System.setOut(originalOut);
@@ -155,4 +156,6 @@ public class UserInterfaceTest {
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).
 				contains("You drew: SKIP"));
 	}
+
+
 }
