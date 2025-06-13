@@ -640,4 +640,10 @@ public class HandTest {
 		assertNull(resultAfter);
 	}
 
+	@Test
+	public void parseCardType_withComplexSpacedInput_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ALTER_THE_FUTURE);
+		CardType result = hand.parseCardType(" alter the future ");
+		assertEquals(CardType.ALTER_THE_FUTURE, result);
+	}
 }
