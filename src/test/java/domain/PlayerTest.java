@@ -335,4 +335,20 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
+	@ParameterizedTest
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN", "UNKNOWN_CARD_FOR_TEST"},
+			mode = EnumSource.Mode.EXCLUDE)
+	public void addCardToHand_withValidCard_addsCardToHand(CardType testCardType) {
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		mockHand.addCard(EasyMock.anyObject(Card.class));
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockHand);
+
+		Card testCard = mockCard(testCardType);
+		Player player = new Player(mockHand);
+		player.addCardToHand(testCard);
+
+		EasyMock.verify(mockHand);
+	}
 }
