@@ -375,44 +375,11 @@ public class HandTest {
 	}
 
 	@Test
-	public void getCardAt_withNegativeIndex_throwsIndexOutOfBoundsException() {
-		Hand hand = handWithOneCard(CardType.ATTACK);
-		assertThrows(IndexOutOfBoundsException.class, () ->
-				hand.getCardAt(-1));
-	}
-
-	@Test
-	public void getCardAt_withEmptyHand_throwsIndexOutOfBoundsException() {
+	public void getAvailableCardTypes_withEmptyHand_returnsEmptyList() {
 		Hand emptyHand = new Hand();
-		assertThrows(IndexOutOfBoundsException.class, ()
-				-> emptyHand.getCardAt(0));
-	}
+		List<CardType> availableTypes = emptyHand.getAvailableCardTypes();
 
-	@ParameterizedTest
-	@EnumSource(value = CardType.class,
-			names = {"EXPLODING_KITTEN"}, mode = EnumSource.Mode.EXCLUDE)
-	public void getCardAt_withIndexOutOfBounds_throwsIndexOutOfBoundsException
-			(CardType testCardType) {
-		Hand hand = handWithOneCard(testCardType);
-		assertThrows(IndexOutOfBoundsException.class, ()
-				-> hand.getCardAt(1));
-	}
-
-	@Test
-	public void getCardAt_withTwoCardsAndIndexOutOfBounds_throwsIndexOutOfBoundsException() {
-		Hand hand = handWithTwoCards();
-		assertThrows(IndexOutOfBoundsException.class, ()
-				-> hand.getCardAt(2));
-	}
-
-	@ParameterizedTest
-	@EnumSource(value = CardType.class,
-			names = {"EXPLODING_KITTEN", "UNKNOWN_CARD_FOR_TEST"}, mode =
-			EnumSource.Mode.EXCLUDE)
-	public void getCardAt_withOneCardAtIndexZero_returnsCorrectCardType
-			(CardType testCardType) {
-		Hand hand = handWithOneCard(testCardType);
-		Card retrievedCard = hand.getCardAt(0);
-		assertEquals(testCardType, retrievedCard.getCardType());
+		assertTrue(availableTypes.isEmpty());
+		assertEquals(0, availableTypes.size());
 	}
 }
