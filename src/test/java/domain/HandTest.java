@@ -446,4 +446,22 @@ public class HandTest {
 		assertTrue(availableTypesAfter.contains(CardType.SHUFFLE));
 		assertFalse(availableTypesAfter.contains(CardType.SEE_THE_FUTURE));
 	}
+
+	@Test
+	public void getAvailableCardTypes_afterRemovingDuplicateCard_maintainsCardType() {
+		Hand hand = handWithThreeCardsAndDuplicates();
+		Card cardToRemove = mockCard(CardType.NORMAL);
+
+		List<CardType> availableTypesBefore = hand.getAvailableCardTypes();
+		assertEquals(2, availableTypesBefore.size());
+		assertTrue(availableTypesBefore.contains(CardType.NORMAL));
+
+		hand.removeCard(cardToRemove);
+		List<CardType> availableTypesAfter = hand.getAvailableCardTypes();
+
+		assertEquals(2, availableTypesAfter.size());
+		assertTrue(availableTypesAfter.contains(CardType.NORMAL));
+		assertTrue(availableTypesAfter.contains(CardType.SKIP));
+	}
+
 }
