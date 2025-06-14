@@ -46,6 +46,17 @@ public class GameEngine {
 		cardManager.playCard(card, player, gameContext);
 	}
 
+	private void main(String[] args) {
+		GameEngine game = createNewGame();
+		try {
+			initializeGame();
+			runGameLoop();
+		} catch (Exception e) {
+			userInterface.displayError("Game encountered an error: "
+					+ e.getMessage());
+		}
+	}
+
 	public void initializeGame() {
 		List<Player> players = playerManager.getPlayers();
 		final int NUMBER_OF_STARTING_CARDS = 4;
