@@ -157,5 +157,58 @@ public class UserInterfaceTest {
 				contains("You drew: SKIP"));
 	}
 
+	@Test
+	void displayCardEffect_allCardTypes_printsCorrectEffects() {
+		UserInterface ui = new UserInterface();
 
+		ui.displayCardEffect(CardType.ATTACK);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains(" → End your turn without drawing, " +
+						"next player takes 2 turns"));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.SKIP);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("" +
+				" → End your turn without drawing a card"));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.SEE_THE_FUTURE);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains(" " +
+				"→ Peek at the top cards of the deck"));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.SHUFFLE);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains(" → Shuffle the deck"));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.FAVOR);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains(" → Force another player to give you a card"));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.ALTER_THE_FUTURE);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains(" → Rearrange the top cards of the deck"));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.DEFUSE);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains(" → Used automatically when you draw an " +
+						"Exploding Kitten"));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.NUKE);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains(" → Nuclear option - ends the game!"));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.NORMAL);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains(" → Just a cute cat - no special effect"));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.EXPLODING_KITTEN);
+		assertEquals("", outContent.toString(StandardCharsets.UTF_8));
+	}
 }
