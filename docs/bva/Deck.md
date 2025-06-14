@@ -197,7 +197,7 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 1 | Deck `[]`                                      | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | peekTopThreeCards_emptyDeck_throwsNoSuchElementException                  |
 | Test Case 2 | Deck `[card1]`                                 | Returns `[card1]`;                         | :white_check_mark: | peekTopThreeCards_deckWithOneCard_returnsTheOnlyCard                      |
 | Test Case 3 | Deck `[card1, card2]`                          | Returns `[card1, card2]`;                  | :white_check_mark: | peekTopThreeCards_deckWithTwoCards_returnsTwoLastCards                    |
-| Test Case 3 | Deck `[card1, card2, card3]`                   | Returns `[card1, card2, card3]`;           |                    | peekTopThreeCards_deckWithThreeCards_returnsThreeLastCards                |
+| Test Case 3 | Deck `[card1, card2, card3]`                   | Returns `[card1, card2, card3]`;           | :white_check_mark: | peekTopThreeCards_deckWithThreeCards_returnsThreeLastCards                |
 | Test Case 4 | Deck `[card1, card2, card3, card4.1, card4.2]` | Returns `[card3, card4.1, card4.2]`;       |                    | peekTopThreeCards_deckWithFourCardsAndDuplicate_returnsLastDuplicateCards |
 
 

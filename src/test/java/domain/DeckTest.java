@@ -643,6 +643,18 @@ public class DeckTest {
 		assertEquals(expectedCardList, actualCardList);
 	}
 
+	@Test
+	public void peekTopThreeCards_deckWithThreeCards_returnsThreeLastCards() {
+		Deck deck = deckWithThreeCards();
+		Card expectedCard1 = deck.getCardAt(2);
+		Card expectedCard2 = deck.getCardAt(1);
+		Card expectedCard3 = deck.getCardAt(0);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(expectedCard1, expectedCard2, expectedCard3));
+		List <Card> actualCardList = deck.peekTopThreeCards();
+		assertEquals(expectedCardList, actualCardList);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
@@ -661,6 +673,13 @@ public class DeckTest {
 		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
 		Card card2 = mockCard(CardType.NORMAL);
 		Card card3 = mockCard(CardType.NORMAL);
+		return new Deck(List.of(card1, card2, card3));
+	}
+
+	private Deck deckWithThreeCards() {
+		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card card2 = mockCard(CardType.NORMAL);
+		Card card3 = mockCard(CardType.SKIP);
 		return new Deck(List.of(card1, card2, card3));
 	}
 
