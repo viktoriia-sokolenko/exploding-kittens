@@ -33,6 +33,7 @@ public class GameEngine {
 		this.userInterface = userInterface;
 		this.cardFactory = Objects.requireNonNull(cardFactory,
 				"cardFactory must not be null");
+		// We need this in order to satisfy the spotsbug error
 		this.secureRandom = new SecureRandom();
 	}
 
@@ -119,6 +120,7 @@ public class GameEngine {
 		List<Card> startingDeck = createInitialDeck(cardFactory,
 				numberOfPlayers);
 
+		// We need this in order to satisfy the spotsbug error
 		SecureRandom secureRandom = new SecureRandom();
 		Deck deck = new Deck(startingDeck);
 		// https://docs.oracle.com/javase/8/docs/api/java/security/SecureRandom.html
@@ -226,6 +228,10 @@ public class GameEngine {
 		}
 
 		turnManager.advanceToNextPlayer();
+	}
 
+	public void handlePlayerGetsElimated() {
+		List<Player> activePlayers = playerManager.getActivePlayers();
+		turnManager.syncWith(activePlayers);
 	}
 }
