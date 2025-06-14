@@ -1834,6 +1834,26 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@Test
+	public void processCommand_withMultipleSpacesInPlayCommand_mayFail() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.parseCardType(" skip")).andThrow(
+				new IllegalArgumentException("Invalid card type"));
+		EasyMock.replay(mockPlayer);
+
+		mockUserInterface.displayError(
+				"Error executing command: Invalid card type");
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		gameEngine.processCommand("play  skip", mockPlayer);
+
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockPlayer);
+	}
 
 	private GameEngine createValidGameEngine() {
 		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
