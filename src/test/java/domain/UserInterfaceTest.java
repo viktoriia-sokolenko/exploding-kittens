@@ -399,7 +399,20 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream("2\n".getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 		int numberOfPlayers = ui.getNumberOfPlayers();
-		assertEquals(2, numberOfPlayers);
+		final int EXPECTED_NUMBER_OF_PLAYERS = 2;
+		assertEquals(EXPECTED_NUMBER_OF_PLAYERS, numberOfPlayers);
 		assertEquals("", errContent.toString(StandardCharsets.UTF_8));
+	}
+
+	@Test
+	void getNumberOfPlayers_belowMinimum_rejectsAndPrompts() {
+		String input = String.join("\n", "1", "2");
+		System.setIn(new ByteArrayInputStream((input + "\n").getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+		int numberOfPlayers = ui.getNumberOfPlayers();
+		final int EXPECTED_NUMBER_OF_PLAYERS = 2;
+		assertEquals(EXPECTED_NUMBER_OF_PLAYERS, numberOfPlayers);
+		String err = errContent.toString(StandardCharsets.UTF_8);
+		assertTrue(err.contains("Please enter a number between 2 and 5"));
 	}
 }
