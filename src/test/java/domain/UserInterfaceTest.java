@@ -602,4 +602,34 @@ public class UserInterfaceTest {
 		assertFalse(out.contains(" x0"),
 				"Cards with count 0 should not be displayed");
 	}
+
+	@Test
+	void displayPlayerHand_nullCountHandling_PrintsCorrectHand() {
+		UserInterface ui = new UserInterface();
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.getNumberOfCards()).andReturn(1)
+				.anyTimes();
+		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.SKIP))
+				.andReturn(null);
+		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.ATTACK))
+				.andReturn(1);
+		for (CardType type : CardType.values()) {
+			if (type != CardType.SKIP && type != CardType.ATTACK) {
+				EasyMock.expect(mockPlayer.getCardTypeCount(type))
+						.andReturn(0);
+			}
+		}
+		EasyMock.replay(mockPlayer);
+
+		ui.displayPlayerHand(mockPlayer);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("Attack (type: attack)"));
+		assertFalse(out.contains("Skip"));
+		assertFalse(out.contains("Defuse"));
+		assertFalse(out.contains("Favor"));
+
+		EasyMock.verify(mockPlayer);
+	}
 }
