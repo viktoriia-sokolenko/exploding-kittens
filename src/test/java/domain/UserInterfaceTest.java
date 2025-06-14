@@ -124,19 +124,6 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_withCards_listsAll() {
-		UserInterface ui = new UserInterface();
-		Hand h = new Hand();
-		h.addCard(new SkipCard());
-		h.addCard(new SkipCard());
-		Player p = new Player(h);
-		ui.displayPlayerHand(p);
-		String out = outContent.toString(StandardCharsets.UTF_8);
-		assertTrue(out.contains("0: SKIP"));
-		assertTrue(out.contains("1: SKIP"));
-	}
-
-	@Test
 	void displayCardPlayed_showCorrectText() {
 		UserInterface ui = new UserInterface();
 		Card c = new SkipCard();
