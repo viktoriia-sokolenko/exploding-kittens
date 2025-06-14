@@ -92,10 +92,10 @@ public class UserInterface {
 					String typeName = type.name().toLowerCase()
 							.replace("_", " ");
 					if (count == 1) {
-						System.out.printf("  %s (type: %s)%n",
+						System.out.printf("	 %s (type: %s)%n",
 								cardDisplay, typeName);
 					} else {
-						System.out.printf("  %s x%d (type: %s)%n",
+						System.out.printf("	 %s x%d (type: %s)%n",
 								cardDisplay, count, typeName);
 					}
 				}

@@ -278,8 +278,8 @@ public class GameEngine {
 							"Type 'help' for available commands.");
 			return;
 		}
-
-		String[] parts = input.split(" ");
+		String cleanedInput  = input.trim().replaceAll("\\s+", " ");
+		String[] parts = cleanedInput.split(" ");
 		String command = parts[0];
 
 		try {
@@ -305,9 +305,10 @@ public class GameEngine {
 				default:
 					userInterface
 							.displayError
-							("Unknown command: " + command + ". " +
-									"Type 'help' for " +
-									"available commands.");
+							("Unknown command: " + command  +
+									". " +
+									"Type 'help' " +
+									"for available commands.");
 			}
 		} catch (Exception e) {
 			userInterface.displayError("Error executing command: " +

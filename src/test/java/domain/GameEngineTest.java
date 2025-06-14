@@ -1647,7 +1647,7 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
-		gameEngine.processCommand("   \t\n  ", mockPlayer);
+		gameEngine.processCommand("	  \t\n	", mockPlayer);
 
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockPlayer);
@@ -1836,25 +1836,29 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void processCommand_withMultipleSpacesInPlayCommand_mayFail() {
-		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory, mockSecureRandom);
+	public void processCommand_withMultipleSpacesInPlayCommand_DoesntFail() {
+		gameEngine = new GameEngine(
+				mockTurnManager,
+				mockPlayerManager,
+				mockDeck,
+				mockUserInterface,
+				mockCardFactory,
+				mockSecureRandom
+		);
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
-		EasyMock.expect(mockPlayer.parseCardType(" skip")).andThrow(
-				new IllegalArgumentException("Invalid card type"));
-		EasyMock.replay(mockPlayer);
 
-		mockUserInterface.displayError(
-				"Error executing command: Invalid card type");
+		EasyMock.expect(mockPlayer.parseCardType("skip"))
+				.andThrow(new IllegalArgumentException("Invalid card type"));
+
+		mockUserInterface.displayError("Error executing command: Invalid card type");
 		EasyMock.expectLastCall();
-		EasyMock.replay(mockUserInterface);
+		EasyMock.replay(mockPlayer, mockUserInterface);
+		gameEngine.processCommand("play   skip", mockPlayer);
 
-		gameEngine.processCommand("play  skip", mockPlayer);
-
-		EasyMock.verify(mockUserInterface);
-		EasyMock.verify(mockPlayer);
+		EasyMock.verify(mockPlayer, mockUserInterface);
 	}
+
 
 	@Test
 	public void processCommand_withStatusCommand_displaysGameStatus() {
