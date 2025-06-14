@@ -80,7 +80,7 @@ public class GameContext {
 	}
 
 	private Player getPlayerFromUserInput(String message) {
-		int playerIndex = userInterface.getUserInputInt(message);
+		int playerIndex = userInterface.getNumericUserInput(message);
 		return playerManager.getPlayerByIndex(playerIndex);
 	}
 }

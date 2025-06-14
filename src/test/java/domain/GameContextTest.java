@@ -225,7 +225,7 @@ public class GameContextTest {
 			CardType testCardType) {
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
-		EasyMock.expect(userInterface.getUserInputInt(
+		EasyMock.expect(userInterface.getNumericUserInput(
 				"Enter the player you want to get card from"))
 				.andReturn(playerIndex);
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
@@ -264,7 +264,7 @@ public class GameContextTest {
 	void transferCardBetweenPlayers_withCardInHand_transfersCard(CardType testCardType) {
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
-		EasyMock.expect(userInterface.getUserInputInt(
+		EasyMock.expect(userInterface.getNumericUserInput(
 				"Enter the player you want to get card from"))
 				.andReturn(playerIndex);
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
