@@ -242,4 +242,17 @@ public class UserInterfaceTest {
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("Success: " + testMessage));
 	}
+
+	@Test
+	void displayWarning_printsWarningMessage() {
+		UserInterface ui = new UserInterface();
+		String testMessage = "There are only a few cards left in the deck";
+
+		ui.displayWarning(testMessage);
+
+		String output = errContent.toString(StandardCharsets.UTF_8);
+		String expectedOutput = "Warning: " + testMessage;
+
+		assertTrue(output.contains(expectedOutput));
+	}
 }
