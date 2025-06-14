@@ -497,4 +497,28 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Skip x2"));
 		assertFalse(out.contains("Skip x3"));
 	}
+
+	@Test
+	void displayPlayerHand_mixedCards_showsCorrectCounts() {
+		UserInterface ui = new UserInterface();
+		Hand hand = new Hand();
+
+		hand.addCard(new SkipCard());
+		hand.addCard(new AttackCard());
+		hand.addCard(new AttackCard());
+		hand.addCard(new AttackCard());
+		hand.addCard(new DefuseCard());
+		hand.addCard(new DefuseCard());
+		Player player = new Player(hand);
+
+		ui.displayPlayerHand(player);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("Skip (type: skip)"));
+		assertTrue(out.contains("Attack x3 (type: attack)"));
+		assertTrue(out.contains("Defuse x2 (type: defuse)"));
+		assertFalse(out.contains("Favor"));
+		assertFalse(out.contains("Exploding Kitten"));
+		assertFalse(out.contains("x0"));
+	}
 }
