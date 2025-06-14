@@ -326,4 +326,19 @@ public class UserInterfaceTest {
 		assertTrue(out.contains("You have been eliminated from the game!"));
 		assertTrue(out.contains("Better luck next time!"));
 	}
+
+
+	@Test
+	void displayGameEnd_withWinner_printsVictoryMessage() {
+		UserInterface ui = new UserInterface();
+
+		ui.displayGameEnd(true);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("🎉 CONGRATULATIONS! YOU WON! 🎉"));
+		assertTrue(out.contains("You survived the exploding kittens!"));
+		assertTrue(out.contains("Thanks for playing Exploding Kittens!"));
+		assertTrue(out.contains("=".repeat(50)));
+	}
+
 }
