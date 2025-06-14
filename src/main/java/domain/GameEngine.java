@@ -47,10 +47,9 @@ public class GameEngine {
 	}
 
 	private void main(String[] args) {
-		GameEngine game = createNewGame();
 		try {
-			initializeGame();
-			runGameLoop();
+			this.initializeGame();
+			this.runGameLoop();
 		} catch (Exception e) {
 			userInterface.displayError("Game encountered an error: "
 					+ e.getMessage());
@@ -71,7 +70,7 @@ public class GameEngine {
 		int numExplodingKittens = players.size() - 1;
 		for (int i = 0; i < numExplodingKittens; i++) {
 			deck.insertCardAt(cardFactory.createCard(CardType.EXPLODING_KITTEN),
-					new Random().nextInt(deck.getDeckSize()));
+					secureRandom.nextInt(deck.getDeckSize()));
 		}
 
 		gameRunning = true;

@@ -78,7 +78,8 @@ public class GameEngineLoopTest {
 				CardFactory cardFactory,
 				SecureRandom secureRandom
 		) {
-			super(turnManager, playerManager, deck, userInterface, cardFactory, secureRandom);
+			super(turnManager, playerManager, deck,
+					userInterface, cardFactory, secureRandom);
 		}
 
 		@Override
@@ -216,12 +217,15 @@ public class GameEngineLoopTest {
 		EasyMock.verify(mockPlayerManager, mockDeck, p1, p2,
 				mockFactory, mockUI);
 	}
+
 	@Test
 	public void main_successPath_callsInitializeAndLoopAndNoError()
 			throws Exception {
 		System.setIn(new ByteArrayInputStream("2\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+		System.setOut(new PrintStream(new ByteArrayOutputStream(),
+				true,
+			StandardCharsets.UTF_8));
 		EasyMock.replay(mockUI);
 
 		TestableMainEngine engine = new TestableMainEngine(
@@ -243,8 +247,8 @@ public class GameEngineLoopTest {
 	public void main_initializeThrows_displaysErrorAndNoLoop() throws Exception {
 		System.setIn(new ByteArrayInputStream("2\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		System.setOut(new PrintStream
-				(new ByteArrayOutputStream()));
+		System.setOut(new PrintStream(new ByteArrayOutputStream(),
+				true, StandardCharsets.UTF_8));
 
 		TestableMainEngine engine = new TestableMainEngine(
 				mockTurnManager, mockPlayerManager, mockDeck,
@@ -270,13 +274,10 @@ public class GameEngineLoopTest {
 		EasyMock.verify(mockUI);
 	}
 
-
-
 	private Method getMainMethod() throws Exception {
 		Method m = GameEngine.class.getDeclaredMethod(
 				"main", String[].class);
 		m.setAccessible(true);
 		return m;
 	}
-
 }
