@@ -129,11 +129,11 @@
 
 ### Step 4
 
-| Test Case | System under test                                                          | Expected behavior                                                                                         | Implemented?        | Test name                                                                   |
-|-----------|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|---------------------|-----------------------------------------------------------------------------|
-| 1         | `queue=[]`                                                                 | throws `IllegalStateException("No players to manage")`                                                    | :white_check_mark:  | `endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException `      |
-| 2         | `queue=[player1, player2]`                                                 | removes `player1`; re-adds exactly one `player1`; `current == player2`, `player2` now have two turns more | :white_check_mark:  | `endTurnWithoutDrawForAttacks_withTwoPlayers_incrementTurnForPlayerTwo `    |
-| 3         | `queue=[player1,player2,player3]` player2 is the one that will play attack | removes `player2`; re-adds exactly one `player2`; `current == player3`, `player3` now have two turns more | :white_check_mark:  | `endTurnWithoutDrawForAttacks_withThreePlayers_incrementTurnForPlayerThree` |
+| Test Case | System under test                                                          | Expected behavior                                                                                         | Implemented?       | Test name                                                                   |
+|-----------|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|--------------------|-----------------------------------------------------------------------------|
+| 1         | `queue=[]`                                                                 | throws `IllegalStateException("No players to manage")`                                                    | :white_check_mark: | `endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException `      |
+| 2         | `queue=[player1, player2]`                                                 | removes `player1`; re-adds exactly one `player1`; `current == player2`, `player2` now have two turns more | :white_check_mark: | `endTurnWithoutDrawForAttacks_withTwoPlayers_incrementTurnForPlayerTwo `    |
+| 3         | `queue=[player1,player2,player3]` player2 is the one that will play attack | removes `player2`; re-adds exactly one `player2`; `current == player3`, `player3` now have two turns more | :white_check_mark: | `endTurnWithoutDrawForAttacks_withThreePlayers_incrementTurnForPlayerThree` |
 
 ---
 
@@ -226,3 +226,28 @@ in TurnManager.
 | Test Case 4 | `player = player3`, queue is `[player1, player2]`                            | `0`                                             | :white_check_mark: | `getTurnsCountFor_playerNotInQueueWithTwo_returnsZero`      |
 | Test Case 5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark: | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo` |
 | Test Case 6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             | :white_check_mark: | `getTurnsCountFor_playerInQueueWithFive_retur nsOne`        |
+
+# Method 10: `public void reverseOrder()`
+
+### Step 1–3 Results
+
+|            | Input                                                                                                      | Output / State Change                                                             |
+|------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Step 1** | The current contents of the `turnQueue`                                                                    | Queue reverses order                                                              |
+| **Step 2** | Collection (Empty, Exactly 2 Element, Exactly 5 Elements (Max), Element containing duplicates)             | Reverse Order or Exception                                                        |
+| **Step 3** | `[]`, `[player1, player2]`, `[player1, player2, player1]`, `[player1, player2, player3, player4, player5]` | `IllegalStateException("No players to manage")`, Correct advancement or exception |
+
+##### Note:
+
+* Exactly 2 Elements for turnQueue because PlayerManager have a requirement that there should be between 2 and 5 players
+  in TurnManager.
+* Don't need to test 5 Elements (two is more than enough) since the integration test for Game should allow testing
+  multiple players and each doing their different turns and card
+
+### Step 4
+
+| Test Case | System under test                 | Expected behavior                                      | Implemented? | Test name                                              |
+|-----------|-----------------------------------|--------------------------------------------------------|--------------|--------------------------------------------------------|
+| 1         | `queue=[]`                        | throws `IllegalStateException("No players to manage")` |              | `reverseOrder_emptyQueue_throwsIllegalStateException ` |
+| 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             |              | `reverseOrder_withTwoPlayers_orderReverses `           |
+| 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      |              | `reverseOrder_withThreePlayers_orderReverses`          |
