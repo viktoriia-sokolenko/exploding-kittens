@@ -46,6 +46,26 @@ public class GameEngine {
 		cardManager.playCard(card, player, gameContext);
 	}
 
+	public void initializeGame() {
+		List<Player> players = playerManager.getPlayers();
+		for (Player player : players) {
+			for (int i = 0; i < 4; i++) {
+				player.drawCard(deck);
+			}
+
+			player.addCardToHand(cardFactory.createCard(CardType.DEFUSE));
+		}
+
+		int numExplodingKittens = players.size() - 1;
+		for (int i = 0; i < numExplodingKittens; i++) {
+			deck.insertCardAt(cardFactory.createCard(CardType.EXPLODING_KITTEN),
+					new Random().nextInt(deck.getDeckSize()));
+		}
+
+		gameRunning = true;
+		userInterface.displayHelp();
+	}
+
 	public void runGameLoop() {
 		while (gameRunning) {
 			Player currentPlayer = turnManager.getCurrentActivePlayer();
