@@ -1792,6 +1792,20 @@ public class GameEngineTest {
 	}
 
 
+	@Test
+	public void processCommand_withQuitCommand_callsHandleQuitCommand() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+		EasyMock.replay(mockUserInterface);
+
+		gameEngine.processCommand("quit", mockPlayer);
+
+		EasyMock.verify(mockPlayer);
+	}
+
 	private GameEngine createValidGameEngine() {
 		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
