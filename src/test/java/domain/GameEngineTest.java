@@ -1471,4 +1471,33 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayerManager);
 		EasyMock.verify(mockTurnManager);
 	}
+
+	@Test
+	public void handlePlayerElimination_calledMultipleTimes_worksCorrectly() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player player1 = EasyMock.createMock(Player.class);
+		Player player2 = EasyMock.createMock(Player.class);
+		List<Player> twoPlayers = Arrays.asList(player1, player2);
+
+		List<Player> onePlayer = Arrays.asList(player1);
+
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(twoPlayers)
+				.andReturn(onePlayer);
+		EasyMock.replay(mockPlayerManager);
+
+		mockTurnManager.syncWith(twoPlayers);
+		EasyMock.expectLastCall();
+		mockTurnManager.syncWith(onePlayer);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		gameEngine.handlePlayerGetsElimated();
+		gameEngine.handlePlayerGetsElimated();
+
+		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockTurnManager);
+	}
 }
