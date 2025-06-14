@@ -1011,4 +1011,46 @@ public class GameEngineTest {
 		EasyMock.verify(mockTurnManager);
 		EasyMock.verify(mockCurrentPlayer);
 	}
+
+	@Test
+	public void displayGameState_withTwoPlayersAndFullDeck_displaysCorrectState() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockCurrentPlayer);
+
+		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer,
+				EasyMock.createMock(Player.class));
+		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(20);
+		EasyMock.replay(mockDeck);
+
+		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.displayGameState(mockCurrentPlayer);
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+
+			assertTrue(output.contains("========================================"));
+			assertTrue(output.contains("Current Player's Turn"));
+			assertTrue(output.contains("Players remaining: 2"));
+			assertTrue(output.contains("Cards in deck: 20"));
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockCurrentPlayer);
+	}
 }
