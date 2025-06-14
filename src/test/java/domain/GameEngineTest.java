@@ -1426,4 +1426,29 @@ public class GameEngineTest {
 		EasyMock.verify(mockTurnManager);
 	}
 
+	@Test
+	public void handlePlayerElimination_passesExactListFromPlayerManager() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player player1 = EasyMock.createMock(Player.class);
+		Player player2 = EasyMock.createMock(Player.class);
+
+		List<Player> specificPlayerList = new ArrayList<>();
+		specificPlayerList.add(player1);
+		specificPlayerList.add(player2);
+
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(specificPlayerList);
+		EasyMock.replay(mockPlayerManager);
+		mockTurnManager.syncWith(EasyMock.same(specificPlayerList));
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		gameEngine.handlePlayerGetsElimated();
+
+		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockTurnManager);
+	}
+
 }
