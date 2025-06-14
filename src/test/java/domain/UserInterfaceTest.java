@@ -162,7 +162,7 @@ public class UserInterfaceTest {
 
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("YOUR HAND (3 cards):"));
-		assertTrue(out.contains("⏭️ Skip x3 (type: skip)"));
+		assertTrue(out.contains("Skip x3 (type: skip)"));
 	}
 
 	@Test

@@ -89,13 +89,16 @@ public class UserInterface {
 				String cardDisplay = formatCardName(type);
 				String typeName = type.name().toLowerCase().replace("_", " ");
 					if (count == 1) {
-						System.out.printf("  %s (type: %s)%n", cardDisplay, typeName);
+						System.out.printf("  %s (type: %s)%n",
+								cardDisplay, typeName);
+					} else {
+						System.out.printf("  %s x%d (type: %s)%n",
+								cardDisplay, count, typeName);
 					}
 
 				}
 
 			}
-
 		System.out.println("─".repeat(NUMBER_OF_DASHES));
 		System.out.println("Use 'play <type>' to play a card (e.g., 'play skip')");
 		System.out.println("─".repeat(NUMBER_OF_DASHES) + "\n");
