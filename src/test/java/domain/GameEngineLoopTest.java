@@ -229,14 +229,43 @@ public class GameEngineLoopTest {
 				mockUI, mockFactory, mockRandom
 		);
 
-		
-
 		getMainMethod().invoke(engine, (Object) new String[] {});
 
 		assertTrue(engine.initCalled,
 				"initializeGame() should have been called");
 		assertTrue(engine.loopCalled,
 				"runGameLoop() should have been called");
+
+		EasyMock.verify(mockUI);
+	}
+
+	@Test
+	public void main_initializeThrows_displaysErrorAndNoLoop() throws Exception {
+		System.setIn(new ByteArrayInputStream("2\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		System.setOut(new PrintStream
+				(new ByteArrayOutputStream()));
+
+		TestableMainEngine engine = new TestableMainEngine(
+				mockTurnManager, mockPlayerManager, mockDeck,
+				mockUI, mockFactory, mockRandom
+		) {
+			@Override
+			public void initializeGame() {
+				throw new RuntimeException("init failed");
+			}
+
+			@Override
+			public void runGameLoop() {
+				fail("runGameLoop() should not be called " +
+						"when initializeGame() throws");
+			}
+		};
+
+		mockUI.displayError("Game encountered an error: init failed");
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUI);
+		getMainMethod().invoke(engine, (Object) new String[] {});
 
 		EasyMock.verify(mockUI);
 	}
