@@ -959,4 +959,56 @@ public class GameEngineTest {
 		EasyMock.verify(mockTurnManager);
 		EasyMock.verify(mockCurrentPlayer);
 	}
+
+	@Test
+	public void displayGameStatus_withFiveActivePlayers_displaysCorrectStatus() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		final int NUMBER_OF_CARDS_IN_PLAYERS_HAND = 7;
+		EasyMock.expect(mockCurrentPlayer
+				.getNumberOfCards()).andReturn(NUMBER_OF_CARDS_IN_PLAYERS_HAND);
+		EasyMock.replay(mockCurrentPlayer);
+
+		List<Player> activePlayers = Arrays.asList(
+				mockCurrentPlayer,
+				EasyMock.createMock(Player.class),
+				EasyMock.createMock(Player.class),
+				EasyMock.createMock(Player.class),
+				EasyMock.createMock(Player.class)
+		);
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+
+		final int NUMBER_OF_CARDS_IN_DECK = 25;
+		EasyMock.expect(mockDeck.getDeckSize())
+				.andReturn(NUMBER_OF_CARDS_IN_DECK);
+		EasyMock.replay(mockDeck);
+
+		EasyMock.expect(mockTurnManager.getCurrentActivePlayer()
+		).andReturn(mockCurrentPlayer);
+		EasyMock.replay(mockTurnManager);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream,
+				true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.displayGameStatus();
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+
+			assertTrue(output.contains("Active players: 5"));
+			assertTrue(output.contains("Cards in deck: 25"));
+			assertTrue(output.contains("Current player has 7 cards"));
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockTurnManager);
+		EasyMock.verify(mockCurrentPlayer);
+	}
 }
