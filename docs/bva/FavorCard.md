@@ -12,9 +12,9 @@
 
 ### Step 4:
 
-|             | System under test | Expected output / state transition | Implemented? | Test name                                   |
-|-------------|-------------------|------------------------------------|--------------|---------------------------------------------|
-| Test Case 1 | FavorCard         | returns non-null object            |              | createEffect_favorCard_returnsNonNullEffect |
+|             | System under test | Expected output / state transition | Implemented?       | Test name                                   |
+|-------------|-------------------|------------------------------------|--------------------|---------------------------------------------|
+| Test Case 1 | FavorCard         | returns non-null object            | :white_check_mark: | createEffect_favorCard_returnsNonNullEffect |
 
 # BVA Analysis for FavorEffect
 

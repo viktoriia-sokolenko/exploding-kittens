@@ -7,7 +7,13 @@ public class FavorCard extends Card {
 
 	@Override
 	public CardEffect createEffect() {
-		// Temporary empty implementation
-		return null;
+		return new FavorCard.FavorEffect();
+	}
+
+	private static class FavorEffect implements CardEffect {
+		@Override
+		public void execute(GameContext context) {
+			return;
+		}
 	}
 }
