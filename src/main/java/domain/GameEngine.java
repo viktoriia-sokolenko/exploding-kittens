@@ -230,7 +230,9 @@ public class GameEngine {
 		turnManager.advanceToNextPlayer();
 	}
 
-	public void handlePlayerGetsElimated() {
+
+
+	public void handlePlayerGetsEliminated() {
 		List<Player> activePlayers = playerManager.getActivePlayers();
 		turnManager.syncWith(activePlayers);
 	}

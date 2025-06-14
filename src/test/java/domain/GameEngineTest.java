@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.easymock.EasyMock;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import ui.UserInterface;
 
@@ -1354,7 +1353,7 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.handlePlayerGetsElimated();
+		gameEngine.handlePlayerGetsEliminated();
 
 		EasyMock.verify(mockPlayerManager);
 		EasyMock.verify(mockTurnManager);
@@ -1376,7 +1375,7 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.handlePlayerGetsElimated();
+		gameEngine.handlePlayerGetsEliminated();
 
 		EasyMock.verify(mockPlayerManager);
 		EasyMock.verify(mockTurnManager);
@@ -1399,7 +1398,7 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.handlePlayerGetsElimated();
+		gameEngine.handlePlayerGetsEliminated();
 
 		EasyMock.verify(mockPlayerManager);
 		EasyMock.verify(mockTurnManager);
@@ -1420,7 +1419,7 @@ public class GameEngineTest {
 		EasyMock.replay(mockPlayerManager);
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.handlePlayerGetsElimated();
+		gameEngine.handlePlayerGetsEliminated();
 
 		EasyMock.verify(mockPlayerManager);
 		EasyMock.verify(mockTurnManager);
@@ -1445,7 +1444,7 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.handlePlayerGetsElimated();
+		gameEngine.handlePlayerGetsEliminated();
 
 		EasyMock.verify(mockPlayerManager);
 		EasyMock.verify(mockTurnManager);
@@ -1466,7 +1465,7 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.handlePlayerGetsElimated();
+		gameEngine.handlePlayerGetsEliminated();
 
 		EasyMock.verify(mockPlayerManager);
 		EasyMock.verify(mockTurnManager);
@@ -1494,8 +1493,8 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.handlePlayerGetsElimated();
-		gameEngine.handlePlayerGetsElimated();
+		gameEngine.handlePlayerGetsEliminated();
+		gameEngine.handlePlayerGetsEliminated();
 
 		EasyMock.verify(mockPlayerManager);
 		EasyMock.verify(mockTurnManager);
@@ -1521,7 +1520,7 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.handlePlayerGetsElimated();
+		gameEngine.handlePlayerGetsEliminated();
 		assertEquals(originalSize, originalList.size());
 		assertTrue(originalList.contains(player1));
 		assertTrue(originalList.contains(player2));
