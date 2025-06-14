@@ -629,6 +629,20 @@ public class DeckTest {
 		assertEquals(expectedCardList, actualCardList);
 	}
 
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void peekTopThreeCards_deckWithTwoCards_returnsTwoLastCards(List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		Card expectedCard1 = cards.get(1);
+		Card expectedCard2 = cards.get(0);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(expectedCard1, expectedCard2));
+		List <Card> actualCardList = deck.peekTopThreeCards();
+
+		assertEquals(expectedCardList, actualCardList);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),

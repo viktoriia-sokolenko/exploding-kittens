@@ -25,23 +25,12 @@ public class Deck {
 	}
 
 	public List<Card> peekTopTwoCards() {
-		if (deck.isEmpty()) {
-			throw new NoSuchElementException("Deck is empty");
-		}
-		Card topCard = this.deck.get(deck.size() - 1);
-		ArrayList<Card> cardList = new ArrayList<>(List.of(topCard));
-		if (this.deck.size() > 1) {
-			cardList.add(this.deck.get(deck.size() - 2));
-		}
-		return cardList;
+		return peekTopCards(2);
 	}
 
 	public List<Card> peekTopThreeCards() {
-		if (deck.isEmpty()) {
-			throw new NoSuchElementException("Deck is empty");
-		}
-		Card topCard = this.deck.get(deck.size() - 1);
-		return new ArrayList<>(List.of(topCard));
+		final int numberToLookUp = 3;
+		return peekTopCards(numberToLookUp);
 	}
 
 	public Card draw() {
@@ -81,5 +70,23 @@ public class Deck {
 
 	private boolean isIndexEqualToDeckSize(int index) {
 		return this.deck.size() == index;
+	}
+
+	private List<Card> peekTopCards (int count) {
+		if (deck.isEmpty()) {
+			throw new NoSuchElementException("Deck is empty");
+		}
+		ArrayList<Card> cardList = new ArrayList<>();
+		int cardCount = 1;
+		int cardsToAdd = count;
+		while (cardsToAdd > 0) {
+			if (this.deck.size() < cardCount) {
+				return cardList;
+			}
+			cardList.add(this.deck.get(deck.size() - cardCount));
+			cardCount++;
+			cardsToAdd--;
+		}
+		return cardList;
 	}
 }
