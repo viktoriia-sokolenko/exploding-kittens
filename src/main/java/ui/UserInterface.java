@@ -70,6 +70,7 @@ public class UserInterface {
 		}
 	}
 
+
 	public void displayPlayerHand(Player player) {
 		int total = player.getNumberOfCards();
 
@@ -85,9 +86,11 @@ public class UserInterface {
 			for (CardType type : CardType.values()) {
 				Integer countInteger = player.getCardTypeCount(type);
 				int count = (countInteger != null) ? countInteger : 0;
-				String cardDisplay = formatCardName(type);
-				String typeName = type.name().toLowerCase()
-						.replace("_", " ");
+
+				if (count > 0) {
+					String cardDisplay = formatCardName(type);
+					String typeName = type.name().toLowerCase()
+							.replace("_", " ");
 					if (count == 1) {
 						System.out.printf("  %s (type: %s)%n",
 								cardDisplay, typeName);
@@ -95,10 +98,10 @@ public class UserInterface {
 						System.out.printf("  %s x%d (type: %s)%n",
 								cardDisplay, count, typeName);
 					}
-
 				}
-
 			}
+		}
+
 		System.out.println("─".repeat(NUMBER_OF_DASHES));
 		System.out.println("Use 'play <type>' to play a card (e.g., 'play skip')");
 		System.out.println("─".repeat(NUMBER_OF_DASHES) + "\n");
