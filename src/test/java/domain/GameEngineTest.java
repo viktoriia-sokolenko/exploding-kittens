@@ -1280,4 +1280,21 @@ public class GameEngineTest {
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockCurrentPlayer);
 	}
+
+	@Test
+	public void handleQuitCommand_setsGameRunningToFalse() {
+		gameEngine = createValidGameEngine();
+		assertFalse(gameEngine.isGameRunning());
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream,
+				true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.handleQuitCommand();
+			assertFalse(gameEngine.isGameRunning());
+		} finally {
+			System.setOut(originalOut);
+		}
+	}
 }

@@ -12,6 +12,7 @@ public class GameEngine {
 	private final Deck deck;
 	private final UserInterface userInterface;
 	private final CardFactory cardFactory;
+	public boolean gameRunning = false;
 
 	public GameEngine(
 			TurnManager turnManager,
@@ -38,6 +39,14 @@ public class GameEngine {
 
 		GameContext gameContext = createGameContext(player);
 		cardManager.playCard(card, player, gameContext);
+	}
+
+	public boolean isGameRunning() {
+		return gameRunning;
+	}
+
+	public void handleQuitCommand() {
+		gameRunning = false;
 	}
 
 	private GameContext createGameContext(Player player) {
