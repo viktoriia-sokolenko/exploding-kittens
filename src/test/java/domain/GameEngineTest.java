@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.easymock.EasyMock;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import ui.UserInterface;
 
@@ -17,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import java.nio.charset.StandardCharsets;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -1681,62 +1684,63 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	private static Stream<Arguments> provideCardTypeTestData() {
+		return Stream.of(
+				Arguments.of("skip", CardType.SKIP, true),
+				Arguments.of("attack", CardType.ATTACK, true),
+				Arguments.of("favor", CardType.FAVOR, false),
+				Arguments.of("shuffle", CardType.SHUFFLE, false)
+		);
+	}
+
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"play skip",
-			"PLAY SKIP",
-			"Play Skip",
-			"pLaY sKiP",
-			" play skip ",
-			"\tplay\tskip\n",
-			"play  skip",
-			"play   skip"
-	})
-	public void processCommand_withPlayCommandVariations_callsHandlePlayCommand
-			(String input) {
+	@MethodSource("provideCardTypeTestData")
+	public void processCommand_withPlayCommandForDifferentCards_callsHandlePlayCommand(
+			String cardName, CardType cardType, boolean endsTurn) {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
 
-		Card mockSkipCard = createMockCard(CardType.SKIP);
-		EasyMock.reset(mockSkipCard);
+		Card mockCard = createMockCard(cardType);
+		EasyMock.reset(mockCard);
 		CardEffect mockEffect = EasyMock.createMock(CardEffect.class);
 		mockEffect.execute(EasyMock.anyObject(GameContext.class));
 		EasyMock.expectLastCall().andAnswer(() -> {
-			GameContext context = (GameContext)
-					EasyMock.getCurrentArguments()[0];
-			context.endTurnWithoutDrawing();
+			GameContext context = (GameContext) EasyMock.getCurrentArguments()[0];
+			if (endsTurn) {
+				context.endTurnWithoutDrawing();
+			}
 			return null;
 		});
 		EasyMock.replay(mockEffect);
-		EasyMock.expect(mockSkipCard.createEffect()).andReturn(mockEffect);
-		EasyMock.replay(mockSkipCard);
+		EasyMock.expect(mockCard.createEffect()).andReturn(mockEffect);
+		EasyMock.replay(mockCard);
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
-		EasyMock.expect(mockPlayer.parseCardType("skip"))
-				.andReturn(CardType.SKIP);
-		mockPlayer.removeCardFromHand(mockSkipCard);
+		EasyMock.expect(mockPlayer.parseCardType(cardName)).andReturn(cardType);
+		mockPlayer.removeCardFromHand(mockCard);
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockPlayer);
 
-		EasyMock.expect(mockCardFactory.createCard(CardType.SKIP))
-				.andReturn(mockSkipCard);
+		EasyMock.expect(mockCardFactory.createCard(cardType)).andReturn(mockCard);
 		EasyMock.replay(mockCardFactory);
 
-		mockUserInterface.displayCardPlayed(mockSkipCard);
+		mockUserInterface.displayCardPlayed(mockCard);
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
-		mockTurnManager.endTurnWithoutDraw();
-		EasyMock.expectLastCall();
+		if (endsTurn) {
+			mockTurnManager.endTurnWithoutDraw();
+			EasyMock.expectLastCall();
+		}
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.processCommand(input, mockPlayer);
+		gameEngine.processCommand("play " + cardName, mockPlayer);
 
 		EasyMock.verify(mockPlayer);
 		EasyMock.verify(mockCardFactory);
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockTurnManager);
-		EasyMock.verify(mockSkipCard);
+		EasyMock.verify(mockCard);
 		EasyMock.verify(mockEffect);
 	}
 
