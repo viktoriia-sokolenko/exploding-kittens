@@ -235,6 +235,8 @@ public class GameEngine {
 			userInterface.displayError("Please enter a command. Type 'help' for available commands.");
 			return;
 		}
+
+
 	}
 
 
