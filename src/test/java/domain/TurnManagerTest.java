@@ -342,9 +342,10 @@ public class TurnManagerTest {
 	void addTurnForCurrentPlayer_withOnePlayer_doesNotAddDuplicateTurn() {
 		PlayerManager playerManager = mockPlayerManager(1);
 		turnManager.setPlayerManager(playerManager);
-		final int EXPECTED_COUNT = 1;
-		Player singlePlayer = playerManager.getPlayers().get(EXPECTED_COUNT);
+		final int ONLY_PLAYER = 0;
+		Player singlePlayer = playerManager.getPlayers().get(ONLY_PLAYER);
 		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
+		final int EXPECTED_COUNT = 1;
 		assertEquals(EXPECTED_COUNT, turnManager.getTurnsFor(singlePlayer));
 		turnManager.addTurnForCurrentPlayer();
 		assertEquals(EXPECTED_COUNT, turnManager.getTurnsFor(singlePlayer));
