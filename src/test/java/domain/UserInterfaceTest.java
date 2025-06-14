@@ -568,4 +568,19 @@ public class UserInterfaceTest {
 					"Should not display " + formattedName + " when player has none");
 		}
 	}
+
+	@Test
+	void displayPlayerHand_countIntegerNullHandling_specific() {
+		UserInterface ui = new UserInterface();
+
+		Hand emptyHand = new Hand();
+		Player playerWithEmptyHand = new Player(emptyHand);
+		ui.displayPlayerHand(playerWithEmptyHand);
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("(empty hand)"));
+
+		assertFalse(out.contains(" x0"), "Should never show x0 for any card");
+		assertFalse(out.contains("Skip"), "Should not show Skip when count is null/0");
+		assertFalse(out.contains("Attack"), "Should not show Attack when count is null/0");
+	}
 }
