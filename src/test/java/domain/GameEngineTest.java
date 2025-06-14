@@ -1772,7 +1772,24 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@ParameterizedTest
+	@ValueSource(strings = {"hand"})
+	public void processCommand_withHandCommand_displaysPlayerHand(String input) {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+
+		mockUserInterface.displayPlayerHand(mockPlayer);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		gameEngine.processCommand(input, mockPlayer);
+
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockPlayer);
+	}
 
 
 	private GameEngine createValidGameEngine() {
