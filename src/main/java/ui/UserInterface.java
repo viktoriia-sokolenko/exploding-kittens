@@ -182,4 +182,10 @@ public class UserInterface {
 				"back into the deck" +
 				".\n");
 	}
+
+
+	public void displayPlayerEliminated() {
+		System.out.println("You have been eliminated from the game!");
+		System.out.println("Better luck next time!\n");
+	}
 }
