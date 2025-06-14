@@ -211,4 +211,24 @@ public class UserInterfaceTest {
 		ui.displayCardEffect(CardType.EXPLODING_KITTEN);
 		assertEquals("", outContent.toString(StandardCharsets.UTF_8));
 	}
+
+	@Test
+	void formatCardName_allCardTypes_returnsCorrectFormat() {
+		UserInterface ui = new UserInterface();
+		assertEquals("Exploding Kitten",
+				ui.formatCardName(CardType.EXPLODING_KITTEN));
+		assertEquals("Defuse", ui.formatCardName(CardType.DEFUSE));
+		assertEquals("Attack", ui.formatCardName(CardType.ATTACK));
+		assertEquals("Skip", ui.formatCardName(CardType.SKIP));
+		assertEquals("Favor", ui.formatCardName(CardType.FAVOR));
+		assertEquals("Shuffle", ui.
+				formatCardName(CardType.SHUFFLE));
+		assertEquals("See the Future",
+				ui.formatCardName(CardType.SEE_THE_FUTURE));
+		assertEquals("Alter the Future",
+				ui.formatCardName(CardType.ALTER_THE_FUTURE));
+		assertEquals("Nuke", ui.formatCardName(CardType.NUKE));
+		assertEquals("Normal Cat",
+				ui.formatCardName(CardType.NORMAL));
+	}
 }

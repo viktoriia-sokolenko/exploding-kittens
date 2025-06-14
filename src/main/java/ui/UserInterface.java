@@ -132,4 +132,32 @@ public class UserInterface {
 		}
 	}
 
+	public String formatCardName(CardType cardType) {
+		switch (cardType) {
+			case EXPLODING_KITTEN:
+				return "Exploding Kitten";
+			case DEFUSE:
+				return "Defuse";
+			case ATTACK:
+				return "Attack";
+			case SKIP:
+				return "Skip";
+			case FAVOR:
+				return "Favor";
+			case SHUFFLE:
+				return "Shuffle";
+			case SEE_THE_FUTURE:
+				return "See the Future";
+			case ALTER_THE_FUTURE:
+				return "Alter the Future";
+			case NUKE:
+				return "Nuke";
+			case NORMAL:
+				return "Normal Cat";
+			default:
+				return cardType.toString();
+		}
+	}
+
+
 }
