@@ -477,4 +477,24 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Shuffle"));
 		assertFalse(out.contains("x0"));
 	}
+
+	@Test
+	void displayPlayerHand_verifiesExactCountDisplay() {
+		UserInterface ui = new UserInterface();
+		Hand hand = new Hand();
+		hand.addCard(new SkipCard());
+		hand.addCard(new SkipCard());
+		hand.addCard(new SkipCard());
+		hand.addCard(new SkipCard());
+		Player player = new Player(hand);
+
+		ui.displayPlayerHand(player);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("Skip x4 (type: skip)"));
+		assertFalse(out.contains("Skip x0"));
+		assertFalse(out.contains("Skip x1"));
+		assertFalse(out.contains("Skip x2"));
+		assertFalse(out.contains("Skip x3"));
+	}
 }
