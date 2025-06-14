@@ -76,4 +76,16 @@ public class UserInterfaceTest {
 		assertEquals(EXPECTED_PROMPTS, promptCount);
 	}
 
+	@Test
+	public void getUserInput_withValidMessageAndInput_returnsConsoleLineAndPrintsMessage() {
+		System.setIn(new ByteArrayInputStream("hello world\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		String message = "";
+		String result = ui.getUserInput(message);
+		assertEquals("hello world", result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+	}
+
 }
