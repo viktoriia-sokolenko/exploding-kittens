@@ -249,7 +249,11 @@ public class GameEngine {
 					handlePlayCommand(parts, currentPlayer);
 					break;
 				case "help":
-					handlePlayCommand(parts, currentPlayer);
+					userInterface.displayHelp();
+					break;
+				case "hand":
+					userInterface.displayPlayerHand(currentPlayer);
+					break;
 				case "draw":
 					handleDrawCommand(currentPlayer);
 					break;
