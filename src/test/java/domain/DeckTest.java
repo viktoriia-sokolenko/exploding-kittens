@@ -651,6 +651,21 @@ public class DeckTest {
 		Card expectedCard3 = deck.getCardAt(0);
 		List <Card> expectedCardList = new ArrayList<>(
 				List.of(expectedCard1, expectedCard2, expectedCard3));
+
+		List <Card> actualCardList = deck.peekTopThreeCards();
+		assertEquals(expectedCardList, actualCardList);
+	}
+
+	@Test
+	public void peekTopThreeCards_deckWithFourCardsAndDuplicate_returnsLastDuplicateCards() {
+		Deck deck = deckWithFourCardsAndDuplicate();
+		int indexSizeMinusOne = deck.getDeckSize() - 1;
+		Card expectedCard1 = deck.getCardAt(indexSizeMinusOne);
+		Card expectedCard2 = deck.getCardAt(2);
+		Card expectedCard3 = deck.getCardAt(1);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(expectedCard1, expectedCard2, expectedCard3));
+
 		List <Card> actualCardList = deck.peekTopThreeCards();
 		assertEquals(expectedCardList, actualCardList);
 	}
@@ -677,10 +692,18 @@ public class DeckTest {
 	}
 
 	private Deck deckWithThreeCards() {
-		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
-		Card card2 = mockCard(CardType.NORMAL);
-		Card card3 = mockCard(CardType.SKIP);
+		Card card1 = mockCard(CardType.ALTER_THE_FUTURE);
+		Card card2 = mockCard(CardType.NUKE);
+		Card card3 = mockCard(CardType.FAVOR);
 		return new Deck(List.of(card1, card2, card3));
+	}
+
+	private Deck deckWithFourCardsAndDuplicate() {
+		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card card2 = mockCard(CardType.SKIP);
+		Card card3 = mockCard(CardType.NORMAL);
+		Card card4 = mockCard(CardType.NORMAL);
+		return new Deck(List.of(card1, card2, card3, card4));
 	}
 
 	private Card mockCard(CardType type) {
