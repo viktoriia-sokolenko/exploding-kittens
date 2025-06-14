@@ -212,19 +212,6 @@ public class PlayerTest {
 		EasyMock.verify(mockHand);
 	}
 
-	private Card mockCard(CardType cardType) {
-		Card mockCard = EasyMock.createMock(Card.class);
-		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
-		EasyMock.replay(mockCard);
-		return mockCard;
-	}
-
-	private Deck mockDeck(Card card) {
-		Deck mockDeck = EasyMock.createMock(Deck.class);
-		EasyMock.expect(mockDeck.draw()).andReturn(card);
-		return mockDeck;
-	}
-
 	@Test
 	public void getNumberOfCards_returnsNumberOfCards() {
 		final int NUMBER_OF_CARDS = 5;
@@ -564,5 +551,18 @@ public class PlayerTest {
 		assertTrue(player.hasEmptyHand());
 
 		EasyMock.verify(mockHand);
+	}
+
+	private Card mockCard(CardType cardType) {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+		EasyMock.replay(mockCard);
+		return mockCard;
+	}
+
+	private Deck mockDeck(Card card) {
+		Deck mockDeck = EasyMock.createMock(Deck.class);
+		EasyMock.expect(mockDeck.draw()).andReturn(card);
+		return mockDeck;
 	}
 }
