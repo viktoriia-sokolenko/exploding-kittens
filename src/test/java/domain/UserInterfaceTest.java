@@ -231,4 +231,15 @@ public class UserInterfaceTest {
 		assertEquals("Normal Cat",
 				ui.formatCardName(CardType.NORMAL));
 	}
+
+	@Test
+	void displaySuccess_printsSuccessMessage() {
+		UserInterface ui = new UserInterface();
+		String testMessage = "You played: SKIP";
+
+		ui.displaySuccess(testMessage);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("Success: " + testMessage));
+	}
 }

@@ -40,6 +40,10 @@ public class UserInterface {
 		System.err.println("Error: " + message);
 	}
 
+	public void displaySuccess(String message) {
+		System.out.println("Success: " + message);
+	}
+
 	public String getUserInput() {
 		System.out.print("> ");
 		return scanner.nextLine();
