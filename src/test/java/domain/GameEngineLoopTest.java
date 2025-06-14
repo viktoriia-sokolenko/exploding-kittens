@@ -229,6 +229,8 @@ public class GameEngineLoopTest {
 				mockUI, mockFactory, mockRandom
 		);
 
+		
+
 		getMainMethod().invoke(engine, (Object) new String[] {});
 
 		assertTrue(engine.initCalled,
