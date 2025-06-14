@@ -223,44 +223,80 @@ public class GameContextTest {
 	@EnumSource(CardType.class)
 	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
 			CardType testCardType) {
-		Card testCard = mockCard(testCardType);
-
+		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
+		EasyMock.expect(userInterface.getUserInputInt(
+				"Enter the player you want to get card from"))
+				.andReturn(playerIndex);
+		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
+				.andReturn(mockPlayerGiver);
+
+
+		Card testCard = mockCard(testCardType);
+		String cardTypeInput = "testCardType";
+		EasyMock.expect(userInterface.getUserInput(
+				"Enter card type you want to give to current player"))
+				.andReturn(cardTypeInput);
+		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
+				.andReturn(testCardType);
+		EasyMock.expect(mockCardFactory.createCard(testCardType))
+				.andReturn(testCard);
+
 		mockPlayerGiver.removeCardFromHand(testCard);
 		EasyMock.expectLastCall()
 				.andThrow(new IllegalArgumentException
 						("Card not in hand: can not remove card"));
-		EasyMock.replay(mockPlayerGiver);
+
+		EasyMock.replay(mockPlayerGiver, mockCardFactory, userInterface, mockPlayerManager);
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
-		assertThrows(IllegalArgumentException.class, () ->
-		{ fullGameContext.transferCardBetweenPlayers(testCard, mockPlayerGiver); });
+		assertThrows(IllegalArgumentException.class,
+				fullGameContext::transferCardBetweenPlayers);
 
-		EasyMock.verify(mockPlayerGiver);
+		EasyMock.verify(mockPlayerGiver,
+				userInterface, mockCardFactory, mockPlayerManager);
 	}
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	void transferCardBetweenPlayers_withCardInHand_transfersCard(CardType testCardType) {
-		Card testCard = mockCard(testCardType);
-
+		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
+		EasyMock.expect(userInterface.getUserInputInt(
+				"Enter the player you want to get card from"))
+				.andReturn(playerIndex);
+		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
+				.andReturn(mockPlayerGiver);
+
+
+		Card testCard = mockCard(testCardType);
+		String cardTypeInput = "testCardType";
+		EasyMock.expect(userInterface.getUserInput(
+				"Enter card type you want to give to current player"))
+				.andReturn(cardTypeInput);
+		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
+				.andReturn(testCardType);
+		EasyMock.expect(mockCardFactory.createCard(testCardType))
+				.andReturn(testCard);
+
 		mockPlayerGiver.removeCardFromHand(testCard);
 		EasyMock.expectLastCall().once();
 
 		mockCurrentPlayer.addCardToHand(testCard);
 		EasyMock.expectLastCall().once();
 
-		EasyMock.replay(mockPlayerGiver, mockCurrentPlayer);
+		EasyMock.replay(mockPlayerGiver, mockCurrentPlayer,
+				userInterface, mockCardFactory, mockPlayerManager);
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
-		fullGameContext.transferCardBetweenPlayers(testCard, mockPlayerGiver);
+		fullGameContext.transferCardBetweenPlayers();
 
-		EasyMock.verify(mockPlayerGiver, mockCurrentPlayer);
+		EasyMock.verify(mockPlayerGiver, mockCurrentPlayer,
+				userInterface, mockCardFactory, mockPlayerManager);
 	}
 
 	private Card mockCard(CardType cardType) {

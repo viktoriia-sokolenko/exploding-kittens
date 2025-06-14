@@ -60,9 +60,16 @@ public class GameContext {
 		}
 	}
 
-	public void transferCardBetweenPlayers(Card card, Player playerGiver) {
-		playerGiver.removeCardFromHand(card);
-		currentPlayer.addCardToHand(card);
+	public void transferCardBetweenPlayers() {
+		int playerGiverIndex = userInterface.getUserInputInt(
+				"Enter the player you want to get card from");
+		Player playerGiver = playerManager.getPlayerByIndex(playerGiverIndex);
+		String cardTypeInput = userInterface.getUserInput(
+				"Enter card type you want to give to current player");
+		CardType cardType = playerGiver.parseCardType(cardTypeInput);
+		Card cardToTransfer = cardFactory.createCard(cardType);
+		playerGiver.removeCardFromHand(cardToTransfer);
+		currentPlayer.addCardToHand(cardToTransfer);
 	}
 
 	public List<Card> viewTopTwoCardsFromDeck() {
