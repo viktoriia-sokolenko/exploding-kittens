@@ -1855,6 +1855,39 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@Test
+	public void processCommand_withStatusCommand_displaysGameStatus() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		Player mockActivePlayer1 = EasyMock.createMock(Player.class);
+		Player mockActivePlayer2 = EasyMock.createMock(Player.class);
+
+		List<Player> activePlayers = Arrays.asList(mockActivePlayer1, mockActivePlayer2);
+
+		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(10);
+		EasyMock.replay(mockDeck);
+
+		EasyMock.expect(mockTurnManager.getCurrentActivePlayer()).andReturn(mockCurrentPlayer);
+		EasyMock.replay(mockTurnManager);
+
+		EasyMock.expect(mockCurrentPlayer.getNumberOfCards()).andReturn(5);
+		EasyMock.replay(mockCurrentPlayer);
+
+		EasyMock.replay(mockUserInterface);
+
+		gameEngine.processCommand("status", mockCurrentPlayer);
+
+		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockTurnManager);
+		EasyMock.verify(mockCurrentPlayer);
+	}
+
 	private GameEngine createValidGameEngine() {
 		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
