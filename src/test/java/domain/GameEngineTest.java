@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,7 @@ public class GameEngineTest {
 	private UserInterface mockUserInterface;
 	private Deck mockDeck;
 	private CardFactory mockCardFactory;
+	private SecureRandom mockSecureRandom;
 	private static final int MIN_PLAYERS = 2;
 	private static final int MAX_PLAYERS = 5;
 	private static final int THREE_PLAYERS = 3;
@@ -39,19 +41,21 @@ public class GameEngineTest {
 		mockUserInterface = EasyMock.createMock(UserInterface.class);
 		mockDeck = EasyMock.createMock(Deck.class);
 		mockCardFactory = EasyMock.createMock(CardFactory.class);
+		mockSecureRandom = EasyMock.createMock(SecureRandom.class);
 
 		gameEngine = new GameEngine(
 				mockTurnManager,
 				mockPlayerManager,
 				mockDeck,
 				mockUserInterface,
-				mockCardFactory
+				mockCardFactory,
+				mockSecureRandom
 		);
 	}
 
 	private GameEngine createValidGameEngine() {
 		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 	}
 
 	private Player createMockPlayer() {
@@ -81,7 +85,8 @@ public class GameEngineTest {
 						mockPlayerManager,
 						mockDeck,
 						mockUserInterface,
-						mockCardFactory
+						mockCardFactory,
+						mockSecureRandom
 				)
 		);
 		assertEquals("turnManager must not be null",
@@ -97,7 +102,8 @@ public class GameEngineTest {
 						null,
 						mockDeck,
 						mockUserInterface,
-						mockCardFactory
+						mockCardFactory,
+						mockSecureRandom
 				)
 		);
 		assertEquals("playerManager must not be null", ex.getMessage());
@@ -112,7 +118,8 @@ public class GameEngineTest {
 						mockPlayerManager,
 						null,
 						mockUserInterface,
-						mockCardFactory
+						mockCardFactory,
+						mockSecureRandom
 				)
 		);
 		assertEquals("deck must not be null", ex.getMessage());
@@ -125,7 +132,8 @@ public class GameEngineTest {
 				mockPlayerManager,
 				mockDeck,
 				null,
-				mockCardFactory
+				mockCardFactory,
+				mockSecureRandom
 		));
 	}
 
@@ -137,7 +145,8 @@ public class GameEngineTest {
 						mockPlayerManager,
 						mockDeck,
 						mockUserInterface,
-						null));
+						null,
+						mockSecureRandom));
 	}
 
 	@Test
@@ -443,7 +452,7 @@ public class GameEngineTest {
 	@Test
 	public void handlePlayCommand_withInsufficientParts_displaysUsageError() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
@@ -466,7 +475,7 @@ public class GameEngineTest {
 	@Test
 	public void handlePlayCommand_withEmptyParts_displaysUsageError() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
@@ -487,7 +496,7 @@ public class GameEngineTest {
 	@Test
 	public void handlePlayCommand_withValidCardType_playsCard() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Card mockSkipCard = createMockCard(CardType.SKIP);
 		EasyMock.reset(mockSkipCard);
@@ -650,7 +659,7 @@ public class GameEngineTest {
 	@Test
 	public void handleDrawCommand_withEmptyDeck_displaysErrorAndReturns() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
@@ -673,7 +682,7 @@ public class GameEngineTest {
 	@Test
 	public void handleDrawCommand_withNormalCard_addsCardToHandAndEndsTurn() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Card mockNormalCard = createMockCard(CardType.NORMAL);
 
@@ -682,7 +691,10 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockPlayer);
 
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(10);
+		final int NUMBER_OF_CARDS = 10;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(
+				NUMBER_OF_CARDS
+		);
 		EasyMock.expect(mockDeck.draw()).andReturn(mockNormalCard);
 		EasyMock.replay(mockDeck);
 
@@ -705,7 +717,7 @@ public class GameEngineTest {
 	@Test
 	public void handleDrawCommand_withExplodingKitten_usesDefuseAndEndsTurn() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Card mockExplodingKitten = createMockCard(CardType.EXPLODING_KITTEN);
 
@@ -716,7 +728,9 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockPlayer);
 
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(10).times(2);
+		final int NUMBER_OF_CARDS = 10;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(NUMBER_OF_CARDS
+		).times(2);
 		EasyMock.expect(mockDeck.draw()).andReturn(mockExplodingKitten);
 		mockDeck.insertCardAt(EasyMock.eq(mockExplodingKitten),
 				EasyMock.anyInt());
@@ -754,7 +768,7 @@ public class GameEngineTest {
 	@Test
 	public void handleDrawCommand_withExplodingKittenAndNoDefuse_removesPlayer() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Card mockExplodingKitten = createMockCard(CardType.EXPLODING_KITTEN);
 
@@ -803,7 +817,7 @@ public class GameEngineTest {
 	@Test
 	public void handleDrawCommand_withSkipCard_addsCardToHandAndEndsTurn() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Card mockSkipCard = createMockCard(CardType.SKIP);
 
@@ -835,7 +849,7 @@ public class GameEngineTest {
 	@Test
 	public void handleDrawCommand_withDefuseCard_addsCardToHandAndEndsTurn() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Card mockDefuseCard = createMockCard(CardType.DEFUSE);
 
@@ -868,7 +882,7 @@ public class GameEngineTest {
 	@Test
 	public void displayGameStatus_withTwoActivePlayers_displaysCorrectStatus() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		final int NUMBER_OF_CARDS = 5;
@@ -918,12 +932,12 @@ public class GameEngineTest {
 	public void displayGameStatus_withOneActivePlayer_displaysCorrectStatus() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager,
 				mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
-		final int NUMBER_OF_CARDS = 3;
+		final int NUMBER_OF_CARDS_FOR_MOCK_PLAYER = 3;
 		EasyMock.expect(mockCurrentPlayer.getNumberOfCards())
-				.andReturn(NUMBER_OF_CARDS);
+				.andReturn(NUMBER_OF_CARDS_FOR_MOCK_PLAYER);
 		EasyMock.replay(mockCurrentPlayer);
 
 		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer);
@@ -931,7 +945,10 @@ public class GameEngineTest {
 				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(8);
+		final int NUMBER_OF_CARDS_IN_DECK = 8;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(
+				NUMBER_OF_CARDS_IN_DECK
+		);
 		EasyMock.replay(mockDeck);
 
 		EasyMock.expect(mockTurnManager.getCurrentActivePlayer())
@@ -963,7 +980,7 @@ public class GameEngineTest {
 	@Test
 	public void displayGameStatus_withFiveActivePlayers_displaysCorrectStatus() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		final int NUMBER_OF_CARDS_IN_PLAYERS_HAND = 7;
@@ -1015,7 +1032,7 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_withTwoPlayersAndFullDeck_displaysCorrectState() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockCurrentPlayer);
@@ -1045,7 +1062,9 @@ public class GameEngineTest {
 			String output = outputStream.toString(StandardCharsets.UTF_8);
 
 			assertTrue(
-					output.contains("========================================"));
+					output.contains
+							("=========================" +
+									"==============="));
 			assertTrue(output.contains("Current Player's Turn"));
 			assertTrue(output.contains("Players remaining: 2"));
 			assertTrue(output.contains("Cards in deck: 20"));
@@ -1062,7 +1081,7 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_withOnePlayerRemaining_displaysCorrectState() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockCurrentPlayer);
@@ -1106,7 +1125,7 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_withFivePlayersRemaining_displaysCorrectState() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockCurrentPlayer);
@@ -1155,7 +1174,7 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_withEmptyDeck_displaysZeroCards() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockCurrentPlayer);
@@ -1198,7 +1217,7 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_ensuresUserInterfaceDisplayPlayerHandCalled() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockCurrentPlayer);
@@ -1238,19 +1257,20 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_withLargeNumbers_displaysCorrectly() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory);
+				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockCurrentPlayer);
 		List<Player> activePlayers = new ArrayList<>();
-		for (int i = 0; i < 4; i++) {
+		final int NUMBER_OF_PLAYERS = 4;
+		for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
 			activePlayers.add(EasyMock.createMock(Player.class));
 		}
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
 				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
-		int NUMBER_OF_CARDS_IN_DECK = 54;
+		final int NUMBER_OF_CARDS_IN_DECK = 54;
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(
 				NUMBER_OF_CARDS_IN_DECK
 		);
@@ -1284,7 +1304,7 @@ public class GameEngineTest {
 	@Test
 	public void handleQuitCommand_setsGameRunningToFalse() {
 		gameEngine = createValidGameEngine();
-		assertFalse(gameEngine.isGameRunning());
+		assertFalse(gameEngine.getIsGameRunning());
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream,
@@ -1292,7 +1312,7 @@ public class GameEngineTest {
 
 		try {
 			gameEngine.handleQuitCommand();
-			assertFalse(gameEngine.isGameRunning());
+			assertFalse(gameEngine.getIsGameRunning());
 		} finally {
 			System.setOut(originalOut);
 		}
@@ -1303,13 +1323,15 @@ public class GameEngineTest {
 		gameEngine = createValidGameEngine();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+		System.setOut(new PrintStream(outputStream,
+				true, StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.handleQuitCommand();
 			String output = outputStream.toString(StandardCharsets.UTF_8);
 
-			assertEquals("Thanks for playing Exploding Kittens!\n", output);
+			assertEquals(
+					"Thanks for playing Exploding Kittens!\n", output);
 		} finally {
 			System.setOut(originalOut);
 		}

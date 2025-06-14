@@ -12,14 +12,16 @@ public class GameEngine {
 	private final Deck deck;
 	private final UserInterface userInterface;
 	private final CardFactory cardFactory;
-	public boolean gameRunning = false;
+	private boolean gameRunning = false;
+	private final SecureRandom secureRandom;
 
 	public GameEngine(
 			TurnManager turnManager,
 			PlayerManager playerManager,
 			Deck deck,
 			UserInterface userInterface,
-			CardFactory cardFactory
+			CardFactory cardFactory,
+			SecureRandom secureRandom
 	) {
 		this.cardManager   = new CardManager();
 		this.turnManager   = Objects.requireNonNull(turnManager,
@@ -31,6 +33,7 @@ public class GameEngine {
 		this.userInterface = userInterface;
 		this.cardFactory = Objects.requireNonNull(cardFactory,
 				"cardFactory must not be null");
+		this.secureRandom = new SecureRandom();
 	}
 
 	public void playCard(Player player, Card card) {
@@ -41,13 +44,17 @@ public class GameEngine {
 		cardManager.playCard(card, player, gameContext);
 	}
 
-	public boolean isGameRunning() {
-		return gameRunning;
+	public boolean getIsGameRunning() {
+		return this.gameRunning;
+	}
+
+	public void setGameRunning(boolean gameRunning) {
+		this.gameRunning = gameRunning;
 	}
 
 	public void handleQuitCommand() {
 		System.out.println("Thanks for playing Exploding Kittens!");
-		gameRunning = false;
+		setGameRunning(false);
 	}
 
 	private GameContext createGameContext(Player player) {
@@ -112,18 +119,18 @@ public class GameEngine {
 		List<Card> startingDeck = createInitialDeck(cardFactory,
 				numberOfPlayers);
 
+		SecureRandom secureRandom = new SecureRandom();
 		Deck deck = new Deck(startingDeck);
 		// https://docs.oracle.com/javase/8/docs/api/java/security/SecureRandom.html
-		deck.shuffleDeck(new SecureRandom());
+		deck.shuffleDeck(secureRandom);
 
 		PlayerManager playerManager = new PlayerManager(deck);
 		TurnManager turnManager = new TurnManager(deck);
-
 		playerManager.addPlayers(numberOfPlayers);
 		turnManager.setPlayerManager(playerManager);
 
 		return new GameEngine(turnManager, playerManager, deck, userInterface,
-				cardFactory);
+				cardFactory, secureRandom);
 	}
 
 	public void showAvailableCardTypes(Player player) {
@@ -144,9 +151,10 @@ public class GameEngine {
 	}
 
 	public void displayGameState(Player currentPlayer) {
-		System.out.println("\n" + "=".repeat(40));
+		final int NUMBER_OF_EQUAL_SIGNS = 40;
+		System.out.println("\n" + "=".repeat(NUMBER_OF_EQUAL_SIGNS));
 		System.out.println("Current Player's Turn");
-		System.out.println("=".repeat(40));
+		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS));
 		System.out.println("Players remaining: " + playerManager.getActivePlayers().size());
 		System.out.println("Cards in deck: " + deck.getDeckSize());
 		userInterface.displayPlayerHand(currentPlayer);
@@ -203,8 +211,10 @@ public class GameEngine {
 				System.out.println("You drew an Exploding " +
 						"Kitten but used a Defuse card!");
 				currentPlayer.removeDefuseCard();
-				deck.insertCardAt(drawnCard, new Random()
-						.nextInt(deck.getDeckSize()));
+				// https://docs.oracle.com/javase/8/docs/api/java/
+				// security/SecureRandom.html
+				deck.insertCardAt(drawnCard, secureRandom.
+						nextInt(deck.getDeckSize()));
 			} else {
 				System.out.println("BOOM! You drew an " +
 						"Exploding Kitten and had no Defuse card!");
