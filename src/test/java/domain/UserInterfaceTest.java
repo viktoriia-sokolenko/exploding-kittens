@@ -110,12 +110,17 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_empty_showsEmptyMessage() {
+	void displayPlayerHand_emptyHand_showsEmptyMessage() {
 		UserInterface ui = new UserInterface();
-		Player p = new Player(new Hand());
+		Hand h = new Hand();
+		Player p = new Player(h);
+
 		ui.displayPlayerHand(p);
-		assertTrue(outContent.toString(StandardCharsets.UTF_8)
-				.contains("(empty)"));
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("YOUR HAND (0 cards):"));
+		assertTrue(out.contains("(empty hand)"));
+		assertTrue(out.contains("Use 'play <type>' to play a card"));
 	}
 
 	@Test
