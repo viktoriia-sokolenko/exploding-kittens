@@ -99,4 +99,16 @@ public class UserInterfaceTest {
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 	}
 
+	@Test
+	public void getNumericUserInput_withEmptyMessage_returnsConsoleInput() {
+		System.setIn(new ByteArrayInputStream("1\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		String emptyMessage = "";
+		int result = ui.getNumericUserInput(emptyMessage);
+		assertEquals(1, result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+	}
+
 }
