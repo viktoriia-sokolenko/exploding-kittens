@@ -46,6 +46,24 @@ public class GameEngine {
 		cardManager.playCard(card, player, gameContext);
 	}
 
+	public void runGameLoop() {
+		while (gameRunning) {
+			Player currentPlayer = turnManager.getCurrentActivePlayer();
+
+			if (!currentPlayer.isInGame()) {
+				handlePlayerGetsEliminated();
+				continue;
+			}
+
+			displayGameState(currentPlayer);
+
+			String input = userInterface.getUserInput();
+			processCommand(input, currentPlayer);
+
+			checkWinCondition();
+		}
+	}
+
 	public boolean getIsGameRunning() {
 		return this.gameRunning;
 	}
