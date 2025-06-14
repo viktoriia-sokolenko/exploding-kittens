@@ -175,4 +175,11 @@ public class UserInterface {
 	public void displayDeckEmpty() {
 		displayWarning("The deck is empty! No more cards to draw.");
 	}
+
+	public void displayDefuseUsed() {
+		System.out.println("You used a Defuse card!");
+		System.out.println("Now pick where to put the Exploding Kitten card" +
+				"back into the deck" +
+				".\n");
+	}
 }
