@@ -279,4 +279,16 @@ public class UserInterfaceTest {
 		assertTrue(err.contains("Warning: The deck is empty! " +
 				"No more cards to draw."));
 	}
+
+	@Test
+	void displayDefuseUsed_printsDefuseMessage() {
+		UserInterface ui = new UserInterface();
+
+		ui.displayDefuseUsed();
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("You used a Defuse card!"));
+		assertTrue(out.contains("Now pick where " +
+				"to put the Exploding Kitten cardback into the deck"));
+	}
 }
