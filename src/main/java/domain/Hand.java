@@ -38,12 +38,14 @@ public class Hand {
 		return totalNumberOfCards;
 	}
 
-	public void removeCardType(CardType cardType) {
-		Objects.requireNonNull(cardType, "CardType cannot be null");
+	public void removeCard(Card card) {
+		Objects.requireNonNull(card, "Card cannot be null");
 
 		if (this.isEmpty()) {
 			throw new IllegalStateException("Hand empty: can not remove card");
 		}
+
+		CardType cardType = card.getCardType();
 		Integer count = this.cards.get(cardType);
 		if (!isValidCount(count)) {
 			throw new IllegalArgumentException("Card not in hand: can not remove card");
@@ -57,7 +59,8 @@ public class Hand {
 	}
 
 	public void removeDefuseCard() {
-		this.removeCardType(CardType.DEFUSE);
+		Card defuseCard = new DefuseCard();
+		this.removeCard(defuseCard);
 	}
 
 	public int getCountOfCardType(CardType cardType) {

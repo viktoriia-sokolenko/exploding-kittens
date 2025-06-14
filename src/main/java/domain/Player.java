@@ -27,8 +27,8 @@ public class Player {
 		hand.addCard(card);
 	}
 
-	public void removeCardFromHand(CardType cardType) {
-		hand.removeCardType(cardType);
+	public void removeCardFromHand(Card card) {
+		hand.removeCard(card);
 	}
 
 	public boolean isInGame() {

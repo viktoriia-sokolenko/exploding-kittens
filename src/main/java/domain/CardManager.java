@@ -8,7 +8,7 @@
 			Objects.requireNonNull(card, "Card cannot be null");
 			Objects.requireNonNull(player, "Player cannot be null");
 
-			player.removeCardFromHand(card.getCardType());
+			player.removeCardFromHand(card);
 
 			CardEffect effect = card.createEffect();
 			effect.execute(gameContext);

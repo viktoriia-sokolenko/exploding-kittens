@@ -224,7 +224,7 @@ public class GameContextTest {
 		Card testCard = mockCard(testCardType);
 
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
-		mockPlayerGiver.removeCardFromHand(testCardType);
+		mockPlayerGiver.removeCardFromHand(testCard);
 		EasyMock.expectLastCall()
 				.andThrow(new IllegalArgumentException
 						("Card not in hand: can not remove card"));
@@ -245,7 +245,7 @@ public class GameContextTest {
 		Card testCard = mockCard(testCardType);
 
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
-		mockPlayerGiver.removeCardFromHand(testCardType);
+		mockPlayerGiver.removeCardFromHand(testCard);
 		EasyMock.expectLastCall().once();
 
 		mockCurrentPlayer.addCardToHand(testCard);
