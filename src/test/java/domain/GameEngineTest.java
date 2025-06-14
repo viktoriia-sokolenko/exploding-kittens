@@ -1753,6 +1753,28 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer, mockTurnManager, mockPlayerManager);
 	}
 
+	@ParameterizedTest
+	@ValueSource(strings = {"help"})
+	public void processCommand_withHelpCommand_displaysHelp(String input) {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+
+		mockUserInterface.displayHelp();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		gameEngine.processCommand(input, mockPlayer);
+
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockPlayer);
+	}
+
+
+
+
 	private GameEngine createValidGameEngine() {
 		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
