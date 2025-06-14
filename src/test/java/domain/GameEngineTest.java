@@ -1151,4 +1151,86 @@ public class GameEngineTest {
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockCurrentPlayer);
 	}
+
+	@Test
+	public void displayGameState_withEmptyDeck_displaysZeroCards() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockCurrentPlayer);
+
+		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer);
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+
+		final int NUMBER_OF_CARDS_IN_DECK = 0;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(
+				NUMBER_OF_CARDS_IN_DECK
+		);
+		EasyMock.replay(mockDeck);
+
+		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream,
+				true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.displayGameState(mockCurrentPlayer);
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+
+			assertTrue(output.contains("Cards in deck: 0"));
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockCurrentPlayer);
+	}
+
+	@Test
+	public void displayGameState_ensuresUserInterfaceDisplayPlayerHandCalled() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory);
+
+		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockCurrentPlayer);
+
+		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer);
+		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+
+		final int NUMBER_OF_CARDS_IN_DECK = 8;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(
+				NUMBER_OF_CARDS_IN_DECK
+		);
+		EasyMock.replay(mockDeck);
+
+		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream,
+				true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.displayGameState(mockCurrentPlayer);
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockDeck);
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockCurrentPlayer);
+	}
 }
