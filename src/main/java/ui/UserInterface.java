@@ -25,7 +25,7 @@ public class UserInterface {
 		}
 	}
 
-	public int getUserInputInt(String message) {
+	public int getNumericUserInput(String message) {
 		while (true) {
 			System.out.println(message);
 			System.out.print("> ");

@@ -77,7 +77,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	public void getUserInput_withValidMessageAndInput_returnsConsoleLineAndPrintsMessage() {
+	public void getUserInput_withValidMessageAndInput_returnsConsoleInputAndPrintsMessage() {
 		System.setIn(new ByteArrayInputStream("hello world\n"
 				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
@@ -85,6 +85,17 @@ public class UserInterfaceTest {
 		String message = "";
 		String result = ui.getUserInput(message);
 		assertEquals("hello world", result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+	}
+
+	@Test
+	public void getNumericUserInput_withNullMessage_returnsConsoleInput() {
+		System.setIn(new ByteArrayInputStream("1\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		int result = ui.getNumericUserInput(null);
+		assertEquals(1, result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 	}
 
