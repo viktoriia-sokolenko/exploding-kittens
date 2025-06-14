@@ -1588,4 +1588,32 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockPlayerManager);
 	}
+
+	@Test
+	public void checkWinCondition_withOneActivePlayer_declaresSingleWinner() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager,
+				mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player lastPlayer = EasyMock.createMock(Player.class);
+		List<Player> activePlayers = Arrays.asList(lastPlayer);
+
+		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.checkWinCondition();
+			assertFalse(gameEngine.getIsGameRunning());
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+			assertEquals
+					("\nGAME OVER! The last player standing wins!\n", output);
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayerManager);
+	}
 }

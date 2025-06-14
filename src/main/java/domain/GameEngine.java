@@ -240,9 +240,9 @@ public class GameEngine {
 		if (activePlayers.size() <= 1) {
 			gameRunning = false;
 			if (activePlayers.size() == 1) {
-				System.out.println("\n🎉 GAME OVER! The last player standing wins! 🎉");
+				System.out.println("\nGAME OVER! The last player standing wins!");
 			} else {
-				System.out.println("\n💥 GAME OVER! Everyone exploded! 💥");
+				System.out.println("\nGAME OVER! Everyone exploded!");
 			}
 		}
 	}
