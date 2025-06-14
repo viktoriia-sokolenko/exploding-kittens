@@ -534,4 +534,18 @@ public class UserInterfaceTest {
 		assertNotEquals("ATTACK", ui.
 				formatCardName(CardType.ATTACK));
 	}
+
+	@Test
+	void formatCardName_defaultCase_returnsToString() {
+		UserInterface ui = new UserInterface();
+
+		for (CardType type : CardType.values()) {
+			String result = ui.formatCardName(type);
+			assertNotNull(result);
+			assertFalse(result.isEmpty());
+			if (type == CardType.SEE_THE_FUTURE) {
+				assertNotEquals(type.toString(), result);
+				assertEquals("See the Future", result);
+			}
+		}}
 }
