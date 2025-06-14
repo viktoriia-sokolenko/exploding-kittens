@@ -182,6 +182,13 @@ public class PlayerManagerTest {
 		});
 	}
 
+	@Test
+	void getPlayerByIndex_twoPlayersWithThreeIndex_throwsIndexOutOfBoundsException() {
+		playerManager.addPlayers(2);
+		assertThrows(IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(3));
+	}
+
 	private Deck mockDeck() {
 		return EasyMock.createMock(Deck.class);
 	}

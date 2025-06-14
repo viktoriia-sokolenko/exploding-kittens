@@ -166,3 +166,4 @@ The `PlayerManager` oversees player setup, hand allocation via an injected `Deck
 | Test Case 3 | index `2`, players `[player1, player2]`  | `IndexOutOfBoundsException` | :white_check_mark: | getPlayerByIndex_twoPlayersWithTwoIndex_throwsIndexOutOfBoundsException     |
 | Test Case 4 | index `0`, players `[player1, player2]`  | `player1`                   | :white_check_mark: | getPlayerByIndex_twoPlayersWithZeroIndex_returnsFirstPlayer                 |
 | Test Case 5 | index `1`, players `[player1, player2]`  | `player2`                   | :white_check_mark: | getPlayerByIndex_twoPlayersWithOneIndex_returnsSecondPlayer                 |
+| Test Case 6 | index `3`, players `[player1, player2]`  | `IndexOutOfBoundsException` | :white_check_mark: | getPlayerByIndex_twoPlayersWithThreeIndex_throwsIndexOutOfBoundsException   |
