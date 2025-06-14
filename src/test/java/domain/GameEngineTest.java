@@ -1681,8 +1681,19 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
-	@Test
-	public void processCommand_withPlayCommand_callsHandlePlayCommand() {
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"play skip",
+			"PLAY SKIP",
+			"Play Skip",
+			"pLaY sKiP",
+			" play skip ",
+			"\tplay\tskip\n",
+			"play  skip",
+			"play   skip"
+	})
+	public void processCommand_withPlayCommandVariations_callsHandlePlayCommand
+			(String input) {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
 
@@ -1691,8 +1702,8 @@ public class GameEngineTest {
 		CardEffect mockEffect = EasyMock.createMock(CardEffect.class);
 		mockEffect.execute(EasyMock.anyObject(GameContext.class));
 		EasyMock.expectLastCall().andAnswer(() -> {
-			GameContext context = (GameContext) EasyMock
-					.getCurrentArguments()[0];
+			GameContext context = (GameContext)
+					EasyMock.getCurrentArguments()[0];
 			context.endTurnWithoutDrawing();
 			return null;
 		});
@@ -1719,7 +1730,7 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockTurnManager);
 
-		gameEngine.processCommand("play skip", mockPlayer);
+		gameEngine.processCommand(input, mockPlayer);
 
 		EasyMock.verify(mockPlayer);
 		EasyMock.verify(mockCardFactory);
