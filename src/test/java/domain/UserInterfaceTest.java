@@ -583,4 +583,23 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Skip"), "Should not show Skip when count is null/0");
 		assertFalse(out.contains("Attack"), "Should not show Attack when count is null/0");
 	}
+
+	@Test
+	void displayPlayerHand_ternaryOperatorBehavior() {
+		UserInterface ui = new UserInterface();
+		Hand hand = new Hand();
+		hand.addCard(new SkipCard());
+		Player player = new Player(hand);
+
+		ui.displayPlayerHand(player);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("Skip (type: skip)"));
+		assertFalse(out.contains("Attack"),
+				"Should not show Attack when player doesn't have any");
+		assertFalse(out.contains("Defuse"),
+				"Should not show Defuse when player doesn't have any");
+		assertFalse(out.contains(" x0"),
+				"Cards with count 0 should not be displayed");
+	}
 }
