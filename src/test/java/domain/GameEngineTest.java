@@ -1869,10 +1869,13 @@ public class GameEngineTest {
 		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(10);
+		final int EXPECTED_NUMBER_OF_CARDS = 10;
+		EasyMock.expect(mockDeck.getDeckSize())
+				.andReturn(EXPECTED_NUMBER_OF_CARDS);
 		EasyMock.replay(mockDeck);
 
-		EasyMock.expect(mockTurnManager.getCurrentActivePlayer()).andReturn(mockCurrentPlayer);
+		EasyMock.expect(mockTurnManager.getCurrentActivePlayer())
+				.andReturn(mockCurrentPlayer);
 		EasyMock.replay(mockTurnManager);
 
 		EasyMock.expect(mockCurrentPlayer.getNumberOfCards()).andReturn(5);
