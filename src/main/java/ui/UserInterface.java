@@ -82,7 +82,20 @@ public class UserInterface {
 
 		if (total == NO_CARDS) {
 			System.out.println("  (empty hand)");
-		}
+		} else {
+			for (CardType type : CardType.values()) {
+				Integer countInteger = player.getCardTypeCount(type);
+				int count = (countInteger != null) ? countInteger : 0;
+				String cardDisplay = formatCardName(type);
+				String typeName = type.name().toLowerCase().replace("_", " ");
+					if (count == 1) {
+						System.out.printf("  %s (type: %s)%n", cardDisplay, typeName);
+					}
+
+				}
+
+			}
+
 		System.out.println("─".repeat(NUMBER_OF_DASHES));
 		System.out.println("Use 'play <type>' to play a card (e.g., 'play skip')");
 		System.out.println("─".repeat(NUMBER_OF_DASHES) + "\n");
