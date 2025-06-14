@@ -213,7 +213,7 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void getNumberOfCards_returnsNumberOfCards() {
+	public void getNumberOfCards_fiveCardsInHand_returnsFive() {
 		final int NUMBER_OF_CARDS = 5;
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		EasyMock.expect(mockHand.getNumberOfCards())
@@ -228,7 +228,7 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void getNumberOfCards_withManyCards_returnsCorrectCount() {
+	public void getNumberOfCards_fifteenCardsInHand_returnsFifteen() {
 		final int NUMBER_OF_CARDS = 15;
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		EasyMock.expect(mockHand.getNumberOfCards())
