@@ -1297,4 +1297,21 @@ public class GameEngineTest {
 			System.setOut(originalOut);
 		}
 	}
+
+	@Test
+	public void handleQuitCommand_displaysThankYouMessage() {
+		gameEngine = createValidGameEngine();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.handleQuitCommand();
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+
+			assertEquals("Thanks for playing Exploding Kittens!\n", output);
+		} finally {
+			System.setOut(originalOut);
+		}
+	}
 }
