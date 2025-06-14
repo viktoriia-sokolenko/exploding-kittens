@@ -1748,4 +1748,25 @@ public class GameEngineTest {
 		EasyMock.verify(mockEffect);
 	}
 
+	@Test
+	public void processCommand_withDrawCommand_callsHandleDrawCommand() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+
+		Card mockCard = createMockCard(CardType.NORMAL);
+		EasyMock.expect(mockDeck.draw()).andReturn(mockCard);
+		EasyMock.replay(mockDeck);
+
+		EasyMock.replay(mockUserInterface);
+		EasyMock.replay(mockTurnManager);
+
+		gameEngine.processCommand("draw", mockPlayer);
+
+		EasyMock.verify(mockPlayer);
+		EasyMock.verify(mockDeck);
+	}
+
 }
