@@ -55,29 +55,6 @@ public class GameEngineTest {
 		);
 	}
 
-	private GameEngine createValidGameEngine() {
-		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory, mockSecureRandom);
-	}
-
-	private Player createMockPlayer() {
-		Player mockPlayer = EasyMock.createMock(Player.class);
-		final int NUMBER_OF_CARDS = 5;
-		EasyMock.expect(mockPlayer
-				.getNumberOfCards())
-				.andStubReturn(NUMBER_OF_CARDS);
-		EasyMock.expect(mockPlayer.isInGame()).andStubReturn(true);
-		EasyMock.replay(mockPlayer);
-		return mockPlayer;
-	}
-
-	private Card createMockCard(CardType cardType) {
-		Card mockCard = EasyMock.createMock(Card.class);
-		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
-		EasyMock.replay(mockCard);
-		return mockCard;
-	}
-
 	@Test
 	public void constructor_withNullTurnManager_throwsNullPointerException() {
 		NullPointerException thrown = assertThrows(
@@ -543,16 +520,7 @@ public class GameEngineTest {
 		EasyMock.verify(mockEffect);
 	}
 
-	private List<Card> createMockCardList(CardType cardType, int count) {
-		List<Card> cards = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			Card mockCard = EasyMock.createMock(Card.class);
-			EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
-			EasyMock.replay(mockCard);
-			cards.add(mockCard);
-		}
-		return cards;
-	}
+
 
 	@Test
 	public void createInitialDeck_whenNoNormalCardsNeeded_doesNotAddNormalCards() {
@@ -1684,15 +1652,6 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
-	private static Stream<Arguments> provideCardTypeTestData() {
-		return Stream.of(
-				Arguments.of("skip", CardType.SKIP, true),
-				Arguments.of("attack", CardType.ATTACK, true),
-				Arguments.of("favor", CardType.FAVOR, false),
-				Arguments.of("shuffle", CardType.SHUFFLE, false)
-		);
-	}
-
 	@ParameterizedTest
 	@MethodSource("provideCardTypeTestData")
 	public
@@ -1768,5 +1727,48 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockPlayer);
+	}
+
+	private GameEngine createValidGameEngine() {
+		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+	}
+
+	private Player createMockPlayer() {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		final int NUMBER_OF_CARDS = 5;
+		EasyMock.expect(mockPlayer
+						.getNumberOfCards())
+				.andStubReturn(NUMBER_OF_CARDS);
+		EasyMock.expect(mockPlayer.isInGame()).andStubReturn(true);
+		EasyMock.replay(mockPlayer);
+		return mockPlayer;
+	}
+
+	private Card createMockCard(CardType cardType) {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+		EasyMock.replay(mockCard);
+		return mockCard;
+	}
+
+	private List<Card> createMockCardList(CardType cardType, int count) {
+		List<Card> cards = new ArrayList<>();
+		for (int i = 0; i < count; i++) {
+			Card mockCard = EasyMock.createMock(Card.class);
+			EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+			EasyMock.replay(mockCard);
+			cards.add(mockCard);
+		}
+		return cards;
+	}
+
+	private static Stream<Arguments> provideCardTypeTestData() {
+		return Stream.of(
+				Arguments.of("skip", CardType.SKIP, true),
+				Arguments.of("attack", CardType.ATTACK, true),
+				Arguments.of("favor", CardType.FAVOR, false),
+				Arguments.of("shuffle", CardType.SHUFFLE, false)
+		);
 	}
 }
