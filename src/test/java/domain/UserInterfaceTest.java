@@ -135,6 +135,21 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	void displayPlayerHand_singleCard_showsCardWithoutCount() {
+		UserInterface ui = new UserInterface();
+		Hand h = new Hand();
+		h.addCard(new SkipCard());
+		Player p = new Player(h);
+
+		ui.displayPlayerHand(p);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("YOUR HAND (1 cards):"));
+		assertTrue(out.contains("Skip (type: skip)"));
+		assertFalse(out.contains("x2"));
+	}
+
+	@Test
 	void displayCardPlayed_andDrawnCard_showCorrectText() {
 		UserInterface ui = new UserInterface();
 		Card card = new SkipCard();
