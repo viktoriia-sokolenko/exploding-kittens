@@ -257,6 +257,9 @@ public class GameEngine {
 				case "draw":
 					handleDrawCommand(currentPlayer);
 					break;
+				case "quit":
+					handleQuitCommand();
+					break;
 				default:
 					userInterface.displayError
 							("Unknown command: " + command + ". " +
