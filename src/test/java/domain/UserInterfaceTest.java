@@ -82,10 +82,11 @@ public class UserInterfaceTest {
 				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 
-		String message = "";
+		String message = "message";
 		String result = ui.getUserInput(message);
 		assertEquals("hello world", result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains(message));
 	}
 
 	@Test
@@ -142,9 +143,23 @@ public class UserInterfaceTest {
 		assertEquals(2, result);
 
 		String output = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(output.contains(message));
 		int promptCount = output.split("> ", -1).length - 1;
 		final int EXPECTED_PROMPTS = 2;
 		assertEquals(EXPECTED_PROMPTS, promptCount);
+	}
+
+	@Test
+	public void getNumericUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage() {
+		System.setIn(new ByteArrayInputStream("2\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		String message = "message";
+		int result = ui.getNumericUserInput(message);
+		assertEquals(2, result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains(message));
 	}
 
 }
