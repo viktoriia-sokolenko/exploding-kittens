@@ -5,35 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.easymock.EasyMock;
 
 public class CardTest {
-	private static class TestCard extends Card {
-		public TestCard(CardType cardType) {
-			super(cardType);
-		}
-
-		@Override
-		public CardEffect createEffect() {
-			return new CardEffect() {
-				@Override
-				public void execute(GameContext context) {
-				}
-			};
-		}
-	}
-
-	private static class AnotherTestCard extends Card {
-		public AnotherTestCard(CardType cardType) {
-			super(cardType);
-		}
-
-		@Override
-		public CardEffect createEffect() {
-			return new CardEffect() {
-				@Override
-				public void execute(GameContext context) {
-				}
-			};
-		}
-	}
 
 	@Test
 	public void constructor_withNullType_throwsNullPointerException() {
@@ -132,5 +103,35 @@ public class CardTest {
 
 		assertTrue(card1.equals(card2));
 		assertTrue(card2.equals(card1));
+	}
+
+	private static class TestCard extends Card {
+		public TestCard(CardType cardType) {
+			super(cardType);
+		}
+
+		@Override
+		public CardEffect createEffect() {
+			return new CardEffect() {
+				@Override
+				public void execute(GameContext context) {
+				}
+			};
+		}
+	}
+
+	private static class AnotherTestCard extends Card {
+		public AnotherTestCard(CardType cardType) {
+			super(cardType);
+		}
+
+		@Override
+		public CardEffect createEffect() {
+			return new CardEffect() {
+				@Override
+				public void execute(GameContext context) {
+				}
+			};
+		}
 	}
 }
