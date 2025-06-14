@@ -300,80 +300,6 @@ public class HandTest {
 		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
 	}
 
-	private Card mockCard(CardType type) {
-		Card card = EasyMock.createMock(Card.class);
-		EasyMock.expect(card.getCardType()).andStubReturn(type);
-		EasyMock.replay(card);
-		return card;
-	}
-
-	private Hand handWithOneCard(CardType cardType) {
-		Card mockCard = mockCard(cardType);
-
-		Hand hand = new Hand();
-		hand.addCard(mockCard);
-
-		return hand;
-	}
-
-	private Hand handWithTwoCards() {
-		Card mockCard1 = mockCard(CardType.SEE_THE_FUTURE);
-		Card mockCard2 = mockCard(CardType.SHUFFLE);
-
-		Hand hand = new Hand();
-		hand.addCard(mockCard1);
-		hand.addCard(mockCard2);
-
-		return hand;
-	}
-
-	private Hand handWithThreeCardsAndDuplicates() {
-		Card extraCard = mockCard(CardType.SKIP);
-
-		CardType duplicateCardType = CardType.NORMAL;
-		Card duplicateCard1 = mockCard(duplicateCardType);
-		Card duplicateCard2 = mockCard(duplicateCardType);
-
-		Hand hand = new Hand();
-		hand.addCard(extraCard);
-		hand.addCard(duplicateCard1);
-		hand.addCard(duplicateCard2);
-
-		return hand;
-	}
-
-	private Hand handWithFiveCardsAndThreeDuplicates() {
-		Card extraCard1 = mockCard(CardType.DEFUSE);
-		Card extraCard2 = mockCard(CardType.ATTACK);
-
-		CardType duplicateCardType = CardType.FAVOR;
-		Card duplicateCard1 = mockCard(duplicateCardType);
-		Card duplicateCard2 = mockCard(duplicateCardType);
-		Card duplicateCard3 = mockCard(duplicateCardType);
-
-		Hand hand = new Hand();
-		hand.addCard(duplicateCard1);
-		hand.addCard(duplicateCard2);
-		hand.addCard(extraCard1);
-		hand.addCard(extraCard2);
-		hand.addCard(duplicateCard3);
-
-		return hand;
-	}
-
-	private Hand handWithTwoDefuseAndOneExtraCards() {
-		Card extraCard = mockCard(CardType.SHUFFLE);
-		Card defuseCard1 = mockCard(CardType.DEFUSE);
-		Card defuseCard2 = mockCard(CardType.DEFUSE);
-
-		Hand hand = new Hand();
-		hand.addCard(defuseCard1);
-		hand.addCard(extraCard);
-		hand.addCard(defuseCard2);
-
-		return hand;
-	}
-
 	@Test
 	public void getAvailableCardTypes_withEmptyHand_returnsEmptyList() {
 		Hand emptyHand = new Hand();
@@ -653,5 +579,79 @@ public class HandTest {
 		Hand hand = handWithOneCard(CardType.ALTER_THE_FUTURE);
 		CardType result = hand.parseCardType("THE");
 		assertEquals(CardType.ALTER_THE_FUTURE, result);
+	}
+
+	private Card mockCard(CardType type) {
+		Card card = EasyMock.createMock(Card.class);
+		EasyMock.expect(card.getCardType()).andStubReturn(type);
+		EasyMock.replay(card);
+		return card;
+	}
+
+	private Hand handWithOneCard(CardType cardType) {
+		Card mockCard = mockCard(cardType);
+
+		Hand hand = new Hand();
+		hand.addCard(mockCard);
+
+		return hand;
+	}
+
+	private Hand handWithTwoCards() {
+		Card mockCard1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card mockCard2 = mockCard(CardType.SHUFFLE);
+
+		Hand hand = new Hand();
+		hand.addCard(mockCard1);
+		hand.addCard(mockCard2);
+
+		return hand;
+	}
+
+	private Hand handWithThreeCardsAndDuplicates() {
+		Card extraCard = mockCard(CardType.SKIP);
+
+		CardType duplicateCardType = CardType.NORMAL;
+		Card duplicateCard1 = mockCard(duplicateCardType);
+		Card duplicateCard2 = mockCard(duplicateCardType);
+
+		Hand hand = new Hand();
+		hand.addCard(extraCard);
+		hand.addCard(duplicateCard1);
+		hand.addCard(duplicateCard2);
+
+		return hand;
+	}
+
+	private Hand handWithFiveCardsAndThreeDuplicates() {
+		Card extraCard1 = mockCard(CardType.DEFUSE);
+		Card extraCard2 = mockCard(CardType.ATTACK);
+
+		CardType duplicateCardType = CardType.FAVOR;
+		Card duplicateCard1 = mockCard(duplicateCardType);
+		Card duplicateCard2 = mockCard(duplicateCardType);
+		Card duplicateCard3 = mockCard(duplicateCardType);
+
+		Hand hand = new Hand();
+		hand.addCard(duplicateCard1);
+		hand.addCard(duplicateCard2);
+		hand.addCard(extraCard1);
+		hand.addCard(extraCard2);
+		hand.addCard(duplicateCard3);
+
+		return hand;
+	}
+
+	private Hand handWithTwoDefuseAndOneExtraCards() {
+		Card extraCard = mockCard(CardType.SHUFFLE);
+		Card defuseCard1 = mockCard(CardType.DEFUSE);
+		Card defuseCard2 = mockCard(CardType.DEFUSE);
+
+		Hand hand = new Hand();
+		hand.addCard(defuseCard1);
+		hand.addCard(extraCard);
+		hand.addCard(defuseCard2);
+
+		return hand;
 	}
 }
