@@ -157,6 +157,17 @@ public class UserInterfaceTest {
 				contains("You drew: Skip"));
 	}
 
+	@Test
+	void displayDrawnCard_explodingKitten_printsSpecialMessage() {
+		UserInterface ui = new UserInterface();
+		Card card = new ExpoldingKittenCard();
+
+		ui.displayDrawnCard(card);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("OH NO! You drew: Exploding Kitten"));
+	}
+
 
 	@Test
 	void displayCardPlayed_printsCardWithEffect() {
