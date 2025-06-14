@@ -72,23 +72,22 @@ public class UserInterface {
 	}
 
 	public void displayPlayerHand(Player player) {
-		int playersNumberOfCards = player.getNumberOfCards();
+		int total = player.getNumberOfCards();
 
-		System.out.println("\nYour hand:");
-		if (playersNumberOfCards == 0) {
-			System.out.println("  (empty)\n");
-			return;
-		}
+		final int NUMBER_OF_DASHES = 40;
+		final int NO_CARDS = 0;
+		System.out.println("\n" + "─".repeat(NUMBER_OF_DASHES));
+		System.out.println("YOUR HAND (" + total + " cards):");
+		System.out.println("─".repeat(NUMBER_OF_DASHES));
 
-		int index = 0;
-		for (CardType type : CardType.values()) {
-			int count = player.getCardTypeCount(type);
-			for (int i = 0; i < count; i++) {
-				System.out.printf("	 %d: %s%n", index++, type);
-			}
+		if (total == NO_CARDS) {
+			System.out.println("  (empty hand)");
 		}
-		System.out.println();
+		System.out.println("─".repeat(NUMBER_OF_DASHES));
+		System.out.println("Use 'play <type>' to play a card (e.g., 'play skip')");
+		System.out.println("─".repeat(NUMBER_OF_DASHES) + "\n");
 	}
+
 
 	public void displayCardPlayed(Card card) {
 		System.out.println("You played: " + card.getCardType() + "\n");
