@@ -415,4 +415,14 @@ public class UserInterfaceTest {
 		String err = errContent.toString(StandardCharsets.UTF_8);
 		assertTrue(err.contains("Please enter a number between 2 and 5"));
 	}
+
+	@Test
+	void getNumberOfPlayers_maximumBoundary_acceptsMaximumValue() {
+		System.setIn(new ByteArrayInputStream("5\n".getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+		int numberOfPlayers = ui.getNumberOfPlayers();
+		final int EXPECTED_NUMBER_OF_PLAYERS = 5;
+		assertEquals(EXPECTED_NUMBER_OF_PLAYERS, numberOfPlayers);
+		assertEquals("", errContent.toString(StandardCharsets.UTF_8));
+	}
 }
