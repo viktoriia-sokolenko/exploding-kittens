@@ -230,6 +230,12 @@ public class GameEngine {
 		turnManager.advanceToNextPlayer();
 	}
 
+	public void processCommand(String input, Player currentPlayer) {
+		if (input == null || input.trim().isEmpty()) {
+			userInterface.displayError("Please enter a command. Type 'help' for available commands.");
+			return;
+		}
+	}
 
 
 	public void handlePlayerGetsEliminated() {
