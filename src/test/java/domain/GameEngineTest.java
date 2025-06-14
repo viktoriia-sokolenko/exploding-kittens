@@ -1625,6 +1625,34 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayerManager);
 	}
 
+	@Test
+	public void checkWinCondition_withNoActivePlayers_gameEndsWithNoWinner() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager,
+				mockDeck, mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		List<Player> activePlayers = Arrays.asList();
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream,
+				true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.checkWinCondition();
+			assertFalse(gameEngine.getIsGameRunning());
+
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+			assertTrue(output.contains("GAME OVER! Everyone exploded!"));
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayerManager);
+	}
+
 
 	@Test
 	public void processCommand_withNullInput_displaysError() {
