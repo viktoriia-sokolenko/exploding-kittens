@@ -373,12 +373,12 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface();
 
 		ui.displayGameEnd(true);
-
+		final int NUMBER_OF_EQUAL_SIGNS = 50;
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("CONGRATULATIONS! YOU WON!"));
 		assertTrue(out.contains("You survived the exploding kittens!"));
 		assertTrue(out.contains("Thanks for playing Exploding Kittens!"));
-		assertTrue(out.contains("=".repeat(50)));
+		assertTrue(out.contains("=".repeat(NUMBER_OF_EQUAL_SIGNS)));
 	}
 
 	@Test

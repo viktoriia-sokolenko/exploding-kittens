@@ -2,7 +2,6 @@ package ui;
 
 
 import domain.CardType;
-import domain.Hand;
 import domain.Player;
 import domain.Card;
 
@@ -87,7 +86,8 @@ public class UserInterface {
 				Integer countInteger = player.getCardTypeCount(type);
 				int count = (countInteger != null) ? countInteger : 0;
 				String cardDisplay = formatCardName(type);
-				String typeName = type.name().toLowerCase().replace("_", " ");
+				String typeName = type.name().toLowerCase()
+						.replace("_", " ");
 					if (count == 1) {
 						System.out.printf("  %s (type: %s)%n",
 								cardDisplay, typeName);
