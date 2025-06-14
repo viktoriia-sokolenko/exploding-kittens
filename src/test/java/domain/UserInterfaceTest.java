@@ -111,4 +111,22 @@ public class UserInterfaceTest {
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 	}
 
+	@Test
+	public void getNumericUserInput_withNonNumericConsoleInput_keepsAskingForInput() {
+		String input = String.join("\n", "hello world", "0");
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		String message = "message";
+		int result = ui.getNumericUserInput(message);
+
+		assertEquals(0, result);
+
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		int promptCount = output.split("> ", -1).length - 1;
+		final int EXPECTED_PROMPTS = 2;
+		assertEquals(EXPECTED_PROMPTS, promptCount);
+	}
+
 }
