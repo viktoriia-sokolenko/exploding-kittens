@@ -90,4 +90,46 @@ public class UserInterface {
 	public void displayDrawnCard(Card card) {
 		System.out.println("You drew: " + card.getCardType() + "\n");
 	}
+
+	public void displayCardEffect(CardType cardType) {
+		switch (cardType) {
+			case ATTACK:
+				System.out.println("   " +
+						"→ End your turn without drawing," +
+						" next player takes 2 turns");
+				break;
+			case SKIP:
+				System.out.println("   → End your turn without drawing a card");
+				break;
+			case SEE_THE_FUTURE:
+				System.out.println("   → Peek at the top cards of the deck");
+				break;
+			case SHUFFLE:
+				System.out.println("   → Shuffle the deck");
+				break;
+			case FAVOR:
+				System.out.println("   " +
+						"→ Force another player to give you a card");
+				break;
+			case ALTER_THE_FUTURE:
+				System.out.println("   " +
+						"→ Rearrange the top cards of the deck");
+				break;
+			case DEFUSE:
+				System.out.println("   → " +
+						"Used automatically when you draw an Exploding Kitten");
+				break;
+			case NUKE:
+				System.out.println("   " +
+						"→ Nuclear option - ends the game!");
+				break;
+			case NORMAL:
+				System.out.println("   " +
+						"→ Just a cute cat - no special effect");
+				break;
+			default:
+				break;
+		}
+	}
+
 }
