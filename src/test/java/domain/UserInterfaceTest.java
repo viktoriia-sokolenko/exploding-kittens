@@ -52,9 +52,28 @@ public class UserInterfaceTest {
 				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 
-		String result = ui.getUserInput("");
+		String emptyMessage = "";
+		String result = ui.getUserInput(emptyMessage);
 		assertEquals("hello world", result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+	}
+
+	@Test
+	public void getUserInput_withNonEmptyMessageAndEmptyConsoleInput_keepsAskingForInput() {
+		String input = String.join("\n", "", "hello world");
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		String message = "message";
+		String result = ui.getUserInput(message);
+
+		assertEquals("hello world", result);
+
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		int promptCount = output.split("> ", -1).length - 1;
+		final int EXPECTED_PROMPTS = 2;
+		assertEquals(EXPECTED_PROMPTS, promptCount);
 	}
 
 }

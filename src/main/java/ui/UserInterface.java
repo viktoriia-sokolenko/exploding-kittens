@@ -15,9 +15,14 @@ public class UserInterface {
 	}
 
 	public String getUserInput(String message) {
-		System.out.println(message);
-		System.out.print("> ");
-		return scanner.nextLine();
+		while (true) {
+			System.out.println(message);
+			System.out.print("> ");
+			String input = scanner.nextLine();
+			if (!input.isEmpty()) {
+				return input;
+			}
+		}
 	}
 
 	public int getUserInputInt(String message) {
