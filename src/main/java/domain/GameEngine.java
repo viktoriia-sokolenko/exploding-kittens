@@ -257,6 +257,9 @@ public class GameEngine {
 				case "draw":
 					handleDrawCommand(currentPlayer);
 					break;
+				case "status":
+					displayGameStatus();
+					break;
 				case "quit":
 					handleQuitCommand();
 					break;
