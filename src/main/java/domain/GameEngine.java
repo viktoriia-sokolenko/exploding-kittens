@@ -48,8 +48,9 @@ public class GameEngine {
 
 	public void initializeGame() {
 		List<Player> players = playerManager.getPlayers();
+		final int NUMBER_OF_STARTING_CARDS = 4;
 		for (Player player : players) {
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < NUMBER_OF_STARTING_CARDS; i++) {
 				player.drawCard(deck);
 			}
 
