@@ -1571,17 +1571,20 @@ public class GameEngineTest {
 		Player player3 = EasyMock.createMock(Player.class);
 		List<Player> activePlayers = Arrays.asList(player1, player2, player3);
 
-		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.checkWinCondition();
 
 			assertTrue(gameEngine.getIsGameRunning());
-			assertEquals("", outputStream.toString(StandardCharsets.UTF_8));
+			assertEquals("", outputStream
+					.toString(StandardCharsets.UTF_8));
 		} finally {
 			System.setOut(originalOut);
 		}
