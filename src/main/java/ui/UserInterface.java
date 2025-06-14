@@ -132,7 +132,8 @@ public class UserInterface {
 				break;
 			case DEFUSE:
 				System.out.println("   → " +
-						"Used automatically when you draw an Exploding Kitten");
+						"Used automatically when you draw an " +
+						"Exploding Kitten");
 				break;
 			case NUKE:
 				System.out.println("   " +
