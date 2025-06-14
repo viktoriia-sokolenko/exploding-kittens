@@ -85,9 +85,9 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream("3\n"
 				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
-		int n = ui.getNumberOfPlayers();
+		int numberOfPlayers = ui.getNumberOfPlayers();
 		final int NUMBER_OF_PLAYERS = 3;
-		assertEquals(NUMBER_OF_PLAYERS, n);
+		assertEquals(NUMBER_OF_PLAYERS, numberOfPlayers);
 		assertEquals("", errContent.toString(StandardCharsets.UTF_8));
 	}
 
@@ -98,24 +98,24 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
-		int n = ui.getNumberOfPlayers();
+		int numberOfPlayers = ui.getNumberOfPlayers();
 		final int NUMBER_OF_PLAYERS = 2;
-		assertEquals(NUMBER_OF_PLAYERS, n);
+		assertEquals(NUMBER_OF_PLAYERS, numberOfPlayers);
 		String err = errContent.toString(StandardCharsets.UTF_8);
 		int occurrences = err.split(
 				"Please enter a number between 2 and 5", -1)
 				.length - 1;
-		final int NUM_OF_OCCURENCES = 2;
-		assertEquals(NUM_OF_OCCURENCES, occurrences);
+		final int NUM_OF_OCCURRENCES = 2;
+		assertEquals(NUM_OF_OCCURRENCES, occurrences);
 	}
 
 	@Test
 	void displayPlayerHand_emptyHand_showsEmptyMessage() {
 		UserInterface ui = new UserInterface();
-		Hand h = new Hand();
-		Player p = new Player(h);
+		Hand hand = new Hand();
+		Player player = new Player(hand);
 
-		ui.displayPlayerHand(p);
+		ui.displayPlayerHand(player);
 
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("YOUR HAND (0 cards):"));
@@ -126,9 +126,9 @@ public class UserInterfaceTest {
 	@Test
 	void displayCardPlayed_showCorrectText() {
 		UserInterface ui = new UserInterface();
-		Card c = new SkipCard();
+		Card card = new SkipCard();
 
-		ui.displayCardPlayed(c);
+		ui.displayCardPlayed(card);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).
 				contains("You played: SKIP"));
 		outContent.reset();
@@ -137,16 +137,49 @@ public class UserInterfaceTest {
 	@Test
 	void displayPlayerHand_singleCard_showsCardWithoutCount() {
 		UserInterface ui = new UserInterface();
-		Hand h = new Hand();
-		h.addCard(new SkipCard());
-		Player p = new Player(h);
+		Hand hand = new Hand();
+		hand.addCard(new SkipCard());
+		Player player = new Player(hand);
 
-		ui.displayPlayerHand(p);
+		ui.displayPlayerHand(player);
 
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("YOUR HAND (1 cards):"));
 		assertTrue(out.contains("Skip (type: skip)"));
 		assertFalse(out.contains("x2"));
+	}
+
+	@Test
+	void displayPlayerHand_multipleCardsOfSameType_showsCount() {
+		UserInterface ui = new UserInterface();
+		Hand hand = new Hand();
+		hand.addCard(new SkipCard());
+		hand.addCard(new SkipCard());
+		hand.addCard(new SkipCard());
+		Player player = new Player(hand);
+
+		ui.displayPlayerHand(player);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("YOUR HAND (3 cards):"));
+		assertTrue(out.contains("⏭️ Skip x3 (type: skip)"));
+	}
+
+	@Test
+	void displayPlayerHand_multipleDifferentCards_showsAll() {
+		UserInterface ui = new UserInterface();
+		Hand hand = new Hand();
+		hand.addCard(new SkipCard());
+		hand.addCard(new SkipCard());
+		hand.addCard(new AttackCard());
+		Player player = new Player(hand);
+
+		ui.displayPlayerHand(player);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("YOUR HAND (3 cards):"));
+		assertTrue(out.contains("Skip x2 (type: skip)"));
+		assertTrue(out.contains("Attack (type: attack)"));
 	}
 
 	@Test
