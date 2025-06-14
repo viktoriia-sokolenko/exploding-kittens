@@ -1806,6 +1806,35 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+	@ParameterizedTest
+	@ValueSource(strings = {
+			"invalidcommand",
+			"xyz",
+			"notacommand",
+			"playyy",
+			"halp"
+	})
+	public
+	void processCommand_withUnknownCommands_displaysUnknownCommandError
+			(String input) {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+
+		mockUserInterface.displayError("Unknown command: "
+				+ input + ". Type 'help' for available commands.");
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		gameEngine.processCommand(input, mockPlayer);
+
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockPlayer);
+	}
+
+
 	private GameEngine createValidGameEngine() {
 		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
