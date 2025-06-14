@@ -236,6 +236,12 @@ public class GameEngine {
 			return;
 		}
 
+		String[] parts = input.split(" ");
+		String command = parts[0];
+
+		if (command.equals("play")) {
+			handlePlayCommand(parts, currentPlayer);
+		}
 
 	}
 

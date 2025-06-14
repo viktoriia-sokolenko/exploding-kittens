@@ -1680,4 +1680,53 @@ public class GameEngineTest {
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockPlayer);
 	}
+
+	@Test
+	public void processCommand_withPlayCommand_callsHandlePlayCommand() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Card mockSkipCard = createMockCard(CardType.SKIP);
+		EasyMock.reset(mockSkipCard);
+		CardEffect mockEffect = EasyMock.createMock(CardEffect.class);
+		mockEffect.execute(EasyMock.anyObject(GameContext.class));
+		EasyMock.expectLastCall().andAnswer(() -> {
+			GameContext context = (GameContext) EasyMock
+					.getCurrentArguments()[0];
+			context.endTurnWithoutDrawing();
+			return null;
+		});
+		EasyMock.replay(mockEffect);
+		EasyMock.expect(mockSkipCard.createEffect()).andReturn(mockEffect);
+		EasyMock.replay(mockSkipCard);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.parseCardType("skip"))
+				.andReturn(CardType.SKIP);
+		mockPlayer.removeCardFromHand(mockSkipCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockCardFactory.createCard(CardType.SKIP))
+				.andReturn(mockSkipCard);
+		EasyMock.replay(mockCardFactory);
+
+		mockUserInterface.displayCardPlayed(mockSkipCard);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		gameEngine.processCommand("play skip", mockPlayer);
+
+		EasyMock.verify(mockPlayer);
+		EasyMock.verify(mockCardFactory);
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockTurnManager);
+		EasyMock.verify(mockSkipCard);
+		EasyMock.verify(mockEffect);
+	}
+
 }
