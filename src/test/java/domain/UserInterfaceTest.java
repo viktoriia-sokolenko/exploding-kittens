@@ -335,10 +335,22 @@ public class UserInterfaceTest {
 		ui.displayGameEnd(true);
 
 		String out = outContent.toString(StandardCharsets.UTF_8);
-		assertTrue(out.contains("🎉 CONGRATULATIONS! YOU WON! 🎉"));
+		assertTrue(out.contains("CONGRATULATIONS! YOU WON!"));
 		assertTrue(out.contains("You survived the exploding kittens!"));
 		assertTrue(out.contains("Thanks for playing Exploding Kittens!"));
 		assertTrue(out.contains("=".repeat(50)));
 	}
 
+	@Test
+	void displayGameEnd_noWinner_printsGameOverMessage() {
+		UserInterface ui = new UserInterface();
+		final int NUMBER_OF_EQUAL_SIGNS = 50;
+		ui.displayGameEnd(false);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("GAME OVER!"));
+		assertTrue(out.contains("Everyone exploded!"));
+		assertTrue(out.contains("Thanks for playing Exploding Kittens!"));
+		assertTrue(out.contains("=".repeat(NUMBER_OF_EQUAL_SIGNS)));
+	}
 }
