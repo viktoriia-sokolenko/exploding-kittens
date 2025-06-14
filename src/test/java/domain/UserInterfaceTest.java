@@ -291,4 +291,15 @@ public class UserInterfaceTest {
 		assertTrue(out.contains("Now pick where " +
 				"to put the Exploding Kitten cardback into the deck"));
 	}
+
+	@Test
+	void displayPlayerEliminated_printsPlayerEliminatedMessage() {
+		UserInterface ui = new UserInterface();
+
+		ui.displayPlayerEliminated();
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("You have been eliminated from the game!"));
+		assertTrue(out.contains("Better luck next time!"));
+	}
 }
