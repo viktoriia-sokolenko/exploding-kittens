@@ -565,7 +565,8 @@ public class UserInterfaceTest {
 		for (CardType type : CardType.values()) {
 			String formattedName = ui.formatCardName(type);
 			assertFalse(out.contains(formattedName),
-					"Should not display " + formattedName + " when player has none");
+					"Should not display " +
+							formattedName + " when player has none");
 		}
 	}
 
@@ -606,18 +607,20 @@ public class UserInterfaceTest {
 	@Test
 	void displayPlayerHand_nullCountHandling_PrintsCorrectHand() {
 		UserInterface ui = new UserInterface();
-
+		final int NUMBER_OF_CARDS = 1;
+		final int NO_CARDS = 0;
 		Player mockPlayer = EasyMock.createMock(Player.class);
-		EasyMock.expect(mockPlayer.getNumberOfCards()).andReturn(1)
+		EasyMock.expect(mockPlayer.getNumberOfCards()).andReturn(
+				NUMBER_OF_CARDS)
 				.anyTimes();
 		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.SKIP))
 				.andReturn(null);
 		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.ATTACK))
-				.andReturn(1);
+				.andReturn(NUMBER_OF_CARDS);
 		for (CardType type : CardType.values()) {
 			if (type != CardType.SKIP && type != CardType.ATTACK) {
 				EasyMock.expect(mockPlayer.getCardTypeCount(type))
-						.andReturn(0);
+						.andReturn(NO_CARDS);
 			}
 		}
 		EasyMock.replay(mockPlayer);
@@ -636,20 +639,22 @@ public class UserInterfaceTest {
 	@Test
 	void displayPlayerHand_nullCardType_printsCorrectHand() {
 		UserInterface ui = new UserInterface();
+		final int NUMBER_OF_CARDS = 2;
+		final int NO_CARDS = 0;
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockPlayer.getNumberOfCards())
-				.andReturn(2).anyTimes();
+				.andReturn(NUMBER_OF_CARDS).anyTimes();
 		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.SKIP))
 				.andReturn(null);
 		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.ATTACK))
 				.andReturn(0);
 		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.DEFUSE))
-				.andReturn(2);
+				.andReturn(NUMBER_OF_CARDS);
 		for (CardType type : CardType.values()) {
 			if (type != CardType.SKIP && type != CardType.ATTACK
 					&& type != CardType.DEFUSE) {
 				EasyMock.expect(mockPlayer.getCardTypeCount(type))
-						.andReturn(0);
+						.andReturn(NO_CARDS);
 			}
 		}
 		EasyMock.replay(mockPlayer);
