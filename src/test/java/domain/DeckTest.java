@@ -617,6 +617,18 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void peekTopThreeCards_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+		Card expectedCard = mockCard(testCardType);
+		List<Card> expectedCardList = new ArrayList<>(List.of(expectedCard));
+
+		Deck deck = new Deck(expectedCardList);
+		List <Card> actualCardList = deck.peekTopThreeCards();
+
+		assertEquals(expectedCardList, actualCardList);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),

@@ -37,7 +37,11 @@ public class Deck {
 	}
 
 	public List<Card> peekTopThreeCards() {
-		throw new NoSuchElementException("Deck is empty");
+		if (deck.isEmpty()) {
+			throw new NoSuchElementException("Deck is empty");
+		}
+		Card topCard = this.deck.get(deck.size() - 1);
+		return new ArrayList<>(List.of(topCard));
 	}
 
 	public Card draw() {
