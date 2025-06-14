@@ -97,7 +97,7 @@ public class UserInterface {
 	}
 
 	public void displayDrawnCard(Card card) {
-		System.out.println("You drew: " + card.getCardType() + "\n");
+		System.out.println("You drew: " + formatCardName(card.getCardType()));
 	}
 
 	public void displayCardEffect(CardType cardType) {
