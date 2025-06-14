@@ -31,10 +31,10 @@
 
 ### Step 4
 
-|             | System under test                                  | Expected output                                    | Implemented?       | Test name                                                            |
-|-------------|----------------------------------------------------|----------------------------------------------------|--------------------|----------------------------------------------------------------------|
-| Test Case 1 | message `null`, input `"1"`                        | returns `1`                                        | :white_check_mark: | `getNumericUserInput_withNullMessage_returnsConsoleInput`            |
-| Test Case 1 | message `""`, input `"0"`                          | returns 0; stdout contains "> " and "message"      | :white_check_mark: | `getNumericUserInput_withEmptyMessage_returnsConsoleInput`           |
-| Test Case 1 | message `""`, input1 `"hello world"`, input2 `"0"` | returns 0; stdout contains "> " twice              | :white_check_mark: | `getNumericUserInput_withNonNumericConsoleInput_keepsAskingForInput` |
-| Test Case 2 | message `"message"`, input1 `""`, input2 `"3"`     | returns 3; stdout repeats "> " and "message" twice |                    | `getUserInput_withEmptyConsoleInput_keepsAskingForInput`             |
-| Test Case 2 | message `"message"`, input `"3"`                   | returns 3; stdout contains "> " and "message"      |                    | `getUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage`  |
+|             | System under test                                  | Expected output                                    | Implemented?       | Test name                                                                  |
+|-------------|----------------------------------------------------|----------------------------------------------------|--------------------|----------------------------------------------------------------------------|
+| Test Case 1 | message `null`, input `"1"`                        | returns `1`                                        | :white_check_mark: | `getNumericUserInput_withNullMessage_returnsConsoleInput`                  |
+| Test Case 1 | message `""`, input `"0"`                          | returns 0; stdout contains "> " and "message"      | :white_check_mark: | `getNumericUserInput_withEmptyMessage_returnsConsoleInput`                 |
+| Test Case 1 | message `""`, input1 `"hello world"`, input2 `"0"` | returns 0; stdout contains "> " twice              | :white_check_mark: | `getNumericUserInput_withNonNumericConsoleInput_keepsAskingForInput`       |
+| Test Case 2 | message `"message"`, input1 `""`, input2 `"2"`     | returns 3; stdout repeats "> " and "message" twice | :white_check_mark: | `getNumericUserInput_withEmptyConsoleInput_keepsAskingForInput`            |
+| Test Case 2 | message `"message"`, input `"2"`                   | returns 3; stdout contains "> " and "message"      |                    | `getNumericUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage` |
