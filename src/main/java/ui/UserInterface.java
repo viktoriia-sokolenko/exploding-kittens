@@ -44,11 +44,14 @@ public class UserInterface {
 		System.out.println("Success: " + message);
 	}
 
+	public void displayWarning(String message) {
+		System.err.println("Warning: " + message);
+	}
+
 	public String getUserInput() {
 		System.out.print("> ");
 		return scanner.nextLine();
 	}
-
 
 	public int getNumberOfPlayers() {
 		while (true) {
@@ -163,5 +166,9 @@ public class UserInterface {
 		}
 	}
 
-
+	public void displayTurnStart(int playerNumber, int totalPlayers) {
+		System.out.println("\n" + "Player " + playerNumber + "'s" +
+				"turn (Player " +
+				playerNumber + " of " + totalPlayers + ")");
+	}
 }
