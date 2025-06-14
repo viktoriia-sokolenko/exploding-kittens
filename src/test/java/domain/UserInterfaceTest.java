@@ -393,4 +393,13 @@ public class UserInterfaceTest {
 		assertTrue(out.contains("Thanks for playing Exploding Kittens!"));
 		assertTrue(out.contains("=".repeat(NUMBER_OF_EQUAL_SIGNS)));
 	}
+
+	@Test
+	void getNumberOfPlayers_minimumBoundary_acceptsMinimumValue() {
+		System.setIn(new ByteArrayInputStream("2\n".getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+		int numberOfPlayers = ui.getNumberOfPlayers();
+		assertEquals(2, numberOfPlayers);
+		assertEquals("", errContent.toString(StandardCharsets.UTF_8));
+	}
 }
