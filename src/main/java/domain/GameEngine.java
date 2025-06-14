@@ -170,11 +170,14 @@ public class GameEngine {
 
 		if (drawnCard.getCardType() == CardType.EXPLODING_KITTEN) {
 			if (currentPlayer.hasCardType(CardType.DEFUSE)) {
-				System.out.println("You drew an Exploding Kitten but used a Defuse card!");
+				System.out.println("You drew an Exploding " +
+						"Kitten but used a Defuse card!");
 				currentPlayer.removeDefuseCard();
-				deck.insertCardAt(drawnCard, new Random().nextInt(deck.getDeckSize()));
+				deck.insertCardAt(drawnCard, new Random()
+						.nextInt(deck.getDeckSize()));
 			} else {
-				System.out.println("BOOM! You drew an Exploding Kitten and had no Defuse card!");
+				System.out.println("BOOM! You drew an " +
+						"Exploding Kitten and had no Defuse card!");
 				playerManager.removePlayerFromGame(currentPlayer);
 				return;
 			}
