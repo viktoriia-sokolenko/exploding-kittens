@@ -1596,6 +1596,37 @@ public class GameEngineTest {
 	}
 
 	@Test
+	public void checkWinCondition_withOneActivePlayer_gameEndsWithWinner() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager,
+				mockDeck, mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player player1 = EasyMock.createMock(Player.class);
+		List<Player> activePlayers = Arrays.asList(player1);
+
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.checkWinCondition();
+			assertFalse(gameEngine.getIsGameRunning());
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+			assertTrue(output.contains("GAME OVER! The last player " +
+					"standing wins!"));
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayerManager);
+	}
+
+
+	@Test
 	public void processCommand_withNullInput_displaysError() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
