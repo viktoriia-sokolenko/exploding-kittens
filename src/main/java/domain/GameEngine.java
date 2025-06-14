@@ -133,6 +133,15 @@ public class GameEngine {
 		}
 	}
 
+	public void displayGameState(Player currentPlayer) {
+		System.out.println("\n" + "=".repeat(40));
+		System.out.println("Current Player's Turn");
+		System.out.println("=".repeat(40));
+		System.out.println("Players remaining: " + playerManager.getActivePlayers().size());
+		System.out.println("Cards in deck: " + deck.getDeckSize());
+		userInterface.displayPlayerHand(currentPlayer);
+	}
+
 	public void displayGameStatus() {
 		System.out.println("\n=== GAME STATUS ===");
 		List<Player> activePlayers = playerManager.getActivePlayers();

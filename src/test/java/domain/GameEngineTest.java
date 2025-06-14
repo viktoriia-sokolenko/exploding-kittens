@@ -1025,7 +1025,10 @@ public class GameEngineTest {
 		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(20);
+		final int NUMBER_OF_CARDS_IN_DECK = 20;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(
+				NUMBER_OF_CARDS_IN_DECK
+		);
 		EasyMock.replay(mockDeck);
 
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
@@ -1034,13 +1037,15 @@ public class GameEngineTest {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.displayGameState(mockCurrentPlayer);
 			String output = outputStream.toString(StandardCharsets.UTF_8);
 
-			assertTrue(output.contains("========================================"));
+			assertTrue(
+					output.contains("========================================"));
 			assertTrue(output.contains("Current Player's Turn"));
 			assertTrue(output.contains("Players remaining: 2"));
 			assertTrue(output.contains("Cards in deck: 20"));
