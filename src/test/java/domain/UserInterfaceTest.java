@@ -457,4 +457,24 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Favor"));
 		assertFalse(out.contains("x0"));
 	}
+
+	@Test
+	void displayPlayerHand_multipleCards_onlyShowsPlayerCards() {
+		UserInterface ui = new UserInterface();
+		Hand hand = new Hand();
+		hand.addCard(new SkipCard());
+		hand.addCard(new AttackCard());
+		hand.addCard(new AttackCard());
+		Player player = new Player(hand);
+
+		ui.displayPlayerHand(player);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("Skip (type: skip)"));
+		assertTrue(out.contains("Attack x2 (type: attack)"));
+		assertFalse(out.contains("Defuse"));
+		assertFalse(out.contains("Favor"));
+		assertFalse(out.contains("Shuffle"));
+		assertFalse(out.contains("x0"));
+	}
 }
