@@ -1652,6 +1652,8 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayer);
 	}
 
+
+
 	@ParameterizedTest
 	@MethodSource("provideCardTypeTestData")
 	public
@@ -1727,6 +1729,28 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	public
+	void processCommand_whenDrawThrowsException_catchesAndDisplaysError() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		final int NUMBER_OF_CARDS = 5;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(NUMBER_OF_CARDS);
+		EasyMock.expect(mockDeck.draw()).andThrow(new RuntimeException
+				("Test exception"));
+		mockUserInterface.displayError("Error executing command: " +
+				"Test exception");
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockPlayer, mockDeck, mockUserInterface,
+				mockTurnManager, mockPlayerManager);
+
+		gameEngine.processCommand("draw", mockPlayer);
+		EasyMock.verify(mockDeck, mockUserInterface);
+		EasyMock.verify(mockPlayer, mockTurnManager, mockPlayerManager);
 	}
 
 	private GameEngine createValidGameEngine() {
