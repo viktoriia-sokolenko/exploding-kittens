@@ -295,7 +295,8 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void showAvailableCardTypes_withUnderscoreCardType_replacesUnderscoresWithSpaces() {
+	public
+	void showAvailableCardTypes_withUnderscoreCardType_replacesUnderscoresWithSpaces() {
 		gameEngine = createValidGameEngine();
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		List<CardType> underscoreCardsList = Arrays.asList(
@@ -1864,9 +1865,11 @@ public class GameEngineTest {
 		Player mockActivePlayer1 = EasyMock.createMock(Player.class);
 		Player mockActivePlayer2 = EasyMock.createMock(Player.class);
 
-		List<Player> activePlayers = Arrays.asList(mockActivePlayer1, mockActivePlayer2);
+		List<Player> activePlayers = Arrays.asList(mockActivePlayer1,
+				mockActivePlayer2);
 
-		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
 		final int EXPECTED_NUMBER_OF_CARDS = 10;
@@ -1878,7 +1881,9 @@ public class GameEngineTest {
 				.andReturn(mockCurrentPlayer);
 		EasyMock.replay(mockTurnManager);
 
-		EasyMock.expect(mockCurrentPlayer.getNumberOfCards()).andReturn(5);
+		final int EXPECTED_NUMBER_OF_CARDS_TWO = 5;
+		EasyMock.expect(mockCurrentPlayer.getNumberOfCards()).
+				andReturn(EXPECTED_NUMBER_OF_CARDS_TWO);
 		EasyMock.replay(mockCurrentPlayer);
 
 		EasyMock.replay(mockUserInterface);
