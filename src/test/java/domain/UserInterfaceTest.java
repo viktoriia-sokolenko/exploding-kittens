@@ -157,6 +157,19 @@ public class UserInterfaceTest {
 				contains("You drew: SKIP"));
 	}
 
+
+	@Test
+	void displayCardPlayed_printsCardWithEffect() {
+		UserInterface ui = new UserInterface();
+		Card card = new SkipCard();
+
+		ui.displayCardPlayed(card);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("You played: SKIP"));
+		assertTrue(out.contains(" → End your turn without drawing a card"));
+	}
+
 	@Test
 	void displayCardEffect_allCardTypes_printsCorrectEffects() {
 		UserInterface ui = new UserInterface();
