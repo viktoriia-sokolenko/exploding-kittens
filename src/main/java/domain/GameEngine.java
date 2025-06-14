@@ -46,6 +46,7 @@ public class GameEngine {
 	}
 
 	public void handleQuitCommand() {
+		System.out.println("Thanks for playing Exploding Kittens!");
 		gameRunning = false;
 	}
 
