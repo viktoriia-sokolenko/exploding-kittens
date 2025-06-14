@@ -1560,4 +1560,32 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayerManager);
 	}
 
+	@Test
+	public void checkWinCondition_withThreeActivePlayers_gameStillRunning() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager,
+				mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player player1 = EasyMock.createMock(Player.class);
+		Player player2 = EasyMock.createMock(Player.class);
+		Player player3 = EasyMock.createMock(Player.class);
+		List<Player> activePlayers = Arrays.asList(player1, player2, player3);
+
+		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.checkWinCondition();
+
+			assertTrue(gameEngine.getIsGameRunning());
+			assertEquals("", outputStream.toString(StandardCharsets.UTF_8));
+		} finally {
+			System.setOut(originalOut);
+		}
+
+		EasyMock.verify(mockPlayerManager);
+	}
 }
