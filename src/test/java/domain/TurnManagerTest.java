@@ -337,17 +337,17 @@ public class TurnManagerTest {
 		assertEquals(EXPECTED_COUNT, actualCount);
 		EasyMock.verify(playerManagerWithFivePlayers);
 	}
-	
+
 	@Test
 	void addTurnForCurrentPlayer_withOnePlayer_doesNotAddDuplicateTurn() {
 		PlayerManager playerManager = mockPlayerManager(1);
 		turnManager.setPlayerManager(playerManager);
-
-		Player singlePlayer = playerManager.getPlayers().get(0);
+		final int EXPECTED_COUNT = 1;
+		Player singlePlayer = playerManager.getPlayers().get(EXPECTED_COUNT);
 		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
-		assertEquals(1, turnManager.getTurnsFor(singlePlayer));
+		assertEquals(EXPECTED_COUNT, turnManager.getTurnsFor(singlePlayer));
 		turnManager.addTurnForCurrentPlayer();
-		assertEquals(1, turnManager.getTurnsFor(singlePlayer));
+		assertEquals(EXPECTED_COUNT, turnManager.getTurnsFor(singlePlayer));
 		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
 		turnManager.endTurnWithoutDraw();
 		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());

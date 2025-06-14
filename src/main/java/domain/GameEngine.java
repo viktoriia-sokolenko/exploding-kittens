@@ -248,6 +248,8 @@ public class GameEngine {
 				case "play":
 					handlePlayCommand(parts, currentPlayer);
 					break;
+				case "help":
+					handlePlayCommand(parts, currentPlayer);
 				case "draw":
 					handleDrawCommand(currentPlayer);
 					break;
