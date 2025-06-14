@@ -133,50 +133,50 @@ public class GameEngineLoopTest {
     }
 
     @Test
-    public
-    void initializeGame_dealsCardsAddsDefuseInsertsExplodingKittensAndShowsHelp
-            () throws Exception {
+    public void
+    initializeGame_dealsCardsAddsDefuseInsertsExplodingKittensAndShowsHelp() {
         Player p1 = EasyMock.createMock(Player.class);
         Player p2 = EasyMock.createMock(Player.class);
-
         List<Player> players = List.of(p1, p2);
         int playerCount = players.size();
-
         int explodingCount = playerCount - ONE_CYCLE;
+
         EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(players);
+
         p1.drawCard(mockDeck); EasyMock.expectLastCall()
                 .times(INITIAL_HAND_SIZE);
         p2.drawCard(mockDeck); EasyMock.expectLastCall()
                 .times(INITIAL_HAND_SIZE);
+
         Card defuseCard = EasyMock.createMock(Card.class);
         EasyMock.expect(mockFactory.createCard(CardType.DEFUSE))
                 .andReturn(defuseCard).times(playerCount);
+
         p1.addCardToHand(defuseCard); EasyMock.expectLastCall();
         p2.addCardToHand(defuseCard); EasyMock.expectLastCall();
-        EasyMock.expect(mockDeck.getDeckSize()).andReturn(DECK_SIZE);
 
+        EasyMock.expect(mockDeck.getDeckSize()).andReturn(DECK_SIZE);
         Card kittenCard = EasyMock.createMock(Card.class);
         EasyMock.expect(mockFactory.createCard(CardType.EXPLODING_KITTEN))
                 .andReturn(kittenCard).times(explodingCount);
 
-        mockDeck.insertCardAt(kittenCard, EasyMock.anyInt());
+        mockDeck.insertCardAt(EasyMock.eq(kittenCard), EasyMock.anyInt());
         EasyMock.expectLastCall().times(explodingCount);
-
         mockUI.displayHelp(); EasyMock.expectLastCall();
 
-        EasyMock.replay(mockPlayerManager, mockDeck, p1, p2,
-                mockFactory, mockUI);
+        EasyMock.replay(mockPlayerManager, mockDeck, p1, p2, mockFactory,
+                mockUI);
 
         TestableGameEngine engine = new TestableGameEngine(
                 mockTurnManager, mockPlayerManager, mockDeck,
                 mockUI, mockFactory, mockRandom
         );
 
-        GameEngine.initalizeGame();
+        engine.initializeGame();
 
         assertTrue(engine.getIsGameRunning());
 
-        EasyMock.verify(mockTurnManager, mockPlayerManager, mockDeck, p1, p2,
-                mockFactory, mockUI);
+        EasyMock.verify(mockPlayerManager, mockDeck, p1, p2, mockFactory,
+                mockUI);
     }
 }
