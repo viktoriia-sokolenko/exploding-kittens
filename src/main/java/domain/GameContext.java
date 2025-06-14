@@ -11,10 +11,11 @@ public class GameContext {
 	private final Deck deck;
 	private final Player currentPlayer;
 	private final UserInterface userInterface;
+	private final CardFactory cardFactory;
 
 	public GameContext(TurnManager turnManager, PlayerManager playerManager,
 		Deck deck, Player currentPlayer,
-		UserInterface userInterface) {
+		UserInterface userInterface, CardFactory cardFactory) {
 		this.turnManager = Objects.requireNonNull(turnManager,
 				"TurnManager cannot be null");
 		this.playerManager = Objects.requireNonNull(playerManager,
@@ -24,6 +25,7 @@ public class GameContext {
 		this.currentPlayer = Objects.requireNonNull(currentPlayer,
 				"Current player cannot be null");
 		this.userInterface = userInterface;
+		this.cardFactory = Objects.requireNonNull(cardFactory);
 	}
 
 	public GameContext(Player currentPlayer) {
@@ -33,6 +35,7 @@ public class GameContext {
 		this.playerManager = null;
 		this.deck = null;
 		this.userInterface = null;
+		this.cardFactory = null;
 	}
 
 	Player getCurrentPlayer() {

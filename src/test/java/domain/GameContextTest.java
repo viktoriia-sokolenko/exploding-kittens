@@ -19,6 +19,7 @@ public class GameContextTest {
 	private PlayerManager mockPlayerManager;
 	private Deck mockDeck;
 	private UserInterface userInterface;
+	private CardFactory mockCardFactory;
 
 
 	@BeforeEach
@@ -29,6 +30,7 @@ public class GameContextTest {
 		mockDeck = EasyMock.createMock(Deck.class);
 		mockPlayerManager = EasyMock.createMock(PlayerManager.class);
 		userInterface = EasyMock.createMock(UserInterface.class);
+		mockCardFactory = EasyMock.createMock(CardFactory.class);
 	}
 
 	@Test
@@ -63,7 +65,7 @@ public class GameContextTest {
 	void constructor_withValidParameters_createsGameContext() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		assertNotNull(fullGameContext);
 		assertEquals(mockCurrentPlayer, fullGameContext.getCurrentPlayer());
 	}
@@ -73,7 +75,7 @@ public class GameContextTest {
 		assertThrows(NullPointerException.class, () -> {
 			new GameContext(null, mockPlayerManager,
 					mockDeck, mockCurrentPlayer,
-					userInterface);
+					userInterface, mockCardFactory);
 		});
 	}
 
@@ -81,7 +83,7 @@ public class GameContextTest {
 	void constructor_withNullPlayerManager_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			new GameContext(mockTurnManager, null, mockDeck,
-					mockCurrentPlayer, userInterface);
+					mockCurrentPlayer, userInterface, mockCardFactory);
 		});
 	}
 
@@ -89,7 +91,7 @@ public class GameContextTest {
 	void constructor_withNullDeck_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			new GameContext(mockTurnManager, mockPlayerManager, null,
-					mockCurrentPlayer, userInterface);
+					mockCurrentPlayer, userInterface, mockCardFactory);
 		});
 	}
 
@@ -97,7 +99,7 @@ public class GameContextTest {
 	void constructor_withNullCurrentPlayer_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			new GameContext(mockTurnManager, mockPlayerManager, mockDeck,
-					null, userInterface);
+					null, userInterface, mockCardFactory);
 		});
 	}
 
@@ -105,7 +107,7 @@ public class GameContextTest {
 	void fullConstructor_withNullUI_allowsNullUI() {
 		assertDoesNotThrow(() -> {
 			new GameContext(mockTurnManager, mockPlayerManager, mockDeck,
-					mockCurrentPlayer, null);
+					mockCurrentPlayer, null, mockCardFactory);
 		});
 	}
 
@@ -113,7 +115,7 @@ public class GameContextTest {
 	void addTurnForCurrentPlayer_withFullContext_callsTurnManager() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 
 		mockTurnManager.addTurnForCurrentPlayer();
 		EasyMock.expectLastCall().once();
@@ -133,7 +135,7 @@ public class GameContextTest {
 	void endTurnWithoutDrawing_withFullContext_callsTurnManager() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 
 		mockTurnManager.endTurnWithoutDraw();
 		EasyMock.expectLastCall().once();
@@ -148,7 +150,7 @@ public class GameContextTest {
 	void endTurnWithoutDrawingForAttacks_withFullContext_callsTurnManager() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 
 		mockTurnManager.endTurnWithoutDrawForAttacks();
 		EasyMock.expectLastCall().once();
@@ -163,7 +165,7 @@ public class GameContextTest {
 	void viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		mockDeck.peekTopTwoCards();
 		EasyMock.expectLastCall()
 				.andThrow(new NoSuchElementException("Deck is empty"));
@@ -178,7 +180,7 @@ public class GameContextTest {
 	void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		List<Card> expectedCardList = List.of(mockCard(testCardType));
 		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
 		EasyMock.replay(mockDeck);
@@ -191,7 +193,7 @@ public class GameContextTest {
 	void viewTopTwoCardsFromDeck_deckWithTwoCards_returnsTwoLastCards() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		Card card1 = mockCard(CardType.NORMAL);
 		Card card2 = mockCard(CardType.FAVOR);
 		List<Card> expectedCardList = List.of(card1, card2);
@@ -206,7 +208,7 @@ public class GameContextTest {
 	void viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsDuplicates() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		Card duplicateCard1 = mockCard(CardType.SKIP);
 		Card duplicateCard2 = mockCard(CardType.SKIP);
 		List<Card> expectedCardList = List.of(duplicateCard1, duplicateCard2);
@@ -232,7 +234,7 @@ public class GameContextTest {
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		assertThrows(IllegalArgumentException.class, () ->
 		{ fullGameContext.transferCardBetweenPlayers(testCard, mockPlayerGiver); });
 
@@ -255,7 +257,7 @@ public class GameContextTest {
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		fullGameContext.transferCardBetweenPlayers(testCard, mockPlayerGiver);
 
 		EasyMock.verify(mockPlayerGiver, mockCurrentPlayer);
