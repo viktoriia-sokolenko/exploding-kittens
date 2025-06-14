@@ -12,7 +12,7 @@ public class GameEngine {
 	private final Deck deck;
 	private final UserInterface userInterface;
 	private final CardFactory cardFactory;
-	private boolean gameRunning = false;
+	private boolean gameRunning = true;
 	private final SecureRandom secureRandom;
 
 	public GameEngine(
@@ -49,8 +49,8 @@ public class GameEngine {
 		return this.gameRunning;
 	}
 
-	public void setGameRunning(boolean gameRunning) {
-		this.gameRunning = gameRunning;
+	public void setGameRunning(boolean shouldStopGame) {
+		this.gameRunning = shouldStopGame;
 	}
 
 	public void handleQuitCommand() {
@@ -235,5 +235,15 @@ public class GameEngine {
 		turnManager.syncWith(activePlayers);
 	}
 
-
+	public void checkWinCondition() {
+		List<Player> activePlayers = playerManager.getActivePlayers();
+		if (activePlayers.size() <= 1) {
+			gameRunning = false;
+			if (activePlayers.size() == 1) {
+				System.out.println("\n🎉 GAME OVER! The last player standing wins! 🎉");
+			} else {
+				System.out.println("\n💥 GAME OVER! Everyone exploded! 💥");
+			}
+		}
+	}
 }

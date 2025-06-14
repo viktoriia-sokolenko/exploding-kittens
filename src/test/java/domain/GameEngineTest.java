@@ -1304,7 +1304,7 @@ public class GameEngineTest {
 	@Test
 	public void handleQuitCommand_setsGameRunningToFalse() {
 		gameEngine = createValidGameEngine();
-		assertFalse(gameEngine.getIsGameRunning());
+		assertTrue(gameEngine.getIsGameRunning());
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream,
@@ -1532,25 +1532,27 @@ public class GameEngineTest {
 
 	@Test
 	public void checkWinCondition_withTwoActivePlayers_gameStillRunning() {
-		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager,
+				mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player player1 = EasyMock.createMock(Player.class);
 		Player player2 = EasyMock.createMock(Player.class);
 		List<Player> activePlayers = Arrays.asList(player1, player2);
 
-		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
-
-		// Capture System.out
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+		System.setOut(new PrintStream(outputStream,
+				true, StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.checkWinCondition();
-			assertTrue(gameEngine.isGameRunning());
-			assertEquals("", outputStream.toString(StandardCharsets.UTF_8));
+			assertTrue(gameEngine.getIsGameRunning());
+			assertEquals("",
+					outputStream.toString(StandardCharsets.UTF_8));
 		} finally {
 			System.setOut(originalOut);
 		}
