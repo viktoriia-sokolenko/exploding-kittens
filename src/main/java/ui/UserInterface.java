@@ -199,14 +199,19 @@ public class UserInterface {
 	}
 
 	public void displayGameEnd(boolean isThereGameWinner) {
-		System.out.println("\n" + "=".repeat(50));
+		final int NUMBER_OF_EQUAL_SIGNS = 50;
+		System.out.println("\n" + "=".repeat(NUMBER_OF_EQUAL_SIGNS));
 		if (isThereGameWinner) {
-			System.out.println("🎉 CONGRATULATIONS! YOU WON! 🎉");
+			System.out.println("CONGRATULATIONS! YOU WON!");
 			System.out.println("You survived the exploding kittens!");
+		} else {
+			// this realistically though, wouldn't happen
+			System.out.println("GAME OVER!");
+			System.out.println("Everyone exploded!");
 		}
 
-		System.out.println("=".repeat(50));
+		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS));
 		System.out.println("Thanks for playing Exploding Kittens!");
-		System.out.println("=".repeat(50) + "\n");
+		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS) + "\n");
 	}
 }
