@@ -197,4 +197,16 @@ public class UserInterface {
 		System.out.println("You have been eliminated from the game!");
 		System.out.println("Better luck next time!\n");
 	}
+
+	public void displayGameEnd(boolean isThereGameWinner) {
+		System.out.println("\n" + "=".repeat(50));
+		if (isThereGameWinner) {
+			System.out.println("🎉 CONGRATULATIONS! YOU WON! 🎉");
+			System.out.println("You survived the exploding kittens!");
+		}
+
+		System.out.println("=".repeat(50));
+		System.out.println("Thanks for playing Exploding Kittens!");
+		System.out.println("=".repeat(50) + "\n");
+	}
 }
