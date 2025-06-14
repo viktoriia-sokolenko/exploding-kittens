@@ -521,4 +521,17 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Exploding Kitten"));
 		assertFalse(out.contains("x0"));
 	}
+
+	@Test
+	void formatCardName_verifyExactStringMatching() {
+		UserInterface ui = new UserInterface();
+		assertEquals("Skip", ui.formatCardName(CardType.SKIP));
+		assertNotEquals("SKIP", ui.formatCardName(CardType.SKIP));
+		assertNotEquals("skip", ui.formatCardName(CardType.SKIP));
+		assertNotEquals("", ui.formatCardName(CardType.SKIP));
+
+		assertEquals("Attack", ui.formatCardName(CardType.ATTACK));
+		assertNotEquals("ATTACK", ui.
+				formatCardName(CardType.ATTACK));
+	}
 }
