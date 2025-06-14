@@ -1749,24 +1749,24 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void processCommand_withDrawCommand_callsHandleDrawCommand() {
+	public
+	void
+	processCommand_whenHandlePlayCommandThrowsException_displaysErrorMessage() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.parseCardType("invalidcard")).andThrow(
+				new IllegalArgumentException("Invalid card type"));
 		EasyMock.replay(mockPlayer);
 
-		Card mockCard = createMockCard(CardType.NORMAL);
-		EasyMock.expect(mockDeck.draw()).andReturn(mockCard);
-		EasyMock.replay(mockDeck);
-
+		mockUserInterface.displayError("Error executing command: Invalid card type");
+		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
-		EasyMock.replay(mockTurnManager);
 
-		gameEngine.processCommand("draw", mockPlayer);
+		gameEngine.processCommand("play invalidcard", mockPlayer);
 
+		EasyMock.verify(mockUserInterface);
 		EasyMock.verify(mockPlayer);
-		EasyMock.verify(mockDeck);
 	}
-
 }

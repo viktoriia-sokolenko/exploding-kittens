@@ -4,12 +4,9 @@ package domain;
 import java.util.*;
 import java.security.SecureRandom;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ui.UserInterface;
 
 public class GameEngine {
-	private static final Logger log = LoggerFactory.getLogger(GameEngine.class);
 	private final CardManager cardManager;
 	private final TurnManager turnManager;
 	private final PlayerManager playerManager;
@@ -250,6 +247,9 @@ public class GameEngine {
 			switch (command) {
 				case "play":
 					handlePlayCommand(parts, currentPlayer);
+					break;
+				case "draw":
+					handleDrawCommand(currentPlayer);
 					break;
 				default:
 					userInterface.displayError
