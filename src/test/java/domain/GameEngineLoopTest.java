@@ -102,4 +102,29 @@ public class GameEngineLoopTest {
 
         EasyMock.verify(mockTurnManager, mockUI, elim, active);
     }
+
+    @Test
+    public void runGameLoop_withoutElimination_invokesDisplayAndProcessThenQuit
+            () throws Exception {
+        Player active = EasyMock.createMock(Player.class);
+
+        EasyMock.expect(active.isInGame()).andReturn(true);
+        EasyMock.expect(mockTurnManager.getCurrentActivePlayer()).andReturn(active);
+        EasyMock.expect(mockUI.getUserInput()).andReturn("quit");
+
+        EasyMock.replay(mockTurnManager, mockUI, active);
+
+        TestableGameEngine engine = new TestableGameEngine(
+                mockTurnManager, mockPlayerManager, mockDeck, mockUI, mockFactory, mockRandom
+        );
+
+        engine.invokeRunGameLoop();
+
+        assertEquals(0, engine.eliminationCount);
+        assertEquals(ONE_CYCLE, engine.displayCount);
+        assertEquals(ONE_CYCLE, engine.processCount);
+        assertEquals(ONE_CYCLE, engine.checkCount);
+
+        EasyMock.verify(mockTurnManager, mockUI, active);
+    }
 }
