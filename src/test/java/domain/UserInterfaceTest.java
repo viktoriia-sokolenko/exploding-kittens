@@ -632,4 +632,35 @@ public class UserInterfaceTest {
 
 		EasyMock.verify(mockPlayer);
 	}
+
+	@Test
+	void displayPlayerHand_nullCardType_printsCorrectHand() {
+		UserInterface ui = new UserInterface();
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.getNumberOfCards())
+				.andReturn(2).anyTimes();
+		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.SKIP))
+				.andReturn(null);
+		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.ATTACK))
+				.andReturn(0);
+		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.DEFUSE))
+				.andReturn(2);
+		for (CardType type : CardType.values()) {
+			if (type != CardType.SKIP && type != CardType.ATTACK
+					&& type != CardType.DEFUSE) {
+				EasyMock.expect(mockPlayer.getCardTypeCount(type))
+						.andReturn(0);
+			}
+		}
+		EasyMock.replay(mockPlayer);
+
+		ui.displayPlayerHand(mockPlayer);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("Defuse x2 (type: defuse)"));
+		assertFalse(out.contains("Skip"));
+		assertFalse(out.contains("Attack"));
+
+		EasyMock.verify(mockPlayer);
+	}
 }
