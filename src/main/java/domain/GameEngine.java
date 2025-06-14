@@ -3,9 +3,13 @@ package domain;
 
 import java.util.*;
 import java.security.SecureRandom;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ui.UserInterface;
 
 public class GameEngine {
+	private static final Logger log = LoggerFactory.getLogger(GameEngine.class);
 	private final CardManager cardManager;
 	private final TurnManager turnManager;
 	private final PlayerManager playerManager;
@@ -67,6 +71,7 @@ public class GameEngine {
 				userInterface
 		);
 	}
+
 
 	public static List<Card> createInitialDeck
 			(CardFactory cardFactory, int numberOfPlayers) {
@@ -232,15 +237,28 @@ public class GameEngine {
 
 	public void processCommand(String input, Player currentPlayer) {
 		if (input == null || input.trim().isEmpty()) {
-			userInterface.displayError("Please enter a command. Type 'help' for available commands.");
+			userInterface.
+					displayError("Please enter a command. " +
+							"Type 'help' for available commands.");
 			return;
 		}
 
 		String[] parts = input.split(" ");
 		String command = parts[0];
 
-		if (command.equals("play")) {
-			handlePlayCommand(parts, currentPlayer);
+		try {
+			switch (command) {
+				case "play":
+					handlePlayCommand(parts, currentPlayer);
+					break;
+				default:
+					userInterface.displayError
+							("Unknown command: " + command + ". " +
+									"Type 'help' for available commands.");
+			}
+		} catch (Exception e) {
+			userInterface.displayError("Error executing command: " +
+					e.getMessage());
 		}
 
 	}

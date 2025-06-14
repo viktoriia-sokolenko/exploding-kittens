@@ -1695,7 +1695,8 @@ public class GameEngineTest {
 
 	@ParameterizedTest
 	@MethodSource("provideCardTypeTestData")
-	public void processCommand_withPlayCommandForDifferentCards_callsHandlePlayCommand(
+	public
+	void processCommand_withPlayCommandForDifferentCards_callsHandlePlayCommand(
 			String cardName, CardType cardType, boolean endsTurn) {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
@@ -1705,7 +1706,8 @@ public class GameEngineTest {
 		CardEffect mockEffect = EasyMock.createMock(CardEffect.class);
 		mockEffect.execute(EasyMock.anyObject(GameContext.class));
 		EasyMock.expectLastCall().andAnswer(() -> {
-			GameContext context = (GameContext) EasyMock.getCurrentArguments()[0];
+			GameContext context = (GameContext) EasyMock
+					.getCurrentArguments()[0];
 			if (endsTurn) {
 				context.endTurnWithoutDrawing();
 			}
@@ -1716,12 +1718,14 @@ public class GameEngineTest {
 		EasyMock.replay(mockCard);
 
 		Player mockPlayer = EasyMock.createMock(Player.class);
-		EasyMock.expect(mockPlayer.parseCardType(cardName)).andReturn(cardType);
+		EasyMock.expect(mockPlayer.parseCardType(cardName))
+				.andReturn(cardType);
 		mockPlayer.removeCardFromHand(mockCard);
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockPlayer);
 
-		EasyMock.expect(mockCardFactory.createCard(cardType)).andReturn(mockCard);
+		EasyMock.expect(mockCardFactory.createCard(cardType))
+				.andReturn(mockCard);
 		EasyMock.replay(mockCardFactory);
 
 		mockUserInterface.displayCardPlayed(mockCard);
