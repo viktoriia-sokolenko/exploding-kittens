@@ -14,7 +14,7 @@
 
 |             | System under test                          | Expected output                                           | Implemented?       | Test name                                                                            |
 |-------------|--------------------------------------------|-----------------------------------------------------------|--------------------|--------------------------------------------------------------------------------------|
-| Test Case 1 | message `null`                             | `NullPointerException`  ("Card cannot be null")           | :white_check_mark: | `getUserInput_withNullMessageAndNonEmptyConsoleInput_returnsConsoleInput`            |
-| Test Case 1 | message `""`, input `"hello world"`        | returns "hello world"; stdout contains "> "               |                    | `getUserInput_withEmptyMessageAndNonEmptyConsoleInput_returnsConsoleInput`           |
+| Test Case 1 | message `null`, input `"hello world"`      | `NullPointerException`  ("Card cannot be null")           | :white_check_mark: | `getUserInput_withNullMessageAndNonEmptyConsoleInput_returnsConsoleInput`            |
+| Test Case 1 | message `""`, input `"hello world"`        | returns "hello world"; stdout contains "> "               | :white_check_mark: | `getUserInput_withEmptyMessageAndNonEmptyConsoleInput_returnsConsoleInput`           |
 | Test Case 2 | message `"hello world"`, input `""`        | returns ""; stdout contains "> " and "hello world"        |                    | `getUserInput_withNonEmptyMessageAndEmptyConsoleInput_keepsAskingForInput`           |
 | Test Case 2 | message `"message"`, input `"hello world"` | returns "hello world"; stdout contains "> " and "message" |                    | `getUserInput_withNonEmptyMessageAndConsoleInput_returnsConsoleLineAndPrintsMessage` |
