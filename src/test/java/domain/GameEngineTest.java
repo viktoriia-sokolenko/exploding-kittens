@@ -882,7 +882,8 @@ public class GameEngineTest {
 				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(15);
+		final int DECK_SIZE = 15;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(DECK_SIZE);
 		EasyMock.replay(mockDeck);
 
 		EasyMock.expect(mockTurnManager.getCurrentActivePlayer())

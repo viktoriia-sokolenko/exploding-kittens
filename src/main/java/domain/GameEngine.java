@@ -133,6 +133,17 @@ public class GameEngine {
 		}
 	}
 
+	public void displayGameStatus() {
+		System.out.println("\n=== GAME STATUS ===");
+		List<Player> activePlayers = playerManager.getActivePlayers();
+		System.out.println("Active players: " + activePlayers.size());
+		System.out.println("Cards in deck: " + deck.getDeckSize());
+		Player current = turnManager.getCurrentActivePlayer();
+		System.out.println("Current player has " + current.getNumberOfCards()
+				+ " cards");
+		System.out.println("==================\n");
+	}
+
 
 	public void handlePlayCommand(String[] parts, Player currentPlayer) {
 		Objects.requireNonNull(parts, "Player cannot be null");
