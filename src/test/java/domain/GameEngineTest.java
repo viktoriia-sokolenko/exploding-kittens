@@ -1336,4 +1336,27 @@ public class GameEngineTest {
 			System.setOut(originalOut);
 		}
 	}
+
+	@Test
+	public void handlePlayerElimination_withTwoActivePlayers_syncsCorrectly() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player player1 = EasyMock.createMock(Player.class);
+		Player player2 = EasyMock.createMock(Player.class);
+		List<Player> activePlayers = Arrays.asList(player1, player2);
+
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
+		EasyMock.replay(mockPlayerManager);
+
+		mockTurnManager.syncWith(activePlayers);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		gameEngine.handlePlayerGetsElimated();
+
+		EasyMock.verify(mockPlayerManager);
+		EasyMock.verify(mockTurnManager);
+	}
 }
