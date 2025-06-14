@@ -180,6 +180,27 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 3 | Deck `[card1, card2]`            | Returns `[card1, card2]`;                  | :white_check_mark: | peekTopTwoCards_deckWithTwoCards_returnsTwoLastCards                     |
 | Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `[card2.1, card2.2]`;              | :white_check_mark: | peekTopTwoCards_deckWithThreeCardsAndDuplicate_returnsLastDuplicateCards |
 
+## Method 8: `public List<Card> peekTopThreeCards()`
+
+### Step 1-3 Results
+
+|        | Input                                                                                                                     | Output                                                                                                            |
+|--------|---------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| Step 1 | Deck of Cards                                                                                                             | Three Cards on top of deck, i.e last index from deck                                                              |
+| Step 2 | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, Exactly 3 Elements, More than 3 Elements containing Duplicates) | Collections of 1-3 Card objects or Exception                                                                      |
+| Step 3 | `[]`, `[card1]`, `[card1, card2]`, `[card1, card2, card3]`, duplicates `[card1, card2, card3, card4.1, card4.2]`          | `[card1]`, `[card1, card2]`, `[card2, card3]`, duplicates `[card3, card4.1, card4.2]` or `NoSuchElementException` |
+
+### Step 4:
+
+|             | System under test                              | Expected output / state transition         | Implemented? | Test name                                                                 |
+|-------------|------------------------------------------------|--------------------------------------------|--------------|---------------------------------------------------------------------------|
+| Test Case 1 | Deck `[]`                                      | `NoSuchElementException` (“Deck is empty”) |              | peekTopThreeCards_emptyDeck_throwsNoSuchElementException                  |
+| Test Case 2 | Deck `[card1]`                                 | Returns `[card1]`;                         |              | peekTopThreeCards_deckWithOneCard_returnsTheOnlyCard                      |
+| Test Case 3 | Deck `[card1, card2]`                          | Returns `[card1, card2]`;                  |              | peekTopThreeCards_deckWithTwoCards_returnsTwoLastCards                    |
+| Test Case 3 | Deck `[card1, card2, card3]`                   | Returns `[card1, card2, card3]`;           |              | peekTopThreeCards_deckWithThreeCards_returnsThreeLastCards                |
+| Test Case 4 | Deck `[card1, card2, card3, card4.1, card4.2]` | Returns `[card3, card4.1, card4.2]`;       |              | peekTopThreeCards_deckWithFourCardsAndDuplicate_returnsLastDuplicateCards |
+
+
 
 
 ## Method under test: `giveCardToPlayer(Player p)`
