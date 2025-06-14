@@ -255,4 +255,28 @@ public class UserInterfaceTest {
 
 		assertTrue(output.contains(expectedOutput));
 	}
+
+	@Test
+	void displayTurnStart_printsCorrectTurnInfo() {
+		UserInterface ui = new UserInterface();
+		final int CURRENT_PLAYER = 2;
+		final int TOTAL_PLAYERS = 4;
+
+		ui.displayTurnStart(CURRENT_PLAYER, TOTAL_PLAYERS);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("Player 2'sturn (Player 2 of 4)"));
+		assertTrue(out.startsWith("\n"));
+	}
+
+	@Test
+	void displayDeckEmpty_printsWarningMessage() {
+		UserInterface ui = new UserInterface();
+
+		ui.displayDeckEmpty();
+
+		String err = errContent.toString(StandardCharsets.UTF_8);
+		assertTrue(err.contains("Warning: The deck is empty! " +
+				"No more cards to draw."));
+	}
 }
