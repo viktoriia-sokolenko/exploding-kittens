@@ -1590,30 +1590,35 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void checkWinCondition_withOneActivePlayer_declaresSingleWinner() {
+	public void checkWinCondition_withFiveActivePlayers_gameStillRunning() {
 		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager,
 				mockDeck,
 				mockUserInterface, mockCardFactory, mockSecureRandom);
 
-		Player lastPlayer = EasyMock.createMock(Player.class);
-		List<Player> activePlayers = Arrays.asList(lastPlayer);
+		List<Player> activePlayers = new ArrayList<>();
+		final int NUMBER_OF_PLAYERS = 5;
+		for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
+			activePlayers.add(EasyMock.createMock(Player.class));
+		}
 
-		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream, true, StandardCharsets.UTF_8));
+		System.setOut(new PrintStream(outputStream, true,
+				StandardCharsets.UTF_8));
 
 		try {
 			gameEngine.checkWinCondition();
-			assertFalse(gameEngine.getIsGameRunning());
-			String output = outputStream.toString(StandardCharsets.UTF_8);
-			assertEquals
-					("\nGAME OVER! The last player standing wins!\n", output);
+			assertTrue(gameEngine.getIsGameRunning());
+			assertEquals("", outputStream
+					.toString(StandardCharsets.UTF_8));
 		} finally {
 			System.setOut(originalOut);
 		}
 
 		EasyMock.verify(mockPlayerManager);
 	}
+
 }
