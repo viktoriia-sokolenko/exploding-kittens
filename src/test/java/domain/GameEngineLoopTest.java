@@ -7,17 +7,21 @@ import ui.UserInterface;
 
 import java.lang.reflect.Method;
 import java.security.SecureRandom;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameEngineLoopTest {
     private static final int ONE_CYCLE = 1;
+    private static final int INITIAL_HAND_SIZE = 4;
+    private static final int DECK_SIZE = 10;
 
     private static class TestableGameEngine extends GameEngine {
         public int eliminationCount = 0;
         public int displayCount = 0;
         public int processCount = 0;
         public int checkCount = 0;
+
 
         public TestableGameEngine(
                 TurnManager turnManager,
@@ -126,5 +130,53 @@ public class GameEngineLoopTest {
         assertEquals(ONE_CYCLE, engine.checkCount);
 
         EasyMock.verify(mockTurnManager, mockUI, active);
+    }
+
+    @Test
+    public
+    void initializeGame_dealsCardsAddsDefuseInsertsExplodingKittensAndShowsHelp
+            () throws Exception {
+        Player p1 = EasyMock.createMock(Player.class);
+        Player p2 = EasyMock.createMock(Player.class);
+
+        List<Player> players = List.of(p1, p2);
+        int playerCount = players.size();
+
+        int explodingCount = playerCount - ONE_CYCLE;
+        EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(players);
+        p1.drawCard(mockDeck); EasyMock.expectLastCall()
+                .times(INITIAL_HAND_SIZE);
+        p2.drawCard(mockDeck); EasyMock.expectLastCall()
+                .times(INITIAL_HAND_SIZE);
+        Card defuseCard = EasyMock.createMock(Card.class);
+        EasyMock.expect(mockFactory.createCard(CardType.DEFUSE))
+                .andReturn(defuseCard).times(playerCount);
+        p1.addCardToHand(defuseCard); EasyMock.expectLastCall();
+        p2.addCardToHand(defuseCard); EasyMock.expectLastCall();
+        EasyMock.expect(mockDeck.getDeckSize()).andReturn(DECK_SIZE);
+
+        Card kittenCard = EasyMock.createMock(Card.class);
+        EasyMock.expect(mockFactory.createCard(CardType.EXPLODING_KITTEN))
+                .andReturn(kittenCard).times(explodingCount);
+
+        mockDeck.insertCardAt(kittenCard, EasyMock.anyInt());
+        EasyMock.expectLastCall().times(explodingCount);
+
+        mockUI.displayHelp(); EasyMock.expectLastCall();
+
+        EasyMock.replay(mockPlayerManager, mockDeck, p1, p2,
+                mockFactory, mockUI);
+
+        TestableGameEngine engine = new TestableGameEngine(
+                mockTurnManager, mockPlayerManager, mockDeck,
+                mockUI, mockFactory, mockRandom
+        );
+
+        GameEngine.initalizeGame();
+
+        assertTrue(engine.getIsGameRunning());
+
+        EasyMock.verify(mockTurnManager, mockPlayerManager, mockDeck, p1, p2,
+                mockFactory, mockUI);
     }
 }
