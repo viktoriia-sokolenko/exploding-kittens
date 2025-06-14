@@ -547,5 +547,25 @@ public class UserInterfaceTest {
 				assertNotEquals(type.toString(), result);
 				assertEquals("See the Future", result);
 			}
-		}}
+		}
+	}
+
+	@Test
+	void displayPlayerHand_verifyNullCountHandling() {
+		UserInterface ui = new UserInterface();
+		Hand hand = new Hand();
+		Player player = new Player(hand);
+
+		ui.displayPlayerHand(player);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("YOUR HAND (0 cards):"));
+		assertTrue(out.contains("(empty hand)"));
+
+		for (CardType type : CardType.values()) {
+			String formattedName = ui.formatCardName(type);
+			assertFalse(out.contains(formattedName),
+					"Should not display " + formattedName + " when player has none");
+		}
+	}
 }
