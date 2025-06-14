@@ -6,6 +6,8 @@ public class TurnManager {
 	private final Deck deck;
 	private final Queue<Player> turnQueue;
 	private Player currentPlayer;
+	private int currentPlayerTurnsTaken;
+	private int requiredTurns;
 
 	public TurnManager(Deck deck) {
 		this.deck = Objects.requireNonNull(deck, "Deck cannot be null");
