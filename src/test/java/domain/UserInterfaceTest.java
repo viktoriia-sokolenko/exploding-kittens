@@ -154,7 +154,7 @@ public class UserInterfaceTest {
 
 		ui.displayDrawnCard(card);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).
-				contains("You drew: SKIP"));
+				contains("You drew: Skip"));
 	}
 
 
