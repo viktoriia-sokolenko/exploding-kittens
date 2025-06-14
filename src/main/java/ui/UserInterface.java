@@ -97,7 +97,13 @@ public class UserInterface {
 	}
 
 	public void displayDrawnCard(Card card) {
+		if (card.getCardType() == CardType.EXPLODING_KITTEN) {
+			System.out.println("OH NO! You drew: " +
+					formatCardName(card.getCardType()));
+		}
+
 		System.out.println("You drew: " + formatCardName(card.getCardType()));
+		System.out.println();
 	}
 
 	public void displayCardEffect(CardType cardType) {
