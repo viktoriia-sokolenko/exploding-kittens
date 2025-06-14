@@ -1623,4 +1623,22 @@ public class GameEngineTest {
 		EasyMock.verify(mockPlayerManager);
 	}
 
+	@Test
+	public void processCommand_withNullInput_displaysError() {
+		gameEngine = new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
+				mockUserInterface, mockCardFactory, mockSecureRandom);
+
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(mockPlayer);
+
+		mockUserInterface.displayError("Please enter a command. " +
+				"Type 'help' for available commands.");
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+
+		gameEngine.processCommand(null, mockPlayer);
+
+		EasyMock.verify(mockUserInterface);
+		EasyMock.verify(mockPlayer);
+	}
 }
