@@ -171,4 +171,8 @@ public class UserInterface {
 				"turn (Player " +
 				playerNumber + " of " + totalPlayers + ")");
 	}
+
+	public void displayDeckEmpty() {
+		displayWarning("The deck is empty! No more cards to draw.");
+	}
 }
