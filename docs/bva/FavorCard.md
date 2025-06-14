@@ -30,6 +30,6 @@
 
 ### Step 4:
 
-|             | System under test | Expected output / state transition             | Implemented? | Test name                                           |
-|-------------|-------------------|------------------------------------------------|--------------|-----------------------------------------------------|
-| Test Case 1 | mockContext       | calls mockContext.transferCardBetweenPlayers() |              | execute_favorEffect_callsTransferCardBetweenPlayers |
+|             | System under test | Expected output / state transition             | Implemented?       | Test name                                           |
+|-------------|-------------------|------------------------------------------------|--------------------|-----------------------------------------------------|
+| Test Case 1 | mockContext       | calls mockContext.transferCardBetweenPlayers() | :white_check_mark: | execute_favorEffect_callsTransferCardBetweenPlayers |

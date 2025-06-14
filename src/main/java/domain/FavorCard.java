@@ -13,7 +13,7 @@ public class FavorCard extends Card {
 	private static class FavorEffect implements CardEffect {
 		@Override
 		public void execute(GameContext context) {
-			return;
+			context.transferCardBetweenPlayers();
 		}
 	}
 }
