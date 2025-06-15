@@ -64,6 +64,10 @@ public class Deck {
 		}
 	}
 
+	public void rearrangeTopThreeCards(List<Integer> newIndices) {
+		throw new NoSuchElementException("Deck is empty");
+	}
+
 	private boolean isIndexOutOfBounds(int index) {
 		return index < 0 || index > this.deck.size();
 	}

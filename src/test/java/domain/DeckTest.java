@@ -670,6 +670,21 @@ public class DeckTest {
 		assertEquals(expectedCardList, actualCardList);
 	}
 
+	@Test
+	public void rearrangeTopThreeCards_emptyDeck_throwsNoSuchElementException() {
+		List<Card> emptyCardList = new ArrayList<>();
+		Deck deck = new Deck(emptyCardList);
+		String expectedMessage = "Deck is empty";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1, 2));
+
+		Exception exception = assertThrows(NoSuchElementException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
