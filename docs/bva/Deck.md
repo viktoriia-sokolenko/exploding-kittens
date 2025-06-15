@@ -231,7 +231,7 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 17 | Deck `[card1, card2, card3]`, indices `2, 1, 0`                   | Deck `[card1, card2, card3]`                                                  | :white_check_mark: | rearrangeTopThreeCards_deckWithThreeCardsAndSameIndices_orderRemainsTheSame     |
 | Test Case 18 | Deck `[card1, card2, card3]`, indices `1, 0, 2`                   | Deck `[card3, card1, card2]`                                                  | :white_check_mark: | rearrangeTopThreeCards_deckWithThreeCardsAndDifferentIndices_changesOrder       |
 | Test Case 19 | Deck `[card1, card2, card3, card4.1, card4.2]`, indices `3, 2, 1` | Deck `[card1, card2, card3, card4.1, card4.2]`                                | :white_check_mark: | rearrangeTopThreeCards_deckWithFourCardsAndSameIndices_orderRemainsTheSame      |
-| Test Case 20 | Deck `[card1, card2, card3, card4.1, card4.2]`, indices `2, 1, 3` | Deck `[card1, card2, card3, card4.2, card4.1]`                                |                    | rearrangeTopThreeCards_deckWithFourCardsAndThreeDifferentIndices_changesOrder   |
+| Test Case 20 | Deck `[card1, card2, card3, card4.1, card4.2]`, indices `2, 1, 3` | Deck `[card1, card2, card4.2, card3, card4.1]`                                | :white_check_mark: | rearrangeTopThreeCards_deckWithFourCardsAndThreeDifferentIndices_changesOrder   |
 | Test Case 21 | Deck `[card1, card2, card3, card4.1, card4.2]`, indices `1, 2, 3` | Deck `[card1, card2, card4.1, card4.2, card3]`                                |                    | rearrangeTopThreeCards_deckWithFourCardsAndTwoDifferentIndices_reversesCards    |
 
 ## Method under test: `giveCardToPlayer(Player p)`
