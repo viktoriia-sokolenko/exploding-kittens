@@ -805,6 +805,7 @@ public class UserInterfaceTest {
 		ui.displayCardsFromDeck(emptyCards, 1);
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("No cards to view"));
+		assertFalse(out.contains(":Top of deck:"));
 	}
 
 	@ParameterizedTest
@@ -839,6 +840,25 @@ public class UserInterfaceTest {
 				() -> ui.displayCardsFromDeck(oneCardList, 0));
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void displayCardsFromDeck_withOneCard_printCardTypeAndIndex(
+			CardType testCardType
+	) {
+		UserInterface ui = new UserInterface();
+
+		Card testCard = mockCard(testCardType);
+		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
+
+		ui.displayCardsFromDeck(oneCardList, 1);
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		String expectedCardInfo = ui.formatCardName(testCardType) + ", index: 0";
+
+		assertFalse(out.contains("No cards to view"));
+		assertTrue(out.contains(expectedCardInfo));
+		assertTrue(out.contains(":Top of deck:"));
 	}
 
 	private Card mockCard(CardType cardType) {

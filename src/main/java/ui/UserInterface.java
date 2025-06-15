@@ -266,6 +266,17 @@ public class UserInterface {
 			throw new IllegalArgumentException(
 					"deckSize is less than number of cards to display");
 		}
-		System.out.println("No cards to view");
+		if (cards.isEmpty()) {
+			System.out.println("No cards to view");
+			return;
+		}
+		System.out.println("\n" + ":Top of deck:");
+		for (int i = 0; i < cards.size(); i++) {
+			Card card = cards.get(i);
+			CardType cardTypeToDisplay = card.getCardType();
+			int index = deckSize - i - 1;
+			System.out.println(formatCardName(cardTypeToDisplay)
+					+ ", index: " + index);
+		}
 	}
 }
