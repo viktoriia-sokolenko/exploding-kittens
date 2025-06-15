@@ -465,10 +465,17 @@ public class TurnManagerTest {
 
 	@Test
 	public void incrementTurnsTaken_defaultTurn_advancesAndResets() {
+		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
+		Player initialPlayer = turnManager.getCurrentActivePlayer();
+
 		turnManager.setRequiredTurns(1);
 		turnManager.setCurrentPlayerTurnsTaken(0);
 		turnManager.incrementTurnsTaken();
 
+		Player newPlayer = turnManager.getCurrentActivePlayer();
+
+		assertNotEquals(initialPlayer, newPlayer);
 		assertEquals(1, turnManager.getRequiredTurns());
 		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
 	}
