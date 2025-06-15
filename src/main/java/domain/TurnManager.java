@@ -102,7 +102,7 @@ public class TurnManager {
 		return count;
 	}
 
-	public void reverseOrder() {
+	public void reverseOrderPreservingAttackState() {
 		if (turnQueue.isEmpty()) {
 			throw new IllegalStateException("No players to manage");
 		}

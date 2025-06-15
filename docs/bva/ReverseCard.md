@@ -25,14 +25,14 @@ player manager
 
 ### Step 1-3 Results
 
-|        | Input                | Output                                                    |
-|--------|----------------------|-----------------------------------------------------------|
-| Step 1 | GameContext          | Calls context.reverseOrder()                              |
-| Step 2 | GameContext Object   | Boolean                                                   |
-| Step 3 | GameContext instance | True (must be true that context.reverseOrder() is called) |
+|        | Input                | Output                                                                         |
+|--------|----------------------|--------------------------------------------------------------------------------|
+| Step 1 | GameContext          | Calls context.reverseOrderPreservingAttackState()                              |
+| Step 2 | GameContext Object   | Boolean                                                                        |
+| Step 3 | GameContext instance | True (must be true that context.reverseOrderPreservingAttackState() is called) |
 
 ### Step 4:
 
-|             | System under test | Expected output / state transition | Implemented?        | Test name                          |
-|-------------|-------------------|------------------------------------|---------------------|------------------------------------|
-| Test Case 1 | mockContext       | calls mockContext.reverseOrder()   | :white_check_mark:  | execute_reverseEffect_reverseOrder |
+|             | System under test | Expected output / state transition                     | Implemented?        | Test name                                               |
+|-------------|-------------------|--------------------------------------------------------|---------------------|---------------------------------------------------------|
+| Test Case 1 | mockContext       | calls mockContext.reverseOrderPreservingAttackState()  | :white_check_mark:  | execute_reverseEffect_reverseOrderPreservingAttackState |

@@ -356,36 +356,36 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void reverseOrder_emptyQueue_throwsIllegalStateException() {
+	void reverseOrderPreservingAttackState_emptyQueue_throwsIllegalStateException() {
 		IllegalStateException exception = assertThrows(
 				IllegalStateException.class,
-				() -> turnManager.reverseOrder()
+				() -> turnManager.reverseOrderPreservingAttackState()
 		);
 		assertTrue(exception.getMessage().contains("No players to manage"));
 	}
 
 	@Test
-	void reverseOrder_withTwoPlayers_orderReverses() {
+	void reverseOrderPreservingAttackState_withTwoPlayers_orderReverses() {
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
 		Player firstPlayer = players.get(0);
 		Player secondPlayer = players.get(1);
 		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
-		turnManager.reverseOrder();
+		turnManager.reverseOrderPreservingAttackState();
 		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
 		EasyMock.verify(playerManagerWithTwoPlayers);
 	}
 
 	@Test
-	void reverseOrder_withThreePlayers_orderReverses() {
+	void reverseOrderPreservingAttackState_withThreePlayers_orderReverses() {
 		PlayerManager playerManagerWithThreePlayers = mockPlayerManager(3);
 		turnManager.setPlayerManager(playerManagerWithThreePlayers);
 		List<Player> players = playerManagerWithThreePlayers.getPlayers();
 		Player firstPlayer = players.get(0);
 		Player thirdPlayer = players.get(2);
 		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
-		turnManager.reverseOrder();
+		turnManager.reverseOrderPreservingAttackState();
 		assertEquals(thirdPlayer, turnManager.getCurrentActivePlayer());
 		EasyMock.verify(playerManagerWithThreePlayers);
 	}

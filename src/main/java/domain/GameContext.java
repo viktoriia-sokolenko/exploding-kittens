@@ -68,9 +68,9 @@ public class GameContext {
 		deck.shuffleDeck(random);
 	}
 
-	public void reverseOrder() {
+	public void reverseOrderPreservingAttackState() {
 		if (turnManager != null) {
-			turnManager.reverseOrder();
+			turnManager.reverseOrderPreservingAttackState();
 		}
 	}
 }

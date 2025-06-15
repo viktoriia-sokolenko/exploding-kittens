@@ -15,11 +15,11 @@ public class ReverseCardTest {
 	}
 
 	@Test
-	void execute_reverseEffect_reverseOrder() {
+	void execute_reverseEffect_reverseOrderPreservingAttackState() {
 		ReverseCard reverseCard = new ReverseCard();
 		CardEffect reverseEffect = reverseCard.createEffect();
 		GameContext mockGameContext = EasyMock.createMock(GameContext.class);
-		mockGameContext.reverseOrder();
+		mockGameContext.reverseOrderPreservingAttackState();
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockGameContext);
 		reverseEffect.execute(mockGameContext);

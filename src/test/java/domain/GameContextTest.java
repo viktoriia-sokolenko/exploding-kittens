@@ -234,16 +234,16 @@ public class GameContextTest {
 	}
 
 	@Test
-	public void reverseOrder_withFullContext_callsTurnManager() {
+	public void reverseOrderPreservingAttackState_withFullContext_callsTurnManager() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface);
 
-		mockTurnManager.reverseOrder();
+		mockTurnManager.reverseOrderPreservingAttackState();
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockTurnManager);
 
-		fullGameContext.reverseOrder();
+		fullGameContext.reverseOrderPreservingAttackState();
 
 		EasyMock.verify(mockTurnManager);
 	}

@@ -227,7 +227,7 @@ in TurnManager.
 | Test Case 5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark: | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo` |
 | Test Case 6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             | :white_check_mark: | `getTurnsCountFor_playerInQueueWithFive_retur nsOne`        |
 
-# Method 10: `public void reverseOrder()`
+# Method 10: `public void reverseOrderPreservingAttackState()`
 
 ### Step 1–3 Results
 
@@ -246,9 +246,9 @@ in TurnManager.
 
 ### Step 4
 
-| Test Case | System under test                 | Expected behavior                                      | Implemented?       | Test name                                              |
-|-----------|-----------------------------------|--------------------------------------------------------|--------------------|--------------------------------------------------------|
-| 1         | `queue=[]`                        | throws `IllegalStateException("No players to manage")` | :white_check_mark: | `reverseOrder_emptyQueue_throwsIllegalStateException ` |
-| 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             | :white_check_mark: | `reverseOrder_withTwoPlayers_orderReverses `           |
-| 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      | :white_check_mark: | `reverseOrder_withThreePlayers_orderReverses`          |
+| Test Case | System under test                 | Expected behavior                                      | Implemented?       | Test name                                                                   |
+|-----------|-----------------------------------|--------------------------------------------------------|--------------------|-----------------------------------------------------------------------------|
+| 1         | `queue=[]`                        | throws `IllegalStateException("No players to manage")` | :white_check_mark: | `reverseOrderPreservingAttackState_emptyQueue_throwsIllegalStateException ` |
+| 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             | :white_check_mark: | `reverseOrderPreservingAttackState_withTwoPlayers_orderReverses `           |
+| 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      | :white_check_mark: | `reverseOrderPreservingAttackState_withThreePlayers_orderReverses`          |
 

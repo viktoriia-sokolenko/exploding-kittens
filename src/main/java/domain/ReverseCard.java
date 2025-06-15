@@ -13,7 +13,7 @@ public class ReverseCard extends Card {
 	private static class ReverseEffect implements CardEffect {
 		@Override
 		public void execute(GameContext context) {
-			context.reverseOrder();
+			context.reverseOrderPreservingAttackState();
 		}
 	}
 }
