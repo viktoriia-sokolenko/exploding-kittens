@@ -299,5 +299,5 @@ in TurnManager.
 | Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `currentPlayerTurnsTaken = 1`; no advancement                                      | :white_check_mark:  | `incrementTurnsTaken_partialAttackTurn_doesNotAdvance`                |
 | Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | :white_check_mark:  | `incrementTurnsTaken_finalAttackTurn_advancesAndResets`               |
 | Test Case 4 | `requireTurns=3`, `currentPlayerTurnsTaken = 2` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | :white_check_mark:  | `incrementTurnsTaken_finalTurnOfMultipleTurnAttack_advancesAndResets` |
-| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `currentPlayerTurnsTaken = 2`; no advancement                                      | no                  | `incrementTurnsTaken_midAttack_doesNotAdvance`                        |
+| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `currentPlayerTurnsTaken = 2`; no advancement                                      | :white_check_mark:  | `incrementTurnsTaken_midAttack_doesNotAdvance`                        |
 
