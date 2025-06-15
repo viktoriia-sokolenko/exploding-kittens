@@ -242,6 +242,20 @@ public class PlayerTest {
 	}
 
 	@Test
+	public void getNumberOfCards_zeroCardsInHand_returnsZero() {
+		final int NUMBER_OF_CARDS = 0;
+		Hand mockHand = EasyMock.createMock(Hand.class);
+		EasyMock.expect(mockHand.getNumberOfCards())
+				.andReturn(NUMBER_OF_CARDS);
+		EasyMock.replay(mockHand);
+
+		Player player = new Player(mockHand);
+		int result = player.getNumberOfCards();
+		assertEquals(NUMBER_OF_CARDS, result);
+		EasyMock.verify(mockHand);
+	}
+
+	@Test
 	public void hasCardType_withNullCardType_throwsNullPointerException() {
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		EasyMock.expect(mockHand.containsCardType(null))

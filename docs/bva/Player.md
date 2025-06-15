@@ -75,11 +75,11 @@ possible card types, **except** `Exploding Kitten`, and cards with those types.
 
 ### Step 4
 
-|             | System under test      | Expected output | Implemented?       | Test name                                            |
-|-------------|------------------------|-----------------|--------------------|------------------------------------------------------|
-| Test Case 1 | Hand with **5** cards  | `5`             | :white_check_mark: | `getNumberOfCards_fiveCardsInHand_returnsFive`       |
-| Test Case 2 | Hand with **15** cards | `15`            | :white_check_mark: | `getNumberOfCards_fifteenCardsInHand_returnsFifteen` |
-| Test Case 3 | Hand with **0** cards  | `0`             |                    | `getNumberOfCards_zeroCardsInHand_returnsZero`       |
+|             | System under test      | Expected output | Implemented?        | Test name                                            |
+|-------------|------------------------|-----------------|---------------------|------------------------------------------------------|
+| Test Case 1 | Hand with **5** cards  | `5`             | :white_check_mark:  | `getNumberOfCards_fiveCardsInHand_returnsFive`       |
+| Test Case 2 | Hand with **15** cards | `15`            | :white_check_mark:  | `getNumberOfCards_fifteenCardsInHand_returnsFifteen` |
+| Test Case 3 | Hand with **0** cards  | `0`             | :white_check_mark:  | `getNumberOfCards_zeroCardsInHand_returnsZero`       |
 
 ---
 
