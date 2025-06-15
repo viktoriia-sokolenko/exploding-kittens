@@ -191,6 +191,11 @@ public class PlayerManagerTest {
 				() -> playerManager.getPlayerByIndex(sizePlusOneIndex));
 	}
 
+	@Test
+	public void getNumberOfPlayers_withNoPlayers_returnsZero() {
+		assertEquals(0, playerManager.getNumberOfPlayers());
+	}
+
 	private Deck mockDeck() {
 		return EasyMock.createMock(Deck.class);
 	}

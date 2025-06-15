@@ -62,6 +62,10 @@ public class PlayerManager {
 		return players.get(index);
 	}
 
+	public int getNumberOfPlayers() {
+		return players.size();
+	}
+
 	private boolean isIndexOutOfBounds(int index) {
 		return index < 0 || index >= players.size();
 	}
