@@ -916,6 +916,21 @@ public class DeckTest {
 		assertEquals(previousTopCards, nextTopCards);
 	}
 
+	@Test
+	public void rearrangeTopThreeCards_deckWithThreeCardsAndDifferentIndices_changesOrder()
+	{
+		Deck deck = deckWithThreeCards();
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(1, 0, 2));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+
+		assertEquals(previousTopCards.get(0), nextTopCards.get(2));
+		assertEquals(previousTopCards.get(1), nextTopCards.get(0));
+		assertEquals(previousTopCards.get(2), nextTopCards.get(1));
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
