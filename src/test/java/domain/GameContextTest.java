@@ -233,6 +233,21 @@ public class GameContextTest {
 		EasyMock.verify(mockDeck);
 	}
 
+	@Test
+	public void reverseOrder_withFullContext_callsTurnManager() {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+
+		mockTurnManager.reverseOrder();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockTurnManager);
+
+		fullGameContext.reverseOrder();
+
+		EasyMock.verify(mockTurnManager);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);

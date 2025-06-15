@@ -67,4 +67,10 @@ public class GameContext {
 		Random random = new SecureRandom();
 		deck.shuffleDeck(random);
 	}
+
+	public void reverseOrder() {
+		if (turnManager != null) {
+			turnManager.reverseOrder();
+		}
+	}
 }

@@ -68,7 +68,7 @@ available card types.
 
 ### Step 4:
 
-|             | System under test         | Expected output / state transition    | Implemented? | Test name                                     |
-|-------------|---------------------------|---------------------------------------|--------------|-----------------------------------------------|
-| Test Case 1 | Context fully initialized | calls `reverseOrder` from TurnManager |              | reverseOrder_withFullContext_callsTurnManager |
+|             | System under test         | Expected output / state transition    | Implemented?        | Test name                                     |
+|-------------|---------------------------|---------------------------------------|---------------------|-----------------------------------------------|
+| Test Case 1 | Context fully initialized | calls `reverseOrder` from TurnManager | :white_check_mark:  | reverseOrder_withFullContext_callsTurnManager |
 =======
