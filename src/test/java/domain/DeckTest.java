@@ -874,6 +874,20 @@ public class DeckTest {
 		assertEquals(previousTopCards, nextTopCards);
 	}
 
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_deckWithTwoCardsAndSameIndices_orderRemainsTheSame(
+			List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+		assertEquals(previousTopCards, nextTopCards);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
