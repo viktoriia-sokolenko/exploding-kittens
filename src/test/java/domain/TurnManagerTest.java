@@ -377,6 +377,18 @@ public class TurnManagerTest {
 		EasyMock.verify(playerManagerWithTwoPlayers);
 	}
 
+	@Test
+	void reverseOrder_withThreePlayers_orderReverses() {
+		PlayerManager playerManagerWithThreePlayers = mockPlayerManager(3);
+		turnManager.setPlayerManager(playerManagerWithThreePlayers);
+		List<Player> players = playerManagerWithThreePlayers.getPlayers();
+		Player firstPlayer = players.get(0);
+		Player thirdPlayer = players.get(2);
+		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+		turnManager.reverseOrder();
+		assertEquals(thirdPlayer, turnManager.getCurrentActivePlayer());
+		EasyMock.verify(playerManagerWithThreePlayers);
+	}
 
 	private PlayerManager mockPlayerManager(int numPlayers) {
 		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);

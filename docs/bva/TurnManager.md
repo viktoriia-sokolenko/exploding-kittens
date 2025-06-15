@@ -250,4 +250,4 @@ in TurnManager.
 |-----------|-----------------------------------|--------------------------------------------------------|---------------------|--------------------------------------------------------|
 | 1         | `queue=[]`                        | throws `IllegalStateException("No players to manage")` | :white_check_mark:  | `reverseOrder_emptyQueue_throwsIllegalStateException ` |
 | 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             | :white_check_mark:  | `reverseOrder_withTwoPlayers_orderReverses `           |
-| 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      |                     | `reverseOrder_withThreePlayers_orderReverses`          |
+| 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      | :white_check_mark:  | `reverseOrder_withThreePlayers_orderReverses`          |
