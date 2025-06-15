@@ -822,6 +822,26 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_withSameFirstSecondIndex_throwsIllegalArgumentException(
+			List<Card> cards
+	)
+	{
+		Deck deck = new Deck(cards);
+
+		String expectedMessage =
+				"Duplicate indices are not allowed";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 0));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
