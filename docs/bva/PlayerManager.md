@@ -109,4 +109,4 @@
 |-------------|---------------------------------------------------------|-----------------|--------------------|-----------------------------------------------|
 | Test Case 1 | players `[]`                                            | 0               | :white_check_mark: | getNumberOfPlayers_withNoPlayers_returnsZero  |
 | Test Case 2 | players `[player1, player2]`                            | 2               | :white_check_mark: | getNumberOfPlayers_withMinPlayers_returnsTwo  |
-| Test Case 3 | players `[player1, player2, player3, player4, player5]` | 5               | :white_check_mark: | getNumberOfPlayers_withMinPlayers_returnsFive |
+| Test Case 3 | players `[player1, player2, player3, player4, player5]` | 5               | :white_check_mark: | getNumberOfPlayers_withMaxPlayers_returnsFive |
