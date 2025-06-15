@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class TurnManagerTest {
-
 	private TurnManager turnManager;
 	private static final int DEFAULT_NUM_PLAYERS = 3;
 
@@ -336,6 +335,24 @@ public class TurnManagerTest {
 		int actualCount = turnManager.getTurnsFor(fifthPlayer);
 		assertEquals(EXPECTED_COUNT, actualCount);
 		EasyMock.verify(playerManagerWithFivePlayers);
+	}
+
+	@Test
+	void addTurnForCurrentPlayer_withOnePlayer_doesNotAddDuplicateTurn() {
+		PlayerManager playerManager = mockPlayerManager(1);
+		turnManager.setPlayerManager(playerManager);
+		final int ONLY_PLAYER = 0;
+		Player singlePlayer = playerManager.getPlayers().get(ONLY_PLAYER);
+		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
+		final int EXPECTED_COUNT = 1;
+		assertEquals(EXPECTED_COUNT, turnManager.getTurnsFor(singlePlayer));
+		turnManager.addTurnForCurrentPlayer();
+		assertEquals(EXPECTED_COUNT, turnManager.getTurnsFor(singlePlayer));
+		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
+		turnManager.endTurnWithoutDraw();
+		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
+
+		EasyMock.verify(playerManager);
 	}
 
 	private PlayerManager mockPlayerManager(int numPlayers) {

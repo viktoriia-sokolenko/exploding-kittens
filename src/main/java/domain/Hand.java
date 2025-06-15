@@ -1,8 +1,6 @@
 package domain;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Hand {
 	private final Map<CardType, Integer> cards;
@@ -67,8 +65,43 @@ public class Hand {
 		Objects.requireNonNull(cardType, "CardType cannot be null");
 		return this.cards.getOrDefault(cardType, 0);
 	}
+	
+	public List<CardType> getAvailableCardTypes() {
+		List<CardType> availableTypes = new ArrayList<>();
+		for (CardType type : CardType.values()) {
+			if (getCountOfCardType(type) > 0) {
+				availableTypes.add(type);
+			}
+		}
+		return availableTypes;
+	}
+
+	public CardType parseCardType(String input) {
+		if (input == null || input.trim().isEmpty()) {
+			return null;
+		}
+
+		String normalizedCardType = normalizeCardTypeName(input);
+
+		try {
+			CardType cardType = CardType.valueOf(normalizedCardType);
+			return containsCardType(cardType) ? cardType : null;
+		} catch (IllegalArgumentException error) {
+			for (CardType cardType : getAvailableCardTypes()) {
+				if (cardType.name().startsWith(normalizedCardType) ||
+						cardType.name().contains(normalizedCardType)) {
+					return cardType;
+				}
+			}
+		}
+		return null;
+	}
 
 	private boolean isValidCount (Integer count) {
 		return count != null;
+	}
+
+	private String normalizeCardTypeName(String input) {
+		return input.trim().toUpperCase().replace(" ", "_");
 	}
 }
