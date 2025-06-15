@@ -790,13 +790,30 @@ public class DeckTest {
 
 	@Test
 	public void rearrangeTopThreeCards_FourCardsIndexZero_throwsIllegalArgumentException() {
-		Deck deck = deckWithFourCards();
+		Deck deck = deckWithFourCardsAndDuplicate();
 
 		String expectedMessage =
 				"With deck size s, indices must be [s - 1, s - 3]";
 
 		int indexForTopCard = deck.getDeckSize() - 1;
 		List<Integer> listOfIndices = new ArrayList<>(List.of(indexForTopCard, 0, 2));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_withSameFirstThirdIndex_throwsIllegalArgumentException()
+	{
+		Deck deck = deckWithFourCardsAndDuplicate();
+
+		String expectedMessage =
+				"Duplicate indices are not allowed";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(1, 2, 1));
 
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> deck.rearrangeTopThreeCards(listOfIndices));
@@ -838,14 +855,6 @@ public class DeckTest {
 		Card card2 = mockCard(CardType.SKIP);
 		Card card3 = mockCard(CardType.NORMAL);
 		Card card4 = mockCard(CardType.NORMAL);
-		return new Deck(List.of(card1, card2, card3, card4));
-	}
-
-	private Deck deckWithFourCards() {
-		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
-		Card card2 = mockCard(CardType.SKIP);
-		Card card3 = mockCard(CardType.NORMAL);
-		Card card4 = mockCard(CardType.DEFUSE);
 		return new Deck(List.of(card1, card2, card3, card4));
 	}
 

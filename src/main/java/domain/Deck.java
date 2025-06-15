@@ -78,9 +78,12 @@ public class Deck {
 				throw new IllegalArgumentException(
 						"With deck size s, indices must be [s - 1, s - 3]");
 			}
+			if (newIndex < 0) {
+				throw new IllegalArgumentException(
+						"Negative indices are not allowed");
+			}
 		}
-		throw new IllegalArgumentException(
-				"Negative indices are not allowed");
+		throw new IllegalArgumentException("Duplicate indices are not allowed");
 	}
 
 	private boolean isIndexOutOfBounds(int index) {
