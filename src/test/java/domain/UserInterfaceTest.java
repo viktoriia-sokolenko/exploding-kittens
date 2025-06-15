@@ -899,6 +899,32 @@ public class UserInterfaceTest {
 		assertTrue(out.contains(expectedCardInfo));
 	}
 
+	@Test
+	public void displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex()
+	{
+		UserInterface ui = new UserInterface();
+
+		Card testCard1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card testCard2 = mockCard(CardType.EXPLODING_KITTEN);
+		Card testCard3 = mockCard(CardType.EXPLODING_KITTEN);
+
+		List<Card> threeCardList = new ArrayList<>
+				(List.of(testCard1, testCard2, testCard3));
+
+		int deckSizeOneMoreThanCardsSize = threeCardList.size() + 1;
+		ui.displayCardsFromDeck(threeCardList, deckSizeOneMoreThanCardsSize);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		String expectedCardInfo =
+				"\n:Top of deck:\n" +
+						"See the Future, index: 3\n" +
+						"Exploding Kitten, index: 2\n" +
+						"Exploding Kitten, index: 1";
+
+		assertFalse(out.contains("No cards to view"));
+		assertTrue(out.contains(expectedCardInfo));
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);

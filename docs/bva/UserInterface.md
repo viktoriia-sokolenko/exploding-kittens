@@ -7,7 +7,7 @@ input as the variable under test and identify numeric and non‑numeric boundary
 `displayWelcome`, `displayHelp`, etc.) do not produce functional *outputs* beyond printing, so their BVAs focus on the
 *state variations* that influence what is printed (e.g., empty vs. non‑empty hands).
 
-Whenever you see `card1` without specifying its type, that means I am using Parametrized Testing, and the test runs for cards with all the available card types.
+I am using Parametrized Testing, so whenever I use `testCardType` or `testCard`, it means that the test runs for all the possible card types or for cards with all the card types.
 
 ## Method under test: `public int getNumberOfPlayers()`
 
@@ -157,20 +157,20 @@ These methods share the same structure: they print a line referencing the card�
 
 ### Step 1-3 Results
 
-|            | Input 1                                                                                               | Input 2                                    | Output                                                                      |
-|------------|-------------------------------------------------------------------------------------------------------|--------------------------------------------|-----------------------------------------------------------------------------|
-| **Step 1** | cards to be printed to be viewed by the player                                                        | deck size to be used to print card indexes | prints ":Top of deck:" and card types and their indexes or throws exception |
-| **Step 2** | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates) | Count                                      | String or exception                                                         |
-| **Step 3** | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                             | `-1`, `0`, `1`, `>1`, `>cards.size()`      | List of cards printed or IllegalArgumentException                           |
+|            | Input 1                                                                                  | Input 2                                    | Output                                                                      |
+|------------|------------------------------------------------------------------------------------------|--------------------------------------------|-----------------------------------------------------------------------------|
+| **Step 1** | cards to be printed to be viewed by the player                                           | deck size to be used to print card indexes | prints ":Top of deck:" and card types and their indexes or throws exception |
+| **Step 2** | Collection                                                                               | Count                                      | String or exception                                                         |
+| **Step 3** | Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates | `-1`, `0`, `1`, `>1`, `>cards.size()`      | List of cards printed or IllegalArgumentException                           |
 
 ### Step 4
 
-|             | System under test                               | Expected output                                                                           | Implemented?       | Test name                                                                        |
-|-------------|-------------------------------------------------|-------------------------------------------------------------------------------------------|--------------------|----------------------------------------------------------------------------------|
-| Test Case 1 | cards `[]` deckSize `1`                         | prints `"No cards to view"`                                                               | :white_check_mark: | `displayCardsFromDeck_withEmptyCards_printsNoCardsMessage`                       |
-| Test Case 2 | cards `[card1]`, deckSize `-1`                  | `IllegalArgumentException` (deckSize can not be negative)                                 | :white_check_mark: | `displayCardsFromDeck_withNegativeDeckSize_throwsIllegalArgumentException`       |
-| Test Case 3 | cards `[card1]`, deckSize `0`                   | `IllegalArgumentException` (deckSize is less than number of cards to display)             | :white_check_mark: | `displayCardsFromDeck_withOneCardAndDeckSizeZero_throwsIllegalArgumentException` |
-| Test Case 4 | cards `[card1]`, deckSize `1`                   | prints `":Top of deck:"`, `card1Type, index 0`                                            | :white_check_mark: | `displayCardsFromDeck_withOneCard_printCardTypeAndIndex`                         |
-| Test Case 5 | cards `[card1, card2]`, deckSize `1`            | `IllegalArgumentException` (deckSize is less than number of cards to display)             | :white_check_mark: | `displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException` |
-| Test Case 6 | cards `[card1, card2]`, deckSize `2`            | prints `":Top of deck:"`, `card1Type, index 1`, `card2Type, index 0`                      | :white_check_mark: | `displayCardsFromDeck_withTwoCards_printCardTypeAndIndex`                        |
-| Test Case 7 | cards `[card1, card2.1, card2.2]`, deckSize `4` | prints `":Top of deck:"`, `card1Type, index 3`, `card2Type, index 2`, `card2Type, index1` |                    | `displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex`          |
+|             | System under test                                                          | Expected output                                                                           | Implemented?       | Test name                                                                        |
+|-------------|----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|--------------------|----------------------------------------------------------------------------------|
+| Test Case 1 | cards `[]` deckSize `1`                                                    | prints `"No cards to view"`                                                               | :white_check_mark: | `displayCardsFromDeck_withEmptyCards_printsNoCardsMessage`                       |
+| Test Case 2 | cards `[testCard]`, deckSize `-1`                                          | `IllegalArgumentException` (deckSize can not be negative)                                 | :white_check_mark: | `displayCardsFromDeck_withNegativeDeckSize_throwsIllegalArgumentException`       |
+| Test Case 3 | cards `[testCard]`, deckSize `0`                                           | `IllegalArgumentException` (deckSize is less than number of cards to display)             | :white_check_mark: | `displayCardsFromDeck_withOneCardAndDeckSizeZero_throwsIllegalArgumentException` |
+| Test Case 4 | cards `[testCard]`, deckSize `1`                                           | prints `":Top of deck:"`, `card1Type, index 0`                                            | :white_check_mark: | `displayCardsFromDeck_withOneCard_printCardTypeAndIndex`                         |
+| Test Case 5 | cards `[NORMAL, ALTER_THE_FUTURE]`, deckSize `1`                           | `IllegalArgumentException` (deckSize is less than number of cards to display)             | :white_check_mark: | `displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException` |
+| Test Case 6 | cards `[NORMAL, ALTER_THE_FUTURE]`, deckSize `2`                           | prints `":Top of deck:"`, `card1Type, index 1`, `card2Type, index 0`                      | :white_check_mark: | `displayCardsFromDeck_withTwoCards_printCardTypeAndIndex`                        |
+| Test Case 7 | cards `[SEE_THE_FUTURE, EXPLODING_KITTEN, EXPLODING_KITTEN]`, deckSize `4` | prints `":Top of deck:"`, `card1Type, index 3`, `card2Type, index 2`, `card2Type, index1` | :white_check_mark: | `displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex`          |
