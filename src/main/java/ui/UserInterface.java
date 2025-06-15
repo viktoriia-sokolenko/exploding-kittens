@@ -262,6 +262,10 @@ public class UserInterface {
 		if (deckSize < 0) {
 			throw new IllegalArgumentException ("deckSize can not be negative");
 		}
+		if (cards.size() > deckSize) {
+			throw new IllegalArgumentException(
+					"deckSize is less than number of cards to display");
+		}
 		System.out.println("No cards to view");
 	}
 }

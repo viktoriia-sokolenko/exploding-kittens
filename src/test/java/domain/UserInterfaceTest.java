@@ -816,8 +816,29 @@ public class UserInterfaceTest {
 		Card testCard = mockCard(testCardType);
 		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
 
-		assertThrows(IllegalArgumentException.class,
+		String expectedMessage = "deckSize can not be negative";
+		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> ui.displayCardsFromDeck(oneCardList, -1));
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void displayCardsFromDeck_withOneCardAndDeckSizeZero_throwsIllegalArgumentException(
+			CardType testCardType
+	) {
+		UserInterface ui = new UserInterface();
+
+		Card testCard = mockCard(testCardType);
+		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
+
+		String expectedMessage = "deckSize is less than number of cards to display";
+		Exception exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> ui.displayCardsFromDeck(oneCardList, 0));
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
 	}
 
 	private Card mockCard(CardType cardType) {
