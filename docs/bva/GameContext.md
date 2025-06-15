@@ -71,5 +71,5 @@ available card types.
 |             | System under test                    | Expected output / state transition                                 | Implemented?        | Test name                                                           |
 |-------------|--------------------------------------|--------------------------------------------------------------------|---------------------|---------------------------------------------------------------------|
 | Test Case 1 | turnManager.isUnderAttack() == true  | `incrementTurnsTake() called then `reverseOrder)` from TurnManager | :white_check_mark:  | reverseOrderPreservingAttackState_underAttack_incrementsAndReverses |
-| Test Case 1 | turnManager.isUnderAttack() == false | only `reverseOrder()` called from TurnManager                      |                     | reverseOrderPreservingAttackState_notUnderAttack_onlyReverses       |
+| Test Case 1 | turnManager.isUnderAttack() == false | only `reverseOrder()` called from TurnManager                      | :white_check_mark:  | reverseOrderPreservingAttackState_notUnderAttack_onlyReverses       |
 

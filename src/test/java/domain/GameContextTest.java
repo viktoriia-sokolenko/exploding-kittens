@@ -250,6 +250,21 @@ public class GameContextTest {
 		EasyMock.verify(mockTurnManager);
 	}
 
+	@Test
+	public void reverseOrderPreservingAttackState_notUnderAttack_onlyReverses() {
+		EasyMock.expect(mockTurnManager.isUnderAttack()).andReturn(false);
+		mockTurnManager.reverseOrder();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface);
+
+		fullGameContext.reverseOrderPreservingAttackState();
+		EasyMock.verify(mockTurnManager);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
