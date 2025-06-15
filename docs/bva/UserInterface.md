@@ -7,6 +7,32 @@ input as the variable under test and identify numeric and non‑numeric boundary
 `displayWelcome`, `displayHelp`, etc.) do not produce functional *outputs* beyond printing, so their BVAs focus on the
 *state variations* that influence what is printed (e.g., empty vs. non‑empty hands).
 
+#### Important Note
+Whenever you see `card1` without specifying its type, that means I am using Parametrized Testing, and the test runs for cards with all the available card types.
+
+Whenever you see the keywords "non-empty list" or noticed that the states takes in a list of two
+cards without specifying the Card Type (i.e `[card1, card2]`), that means that the test cases uses a Parameterized Test
+that uses all the different Card Types into a list of two different Cards and performs _Parameterized Tests_ based on
+it.
+This Parameterized Testing is grouped as:
+
+* `[CardType.NORMAL, CardType.ATTACK]`
+* `[CardType.DEFUSE, CardType.SKIP]`
+* `[CardType.FAVOR, CardType.EXPLODING_KITTEN]`
+* `[CardType.SHUFFLE, CardType.ALTER_THE_FUTURE]`
+* `[CardType.SEE_THE_FUTURE, CardType.NUKE]`
+
+This is done like this because the main purpose of deck isn't too focused on the Card Types inside the deck but the
+functionality of deck working with all the different types of cards. As a result, these Parameterized Testing ensures
+that since Deck is a collection of Cards, no matter the Cards given in the collection, the operation still functions as
+expected.
+
+* In Other Words, in addition to deck being classified as a Collection (of Cards), if you'd like, it's also a case of
+  the listed Card Types above
+
+Also, unless specified that I am dealing with  `Duplicates` states, each card listed below is from different
+CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing with duplicate cards.
+
 ---
 
 ## Method under test: `public int getNumberOfPlayers()`
@@ -152,3 +178,25 @@ These methods share the same structure: they print a line referencing the card�
 | Test Case 1 | message `""`, input1 `"hello world"`, input2 `"0"` | returns 0; stdout contains "> " twice              | :white_check_mark: | `getNumericUserInput_withNonNumericConsoleInput_keepsAskingForInput`       |
 | Test Case 2 | message `"message"`, input1 `""`, input2 `"2"`     | returns 3; stdout repeats "> " and "message" twice | :white_check_mark: | `getNumericUserInput_withEmptyConsoleInput_keepsAskingForInput`            |
 | Test Case 2 | message `"message"`, input `"2"`                   | returns 3; stdout contains "> " and "message"      | :white_check_mark: | `getNumericUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage` |
+
+## Method under test: `void displayCardsFromDeck(List<Card> cards, int deckSize)`
+
+### Step 1-3 Results
+
+|            | Input 1                                                                                               | Input 2                                    | Output                                                                      |
+|------------|-------------------------------------------------------------------------------------------------------|--------------------------------------------|-----------------------------------------------------------------------------|
+| **Step 1** | cards to be printed to be viewed by the player                                                        | deck size to be used to print card indexes | prints ":Top of deck:" and card types and their indexes or throws exception |
+| **Step 2** | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates) | Count                                      | String or exception                                                         |
+| **Step 3** | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                             | `-1`, `0`, `1`, `>1`, `>cards.size()`      | List of cards printed or IllegalArgumentException                           |
+
+### Step 4
+
+|             | System under test                               | Expected output                                                                           | Implemented? | Test name                                                                        |
+|-------------|-------------------------------------------------|-------------------------------------------------------------------------------------------|--------------|----------------------------------------------------------------------------------|
+| Test Case 1 | cards `[]` deckSize `1`                         | prints `"No cards to view"`                                                               |              | `displayCardsFromDeck_withEmptyCards_printsMessage`                              |
+| Test Case 2 | cards `[card1]`, deckSize `-1`                  | `IllegalArgumentException` (deckSize can not be negative)                                 |              | `displayCardsFromDeck_withNegativeDeckSize_throwsIllegalArgumentException`       |
+| Test Case 3 | cards `[card1]`, deckSize `0`                   | `IllegalArgumentException` (deckSize is less than number of cards to display)             |              | `displayCardsFromDeck_withOneCardAndDeckSizeZero_throwsIllegalArgumentException` |
+| Test Case 4 | cards `[card1]`, deckSize `1`                   | prints `":Top of deck:"`, `card1Type, index 0`                                            |              | `displayCardsFromDeck_withOneCard_printCardTypeAndIndex`                         |
+| Test Case 5 | cards `[card1, card2]`, deckSize `1`            | `IllegalArgumentException` (deckSize is less than number of cards to display)             |              | `displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException` |
+| Test Case 6 | cards `[card1, card2]`, deckSize `2`            | prints `":Top of deck:"`, `card1Type, index 1`, `card2Type, index 0`                      |              | `displayCardsFromDeck_withTwoCards_printCardTypeAndIndex`                        |
+| Test Case 7 | cards `[card1, card2.1, card2.2]`, deckSize `4` | prints `":Top of deck:"`, `card1Type, index 3`, `card2Type, index 2`, `card2Type, index1` |              | `displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex`          |
