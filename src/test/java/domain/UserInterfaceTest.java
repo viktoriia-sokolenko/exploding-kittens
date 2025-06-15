@@ -17,6 +17,7 @@ public class UserInterfaceTest {
 	private final PrintStream originalOut = System.out;
 	private final PrintStream originalErr = System.err;
 	private final InputStream originalIn = System.in;
+	private static final int MAX_PLAYERS = 5;
 
 	private ByteArrayOutputStream outContent;
 	private ByteArrayOutputStream errContent;
@@ -809,6 +810,26 @@ public class UserInterfaceTest {
 		int result = ui.getNumericUserInput(message, 1, 2);
 
 		assertEquals(2, result);
+
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(output.contains(message));
+		int promptCount = output.split("> ", -1).length - 1;
+		final int EXPECTED_PROMPTS = 2;
+		assertEquals(EXPECTED_PROMPTS, promptCount);
+	}
+
+	@Test
+	public void getNumericUserInput_withInputLessThanMin_keepsAskingForInput() {
+		String input = String.join("\n", "0", "1");
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		String message = "message";
+		int maxIndexForMaxPlayers = MAX_PLAYERS - 1;
+		int result = ui.getNumericUserInput(message, 1, maxIndexForMaxPlayers);
+
+		assertEquals(1, result);
 
 		String output = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(output.contains(message));
