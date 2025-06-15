@@ -124,19 +124,25 @@ public class TurnManager {
 		return requiredTurns > 1 && currentPlayerTurnsTaken < requiredTurns;
 	}
 
-	void setRequiredTurns(int requiredTurns) {
+	public void setRequiredTurns(int requiredTurns) {
+		if (requiredTurns < 0) {
+			throw new IllegalArgumentException("Required turns cannot be negative");
+		}
 		this.requiredTurns = requiredTurns;
 	}
 
-	void setCurrentPlayerTurnsTaken(int currentPlayerTurnsTaken) {
+	public void setCurrentPlayerTurnsTaken(int currentPlayerTurnsTaken) {
+		if (currentPlayerTurnsTaken < 0) {
+			throw new IllegalArgumentException("Current player turns taken cannot be negative");
+		}
 		this.currentPlayerTurnsTaken = currentPlayerTurnsTaken;
 	}
 
-	int getRequiredTurns() {
+	public int getRequiredTurns() {
 		return requiredTurns;
 	}
 
-	int getCurrentPlayerTurnsTaken() {
+	public int getCurrentPlayerTurnsTaken() {
 		return currentPlayerTurnsTaken;
 	}
 }

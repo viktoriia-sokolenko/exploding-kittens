@@ -522,6 +522,53 @@ public class TurnManagerTest {
 		assertEquals(THREE_REQUIRED_TURNS, turnManager.getRequiredTurns());
 	}
 
+	@Test
+	public void setRequiredTurns_negativeOne_throwsIllegalArgumentException() {
+		IllegalArgumentException exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> turnManager.setRequiredTurns(-1)
+		);
+		assertTrue(exception.getMessage().contains("Required turns cannot be negative"));
+	}
+
+	@Test
+	public void setRequiredTurns_zero_zeroRequiredTurns() {
+		turnManager.setRequiredTurns(0);
+		assertEquals(0, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getTurnsFor(mockPlayer()));
+	}
+
+	@Test
+	public void setRequiredTurns_one_oneRequiredTurns() {
+		turnManager.setRequiredTurns(1);
+		assertEquals(1, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getTurnsFor(mockPlayer()));
+	}
+
+	@Test
+	public void setRequiredTurns_two_twoRequiredTurns() {
+		final int TWO_TURNS = 2;
+		turnManager.setRequiredTurns(TWO_TURNS);
+		assertEquals(TWO_TURNS, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getTurnsFor(mockPlayer()));
+	}
+
+	@Test
+	public void setCurrentPlayerTurnsTaken_negativeOne_throwsIllegalArgumentException() {
+		IllegalArgumentException exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> turnManager.setCurrentPlayerTurnsTaken(-1)
+		);
+		assertTrue(
+				exception.getMessage().contains("Current player turns taken cannot be negative"));
+	}
+
+	@Test
+	public void setCurrentPlayerTurnsTaken_zero_zeroTurnsTaken() {
+		turnManager.setCurrentPlayerTurnsTaken(0);
+		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
+	}
+
 	private PlayerManager mockPlayerManager(int numPlayers) {
 		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
 		List<Player> players = new ArrayList<>();

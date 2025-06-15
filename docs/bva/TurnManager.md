@@ -269,14 +269,14 @@ in TurnManager.
 
 ### Step 4
 
-|             | System under test                               | Expected output | Implemented?        | Test name                                            |
-|-------------|-------------------------------------------------|-----------------|---------------------|------------------------------------------------------|
-| Test Case 1 | `requireTurns=1`, `currentPlayerTurnsTaken = 0` | `false`         | :white_check_mark:  | `isUnderAttack_defaultTurn_returnsFalse`             |
-| Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `true`          | :white_check_mark:  | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
-| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `true`          | :white_check_mark:  | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
-| Test Case 4 | `requireTurns=2`, `currentPlayerTurnsTaken = 2` | `false`         | :white_check_mark:  | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
-| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 3` | `false`         | :white_check_mark:  | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
-| Test Case 6 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `true`          | :white_check_mark:  | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
+|             | System under test                               | Expected output | Implemented?       | Test name                                            |
+|-------------|-------------------------------------------------|-----------------|--------------------|------------------------------------------------------|
+| Test Case 1 | `requireTurns=1`, `currentPlayerTurnsTaken = 0` | `false`         | :white_check_mark: | `isUnderAttack_defaultTurn_returnsFalse`             |
+| Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `true`          | :white_check_mark: | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
+| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `true`          | :white_check_mark: | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
+| Test Case 4 | `requireTurns=2`, `currentPlayerTurnsTaken = 2` | `false`         | :white_check_mark: | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
+| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 3` | `false`         | :white_check_mark: | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
+| Test Case 6 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `true`          | :white_check_mark: | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
 
 ## Method 11: `public void incrementTurnsTaken()`
 
@@ -293,11 +293,48 @@ in TurnManager.
 
 ### Step 4
 
-|             | System under test                               | Expected output / state change                                                     | Implemented?        | Test name                                                             |
-|-------------|-------------------------------------------------|------------------------------------------------------------------------------------|---------------------|-----------------------------------------------------------------------|
-| Test Case 1 | `requireTurns=1`, `currentPlayerTurnsTaken = 0` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | :white_check_mark:  | `incrementTurnsTaken_defaultTurn_advancesAndResets`                   |
-| Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `currentPlayerTurnsTaken = 1`; no advancement                                      | :white_check_mark:  | `incrementTurnsTaken_partialAttackTurn_doesNotAdvance`                |
-| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | :white_check_mark:  | `incrementTurnsTaken_finalAttackTurn_advancesAndResets`               |
-| Test Case 4 | `requireTurns=3`, `currentPlayerTurnsTaken = 2` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | :white_check_mark:  | `incrementTurnsTaken_finalTurnOfMultipleTurnAttack_advancesAndResets` |
-| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `currentPlayerTurnsTaken = 2`; no advancement                                      | :white_check_mark:  | `incrementTurnsTaken_midAttack_doesNotAdvance`                        |
+|             | System under test                               | Expected output / state change                                                     | Implemented?       | Test name                                                             |
+|-------------|-------------------------------------------------|------------------------------------------------------------------------------------|--------------------|-----------------------------------------------------------------------|
+| Test Case 1 | `requireTurns=1`, `currentPlayerTurnsTaken = 0` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | :white_check_mark: | `incrementTurnsTaken_defaultTurn_advancesAndResets`                   |
+| Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `currentPlayerTurnsTaken = 1`; no advancement                                      | :white_check_mark: | `incrementTurnsTaken_partialAttackTurn_doesNotAdvance`                |
+| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | :white_check_mark: | `incrementTurnsTaken_finalAttackTurn_advancesAndResets`               |
+| Test Case 4 | `requireTurns=3`, `currentPlayerTurnsTaken = 2` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | :white_check_mark: | `incrementTurnsTaken_finalTurnOfMultipleTurnAttack_advancesAndResets` |
+| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `currentPlayerTurnsTaken = 2`; no advancement                                      | :white_check_mark: | `incrementTurnsTaken_midAttack_doesNotAdvance`                        |
 
+## Method 12: `public void setRequiredTurns(int requiredTurns)`
+
+### Step 1–3 Results
+
+|            | Input                          | Output / State Change                                                                    |
+|------------|--------------------------------|------------------------------------------------------------------------------------------|
+| **Step 1** | Amount of turns we want to set | set `requiredTurns` to be that number                                                    |
+| **Step 2** | Count                          | Count or Exception                                                                       |
+| **Step 3** | `-1`, `0`, `1`, `2`            | **-1** → throws `IllegalArgumentException("Required turns cannot be negative")`, 0, 1, 2 |
+
+### Step 4
+
+| Test Case | System under test      | Expected behavior                                                      | Implemented?       | Test name                                                      |
+|-----------|------------------------|------------------------------------------------------------------------|--------------------|----------------------------------------------------------------|
+| 1         | `setRequiredTurns(-1)` | throws `IllegalArgumentException("Required turns cannot be negative")` | :white_check_mark: | `setRequiredTurns_negativeOne_throwsIllegalArgumentException ` |
+| 2         | `setRequiredTurns(0)`  | `requiredTurns == 0`                                                   | :white_check_mark: | `setRequiredTurns_zero_zeroRequiredTurns`                      |
+| 3         | `setRequiredTurns(1)`  | `requiredTurns == 1`                                                   | :white_check_mark: | `setRequiredTurns_one_oneRequiredTurns`                        |
+| 4         | `setRequiredTurns(2)`  | `requiredTurns == 2`                                                   | :white_check_mark: | `setRequiredTurns_two_twoRequiredTurns`                        |
+
+## Method 13: `public void setCurrentPlayerTurnsTaken(int turnTaken)`
+
+### Step 1–3 Results
+
+|            | Input                          | Output / State Change                                                                                |
+|------------|--------------------------------|------------------------------------------------------------------------------------------------------|
+| **Step 1** | Amount of turns we want to set | set `turnTaken` to be that number                                                                    |
+| **Step 2** | Count                          | Count or Exception                                                                                   |
+| **Step 3** | `-1`, `0`, `1`, `2`            | **-1** → throws `IllegalArgumentException("Current player turns taken cannot be negative")`, 0, 1, 2 |
+
+### Step 4
+
+| Test Case | System under test                | Expected behavior                                                                  | Implemented?        | Test name                                                                |
+|-----------|----------------------------------|------------------------------------------------------------------------------------|---------------------|--------------------------------------------------------------------------|
+| 1         | `setCurrentPlayerTurnsTaken(-1)` | throws `IllegalArgumentException("Current player turns taken cannot be negative")` | :white_check_mark:  | `setCurrentPlayerTurnsTaken_negativeOne_throwsIllegalArgumentException ` |
+| 2         | `setCurrentPlayerTurnsTaken(0)`  | `requiredTurns == 0`                                                               | :white_check_mark:  | `setCurrentPlayerTurnsTaken_zero_zeroTurnsTaken`                         |
+| 3         | `setCurrentPlayerTurnsTaken(1)`  | `requiredTurns == 1`                                                               |                     | `setCurrentPlayerTurnsTaken_one_oneTurnsTaken`                           |
+| 4         | `setCurrentPlayerTurnsTaken(2)`  | `requiredTurns == 2`                                                               |                     | `setCurrentPlayerTurnsTaken_two_twoTurnsTaken`                           |
