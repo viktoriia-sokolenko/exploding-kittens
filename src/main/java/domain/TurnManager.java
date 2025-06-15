@@ -133,7 +133,9 @@ public class TurnManager {
 
 	public void setCurrentPlayerTurnsTaken(int currentPlayerTurnsTaken) {
 		if (currentPlayerTurnsTaken < 0) {
-			throw new IllegalArgumentException("Current player turns taken cannot be negative");
+			throw new IllegalArgumentException(
+					"Current player turns taken cannot be negative"
+			);
 		}
 		this.currentPlayerTurnsTaken = currentPlayerTurnsTaken;
 	}

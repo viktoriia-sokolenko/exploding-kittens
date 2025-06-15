@@ -560,7 +560,10 @@ public class TurnManagerTest {
 				() -> turnManager.setCurrentPlayerTurnsTaken(-1)
 		);
 		assertTrue(
-				exception.getMessage().contains("Current player turns taken cannot be negative"));
+				exception.getMessage().contains(
+						"Current player turns taken cannot be negative"
+				)
+		);
 	}
 
 	@Test
