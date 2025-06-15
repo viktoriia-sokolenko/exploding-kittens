@@ -25,6 +25,10 @@ public class Player {
 		}
 	}
 
+	public void addCardToHand(Card card) {
+		hand.addCard(card);
+	}
+
 	public void removeCardFromHand(Card card) {
 		hand.removeCard(card);
 	}
@@ -39,10 +43,6 @@ public class Player {
 
 	public boolean hasCardType(CardType cardType) {
 		return hand.containsCardType(cardType);
-	}
-
-	public void addCardToHand(Card card) {
-		hand.addCard(card);
 	}
 
 	public void removeDefuseCard() {

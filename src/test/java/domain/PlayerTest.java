@@ -338,7 +338,7 @@ public class PlayerTest {
 	@EnumSource(value = CardType.class,
 			names = {"EXPLODING_KITTEN", "UNKNOWN_CARD_FOR_TEST"},
 			mode = EnumSource.Mode.EXCLUDE)
-	public void addCardToHand_withValidCard_addsCardToHand(CardType testCardType) {
+	public void addCardToHand_withValidCard_insertsCard(CardType testCardType) {
 		Hand mockHand = EasyMock.createMock(Hand.class);
 		mockHand.addCard(EasyMock.anyObject(Card.class));
 		EasyMock.expectLastCall();

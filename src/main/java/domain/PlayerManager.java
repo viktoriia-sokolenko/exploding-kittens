@@ -1,5 +1,6 @@
 package domain;
 
+import javax.annotation.CheckReturnValue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,4 +54,15 @@ public class PlayerManager {
 		player.activeStatus = false;
 	}
 
+	@CheckReturnValue
+	public Player getPlayerByIndex(int index) {
+		if (isIndexOutOfBounds(index)) {
+			throw new IndexOutOfBoundsException("Index out of bounds");
+		}
+		return players.get(index);
+	}
+
+	private boolean isIndexOutOfBounds(int index) {
+		return index < 0 || index >= players.size();
+	}
 }

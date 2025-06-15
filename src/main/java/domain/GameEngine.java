@@ -318,7 +318,8 @@ public class GameEngine {
 				playerManager,
 				deck,
 				player,
-				userInterface
+				userInterface,
+				cardFactory
 		);
 	}
 
