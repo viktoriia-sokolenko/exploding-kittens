@@ -5,9 +5,9 @@ import java.util.*;
 public class TurnManager {
 	private final Deck deck;
 	private final Queue<Player> turnQueue;
-	private Player currentPlayer;
 	private int currentPlayerTurnsTaken;
 	private int requiredTurns;
+	private Player currentPlayer;
 
 	public TurnManager(Deck deck) {
 		this.deck = Objects.requireNonNull(deck, "Deck cannot be null");
@@ -100,5 +100,9 @@ public class TurnManager {
 			}
 		}
 		return count;
+	}
+
+	public void reverseOrder() {
+
 	}
 }

@@ -33,6 +33,6 @@ player manager
 
 ### Step 4:
 
-|             | System under test | Expected output / state transition | Implemented? | Test name                          |
-|-------------|-------------------|------------------------------------|--------------|------------------------------------|
-| Test Case 1 | mockContext       | calls mockContext.reverseOrder()   |              | execute_reverseEffect_reverseOrder |
+|             | System under test | Expected output / state transition | Implemented?        | Test name                          |
+|-------------|-------------------|------------------------------------|---------------------|------------------------------------|
+| Test Case 1 | mockContext       | calls mockContext.reverseOrder()   | :white_check_mark:  | execute_reverseEffect_reverseOrder |
