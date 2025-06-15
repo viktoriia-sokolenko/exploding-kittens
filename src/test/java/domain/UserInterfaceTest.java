@@ -867,7 +867,7 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface();
 
 		Card testCard1 = mockCard(CardType.NORMAL);
-		Card testCard2 = mockCard(CardType.SKIP);
+		Card testCard2 = mockCard(CardType.ALTER_THE_FUTURE);
 		List<Card> twoCardList = new ArrayList<>(List.of(testCard1, testCard2));
 
 		String expectedMessage = "deckSize is less than number of cards to display";
@@ -876,6 +876,27 @@ public class UserInterfaceTest {
 				() -> ui.displayCardsFromDeck(twoCardList, 1));
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void displayCardsFromDeck_withTwoCards_printCardTypeAndIndex() {
+		UserInterface ui = new UserInterface();
+
+		Card testCard1 = mockCard(CardType.NORMAL);
+		Card testCard2 = mockCard(CardType.ALTER_THE_FUTURE);
+
+		List<Card> twoCardList = new ArrayList<>
+				(List.of(testCard1, testCard2));
+
+		ui.displayCardsFromDeck(twoCardList, 2);
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		String expectedCardInfo =
+				"\n:Top of deck:\n" +
+				"Normal Cat, index: 1\n" +
+				"Alter the Future, index: 0";
+
+		assertFalse(out.contains("No cards to view"));
+		assertTrue(out.contains(expectedCardInfo));
 	}
 
 	private Card mockCard(CardType cardType) {

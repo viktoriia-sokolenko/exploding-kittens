@@ -7,33 +7,7 @@ input as the variable under test and identify numeric and non‑numeric boundary
 `displayWelcome`, `displayHelp`, etc.) do not produce functional *outputs* beyond printing, so their BVAs focus on the
 *state variations* that influence what is printed (e.g., empty vs. non‑empty hands).
 
-#### Important Note
 Whenever you see `card1` without specifying its type, that means I am using Parametrized Testing, and the test runs for cards with all the available card types.
-
-Whenever you see the keywords "non-empty list" or noticed that the states takes in a list of two
-cards without specifying the Card Type (i.e `[card1, card2]`), that means that the test cases uses a Parameterized Test
-that uses all the different Card Types into a list of two different Cards and performs _Parameterized Tests_ based on
-it.
-This Parameterized Testing is grouped as:
-
-* `[CardType.NORMAL, CardType.ATTACK]`
-* `[CardType.DEFUSE, CardType.SKIP]`
-* `[CardType.FAVOR, CardType.EXPLODING_KITTEN]`
-* `[CardType.SHUFFLE, CardType.ALTER_THE_FUTURE]`
-* `[CardType.SEE_THE_FUTURE, CardType.NUKE]`
-
-This is done like this because the main purpose of deck isn't too focused on the Card Types inside the deck but the
-functionality of deck working with all the different types of cards. As a result, these Parameterized Testing ensures
-that since Deck is a collection of Cards, no matter the Cards given in the collection, the operation still functions as
-expected.
-
-* In Other Words, in addition to deck being classified as a Collection (of Cards), if you'd like, it's also a case of
-  the listed Card Types above
-
-Also, unless specified that I am dealing with  `Duplicates` states, each card listed below is from different
-CardTypes. When you see `card2.1` and `card2.2` that means that I am dealing with duplicate cards.
-
----
 
 ## Method under test: `public int getNumberOfPlayers()`
 
@@ -198,5 +172,5 @@ These methods share the same structure: they print a line referencing the card�
 | Test Case 3 | cards `[card1]`, deckSize `0`                   | `IllegalArgumentException` (deckSize is less than number of cards to display)             | :white_check_mark: | `displayCardsFromDeck_withOneCardAndDeckSizeZero_throwsIllegalArgumentException` |
 | Test Case 4 | cards `[card1]`, deckSize `1`                   | prints `":Top of deck:"`, `card1Type, index 0`                                            | :white_check_mark: | `displayCardsFromDeck_withOneCard_printCardTypeAndIndex`                         |
 | Test Case 5 | cards `[card1, card2]`, deckSize `1`            | `IllegalArgumentException` (deckSize is less than number of cards to display)             | :white_check_mark: | `displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException` |
-| Test Case 6 | cards `[card1, card2]`, deckSize `2`            | prints `":Top of deck:"`, `card1Type, index 1`, `card2Type, index 0`                      |                    | `displayCardsFromDeck_withTwoCards_printCardTypeAndIndex`                        |
+| Test Case 6 | cards `[card1, card2]`, deckSize `2`            | prints `":Top of deck:"`, `card1Type, index 1`, `card2Type, index 0`                      | :white_check_mark: | `displayCardsFromDeck_withTwoCards_printCardTypeAndIndex`                        |
 | Test Case 7 | cards `[card1, card2.1, card2.2]`, deckSize `4` | prints `":Top of deck:"`, `card1Type, index 3`, `card2Type, index 2`, `card2Type, index1` |                    | `displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex`          |
