@@ -264,9 +264,28 @@ in TurnManager.
 
 ### Step 4
 
-| Test Case | System under test      | Expected behavior                                                      | Implemented?        | Test name                                                      |
-|-----------|------------------------|------------------------------------------------------------------------|---------------------|----------------------------------------------------------------|
-| 1         | `setRequiredTurns(-1)` | throws `IllegalArgumentException("Required turns cannot be negative")` | :white_check_mark:  | `setRequiredTurns_negativeOne_throwsIllegalArgumentException ` |
-| 2         | `setRequiredTurns(0)`  | `requiredTurns == 0`                                                   | :white_check_mark:  | `setRequiredTurns_zero_zeroRequiredTurns`                      |
-| 3         | `setRequiredTurns(1)`  | `requiredTurns == 1`                                                   | :white_check_mark:  | `setRequiredTurns_one_oneRequiredTurns`                        |
-| 4         | `setRequiredTurns(2)`  | `requiredTurns == 2`                                                   | :white_check_mark:  | `setRequiredTurns_two_twoRequiredTurns`                        |
+| Test Case | System under test      | Expected behavior                                                      | Implemented?       | Test name                                                      |
+|-----------|------------------------|------------------------------------------------------------------------|--------------------|----------------------------------------------------------------|
+| 1         | `setRequiredTurns(-1)` | throws `IllegalArgumentException("Required turns cannot be negative")` | :white_check_mark: | `setRequiredTurns_negativeOne_throwsIllegalArgumentException ` |
+| 2         | `setRequiredTurns(0)`  | `requiredTurns == 0`                                                   | :white_check_mark: | `setRequiredTurns_zero_zeroRequiredTurns`                      |
+| 3         | `setRequiredTurns(1)`  | `requiredTurns == 1`                                                   | :white_check_mark: | `setRequiredTurns_one_oneRequiredTurns`                        |
+| 4         | `setRequiredTurns(2)`  | `requiredTurns == 2`                                                   | :white_check_mark: | `setRequiredTurns_two_twoRequiredTurns`                        |
+
+## Method 12: `public void setCurrentPlayerTurnsTaken(int turnTaken)`
+
+### Step 1–3 Results
+
+|            | Input                          | Output / State Change                                                                                |
+|------------|--------------------------------|------------------------------------------------------------------------------------------------------|
+| **Step 1** | Amount of turns we want to set | set `turnTaken` to be that number                                                                    |
+| **Step 2** | Count                          | Count or Exception                                                                                   |
+| **Step 3** | `-1`, `0`, `1`, `2`            | **-1** → throws `IllegalArgumentException("Current player turns taken cannot be negative")`, 0, 1, 2 |
+
+### Step 4
+
+| Test Case | System under test                | Expected behavior                                                                  | Implemented?        | Test name                                                                |
+|-----------|----------------------------------|------------------------------------------------------------------------------------|---------------------|--------------------------------------------------------------------------|
+| 1         | `setCurrentPlayerTurnsTaken(-1)` | throws `IllegalArgumentException("Current player turns taken cannot be negative")` | :white_check_mark:  | `setCurrentPlayerTurnsTaken_negativeOne_throwsIllegalArgumentException ` |
+| 2         | `setCurrentPlayerTurnsTaken(0)`  | `requiredTurns == 0`                                                               |                     | `setCurrentPlayerTurnsTaken_zero_zeroTurnsTaken`                         |
+| 3         | `setCurrentPlayerTurnsTaken(1)`  | `requiredTurns == 1`                                                               |                     | `setCurrentPlayerTurnsTaken_one_oneTurnsTaken`                           |
+| 4         | `setCurrentPlayerTurnsTaken(2)`  | `requiredTurns == 2`                                                               |                     | `setCurrentPlayerTurnsTaken_two_twoTurnsTaken`                           |

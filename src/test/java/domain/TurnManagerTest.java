@@ -421,6 +421,15 @@ public class TurnManagerTest {
 		assertEquals(0, turnManager.getTurnsFor(mockPlayer()));
 	}
 
+	@Test
+	public void setCurrentPlayerTurnsTaken_negativeOne_throwsIllegalArgumentException() {
+		IllegalArgumentException exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> turnManager.setCurrentPlayerTurnsTaken(-1)
+		);
+		assertTrue(exception.getMessage().contains("Current player turns taken cannot be negative"));
+	}
+
 	private PlayerManager mockPlayerManager(int numPlayers) {
 		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
 		List<Player> players = new ArrayList<>();
