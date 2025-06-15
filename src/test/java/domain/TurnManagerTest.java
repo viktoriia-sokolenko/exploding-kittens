@@ -448,6 +448,16 @@ public class TurnManagerTest {
 		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
 	}
 
+	@Test
+	public void incrementTurnsTaken_partialAttackTurn_doesNotAdvance() {
+		turnManager.setRequiredTurns(2);
+		turnManager.setCurrentPlayerTurnsTaken(0);
+		turnManager.incrementTurnsTaken();
+
+		assertEquals(1, turnManager.getCurrentPlayerTurnsTaken());
+		assertEquals(2, turnManager.getRequiredTurns());
+	}
+
 	private PlayerManager mockPlayerManager(int numPlayers) {
 		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
 		List<Player> players = new ArrayList<>();
