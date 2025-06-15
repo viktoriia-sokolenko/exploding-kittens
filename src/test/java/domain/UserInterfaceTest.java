@@ -861,6 +861,23 @@ public class UserInterfaceTest {
 		assertTrue(out.contains(":Top of deck:"));
 	}
 
+	@Test
+	public void displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException()
+	{
+		UserInterface ui = new UserInterface();
+
+		Card testCard1 = mockCard(CardType.NORMAL);
+		Card testCard2 = mockCard(CardType.SKIP);
+		List<Card> twoCardList = new ArrayList<>(List.of(testCard1, testCard2));
+
+		String expectedMessage = "deckSize is less than number of cards to display";
+		Exception exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> ui.displayCardsFromDeck(twoCardList, 1));
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
