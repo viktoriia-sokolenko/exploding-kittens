@@ -8,7 +8,7 @@
 |------------|--------------------------|---------------------------------------------------------------------------|
 | **Step 1** | Deck                     | constructs PlayerManager instance or exception                            |
 | **Step 2** | Boolean (is null or not) | stores `deck`; initializes empty `players` and `status` maps or exception |
-| **Step 3** | yes/no                   | stores `deck`; `players` & `status` remain empty or NullPointerException  |
+| **Step 3** | true/false               | stores `deck`; `players` & `status` remain empty or NullPointerException  |
 
 ### Step 4
 
@@ -38,23 +38,23 @@
 | Test Case 3 | `addPlayers(2)`   | `players.size()==2`; each `hand.isEmpty()`; each `status==true`  | :white_check_mark: | `addPlayers_withTwoPlayers_initializesBothActive`                 |
 | Test Case 4 | `addPlayers(3)`   | `players.size()==3`;  each `hand.isEmpty()`; each `status==true` | :white_check_mark: | `addPlayers_withValidNumber_createsThatManyPlayers`               |
 
-## Method 2: `public void removePlayerFromGame(Player p)`
+## Method 2: `public void removePlayerFromGame(Player player)`
 
 ### Step 1–3 Results
 
-|         | Input                                                        | Output / State Change                                                           |
-|---------|--------------------------------------------------------------|---------------------------------------------------------------------------------|
-| Step 1  | Player to be removed                                         | updates `player` in `players` list or exception                                 |
-| Step 2  | Cases                                                        | sets player's status to false or exception                                      |
-| Step 3  | 1. `p = null` 2. `p = playerNotInGame` 3. `p = activePlayer` | Sets player's status to false or NullPointerException, IllegalArgumentException |
+|        | Input                                                                       | Output / State Change                                                           |
+|--------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| Step 1 | Player to be removed                                                        | updates `player` in `players` list or exception                                 |
+| Step 2 | Cases                                                                       | sets player's status to false or exception                                      |
+| Step 3 | 1. `player = null` 2. `player = playerNotInGame` 3. `player = activePlayer` | Sets player's status to false or NullPointerException, IllegalArgumentException |
 
 ### Step 4
 
-| Test Case   | System under test                       | Expected output                                               | Implemented?       | Test name                                                                 |
-|-------------|-----------------------------------------|---------------------------------------------------------------|--------------------|---------------------------------------------------------------------------|
-| Test Case 1 | `removePlayerFromGame(null)`            | throws `NullPointerException`                                 | :white_check_mark: | `removePlayerFromGame_withNullPlayer_throwsNullPointerException`          |
-| Test Case 2 | `removePlayerFromGame(playerNotInGame)` | throws `IllegalArgumentException("Player not found in game")` | :white_check_mark: | `removePlayerFromGame_withPlayerNotInGame_throwsIllegalArgumentException` |
-| Test Case 3 | `removePlayerFromGame(activePlayer)`    | sets activePlayer's status `false`                            | :white_check_mark: | `removePlayerFromGame_withValidPlayer_marksPlayerInactive`                |
+| Test Case   | System under test        | Expected output                                               | Implemented?       | Test name                                                                 |
+|-------------|--------------------------|---------------------------------------------------------------|--------------------|---------------------------------------------------------------------------|
+| Test Case 1 | player `null`            | throws `NullPointerException`                                 | :white_check_mark: | `removePlayerFromGame_withNullPlayer_throwsNullPointerException`          |
+| Test Case 2 | player `playerNotInGame` | throws `IllegalArgumentException("Player not found in game")` | :white_check_mark: | `removePlayerFromGame_withPlayerNotInGame_throwsIllegalArgumentException` |
+| Test Case 3 | player `activePlayer`    | sets activePlayer's status `false`                            | :white_check_mark: | `removePlayerFromGame_withValidPlayer_marksPlayerInactive`                |
 
 ## Method 3: `public List<Player> getActivePlayers()`
 
