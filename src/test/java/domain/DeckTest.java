@@ -880,12 +880,27 @@ public class DeckTest {
 			List<Card> cards) {
 		Deck deck = new Deck(cards);
 
-		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1));
+		List<Integer> listOfIndices = new ArrayList<>(List.of(1, 0));
 		List<Card> previousTopCards = deck.peekTopThreeCards();
 		deck.rearrangeTopThreeCards(listOfIndices);
 
 		List<Card> nextTopCards = deck.peekTopThreeCards();
 		assertEquals(previousTopCards, nextTopCards);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_deckWithTwoCardsAndReversedIndices_reversesCards(
+			List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+
+		assertEquals(previousTopCards.get(0), nextTopCards.get(1));
+		assertEquals(previousTopCards.get(1), nextTopCards.get(0));
 	}
 
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {

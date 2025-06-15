@@ -70,8 +70,15 @@ public class Deck {
 		}
 		checkIndicesList(newIndices);
 
-		for (Integer newIndex : newIndices) {
-			checkIndex(newIndex);
+		List<Card> rearrangedTopThreeCards = new ArrayList<>();
+		for (int index : newIndices) {
+			checkIndex(index);
+			rearrangedTopThreeCards.add(this.deck.get(index));
+		}
+
+		int topIndex = this.deck.size() - 1;
+		for (int i = 0; i < newIndices.size(); i++) {
+			this.deck.set(topIndex - i, rearrangedTopThreeCards.get(i));
 		}
 	}
 
@@ -135,8 +142,8 @@ public class Deck {
 	private Boolean isIndexNotAllowed(int index) {
 		int indexForTopCard = this.deck.size() - 1;
 		int indexForSecondCardFromTop = this.deck.size() - 2;
-		final int thirdCardCount = 3;
-		int indexForThirdCardFromTop = this.deck.size() - thirdCardCount;
+		final int cardsToRearrange = 3;
+		int indexForThirdCardFromTop = this.deck.size() - cardsToRearrange;
 		List<Integer> allowedIndices = new ArrayList<>(
 				List.of(indexForTopCard,
 						indexForSecondCardFromTop,
