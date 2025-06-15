@@ -85,9 +85,7 @@ public class Hand {
 			return null;
 		}
 
-		String normalizedCardType = input
-				.trim().toUpperCase()
-				.replace(" ", "_");
+		String normalizedCardType = normalizeCardTypeName(input);
 
 		try {
 			CardType cardType = CardType.valueOf(normalizedCardType);
@@ -101,5 +99,9 @@ public class Hand {
 			}
 		}
 		return null;
+	}
+
+	private String normalizeCardTypeName(String input) {
+		return input.trim().toUpperCase().replace(" ", "_");
 	}
 }
