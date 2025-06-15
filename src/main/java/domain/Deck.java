@@ -68,8 +68,12 @@ public class Deck {
 		if (this.deck.isEmpty()) {
 			throw new NoSuchElementException("Deck is empty");
 		}
+		if (newIndices.size() > this.deck.size()) {
+			throw new IllegalArgumentException(
+					"Number of indices is larger than the deck size");
+		}
 		throw new IllegalArgumentException(
-				"Number of indices is larger than the deck size");
+				"Negative indices are not allowed");
 	}
 
 	private boolean isIndexOutOfBounds(int index) {
