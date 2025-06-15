@@ -246,9 +246,48 @@ in TurnManager.
 
 ### Step 4
 
-| Test Case | System under test                 | Expected behavior                                      | Implemented?       | Test name                                              |
+| Test Case | System under test                 | Expected Output                                        | Implemented?       | Test name                                              |
 |-----------|-----------------------------------|--------------------------------------------------------|--------------------|--------------------------------------------------------|
 | 1         | `queue=[]`                        | throws `IllegalStateException("No players to manage")` | :white_check_mark: | `reverseOrder_emptyQueue_throwsIllegalStateException ` |
 | 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             | :white_check_mark: | `reverseOrder_withTwoPlayers_orderReverses `           |
 | 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      | :white_check_mark: | `reverseOrder _withThreePlayers_orderReverses`         |
 
+## Method 10: `public boolean public boolean isUnderAttack()`
+
+|        | Input 1                  | Input 2                                      | Expected output                                                       |
+|--------|--------------------------|----------------------------------------------|-----------------------------------------------------------------------|
+| Step 1 | Required number of turns | Number of turns the current player has taken | Returns `true` if player still has pending turns due to attack effect |
+| Step 2 | Count                    | **Values of `currentPlayerTurnsTaken`**      | **Boolean result (true if attack in effect)**                         |
+| Step 3 | `1`                      | `0`, `1`                                     | `false` (Not under attack: default turn, no extra turns)              |
+|        | `2`                      | `0`                                          | `true` (Under attack: 2 required, 0 taken)                            |
+|        | `2`                      | `1`                                          | `true` (Under attack: 2 required, 1 taken)                            |
+|        | `2`                      | `2`                                          | `false` (Attack fulfilled: no more extra turns)                       |
+|        | `3`                      | `3`                                          | `false` (All turns taken)                                             |
+|        | `3`                      | `0`, `1`, `2`                                | `true` (Still has remaining turns to take)                            |
+
+| | Input 1 (`requiredTurns`) | Input 2 (`currentPlayerTurnsTaken`) | System under test | Expected output |
+Implemented? | Test name |
+| | ------------------------- | ----------------------------------- | ----------------- | --------------- | ------------ | ---------------------------------------------------- |
+| Test Case 1 | `1`                       | `0`                                 | `isUnderAttack()` | `false`         |
+no | `isUnderAttack_defaultTurn_returnsFalse`             |
+| Test Case 2 | `2`                       | `0`                                 | `isUnderAttack()` | `true`          |
+no | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
+| Test Case 3 | `2`                       | `1`                                 | `isUnderAttack()` | `true`          |
+no | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
+| Test Case 4 | `2`                       | `2`                                 | `isUnderAttack()` | `false`         |
+no | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
+| Test Case 5 | `3`                       | `3`                                 | `isUnderAttack()` | `false`         |
+no | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
+| Test Case 6 | `3`                       | `1`                                 | `isUnderAttack()` | `true`          |
+no | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
+
+## Method 11: `public void incrementTurnsTaken()`
+
+|        | Input 1                           | Input 2                               | Expected Result / State Change                                                       |
+|--------|-----------------------------------|---------------------------------------|--------------------------------------------------------------------------------------|
+| Step 1 | Required turns before method call | Player turns taken before call amount | May increment counter or advance turn depending on values                            |
+| Step 2 | Count                             | Count                                 | **Effect on state**                                                                  |
+| Step 3 | `requiredTurns = 1`               | `0`                                   | Becomes `1 >= 1`, so: `advanceToNextPlayer()` called; values reset                   |
+|        | `requiredTurns = 2`               | `0`                                   | Incremented to 1; no advancement; `requiredTurns = 2`, `currentPlayerTurnsTaken = 1` |
+|        | `requiredTurns = 2`               | `1`                                   | Incremented to 2; advancement triggered; values reset                                |
+|        | `requiredTurns = 3`               | `2`                                   | Incremented to 3; advancement triggered; values reset                                |
