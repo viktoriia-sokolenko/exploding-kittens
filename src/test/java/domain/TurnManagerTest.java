@@ -364,6 +364,20 @@ public class TurnManagerTest {
 		assertTrue(exception.getMessage().contains("No players to manage"));
 	}
 
+	@Test
+	void reverseOrder_withTwoPlayers_orderReverses() {
+		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
+		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
+		Player firstPlayer = players.get(0);
+		Player secondPlayer = players.get(1);
+		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+		turnManager.reverseOrder();
+		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
+		EasyMock.verify(playerManagerWithTwoPlayers);
+	}
+
+
 	private PlayerManager mockPlayerManager(int numPlayers) {
 		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
 		List<Player> players = new ArrayList<>();

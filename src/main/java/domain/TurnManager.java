@@ -106,6 +106,8 @@ public class TurnManager {
 		if (turnQueue.isEmpty()) {
 			throw new IllegalStateException("No players to manage");
 		}
-
+		List<Player> players = new ArrayList<>(turnQueue);
+		Collections.reverse(players);
+		syncWith(players);
 	}
 }
