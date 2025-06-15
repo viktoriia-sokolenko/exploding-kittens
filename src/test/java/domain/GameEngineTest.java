@@ -123,11 +123,11 @@ public class GameEngineTest {
 
 	@Test
 	void playCard_withNullPlayer_throwsNullPointerException() {
-		SkipCard skipCard = new SkipCard();
+		SkipCard mockSkipCard = EasyMock.createMock(SkipCard.class);
 
 		NullPointerException exception = assertThrows(
 				NullPointerException.class,
-				() -> gameEngine.playCard(null, skipCard)
+				() -> gameEngine.playCard(null, mockSkipCard)
 		);
 
 		assertEquals("Player cannot be null", exception.getMessage());
@@ -135,12 +135,11 @@ public class GameEngineTest {
 
 	@Test
 	void playCard_withNullCard_throwsNullPointerException() {
-		Hand hand	= new Hand();
-		Player player = new Player(hand);
+		Player mockPlayer = EasyMock.createMock(Player.class);
 
 		NullPointerException exception = assertThrows(
 				NullPointerException.class,
-				() -> gameEngine.playCard(player, null)
+				() -> gameEngine.playCard(mockPlayer, null)
 		);
 
 		assertEquals("Card cannot be null", exception.getMessage());
@@ -148,7 +147,7 @@ public class GameEngineTest {
 
 	@Test
 	void playCard_playerHasCard_executesCardEffect() {
-		Hand hand	= new Hand();
+		Hand hand = new Hand();
 		Player player = new Player(hand);
 		SkipCard skipCard = new SkipCard();
 
@@ -242,12 +241,13 @@ public class GameEngineTest {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream, true,
-				StandardCharsets.UTF_8));;
+				StandardCharsets.UTF_8));
+		;
 
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			String expected = "Available cards: attack\n";
-			String actual =   normalizeOutputForAssertion(outputStream
+			String actual = normalizeOutputForAssertion(outputStream
 					.toString(StandardCharsets.UTF_8));
 
 			assertEquals(expected, actual);
@@ -275,7 +275,7 @@ public class GameEngineTest {
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			String expected = "Available cards: attack, skip, favor\n";
-			String actual =   normalizeOutputForAssertion(outputStream
+			String actual = normalizeOutputForAssertion(outputStream
 					.toString(StandardCharsets.UTF_8));
 			assertEquals(expected, actual);
 		} finally {
@@ -286,8 +286,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public
-	void showAvailableCardTypes_withUnderscoreCardType_replacesUnderscoresWithSpaces() {
+	public void showAvailableCardTypes_withUnderscoreCardType_replacesUnderscoresWithSpaces() {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		List<CardType> underscoreCardsList = Arrays.asList(
 				CardType.SEE_THE_FUTURE, CardType.ALTER_THE_FUTURE);
@@ -303,7 +302,7 @@ public class GameEngineTest {
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			String expected = "Available cards: see the future, alter the future\n";
-			String actual =   normalizeOutputForAssertion(outputStream.
+			String actual = normalizeOutputForAssertion(outputStream.
 					toString(StandardCharsets.UTF_8));
 			assertEquals(expected, actual);
 		} finally {
@@ -332,7 +331,7 @@ public class GameEngineTest {
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			String expected = "Available cards: skip, see the future, normal, defuse\n";
-			String actual =   normalizeOutputForAssertion(outputStream.
+			String actual = normalizeOutputForAssertion(outputStream.
 					toString(StandardCharsets.UTF_8));
 			assertEquals(expected, actual);
 		} finally {
@@ -358,7 +357,7 @@ public class GameEngineTest {
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
 			String expected = "Available cards: exploding kitten\n";
-			String actual =   normalizeOutputForAssertion(outputStream.
+			String actual = normalizeOutputForAssertion(outputStream.
 					toString(StandardCharsets.UTF_8));
 			assertEquals(expected, actual);
 		} finally {
@@ -1174,7 +1173,7 @@ public class GameEngineTest {
 		try {
 			gameEngine.handleQuitCommand();
 			String expected = "Thanks for playing Exploding Kittens!\n";
-			String actual =   normalizeOutputForAssertion(outputStream.
+			String actual = normalizeOutputForAssertion(outputStream.
 					toString(StandardCharsets.UTF_8));
 			assertEquals(expected, actual);
 		} finally {
@@ -1525,11 +1524,9 @@ public class GameEngineTest {
 	}
 
 
-
 	@ParameterizedTest
 	@MethodSource("provideCardTypeTestData")
-	public
-	void processCommand_withPlayCommandForDifferentCards_callsHandlePlayCommand(
+	public void processCommand_withPlayCommandForDifferentCards_callsHandlePlayCommand(
 			String cardName, CardType cardType, boolean endsTurn) {
 		Card mockCard = createMockCard(cardType);
 		EasyMock.reset(mockCard);
@@ -1575,8 +1572,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public
-	void
+	public void
 	processCommand_whenHandlePlayCommandThrowsException_displaysErrorMessage() {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockPlayer.parseCardType("invalidcard")).andThrow(
@@ -1593,8 +1589,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public
-	void processCommand_whenDrawThrowsException_catchesAndDisplaysError() {
+	public void processCommand_whenDrawThrowsException_catchesAndDisplaysError() {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		final int NUMBER_OF_CARDS = 5;
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(NUMBER_OF_CARDS);
@@ -1661,8 +1656,7 @@ public class GameEngineTest {
 			"playyy",
 			"halp"
 	})
-	public
-	void processCommand_withUnknownCommands_displaysUnknownCommandError
+	public void processCommand_withUnknownCommands_displaysUnknownCommandError
 			(String input) {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
@@ -1724,7 +1718,7 @@ public class GameEngineTest {
 
 		gameEngine.processCommand("status", mockCurrentPlayer);
 
-		EasyMock.verify(mockPlayerManager, mockDeck, mockTurnManager,mockCurrentPlayer);
+		EasyMock.verify(mockPlayerManager, mockDeck, mockTurnManager, mockCurrentPlayer);
 	}
 
 	@Test
@@ -1788,7 +1782,7 @@ public class GameEngineTest {
 		return mockCard;
 	}
 
-	private String   normalizeOutputForAssertion(String rawOutput) {
+	private String normalizeOutputForAssertion(String rawOutput) {
 		return rawOutput
 				.replace("\r\n", "\n")
 				.replace("\r", "\n");

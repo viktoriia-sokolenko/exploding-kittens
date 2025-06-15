@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class TurnManagerTest {
-
 	private TurnManager turnManager;
 	private static final int DEFAULT_NUM_PLAYERS = 3;
 
