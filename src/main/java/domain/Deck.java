@@ -68,22 +68,11 @@ public class Deck {
 		if (this.deck.isEmpty()) {
 			throw new NoSuchElementException("Deck is empty");
 		}
-		if (newIndices.size() > this.deck.size()) {
-			throw new IllegalArgumentException(
-					"Number of indices is larger than the deck size");
-		}
+		checkIndicesList(newIndices);
 
 		for (Integer newIndex : newIndices) {
-			if (isIndexNotAllowed(newIndex)) {
-				throw new IllegalArgumentException(
-						"With deck size s, indices must be [s - 1, s - 3]");
-			}
-			if (newIndex < 0) {
-				throw new IllegalArgumentException(
-						"Negative indices are not allowed");
-			}
+			checkIndex(newIndex);
 		}
-		throw new IllegalArgumentException("Duplicate indices are not allowed");
 	}
 
 	private boolean isIndexOutOfBounds(int index) {
@@ -110,6 +99,37 @@ public class Deck {
 			cardsToAdd--;
 		}
 		return cardList;
+	}
+
+	private void checkIndicesList(List<Integer> indicesList) {
+		if (areTooManyIndices(indicesList)) {
+			throw new IllegalArgumentException(
+					"Number of indices is larger than the deck size");
+		}
+
+		if (areIndicesDuplicate(indicesList)) {
+			throw new IllegalArgumentException("Duplicate indices are not allowed");
+		}
+	}
+
+	private Boolean areTooManyIndices(List<Integer> indices) {
+		return indices.size() > this.deck.size();
+	}
+
+	private Boolean areIndicesDuplicate(List<Integer> indices) {
+		Set<Integer> uniqueIndices = new HashSet<>(indices);
+		return (uniqueIndices.size() < indices.size());
+	}
+
+	private void checkIndex(int index) {
+		if (isIndexNotAllowed(index)) {
+			throw new IllegalArgumentException(
+					"With deck size s, indices must be [s - 1, s - 3]");
+		}
+		if (index < 0) {
+			throw new IllegalArgumentException(
+					"Negative indices are not allowed");
+		}
 	}
 
 	private Boolean isIndexNotAllowed(int index) {

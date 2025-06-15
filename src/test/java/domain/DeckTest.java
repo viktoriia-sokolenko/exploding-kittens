@@ -859,6 +859,21 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void rearrangeTopThreeCards_deckWithOneCard_orderRemainsTheSame(
+			CardType testCardType) {
+		Card testCard = mockCard(testCardType);
+		Deck deck = new Deck(List.of(testCard));
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+		assertEquals(previousTopCards, nextTopCards);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
