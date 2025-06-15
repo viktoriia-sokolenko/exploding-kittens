@@ -39,3 +39,19 @@ available card types.
 | Test Case 2 | Deck `[testCard]`        | Returns `[testCard]`;                      | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard               |
 | Test Case 3 | Deck `[NORMAL, FAVOR]`   | Returns `[NORMAL, FAVOR]`;                 | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithTwoCards_returnsTwoLastCards             |
 | Test Case 4 | Deck `[..., SKIP, SKIP]` | Returns `[SKIP, SKIP]`;                    | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsDuplicates |
+
+## Method 8: `public void shuffleDeckFromDeck()`
+
+### Step 1-3 Results
+
+|        | Input                 | Output                         |
+|--------|-----------------------|--------------------------------|
+| Step 1 | Game Context          | calls `shuffleDeck` from Deck  |
+| Step 2 | Game Context Object   | calls `shuffleDeck` from Deck  |
+| Step 3 | Game Context Instance | calls `shuffleDeck` from Deck  |
+
+### Step 4:
+
+|             | System under test         | Expected output / state transition | Implemented?       | Test name                                              |
+|-------------|---------------------------|------------------------------------|--------------------|--------------------------------------------------------|
+| Test Case 1 | Context fully initialized | calls `shuffleDeck` from Deck      | :white_check_mark: | shuffleDeckFromDeck_withFullContext_callShuffleDeck()  |
