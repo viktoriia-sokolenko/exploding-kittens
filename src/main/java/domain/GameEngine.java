@@ -13,8 +13,8 @@ public class GameEngine {
 	private final Deck deck;
 	private final UserInterface userInterface;
 	private final CardFactory cardFactory;
-	private boolean gameRunning = true;
 	private final SecureRandom secureRandom;
+	private boolean gameRunning = true;
 
 	public GameEngine(
 			TurnManager turnManager,
@@ -46,32 +46,13 @@ public class GameEngine {
 		cardManager.playCard(card, player, gameContext);
 	}
 
-	private void main(String[] args) {
-		try {
-			this.initializeGame();
-			this.runGameLoop();
-		} catch (Exception e) {
-			userInterface.displayError("Game encountered an error: "
-					+ e.getMessage());
-		}
-	}
-
 	public void initializeGame() {
 		List<Player> players = playerManager.getPlayers();
 		final int NUMBER_OF_STARTING_CARDS = 4;
-		for (Player player : players) {
-			for (int i = 0; i < NUMBER_OF_STARTING_CARDS; i++) {
-				player.drawCard(deck);
-			}
+		int explodingKittensCount = players.size() - 1;
 
-			player.addCardToHand(cardFactory.createCard(CardType.DEFUSE));
-		}
-
-		int numExplodingKittens = players.size() - 1;
-		for (int i = 0; i < numExplodingKittens; i++) {
-			deck.insertCardAt(cardFactory.createCard(CardType.EXPLODING_KITTEN),
-					secureRandom.nextInt(deck.getDeckSize()));
-		}
+		initializeHandPerPlayers(players, NUMBER_OF_STARTING_CARDS);
+		insertExplodingKittenPerPlayers(explodingKittensCount);
 
 		gameRunning = true;
 		userInterface.displayHelp();
@@ -108,17 +89,6 @@ public class GameEngine {
 		setGameRunning(false);
 	}
 
-	private GameContext createGameContext(Player player) {
-		return new GameContext(
-				turnManager,
-				playerManager,
-				deck,
-				player,
-				userInterface
-		);
-	}
-
-
 	public static List<Card> createInitialDeck
 			(CardFactory cardFactory, int numberOfPlayers) {
 
@@ -143,7 +113,7 @@ public class GameEngine {
 				NUMBER_OF_ESSENTIAL_CARDS));
 		deck.addAll(cardFactory
 				.createCards(CardType.NUKE, NUMBER_OF_NUKE_CARDS));
-		// We're giving the players two extra defuses in the deck
+		// We're giving the players two extra defusing in the deck
 		deck.addAll(cardFactory
 				.createCards
 						(CardType.DEFUSE, NUMBER_OF_EXTRA_DEFUSE_CARDS));
@@ -174,7 +144,6 @@ public class GameEngine {
 		// We need this in order to satisfy the spotsbug error
 		SecureRandom secureRandom = new SecureRandom();
 		Deck deck = new Deck(startingDeck);
-		// https://docs.oracle.com/javase/8/docs/api/java/security/SecureRandom.html
 		deck.shuffleDeck(secureRandom);
 
 		PlayerManager playerManager = new PlayerManager(deck);
@@ -197,7 +166,7 @@ public class GameEngine {
 						.replace("_", " "));
 				if (i < available.size() - 1) {
 					System.out.print(", ");
-				};
+				}
 			}
 			System.out.println();
 		}
@@ -264,8 +233,6 @@ public class GameEngine {
 				System.out.println("You drew an Exploding " +
 						"Kitten but used a Defuse card!");
 				currentPlayer.removeDefuseCard();
-				// https://docs.oracle.com/javase/8/docs/api/java/
-				// security/SecureRandom.html
 				deck.insertCardAt(drawnCard, secureRandom.
 						nextInt(deck.getDeckSize()));
 			} else {
@@ -342,6 +309,43 @@ public class GameEngine {
 			} else {
 				System.out.println("\nGAME OVER! Everyone exploded!");
 			}
+		}
+	}
+
+	private GameContext createGameContext(Player player) {
+		return new GameContext(
+				turnManager,
+				playerManager,
+				deck,
+				player,
+				userInterface
+		);
+	}
+
+	private void initializeHandPerPlayers(List<Player> players, int startingCardCount) {
+		for (Player player : players) {
+			for (int i = 0; i < startingCardCount; i++) {
+				player.drawCard(deck);
+			}
+
+			player.addCardToHand(cardFactory.createCard(CardType.DEFUSE));
+		}
+	}
+
+	private void insertExplodingKittenPerPlayers(int explodingKittensCount) {
+		for (int i = 0; i < explodingKittensCount; i++) {
+			deck.insertCardAt(cardFactory.createCard(CardType.EXPLODING_KITTEN),
+					secureRandom.nextInt(deck.getDeckSize()));
+		}
+	}
+
+	private void main(String[] args) {
+		try {
+			this.initializeGame();
+			this.runGameLoop();
+		} catch (Exception e) {
+			userInterface.displayError("Game encountered an error: "
+					+ e.getMessage());
 		}
 	}
 }
