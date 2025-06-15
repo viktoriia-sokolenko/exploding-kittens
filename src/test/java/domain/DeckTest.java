@@ -754,14 +754,15 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
-	@Test
-	public void rearrangeTopThreeCards_withNegativeSecondIndex_throwsIllegalArgumentException()
-	{
-		Deck deck = deckWithThreeCards();
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_withNegativeSecondIndex_throwsIllegalArgumentException(
+			List<Card> cards) {
+		Deck deck = new Deck(cards);
 
 		String expectedMessage = "Negative indices are not allowed";
 
-		List<Integer> listOfIndices = new ArrayList<>(List.of(2, -1, 0));
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, -1));
 
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> deck.rearrangeTopThreeCards(listOfIndices));
@@ -771,12 +772,14 @@ public class DeckTest {
 	}
 
 	@Test
-	public void rearrangeTopThreeCards_withNegativeThirdIndex_throwsIllegalArgumentException() {
+	public void rearrangeTopThreeCards_ThreeCardsIndexThree_throwsIllegalArgumentException() {
 		Deck deck = deckWithThreeCards();
 
-		String expectedMessage = "Negative indices are not allowed";
+		String expectedMessage =
+				"With deck size s, indices must be [s - 1, s - 3]";
 
-		List<Integer> listOfIndices = new ArrayList<>(List.of(2, 1, -1));
+		int wrongIndex = deck.getDeckSize();
+		List<Integer> listOfIndices = new ArrayList<>(List.of(wrongIndex, 1, 0));
 
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> deck.rearrangeTopThreeCards(listOfIndices));

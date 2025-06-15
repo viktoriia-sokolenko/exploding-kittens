@@ -72,6 +72,13 @@ public class Deck {
 			throw new IllegalArgumentException(
 					"Number of indices is larger than the deck size");
 		}
+
+		for (Integer newIndex : newIndices) {
+			if (isIndexNotAllowed(newIndex)) {
+				throw new IllegalArgumentException(
+						"With deck size s, indices must be [s - 1, s - 3]");
+			}
+		}
 		throw new IllegalArgumentException(
 				"Negative indices are not allowed");
 	}
@@ -100,5 +107,17 @@ public class Deck {
 			cardsToAdd--;
 		}
 		return cardList;
+	}
+
+	private Boolean isIndexNotAllowed(int index) {
+		int indexForTopCard = this.deck.size() - 1;
+		int indexForSecondCardFromTop = this.deck.size() - 2;
+		final int thirdCardCount = 3;
+		int indexForThirdCardFromTop = this.deck.size() - thirdCardCount;
+		List<Integer> allowedIndices = new ArrayList<>(
+				List.of(indexForTopCard,
+						indexForSecondCardFromTop,
+						indexForThirdCardFromTop));
+		return !allowedIndices.contains(index);
 	}
 }
