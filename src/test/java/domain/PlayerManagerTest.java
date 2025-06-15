@@ -69,6 +69,7 @@ public class PlayerManagerTest {
 		assertEquals(DEFAULT_PLAYERS, playerManager.getActivePlayers().size());
 
 		for (Player player : playerManager.getPlayers()) {
+			assertEquals(0, player.getNumberOfCards());
 			assertTrue(player.isInGame());
 		}
 	}
@@ -80,7 +81,7 @@ public class PlayerManagerTest {
 		List<Player> players = playerManager.getPlayers();
 		assertEquals(2, players.size());
 		for (Player player : players) {
-			assertEquals(0, player.getCardTypeCount(CardType.SKIP));
+			assertEquals(0, player.getNumberOfCards());
 			assertTrue(player.isInGame());
 		}
 	}

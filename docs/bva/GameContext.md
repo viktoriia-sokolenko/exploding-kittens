@@ -5,7 +5,7 @@
 I am using Parametrized Testing, so whenever I use `testCard`, it means that the test runs for cards with all the
 available card types.
 
-## Method 6: `public void endTurnWithoutDrawingForAttacks()`
+## Method 1: `public void endTurnWithoutDrawingForAttacks()`
 
 ### Step 1-3 Results
 
@@ -21,7 +21,7 @@ available card types.
 |-------------|---------------------------|----------------------------------------------------------|--------------------|------------------------------------------------------------------|
 | Test Case 1 | Context fully initialized | calls `endTurnWithoutDrawingForAttacks` from TurnManager | :white_check_mark: | endTurnWithoutDrawingForAttacks_withFullContext_callsTurnManager |
 
-## Method: `public void transferCardBetweenPlayers(Card card, Player playerGiver)`
+## Method 2: `public void transferCardBetweenPlayers(Card card, Player playerGiver)`
 
 ### Step 1-3 Results
 
@@ -38,7 +38,7 @@ available card types.
 | Test Case 1 | Card `[testCard]`, playerGiver hand `without testCard`, currentPlayer | `IllegalArgumentException` (“Card not in hand: can not remove card”)    | :white_check_mark: | transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException |
 | Test Case 2 | Card `[testCard]`, playerGiver hand `[...testCard]`, currentPlayer    | playerGiver hand `without testCard`, currentPlayer hand `[...testCard]` | :white_check_mark: | transferCardBetweenPlayers_withCardInHand_transfersCard                     |
 
-## Method: `public List<Card> viewTopTwoCardsFromDeck()`
+## Method 3: `public List<Card> viewTopTwoCardsFromDeck()`
 
 ### Step 1-3 Results
 
@@ -57,7 +57,7 @@ available card types.
 | Test Case 3 | Deck `[NORMAL, FAVOR]`   | Returns `[NORMAL, FAVOR]`;                 | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithTwoCards_returnsTwoLastCards             |
 | Test Case 4 | Deck `[..., SKIP, SKIP]` | Returns `[SKIP, SKIP]`;                    | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsDuplicates |
 
-## Method 8: `public void shuffleDeckFromDeck()`
+## Method 4: `public void shuffleDeckFromDeck()`
 
 ### Step 1-3 Results
 

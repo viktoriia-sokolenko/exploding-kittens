@@ -67,11 +67,11 @@ possible card types, **except** `Exploding Kitten`, and cards with those types.
 
 ### Step 1-3 Results
 
-|        | Input 1                                                                                                      | Output 1                                                      | 
+|        | Input                                                                                                        | Output                                                        | 
 |--------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| Step 1 | Card                                                                                                         | the state of the hand (does hand has drawn card) or exception |
-| Step 2 | Cases                                                                                                        | Boolean or exception                                          |
-| Step 3 | null, NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | true, false                                                   |
+| Step 1 | Card                                                                                                         | the state of the hand (does hand has added card) or Exception |
+| Step 2 | Cases                                                                                                        | Boolean or Exception                                          |
+| Step 3 | null, NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | true, false or IllegalArgumentException                       |
 
 ### Step 4:
 
