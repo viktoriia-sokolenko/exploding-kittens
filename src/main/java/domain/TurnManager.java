@@ -110,4 +110,16 @@ public class TurnManager {
 		Collections.reverse(players);
 		syncWith(players);
 	}
+
+	public boolean isUnderAttack() {
+		return requiredTurns > 1 && currentPlayerTurnsTaken < requiredTurns;
+	}
+
+	void setRequiredTurns(int requiredTurns) {
+		this.requiredTurns = requiredTurns;
+	}
+
+	void setCurrentPlayerTurnsTaken(int currentPlayerTurnsTaken) {
+		this.currentPlayerTurnsTaken = currentPlayerTurnsTaken;
+	}
 }

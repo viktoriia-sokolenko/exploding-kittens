@@ -252,7 +252,7 @@ in TurnManager.
 | 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             | :white_check_mark: | `reverseOrder_withTwoPlayers_orderReverses `           |
 | 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      | :white_check_mark: | `reverseOrder _withThreePlayers_orderReverses`         |
 
-## Method 10: `public boolean public boolean isUnderAttack()`
+## Method 10: `public boolean isUnderAttack()`
 
 ### Step 1–3 Results
 
@@ -269,14 +269,14 @@ in TurnManager.
 
 ### Step 4
 
-|             | System under test                               | Expected output | Implemented? | Test name                                            |
-|-------------|-------------------------------------------------|-----------------|--------------|------------------------------------------------------|
-| Test Case 1 | `requireTurns=1`, `currentPlayerTurnsTaken = 0` | `false`         | no           | `isUnderAttack_defaultTurn_returnsFalse`             |
-| Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `true`          | no           | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
-| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `true`          | no           | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
-| Test Case 4 | `requireTurns=2`, `currentPlayerTurnsTaken = 2` | `false`         | no           | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
-| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 3` | `false`         | no           | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
-| Test Case 6 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `true`          | no           | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
+|             | System under test                               | Expected output | Implemented?        | Test name                                            |
+|-------------|-------------------------------------------------|-----------------|---------------------|------------------------------------------------------|
+| Test Case 1 | `requireTurns=1`, `currentPlayerTurnsTaken = 0` | `false`         | :white_check_mark:  | `isUnderAttack_defaultTurn_returnsFalse`             |
+| Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `true`          | no                  | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
+| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `true`          | no                  | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
+| Test Case 4 | `requireTurns=2`, `currentPlayerTurnsTaken = 2` | `false`         | no                  | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
+| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 3` | `false`         | no                  | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
+| Test Case 6 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `true`          | no                  | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
 
 ## Method 11: `public void incrementTurnsTaken()`
 
