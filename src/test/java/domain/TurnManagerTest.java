@@ -399,6 +399,13 @@ public class TurnManagerTest {
 		assertTrue(exception.getMessage().contains("Required turns cannot be negative"));
 	}
 
+	@Test
+	public void setRequiredTurns_zero_zeroRequiredTurns() {
+		turnManager.setRequiredTurns(0);
+		assertEquals(0, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getTurnsFor(mockPlayer()));
+	}
+
 	private PlayerManager mockPlayerManager(int numPlayers) {
 		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
 		List<Player> players = new ArrayList<>();

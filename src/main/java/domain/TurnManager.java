@@ -110,6 +110,14 @@ public class TurnManager {
 		this.currentPlayerTurnsTaken = 0;
 	}
 
+	public int getRequiredTurns() {
+		return requiredTurns;
+	}
+
+	public int getCurrentPlayerTurnsTaken() {
+		return currentPlayerTurnsTaken;
+	}
+
 	public void reverseOrder() {
 		if (turnQueue.isEmpty()) {
 			throw new IllegalStateException("No players to manage");
