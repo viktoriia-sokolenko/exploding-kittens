@@ -65,10 +65,6 @@ public class Hand {
 		Objects.requireNonNull(cardType, "CardType cannot be null");
 		return this.cards.getOrDefault(cardType, 0);
 	}
-
-	private boolean isValidCount (Integer count) {
-		return count != null;
-	}
 	
 	public List<CardType> getAvailableCardTypes() {
 		List<CardType> availableTypes = new ArrayList<>();
@@ -99,6 +95,10 @@ public class Hand {
 			}
 		}
 		return null;
+	}
+
+	private boolean isValidCount (Integer count) {
+		return count != null;
 	}
 
 	private String normalizeCardTypeName(String input) {
