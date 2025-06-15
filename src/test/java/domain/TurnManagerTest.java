@@ -70,6 +70,25 @@ public class TurnManagerTest {
 	}
 
 	@Test
+	public void setPlayerManager_calledTwice_turnQueueClearedBetweenCalls() {
+		final int THREE_PLAYERS = 3;
+		final int TWO_PLAYERS = 2;
+		PlayerManager firstPlayerManager = mockPlayerManager(THREE_PLAYERS);
+		PlayerManager secondPlayerManager = mockPlayerManager(TWO_PLAYERS);
+
+		turnManager.setPlayerManager(firstPlayerManager);
+		turnManager.setPlayerManager(secondPlayerManager);
+
+		Player currentPlayer = turnManager.getCurrentActivePlayer();
+		assertNotNull(currentPlayer);
+		List<Player> playersFromSecondPlayerManager = secondPlayerManager.getPlayers();
+
+		assertEquals(playersFromSecondPlayerManager.get(0), currentPlayer);
+
+		EasyMock.verify(firstPlayerManager, secondPlayerManager);
+	}
+
+	@Test
 	public void getCurrentActivePlayer_beforeSetup_throwsIllegalStateException() {
 		IllegalStateException exception = assertThrows(
 				IllegalStateException.class,
