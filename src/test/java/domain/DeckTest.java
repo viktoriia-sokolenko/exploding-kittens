@@ -754,6 +754,22 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
+	@Test
+	public void rearrangeTopThreeCards_withNegativeSecondIndex_throwsIllegalArgumentException()
+	{
+		Deck deck = deckWithThreeCards();
+
+		String expectedMessage = "Negative indices are not allowed";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(2, -1, 0));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
