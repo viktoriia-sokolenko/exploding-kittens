@@ -4,6 +4,8 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -296,6 +298,287 @@ public class HandTest {
 
 		int expectedNumberOfCards = 2;
 		assertEquals(expectedNumberOfCards, hand.getNumberOfCards());
+	}
+
+	@Test
+	public void getAvailableCardTypes_withEmptyHand_returnsEmptyList() {
+		Hand emptyHand = new Hand();
+		List<CardType> availableTypes = emptyHand.getAvailableCardTypes();
+
+		assertTrue(availableTypes.isEmpty());
+		assertEquals(0, availableTypes.size());
+	}
+
+	@ParameterizedTest
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN", "UNKNOWN_CARD_FOR_TEST"}, mode =
+			EnumSource.Mode.EXCLUDE)
+	// i had to make the parm name ct because of max line length from spotbugs
+	public void getCardTypes_withOneCardInHand_returnsOneType(CardType ct) {
+		Hand handWithOneCard = handWithOneCard(ct);
+		List<CardType> availableTypes = handWithOneCard.getAvailableCardTypes();
+
+		assertEquals(1, availableTypes.size());
+		assertTrue(availableTypes.contains(ct));
+	}
+
+	@Test
+	public void getAvailableCardTypes_withTwoCardsInHand_returnsListWithTwoTypes() {
+		Hand hand = handWithTwoCards();
+		List<CardType> availableTypes = hand.getAvailableCardTypes();
+
+		assertEquals(2, availableTypes.size());
+		assertTrue(availableTypes.contains(CardType.SEE_THE_FUTURE));
+		assertTrue(availableTypes.contains(CardType.SHUFFLE));
+	}
+
+	@Test
+	public void getAvailableCardTypes_withDuplicateCardsInHand_returnsUniqueTypes() {
+		Hand hand = handWithThreeCardsAndDuplicates();
+		List<CardType> availableTypes = hand.getAvailableCardTypes();
+
+		assertEquals(2, availableTypes.size());
+		assertTrue(availableTypes.contains(CardType.SKIP));
+		assertTrue(availableTypes.contains(CardType.NORMAL));
+
+		long normalCount = availableTypes.stream()
+				.filter(type -> type == CardType.NORMAL)
+				.count();
+		assertEquals(1, normalCount);
+	}
+
+	@Test
+	public void getAvailableCardTypes_withFiveCardsAndThreeDuplicates_returnsThreeUniqueType() {
+		Hand hand = handWithFiveCardsAndThreeDuplicates();
+		List<CardType> availableTypes = hand.getAvailableCardTypes();
+		final int NUMBER_OF_CARD_TYPES = 3;
+		assertEquals(NUMBER_OF_CARD_TYPES, availableTypes.size());
+		assertTrue(availableTypes.contains(CardType.DEFUSE));
+		assertTrue(availableTypes.contains(CardType.ATTACK));
+		assertTrue(availableTypes.contains(CardType.FAVOR));
+	}
+
+	@Test
+	public void getAvailableCardTypes_afterRemovingCard_updatesAvailableTypes() {
+		Hand hand = handWithTwoCards();
+		Card cardToRemove = mockCard(CardType.SEE_THE_FUTURE);
+
+		List<CardType> availableTypesBefore = hand.getAvailableCardTypes();
+		assertEquals(2, availableTypesBefore.size());
+
+		hand.removeCard(cardToRemove);
+		List<CardType> availableTypesAfter = hand.getAvailableCardTypes();
+
+		assertEquals(1, availableTypesAfter.size());
+		assertTrue(availableTypesAfter.contains(CardType.SHUFFLE));
+		assertFalse(availableTypesAfter.contains(CardType.SEE_THE_FUTURE));
+	}
+
+	@Test
+	public void getAvailableCardTypes_afterRemovingDuplicateCard_maintainsCardType() {
+		Hand hand = handWithThreeCardsAndDuplicates();
+		Card cardToRemove = mockCard(CardType.NORMAL);
+
+		List<CardType> availableTypesBefore = hand.getAvailableCardTypes();
+		assertEquals(2, availableTypesBefore.size());
+		assertTrue(availableTypesBefore.contains(CardType.NORMAL));
+
+		hand.removeCard(cardToRemove);
+		List<CardType> availableTypesAfter = hand.getAvailableCardTypes();
+
+		assertEquals(2, availableTypesAfter.size());
+		assertTrue(availableTypesAfter.contains(CardType.NORMAL));
+		assertTrue(availableTypesAfter.contains(CardType.SKIP));
+	}
+
+	@Test
+	public void getAvailableCardTypes_afterAddingCard_includesNewType() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		Card newCard = mockCard(CardType.DEFUSE);
+
+		List<CardType> availableTypesBefore = hand.getAvailableCardTypes();
+		assertEquals(1, availableTypesBefore.size());
+		assertTrue(availableTypesBefore.contains(CardType.ATTACK));
+		hand.addCard(newCard);
+		List<CardType> availableTypesAfter = hand.getAvailableCardTypes();
+
+		assertEquals(2, availableTypesAfter.size());
+		assertTrue(availableTypesAfter.contains(CardType.ATTACK));
+		assertTrue(availableTypesAfter.contains(CardType.DEFUSE));
+	}
+
+	@Test
+	public void getAvailableCardTypes_returnsNewListInstance() {
+		Hand hand = handWithTwoCards();
+
+		List<CardType> availableTypes1 = hand.getAvailableCardTypes();
+		List<CardType> availableTypes2 = hand.getAvailableCardTypes();
+
+		assertNotSame(availableTypes1, availableTypes2);
+
+		assertEquals(availableTypes1.size(), availableTypes2.size());
+		assertTrue(availableTypes1.containsAll(availableTypes2));
+	}
+
+	@Test
+	public void parseCardType_withNullInput_returnsNull() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType(null);
+		assertNull(result);
+	}
+
+	@Test
+	public void parseCardType_withEmptyString_returnsNull() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("");
+		assertNull(result);
+	}
+
+	@Test
+	public void parseCardType_withWhitespaceOnlyString_returnsNull() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("	 ");
+		assertNull(result);
+	}
+
+	@Test
+	public void parseCardType_withEmptyHand_returnsNull() {
+		Hand emptyHand = new Hand();
+		CardType result = emptyHand.parseCardType("ATTACK");
+		assertNull(result);
+	}
+
+	@ParameterizedTest
+	@EnumSource(value = CardType.class,
+			names = {"EXPLODING_KITTEN", "UNKNOWN_CARD_FOR_TEST"},
+			mode = EnumSource.Mode.EXCLUDE)
+	public void parseCardType_withExactMatchInHand_returnsCardType(CardType testCardType) {
+		Hand hand = handWithOneCard(testCardType);
+		CardType result = hand.parseCardType(testCardType.name());
+		assertEquals(testCardType, result);
+	}
+
+	@Test
+	public void parseCardType_withExactMatchNotInHand_returnsNull() {
+		Hand hand = handWithTwoCards();
+		CardType result = hand.parseCardType("DEFUSE");
+		assertNull(result);
+	}
+
+	@Test
+	public void parseCardType_withLowercaseExactMatch_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("attack");
+		assertEquals(CardType.ATTACK, result);
+	}
+
+	@Test
+	public void parseCardType_withMixedCaseExactMatch_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.SEE_THE_FUTURE);
+		CardType result = hand.parseCardType("See_The_Future");
+		assertEquals(CardType.SEE_THE_FUTURE, result);
+	}
+
+	@Test
+	public void parseCardType_withSpacesInInput_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.SEE_THE_FUTURE);
+		CardType result = hand.parseCardType("see the future");
+		assertEquals(CardType.SEE_THE_FUTURE, result);
+	}
+
+	@Test
+	public void parseCardType_withLeadingAndTrailingWhitespace_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("	ATTACK	");
+		assertEquals(CardType.ATTACK, result);
+	}
+
+	@Test
+	public void parseCardType_withPartialMatchStartsWith_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("ATT");
+		assertEquals(CardType.ATTACK, result);
+	}
+
+	@Test
+	public void parseCardType_withPartialMatchContains_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.SEE_THE_FUTURE);
+		CardType result = hand.parseCardType("FUTURE");
+		assertEquals(CardType.SEE_THE_FUTURE, result);
+	}
+
+	@Test
+	public void parseCardType_withPartialMatchNotInHand_returnsNull() {
+		Hand hand = handWithTwoCards();
+		CardType result = hand.parseCardType("DEF");
+		assertNull(result);
+	}
+
+	@Test
+	public void parseCardType_withNoMatch_returnsNull() {
+		Hand hand = handWithOneCard(CardType.ATTACK);
+		CardType result = hand.parseCardType("INVALID_CARD");
+		assertNull(result);
+	}
+
+	@Test
+	public void parseCardType_withMultiplePartialMatches_returnsFirstAvailableMatch() {
+		Hand hand = new Hand();
+		hand.addCard(mockCard(CardType.NORMAL));
+		hand.addCard(mockCard(CardType.NUKE));
+
+		CardType result = hand.parseCardType("N");
+		assertNotNull(result);
+		assertTrue(result == CardType.NORMAL || result == CardType.NUKE);
+		assertTrue(hand.containsCardType(result));
+	}
+
+	@Test
+	public void parseCardType_withSingleCharacterMatch_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.SKIP);
+		CardType result = hand.parseCardType("S");
+		assertEquals(CardType.SKIP, result);
+	}
+
+	@Test
+	public void parseCardType_withPartialMatchCaseInsensitive_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.SHUFFLE);
+		CardType result = hand.parseCardType("shuf");
+		assertEquals(CardType.SHUFFLE, result);
+	}
+
+	@Test
+	public void parseCardType_withDuplicateCardsInHand_returnsCardType() {
+		Hand hand = handWithThreeCardsAndDuplicates();
+		CardType result = hand.parseCardType("NORMAL");
+		assertEquals(CardType.NORMAL, result);
+	}
+
+	@Test
+	public void parseCardType_afterRemovingAllCardsOfType_returnsNull() {
+		Hand hand = handWithOneCard(CardType.FAVOR);
+		Card favorCard = mockCard(CardType.FAVOR);
+
+		CardType resultBefore = hand.parseCardType("FAVOR");
+		assertEquals(CardType.FAVOR, resultBefore);
+
+		hand.removeCard(favorCard);
+		CardType resultAfter = hand.parseCardType("FAVOR");
+		assertNull(resultAfter);
+	}
+
+	@Test
+	public void parseCardType_withComplexSpacedInput_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ALTER_THE_FUTURE);
+		CardType result = hand.parseCardType(" alter the future ");
+		assertEquals(CardType.ALTER_THE_FUTURE, result);
+	}
+
+	@Test
+	public void parseCardType_withPartialMatchInMiddle_returnsCardType() {
+		Hand hand = handWithOneCard(CardType.ALTER_THE_FUTURE);
+		CardType result = hand.parseCardType("THE");
+		assertEquals(CardType.ALTER_THE_FUTURE, result);
 	}
 
 	private Card mockCard(CardType type) {
