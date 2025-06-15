@@ -269,4 +269,4 @@ in TurnManager.
 | 1         | `setRequiredTurns(-1)` | throws `IllegalArgumentException("Required turns cannot be negative")` | :white_check_mark:  | `setRequiredTurns_negativeOne_throwsIllegalArgumentException ` |
 | 2         | `setRequiredTurns(0)`  | `requiredTurns == 0`                                                   | :white_check_mark:  | `setRequiredTurns_zero_zeroRequiredTurns`                      |
 | 3         | `setRequiredTurns(1)`  | `requiredTurns == 1`                                                   | :white_check_mark:  | `setRequiredTurns_one_oneRequiredTurns`                        |
-| 4         | `setRequiredTurns(2)`  | `requiredTurns == 2`                                                   | no                  | `setRequiredTurns_two_twoRequiredTurns`                        |
+| 4         | `setRequiredTurns(2)`  | `requiredTurns == 2`                                                   | :white_check_mark:  | `setRequiredTurns_two_twoRequiredTurns`                        |
