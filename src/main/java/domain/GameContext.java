@@ -70,7 +70,10 @@ public class GameContext {
 
 	public void reverseOrderPreservingAttackState() {
 		if (turnManager != null) {
-			turnManager.reverseOrderPreservingAttackState();
+			if (turnManager.isUnderAttack()) {
+				turnManager.incrementTurnsTaken();
+			}
+			turnManager.reverseOrder();
 		}
 	}
 }
