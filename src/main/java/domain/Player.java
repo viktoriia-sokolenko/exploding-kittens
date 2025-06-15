@@ -33,17 +33,6 @@ public class Player {
 		return activeStatus;
 	}
 
-	private void handleExplodingKitten(Deck deck, Card explodingKittenCard) {
-		if (this.hand.containsCardType(CardType.DEFUSE)) {
-			this.hand.removeDefuseCard();
-			deck.insertCardAt(explodingKittenCard, 1);
-		}
-		else {
-			this.activeStatus = false;
-		}
-	}
-
-
 	public int getNumberOfCards() {
 		return hand.getNumberOfCards();
 	}
@@ -70,5 +59,15 @@ public class Player {
 
 	public boolean hasEmptyHand() {
 		return hand.isEmpty();
+	}
+
+	private void handleExplodingKitten(Deck deck, Card explodingKittenCard) {
+		if (this.hand.containsCardType(CardType.DEFUSE)) {
+			this.hand.removeDefuseCard();
+			deck.insertCardAt(explodingKittenCard, 1);
+		}
+		else {
+			this.activeStatus = false;
+		}
 	}
 }
