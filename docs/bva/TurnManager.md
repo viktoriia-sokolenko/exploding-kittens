@@ -246,8 +246,8 @@ in TurnManager.
 
 ### Step 4
 
-| Test Case | System under test                 | Expected behavior                                      | Implemented? | Test name                                              |
-|-----------|-----------------------------------|--------------------------------------------------------|--------------|--------------------------------------------------------|
-| 1         | `queue=[]`                        | throws `IllegalStateException("No players to manage")` |              | `reverseOrder_emptyQueue_throwsIllegalStateException ` |
-| 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             |              | `reverseOrder_withTwoPlayers_orderReverses `           |
-| 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      |              | `reverseOrder_withThreePlayers_orderReverses`          |
+| Test Case | System under test                 | Expected behavior                                      | Implemented?        | Test name                                              |
+|-----------|-----------------------------------|--------------------------------------------------------|---------------------|--------------------------------------------------------|
+| 1         | `queue=[]`                        | throws `IllegalStateException("No players to manage")` | :white_check_mark:  | `reverseOrder_emptyQueue_throwsIllegalStateException ` |
+| 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             |                     | `reverseOrder_withTwoPlayers_orderReverses `           |
+| 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      |                     | `reverseOrder_withThreePlayers_orderReverses`          |

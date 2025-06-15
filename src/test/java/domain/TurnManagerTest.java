@@ -355,6 +355,15 @@ public class TurnManagerTest {
 		EasyMock.verify(playerManager);
 	}
 
+	@Test
+	void reverseOrder_emptyQueue_throwsIllegalStateException() {
+		IllegalStateException exception = assertThrows(
+				IllegalStateException.class,
+				() -> turnManager.reverseOrder()
+		);
+		assertTrue(exception.getMessage().contains("No players to manage"));
+	}
+
 	private PlayerManager mockPlayerManager(int numPlayers) {
 		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
 		List<Player> players = new ArrayList<>();
