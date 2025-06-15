@@ -94,19 +94,20 @@
 
 ### Step 1–3 Results
 
-|            | Preconditions                                                   | Output / State Change                                                                                                                                                                                    |
-|------------|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | none                                                            | removes `current`; re-adds if >1 remain; updates `current`                                                                                                                                               |
-| **Step 2** | uninitialized; empty queue; one player; ≥2 players              | throws ISE or rotates accordingly                                                                                                                                                                        |
-| **Step 3** | 1. `queue=[]`  <br> 2. `queue=[p1]`  <br> 3. `queue=[p1,p2,p3]` | **1** → throws `IllegalStateException("No players to manage")`<br>**2** → removes `p1`; queue=\[]; `current=p1` (end‐of‐game)<br>**3** → rotates: removes `p1`, re-adds; queue=\[p2,p3,p1]; `current=p2` |
+|            | Input 1                                                                             | Input 2                                                           | Output / State Change                                                                                                                                                                                                                                                                                                                     |
+|------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Step 1** | none                                                                                | Whether or not turnManager from GameContext is being under attack | if not underattacked: removes `current`; re-adds if >1 remain; updates `current`, if underattack: calls increment turns taken                                                                                                                                                                                                             |
+| **Step 2** | uninitialized; empty queue; one player; ≥2 players                                  | Boolean                                                           | Cases: throws ISE or rotates accordingly depending on on isunderattackstate                                                                                                                                                                                                                                                               |
+| **Step 3** | 1. `queue=[]`  <br> 2. `queue=[player1]`  <br> 3. `queue=[player1,player2,player3]` | `isUnderAttack= True`, `isUnderAttack=False`                      | **1** → throws `IllegalStateException("No players to manage")`<br>**2** → removes `player1`; queue=\[]; `current=player1` (end‐of‐game)<br>**3** → rotates: removes `player1`, re-adds; queue=\[player2,player3,player1]; `current=player2`, <br> Under Attacked: amount of turns taken for player increases (currentPlayerTurnsTaken +1) |
 
 ### Step 4
 
-| Test Case | System under test  | Expected behavior                                         | Implemented? | Test name                                             |
-|-----------|--------------------|-----------------------------------------------------------|--------------|-------------------------------------------------------|
-| 1         | `queue=[]`         | throws `IllegalStateException("No players to manage")`    | no           | `endTurnWithoutDraw_noPlayers_throwsException`        |
-| 2         | `queue=[p1]`       | removes `p1`; queue empty; `current` reflects end‐of‐game | no           | `endTurnWithoutDraw_singlePlayer_endsGame`            |
-| 3         | `queue=[p1,p2,p3]` | rotates: removes `p1` + re-add to back; `current == p2`   | no           | `endTurnWithoutDraw_multiplePlayers_rotatesCorrectly` |
+| Test Case | System under test                                 | Expected behavior                                                              | Implemented?       | Test name                                                            |
+|-----------|---------------------------------------------------|--------------------------------------------------------------------------------|--------------------|----------------------------------------------------------------------|
+| 1         | `queue=[]`, before setUp                          | throws `IllegalStateException("No players to manage")`                         | :white_check_mark: | `endTurnWithoutDraw_beforeSetup_throwsIllegalStateException `        |
+| 2         | `queue=[player1, player2]`, `isUnderAttack=False` | rotates: removes `player1` + re-add to back; `current == player2`              | :white_check_mark: | `endTurnWithoutDraw_withTwoPlayersNotAttacked_advancesToNextPlayer ` |
+| 3         | `queue=[player1]`, `isUnderAttack=False`          | stays on same player, `current==player1`                                       | :white_check_mark: | `endTurnWithoutDraw_withOnePlayerNotAttacked_staysOnSamePlayer  `    |
+| 4         | `isUnderAttack=True`                              | since player is played under attack, it should call incrementTurnsTaken method |  | `endTurnWithoutDraw_underAttack_callsIncrementTurnsTaken `           |
 
 ---
 
@@ -332,9 +333,9 @@ in TurnManager.
 
 ### Step 4
 
-| Test Case | System under test                | Expected behavior                                                                  | Implemented?        | Test name                                                                |
-|-----------|----------------------------------|------------------------------------------------------------------------------------|---------------------|--------------------------------------------------------------------------|
-| 1         | `setCurrentPlayerTurnsTaken(-1)` | throws `IllegalArgumentException("Current player turns taken cannot be negative")` | :white_check_mark:  | `setCurrentPlayerTurnsTaken_negativeOne_throwsIllegalArgumentException ` |
-| 2         | `setCurrentPlayerTurnsTaken(0)`  | `requiredTurns == 0`                                                               | :white_check_mark:  | `setCurrentPlayerTurnsTaken_zero_zeroTurnsTaken`                         |
-| 3         | `setCurrentPlayerTurnsTaken(1)`  | `requiredTurns == 1`                                                               | :white_check_mark:  | `setCurrentPlayerTurnsTaken_one_oneTurnsTaken`                           |
-| 4         | `setCurrentPlayerTurnsTaken(2)`  | `requiredTurns == 2`                                                               | :white_check_mark:  | `setCurrentPlayerTurnsTaken_two_twoTurnsTaken`                           |
+| Test Case | System under test                | Expected behavior                                                                  | Implemented?       | Test name                                                                |
+|-----------|----------------------------------|------------------------------------------------------------------------------------|--------------------|--------------------------------------------------------------------------|
+| 1         | `setCurrentPlayerTurnsTaken(-1)` | throws `IllegalArgumentException("Current player turns taken cannot be negative")` | :white_check_mark: | `setCurrentPlayerTurnsTaken_negativeOne_throwsIllegalArgumentException ` |
+| 2         | `setCurrentPlayerTurnsTaken(0)`  | `requiredTurns == 0`                                                               | :white_check_mark: | `setCurrentPlayerTurnsTaken_zero_zeroTurnsTaken`                         |
+| 3         | `setCurrentPlayerTurnsTaken(1)`  | `requiredTurns == 1`                                                               | :white_check_mark: | `setCurrentPlayerTurnsTaken_one_oneTurnsTaken`                           |
+| 4         | `setCurrentPlayerTurnsTaken(2)`  | `requiredTurns == 2`                                                               | :white_check_mark: | `setCurrentPlayerTurnsTaken_two_twoTurnsTaken`                           |
