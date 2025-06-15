@@ -87,6 +87,7 @@ public class GameContext {
 			}
 			turnManager.reverseOrder();
 		}
+	}
 
 	private Card getCardFromUserInput(String message, Player player) {
 		String cardTypeInput = userInterface.getUserInput(message);

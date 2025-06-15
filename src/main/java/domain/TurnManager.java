@@ -110,6 +110,7 @@ public class TurnManager {
 		Collections.reverse(players);
 		syncWith(players);
 	}
+
 	public void incrementTurnsTaken() {
 		currentPlayerTurnsTaken++;
 		if (currentPlayerTurnsTaken >= requiredTurns) {
@@ -134,6 +135,7 @@ public class TurnManager {
 	int getRequiredTurns() {
 		return requiredTurns;
 	}
+
 	int getCurrentPlayerTurnsTaken() {
 		return currentPlayerTurnsTaken;
 	}

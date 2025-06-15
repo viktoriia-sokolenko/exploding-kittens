@@ -178,7 +178,8 @@ public class GameContextTest {
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	public void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+	public void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard
+			(CardType testCardType) {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -246,7 +247,7 @@ public class GameContextTest {
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 
 		fullGameContext.reverseOrderPreservingAttackState();
 		EasyMock.verify(mockTurnManager);
@@ -261,12 +262,11 @@ public class GameContextTest {
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
-				mockDeck, mockCurrentPlayer, userInterface);
-
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		fullGameContext.reverseOrderPreservingAttackState();
 		EasyMock.verify(mockTurnManager);
-  }
-  
+	}
+
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
@@ -274,7 +274,7 @@ public class GameContextTest {
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
 		EasyMock.expect(userInterface.getNumericUserInput(
-				"Enter the player you want to get card from"))
+						"Enter the player you want to get card from"))
 				.andReturn(playerIndex);
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
@@ -282,9 +282,11 @@ public class GameContextTest {
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
-		EasyMock.expect(userInterface.getUserInput(
-				"Enter card type you want to give to current player"))
-				.andReturn(cardTypeInput);
+		EasyMock.expect(
+				userInterface.getUserInput(
+						"Enter card type you want to give to current player"
+				)
+		).andReturn(cardTypeInput);
 		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
 				.andReturn(testCardType);
 		EasyMock.expect(mockCardFactory.createCard(testCardType))
@@ -313,7 +315,7 @@ public class GameContextTest {
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
 		EasyMock.expect(userInterface.getNumericUserInput(
-				"Enter the player you want to get card from"))
+						"Enter the player you want to get card from"))
 				.andReturn(playerIndex);
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
@@ -321,9 +323,11 @@ public class GameContextTest {
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
-		EasyMock.expect(userInterface.getUserInput(
-				"Enter card type you want to give to current player"))
-				.andReturn(cardTypeInput);
+		EasyMock.expect(
+				userInterface.getUserInput(
+						"Enter card type you want to give to current player"
+				)
+		).andReturn(cardTypeInput);
 		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
 				.andReturn(testCardType);
 		EasyMock.expect(mockCardFactory.createCard(testCardType))
