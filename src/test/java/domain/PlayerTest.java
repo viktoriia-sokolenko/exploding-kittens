@@ -97,8 +97,7 @@ public class PlayerTest {
 		Player player = new Player(mockHand);
 		player.drawCard(mockDeck);
 
-		EasyMock.verify(mockDeck);
-		EasyMock.verify(mockHand);
+		EasyMock.verify(mockDeck, mockHand);
 	}
 
 	@Test
@@ -122,8 +121,7 @@ public class PlayerTest {
 
 		assertTrue(player.isInGame());
 
-		EasyMock.verify(mockDeck);
-		EasyMock.verify(mockHand);
+		EasyMock.verify(mockDeck, mockHand);
 	}
 
 	@Test
@@ -142,8 +140,7 @@ public class PlayerTest {
 
 		assertFalse(player.isInGame());
 
-		EasyMock.verify(mockDeck);
-		EasyMock.verify(mockHand);
+		EasyMock.verify(mockDeck, mockHand);
 	}
 
 	@Test
