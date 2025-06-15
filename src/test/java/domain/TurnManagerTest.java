@@ -377,7 +377,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void reverseOrder_emptyQueue_throwsIllegalStateException() {
+	public void reverseOrder_emptyQueue_throwsIllegalStateException() {
 		IllegalStateException exception = assertThrows(
 				IllegalStateException.class,
 				() -> turnManager.reverseOrder()
@@ -386,7 +386,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void reverseOrder_withTwoPlayers_orderReverses() {
+	public void reverseOrder_withTwoPlayers_orderReverses() {
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
@@ -399,7 +399,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void reverseOrder_withThreePlayers_orderReverses() {
+	public void reverseOrder_withThreePlayers_orderReverses() {
 		final int THREE_PLAYERS = 3;
 		PlayerManager playerManagerWithThreePlayers = mockPlayerManager(THREE_PLAYERS);
 		turnManager.setPlayerManager(playerManagerWithThreePlayers);
