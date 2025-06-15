@@ -147,7 +147,7 @@ public class GameEngine {
 		deck.shuffleDeck(secureRandom);
 
 		PlayerManager playerManager = new PlayerManager(deck);
-		TurnManager turnManager = new TurnManager(deck);
+		TurnManager turnManager = new TurnManager();
 		playerManager.addPlayers(numberOfPlayers);
 		turnManager.setPlayerManager(playerManager);
 
