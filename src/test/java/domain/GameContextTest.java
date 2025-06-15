@@ -21,6 +21,7 @@ public class GameContextTest {
 	private Deck mockDeck;
 	private UserInterface userInterface;
 	private CardFactory mockCardFactory;
+	private static final int DEFAULT_PLAYERS = 3;
 
 
 	@BeforeEach
@@ -239,10 +240,14 @@ public class GameContextTest {
 	@EnumSource(CardType.class)
 	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
 			CardType testCardType) {
+		EasyMock.expect(mockPlayerManager.getNumberOfPlayers())
+				.andReturn(DEFAULT_PLAYERS);
+
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
 		EasyMock.expect(userInterface.getNumericUserInput(
-				"Enter the player you want to get card from"))
+				"Enter the index of a player you want to get card from (0, 2)",
+						0, 2))
 				.andReturn(playerIndex);
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
@@ -278,10 +283,16 @@ public class GameContextTest {
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	void transferCardBetweenPlayers_withCardInHand_transfersCard(CardType testCardType) {
+		EasyMock.expect(mockPlayerManager.getNumberOfPlayers())
+				.andReturn(DEFAULT_PLAYERS);
+
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
+		String playerInputMessage =
+				"Enter the index of a player you want to get card from (0, 2)";
 		EasyMock.expect(userInterface.getNumericUserInput(
-				"Enter the player you want to get card from"))
+						playerInputMessage,
+						0, 2))
 				.andReturn(playerIndex);
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);

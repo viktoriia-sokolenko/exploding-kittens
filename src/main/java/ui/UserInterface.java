@@ -245,15 +245,22 @@ public class UserInterface {
 		}
 	}
 
-	public int getNumericUserInput(String message) {
+	public int getNumericUserInput(String message, int min, int max) {
 		while (true) {
 			System.out.println(message);
 			System.out.print("> ");
 			String input = scanner.nextLine();
+			String errorMessage = "Please enter a number between "
+					+ min + " and " + max + ".";
 			try {
-				return Integer.parseInt(input);
-			} catch (NumberFormatException ignored) {
-				displayError("Please enter a number between 2 and 5");
+				int inputInt = Integer.parseInt(input);
+				if (inputInt < min || inputInt > max) {
+					displayError(errorMessage);
+				} else {
+					return inputInt;
+				}
+			} catch (NumberFormatException e) {
+				displayError(errorMessage);
 			}
 		}
 	}

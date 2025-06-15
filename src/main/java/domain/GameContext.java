@@ -63,8 +63,10 @@ public class GameContext {
 	}
 
 	public void transferCardBetweenPlayers() {
-		String playerMessage = "Enter the player you want to get card from";
-		Player playerGiver = getPlayerFromUserInput(playerMessage);
+		int maxPlayerIndex = playerManager.getNumberOfPlayers() - 1;
+		String playerMessage = "Enter the index of a player you want to get card from"
+				+ " (0, " + maxPlayerIndex + ")";
+		Player playerGiver = getPlayerFromUserInput(playerMessage, maxPlayerIndex);
 		String cardMessage = "Enter card type you want to give to current player";
 		Card cardToTransfer = getCardFromUserInput(cardMessage, playerGiver);
 		playerGiver.removeCardFromHand(cardToTransfer);
@@ -86,8 +88,8 @@ public class GameContext {
 		return cardFactory.createCard(cardType);
 	}
 
-	private Player getPlayerFromUserInput(String message) {
-		int playerIndex = userInterface.getNumericUserInput(message);
+	private Player getPlayerFromUserInput(String message, int maxPlayerIndex) {
+		int playerIndex = userInterface.getNumericUserInput(message, 0, maxPlayerIndex);
 		return playerManager.getPlayerByIndex(playerIndex);
 	}
 }

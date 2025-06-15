@@ -730,7 +730,7 @@ public class UserInterfaceTest {
 				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 
-		int result = ui.getNumericUserInput(null);
+		int result = ui.getNumericUserInput(null, 0, 1);
 		assertEquals(1, result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 	}
@@ -742,7 +742,7 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface();
 
 		String emptyMessage = "";
-		int result = ui.getNumericUserInput(emptyMessage);
+		int result = ui.getNumericUserInput(emptyMessage, 0, 2);
 		assertEquals(1, result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 	}
@@ -755,7 +755,7 @@ public class UserInterfaceTest {
 
 		UserInterface ui = new UserInterface();
 		String message = "message";
-		int result = ui.getNumericUserInput(message);
+		int result = ui.getNumericUserInput(message, 0, 1);
 
 		assertEquals(0, result);
 
@@ -773,7 +773,8 @@ public class UserInterfaceTest {
 
 		UserInterface ui = new UserInterface();
 		String message = "message";
-		int result = ui.getNumericUserInput(message);
+		final int maxBasedOnMaxNumberOfPlayers = 4;
+		int result = ui.getNumericUserInput(message, 0, maxBasedOnMaxNumberOfPlayers);
 
 		assertEquals(2, result);
 
@@ -791,7 +792,7 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface();
 
 		String message = "message";
-		int result = ui.getNumericUserInput(message);
+		int result = ui.getNumericUserInput(message, 1, 2);
 		assertEquals(2, result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains(message));

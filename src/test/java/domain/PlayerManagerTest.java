@@ -11,6 +11,8 @@ public class PlayerManagerTest {
 	private static final int TOO_MANY_PLAYERS = 6;
 	private static final int DEFAULT_PLAYERS = 3;
 	private static final int FOUR_PLAYERS = 4;
+	private static final int MAX_NUMBER_OF_PLAYERS = 5;
+	private static final int MIN_NUMBER_OF_PLAYERS = 2;
 
 	private PlayerManager playerManager;
 	private Deck mockDeck;
@@ -198,14 +200,14 @@ public class PlayerManagerTest {
 
 	@Test
 	public void getNumberOfPlayers_withMinPlayers_returnsTwo() {
-		playerManager.addPlayers(2);
-		assertEquals(2, playerManager.getNumberOfPlayers());
+		playerManager.addPlayers(MIN_NUMBER_OF_PLAYERS);
+		assertEquals(MIN_NUMBER_OF_PLAYERS, playerManager.getNumberOfPlayers());
 	}
 
 	@Test
 	public void getNumberOfPlayers_withMaxPlayers_returnsFive() {
-		playerManager.addPlayers(5);
-		assertEquals(5, playerManager.getNumberOfPlayers());
+		playerManager.addPlayers(MAX_NUMBER_OF_PLAYERS);
+		assertEquals(MAX_NUMBER_OF_PLAYERS, playerManager.getNumberOfPlayers());
 	}
 
 	private Deck mockDeck() {

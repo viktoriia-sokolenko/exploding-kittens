@@ -133,7 +133,7 @@ These methods share the same structure: they print a line referencing the cardâ€
 | Test Case 3 | message `"message"`, input1 `""`, input2 `"hello world"` | returns ""; stdout repeats "> " and "message" twice       | :white_check_mark: | `getUserInput_withNonEmptyMessageAndEmptyConsoleInput_keepsAskingForInput`  |
 | Test Case 4 | message `"message"`, input `"hello world"`               | returns "hello world"; stdout contains "> " and "message" | :white_check_mark: | `getUserInput_withValidMessageAndInput_returnsConsoleInputAndPrintsMessage` |
 
-## Method under test: `int getNumericUserInput(String message)`
+## Method under test: `int getNumericUserInput(String message, int max, int min)`
 
 ### Step 1-3 Results
 
@@ -145,13 +145,15 @@ These methods share the same structure: they print a line referencing the cardâ€
 
 ### Step 4
 
-|             | System under test                                  | Expected output                                    | Implemented?       | Test name                                                                  |
-|-------------|----------------------------------------------------|----------------------------------------------------|--------------------|----------------------------------------------------------------------------|
-| Test Case 1 | message `null`, input `"1"`                        | returns `1`                                        | :white_check_mark: | `getNumericUserInput_withNullMessage_returnsConsoleInput`                  |
-| Test Case 1 | message `""`, input `"0"`                          | returns 0; stdout contains "> " and "message"      | :white_check_mark: | `getNumericUserInput_withEmptyMessage_returnsConsoleInput`                 |
-| Test Case 1 | message `""`, input1 `"hello world"`, input2 `"0"` | returns 0; stdout contains "> " twice              | :white_check_mark: | `getNumericUserInput_withNonNumericConsoleInput_keepsAskingForInput`       |
-| Test Case 2 | message `"message"`, input1 `""`, input2 `"2"`     | returns 3; stdout repeats "> " and "message" twice | :white_check_mark: | `getNumericUserInput_withEmptyConsoleInput_keepsAskingForInput`            |
-| Test Case 2 | message `"message"`, input `"2"`                   | returns 3; stdout contains "> " and "message"      | :white_check_mark: | `getNumericUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage` |
+|             | System under test                                                    | Expected output                                     | Implemented?       | Test name                                                                  |
+|-------------|----------------------------------------------------------------------|-----------------------------------------------------|--------------------|----------------------------------------------------------------------------|
+| Test Case 1 | message `null`, input `"1"`, min `0`, max `1`                        | returns `1`                                         | :white_check_mark: | `getNumericUserInput_withNullMessage_returnsConsoleInput`                  |
+| Test Case 2 | message `""`, input `"0"`, min `0`, max `2`                          | returns 0; stdout contains "> " and "message"       | :white_check_mark: | `getNumericUserInput_withEmptyMessage_returnsConsoleInput`                 |
+| Test Case 3 | message `""`, input1 `"hello world"`, input2 `"0"`, min `0`, max `1` | returns 0; stdout contains "> " twice               | :white_check_mark: | `getNumericUserInput_withNonNumericConsoleInput_keepsAskingForInput`       |
+| Test Case 4 | message `"message"`, input1 `""`, input2 `"2"`, min `0`, max `4`     | returns 3; stdout repeats "> " and "message" twice  | :white_check_mark: | `getNumericUserInput_withEmptyConsoleInput_keepsAskingForInput`            |
+| Test Case 5 | message `"message"`, input `"2"`, min `1`, max `2`                   | returns 2; stdout contains "> " and "message"       | :white_check_mark: | `getNumericUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage` |
+| Test Case 6 | message `"message"`, input1 `"3"`, input2 `"2"`, min `1`, max `2`    | returns 2; stdout contains "> " and "message" twice | :white_check_mark: | `getNumericUserInput_withInputMoreThanMax_keepsAskingForInput`             |
+| Test Case 7 | message `"message"`, input1 `"0"`, input2 `"1"`, min `1`, max `4`    | returns 1; stdout contains "> " and "message" twice | :white_check_mark: | `getNumericUserInput_withInputLessThanMin_keepsAskingForInput`             |
 
 ## Method under test: `void displayCardsFromDeck(List<Card> cards, int deckSize)`
 
