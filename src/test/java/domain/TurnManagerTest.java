@@ -390,6 +390,15 @@ public class TurnManagerTest {
 		EasyMock.verify(playerManagerWithThreePlayers);
 	}
 
+	@Test
+	public void setRequiredTurns_negativeOne_throwsIllegalArgumentException() {
+		IllegalArgumentException exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> turnManager.setRequiredTurns(-1)
+		);
+		assertTrue(exception.getMessage().contains("Required turns cannot be negative"));
+	}
+
 	private PlayerManager mockPlayerManager(int numPlayers) {
 		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
 		List<Player> players = new ArrayList<>();

@@ -102,6 +102,14 @@ public class TurnManager {
 		return count;
 	}
 
+	public void setRequiredTurns(int requiredTurns) {
+		if (requiredTurns < 0) {
+			throw new IllegalArgumentException("Required turns cannot be negative");
+		}
+		this.requiredTurns = requiredTurns;
+		this.currentPlayerTurnsTaken = 0;
+	}
+
 	public void reverseOrder() {
 		if (turnQueue.isEmpty()) {
 			throw new IllegalStateException("No players to manage");

@@ -246,8 +246,27 @@ in TurnManager.
 
 ### Step 4
 
-| Test Case | System under test                 | Expected behavior                                      | Implemented?        | Test name                                              |
-|-----------|-----------------------------------|--------------------------------------------------------|---------------------|--------------------------------------------------------|
-| 1         | `queue=[]`                        | throws `IllegalStateException("No players to manage")` | :white_check_mark:  | `reverseOrder_emptyQueue_throwsIllegalStateException ` |
-| 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             | :white_check_mark:  | `reverseOrder_withTwoPlayers_orderReverses `           |
-| 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      | :white_check_mark:  | `reverseOrder_withThreePlayers_orderReverses`          |
+| Test Case | System under test                 | Expected behavior                                      | Implemented?       | Test name                                              |
+|-----------|-----------------------------------|--------------------------------------------------------|--------------------|--------------------------------------------------------|
+| 1         | `queue=[]`                        | throws `IllegalStateException("No players to manage")` | :white_check_mark: | `reverseOrder_emptyQueue_throwsIllegalStateException ` |
+| 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             | :white_check_mark: | `reverseOrder_withTwoPlayers_orderReverses `           |
+| 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      | :white_check_mark: | `reverseOrder_withThreePlayers_orderReverses`          |
+
+## Method 11: `public void setRequiredTurns(int requiredTurns)`
+
+### Step 1–3 Results
+
+|            | Input                          | Output / State Change                                                                    |
+|------------|--------------------------------|------------------------------------------------------------------------------------------|
+| **Step 1** | Amount of turns we want to set | set `requiredTurns` to be that number                                                    |
+| **Step 2** | Count                          | Count or Exception                                                                       |
+| **Step 3** | `-1`, `0`, `1`, `2`            | **-1** → throws `IllegalArgumentException("Required turns cannot be negative")`, 0, 1, 2 |
+
+### Step 4
+
+| Test Case | System under test      | Expected behavior                                                      | Implemented?        | Test name                                                      |
+|-----------|------------------------|------------------------------------------------------------------------|---------------------|----------------------------------------------------------------|
+| 1         | `setRequiredTurns(-1)` | throws `IllegalArgumentException("Required turns cannot be negative")` | :white_check_mark:  | `setRequiredTurns_negativeOne_throwsIllegalArgumentException ` |
+| 2         | `setRequiredTurns(0)`  | `requiredTurns == 0`                                                   | no                  | `setRequiredTurns_zero_zeroRequiredTurns`                      |
+| 3         | `setRequiredTurns(1)`  | `requiredTurns == 1`                                                   | no                  | `setRequiredTurns_one_oneRequiredTurns`                        |
+| 4         | `setRequiredTurns(2)`  | `requiredTurns == 2`                                                   | no                  | `setRequiredTurns_two_twoRequiredTurns`                        |
