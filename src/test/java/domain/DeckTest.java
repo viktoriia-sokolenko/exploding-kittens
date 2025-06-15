@@ -705,7 +705,7 @@ public class DeckTest {
 
 	@ParameterizedTest
 	@MethodSource("nonEmptyCardListsWithTwoCards")
-	public void rearrangeTopThreeCards_TwoInDeckWithThreeIndices_throwsIllegalArgumentException(
+	public void rearrangeTopThreeCards_TwoCardsThreeIndices_throwsIllegalArgumentException(
 			List<Card> cards) {
 		Deck deck = new Deck(cards);
 
@@ -718,6 +718,23 @@ public class DeckTest {
 
 		String actualMessage = exception.getMessage();
 		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_ThreeCardsFourIndices_throwsIllegalArgumentException() {
+		Deck deck = deckWithThreeCards();
+
+		String expectedMessage = "Number of indices is larger than the deck size";
+
+		int extraIndex = deck.getDeckSize();
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1, 2, extraIndex));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+
 	}
 
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
