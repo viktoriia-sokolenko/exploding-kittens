@@ -16,9 +16,9 @@ player manager
 
 ### Step 4:
 
-|             | System under test | Expected output / state transition | Implemented? | Test name                                     |
-|-------------|-------------------|------------------------------------|--------------|-----------------------------------------------|
-| Test Case 1 | ReverseCard       | returns non-null object            |              | createEffect_reverseCard_returnsNonNullEffect |
+|             | System under test | Expected output / state transition | Implemented?        | Test name                                     |
+|-------------|-------------------|------------------------------------|---------------------|-----------------------------------------------|
+| Test Case 1 | ReverseCard       | returns non-null object            | :white_check_mark:  | createEffect_reverseCard_returnsNonNullEffect |
 
 # BVA Analysis for ReverseEffect
 ## Method 1: `public void execute(GameContext context)`
