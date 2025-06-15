@@ -2,8 +2,10 @@ package domain;
 
 import ui.UserInterface;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class GameContext {
 	private final TurnManager turnManager;
@@ -71,6 +73,11 @@ public class GameContext {
 
 	public List<Card> viewTopTwoCardsFromDeck() {
 		return deck.peekTopTwoCards();
+	}
+
+	public void shuffleDeckFromDeck() {
+		Random random = new SecureRandom();
+		deck.shuffleDeck(random);
 	}
 
 	private Card getCardFromUserInput(String message, Player player) {

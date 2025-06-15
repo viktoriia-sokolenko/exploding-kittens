@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.List;
+
 public class Player {
 	Hand hand;
 	boolean activeStatus = true;
@@ -33,6 +35,30 @@ public class Player {
 
 	public boolean isInGame() {
 		return activeStatus;
+	}
+
+	public int getNumberOfCards() {
+		return hand.getNumberOfCards();
+	}
+
+	public boolean hasCardType(CardType cardType) {
+		return hand.containsCardType(cardType);
+	}
+
+	public void removeDefuseCard() {
+		hand.removeDefuseCard();
+	}
+
+	public CardType parseCardType(String input) {
+		return hand.parseCardType(input);
+	}
+
+	public List<CardType> getAvailableCardTypes() {
+		return hand.getAvailableCardTypes();
+	}
+
+	public boolean hasEmptyHand() {
+		return hand.isEmpty();
 	}
 
 	private void handleExplodingKitten(Deck deck, Card explodingKittenCard) {

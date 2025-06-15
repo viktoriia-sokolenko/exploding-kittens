@@ -10,19 +10,18 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class TurnManagerTest {
-
 	private TurnManager turnManager;
 	private static final int DEFAULT_NUM_PLAYERS = 3;
 
 	@BeforeEach
-	void setUp() {
+	public void setUp() {
 		Deck deck = EasyMock.createMock(Deck.class);
 		turnManager = new TurnManager(deck);
 	}
 
 
 	@Test
-	void constructor_withNullDeck_throwsNullPointerException() {
+	public void constructor_withNullDeck_throwsNullPointerException() {
 		NullPointerException exception = assertThrows(
 				NullPointerException.class,
 				() -> new TurnManager(null)
@@ -32,14 +31,14 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void setPlayerManager_withNullPlayerManager_throwsNullPointerException() {
+	public void setPlayerManager_withNullPlayerManager_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			turnManager.setPlayerManager(null);
 		});
 	}
 
 	@Test
-	void setPlayerManager_withEmptyPlayerList_throwsIllegalArgumentException() {
+	public void setPlayerManager_withEmptyPlayerList_throwsIllegalArgumentException() {
 		PlayerManager emptyPlayerManager = EasyMock.createMock(PlayerManager.class);
 		List<Player> emptyPlayers = new ArrayList<>();
 		EasyMock.expect(emptyPlayerManager.getPlayers()).andReturn(emptyPlayers);
@@ -55,7 +54,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void setPlayerManager_withValidPlayers_initializesCurrentPlayer() {
+	public void setPlayerManager_withValidPlayers_initializesCurrentPlayer() {
 		PlayerManager playerManagerWithThreePlayers =
 				mockPlayerManager(DEFAULT_NUM_PLAYERS);
 		turnManager.setPlayerManager(playerManagerWithThreePlayers);
@@ -69,7 +68,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void getCurrentActivePlayer_beforeSetup_throwsIllegalStateException() {
+	public void getCurrentActivePlayer_beforeSetup_throwsIllegalStateException() {
 		IllegalStateException exception = assertThrows(
 				IllegalStateException.class,
 				() -> turnManager.getCurrentActivePlayer()
@@ -79,7 +78,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void getCurrentActivePlayer_afterSetup_returnsFirstPlayer() {
+	public void getCurrentActivePlayer_afterSetup_returnsFirstPlayer() {
 		PlayerManager playerManagerWithThreePlayers =
 				mockPlayerManager(DEFAULT_NUM_PLAYERS);
 		turnManager.setPlayerManager(playerManagerWithThreePlayers);
@@ -91,14 +90,14 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void endTurnWithoutDraw_beforeSetup_throwsIllegalStateException() {
+	public void endTurnWithoutDraw_beforeSetup_throwsIllegalStateException() {
 		assertThrows(IllegalStateException.class, () -> {
 			turnManager.endTurnWithoutDraw();
 		});
 	}
 
 	@Test
-	void endTurnWithoutDraw_withTwoPlayers_advancesToNextPlayer() {
+	public void endTurnWithoutDraw_withTwoPlayers_advancesToNextPlayer() {
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 
@@ -114,7 +113,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void endTurnWithoutDraw_withOnePlayer_staysOnSamePlayer() {
+	public void endTurnWithoutDraw_withOnePlayer_staysOnSamePlayer() {
 		PlayerManager playerManager = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManager);
 
@@ -129,14 +128,14 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException() {
+	public void endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException() {
 		assertThrows(IllegalStateException.class, () -> {
 			turnManager.endTurnWithoutDrawForAttacks();
 		});
 	}
 
 	@Test
-	void endTurnWithoutDrawForAttacks_withTwoPlayers_incrementTurnForPlayerTwo() {
+	public void endTurnWithoutDrawForAttacks_withTwoPlayers_incrementTurnForPlayerTwo() {
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 
@@ -154,7 +153,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void endTurnWithoutDrawForAttacks_withThreePlayers_incrementTurnForPlayerThree() {
+	public void endTurnWithoutDrawForAttacks_withThreePlayers_incrementTurnForPlayerThree() {
 		final int PLAYERS_THREE = 3;
 		PlayerManager playerManagerWithThreePlayers = mockPlayerManager(PLAYERS_THREE);
 		turnManager.setPlayerManager(playerManagerWithThreePlayers);
@@ -176,14 +175,14 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void addTurnForCurrentPlayer_beforeSetup_throwsIllegalStateException() {
+	public void addTurnForCurrentPlayer_beforeSetup_throwsIllegalStateException() {
 		assertThrows(IllegalStateException.class, () -> {
 			turnManager.addTurnForCurrentPlayer();
 		});
 	}
 
 	@Test
-	void addTurnForCurrentPlayer_withValidSetup_duplicatesCurrentPlayerInQueue() {
+	public void addTurnForCurrentPlayer_withValidSetup_duplicatesCurrentPlayerInQueue() {
 		PlayerManager playerManagerWithThreePlayers =
 				mockPlayerManager(DEFAULT_NUM_PLAYERS);
 		turnManager.setPlayerManager(playerManagerWithThreePlayers);
@@ -205,14 +204,14 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void syncWith_withNullList_throwsNullPointerException() {
+	public void syncWith_withNullList_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			turnManager.syncWith(null);
 		});
 	}
 
 	@Test
-	void syncWith_withEmptyList_throwsIllegalArgumentException() {
+	public void syncWith_withEmptyList_throwsIllegalArgumentException() {
 		IllegalArgumentException exception = assertThrows(
 				IllegalArgumentException.class,
 				() -> turnManager.syncWith(new ArrayList<>())
@@ -222,7 +221,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void syncWith_withActivePlayers_updatesQueue() {
+	public void syncWith_withActivePlayers_updatesQueue() {
 		PlayerManager playerManagerWithThreePlayers =
 				mockPlayerManager(DEFAULT_NUM_PLAYERS);
 		turnManager.setPlayerManager(playerManagerWithThreePlayers);
@@ -237,14 +236,14 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void getTurnOrder_beforeSetup_throwsIllegalStateException() {
+	public void getTurnOrder_beforeSetup_throwsIllegalStateException() {
 		assertThrows(IllegalStateException.class, () -> {
 			turnManager.getTurnOrder();
 		});
 	}
 
 	@Test
-	void getTurnOrder_afterSetup_returnsCorrectOrder() {
+	public void getTurnOrder_afterSetup_returnsCorrectOrder() {
 		PlayerManager playerManagerWithThreePlayers =
 				mockPlayerManager(DEFAULT_NUM_PLAYERS);
 		turnManager.setPlayerManager(playerManagerWithThreePlayers);
@@ -261,7 +260,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void getTurnsCountFor_nullPlayer_throwsNullPointerException() {
+	public void getTurnsCountFor_nullPlayer_throwsNullPointerException() {
 		NullPointerException exception = assertThrows(NullPointerException.class,
 				() -> turnManager.getTurnsFor(null));
 
@@ -269,7 +268,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void getTurnsCountFor_emptyQueue_returnsZero() {
+	public void getTurnsCountFor_emptyQueue_returnsZero() {
 		Player player = mockPlayer();
 
 		final int EXPECTED_COUNT = 0;
@@ -278,7 +277,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void getTurnsCountFor_playerInQueueWithTwo_returnsOne() {
+	public void getTurnsCountFor_playerInQueueWithTwo_returnsOne() {
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 
@@ -293,7 +292,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void getTurnsCountFor_playerNotInQueueWithTwo_returnsZero() {
+	public void getTurnsCountFor_playerNotInQueueWithTwo_returnsZero() {
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 		Player thirdPlayer = mockPlayer();
@@ -306,7 +305,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo() {
+	public void getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo() {
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 		Player firstPlayer = playerManagerWithTwoPlayers.getPlayers().get(0);
@@ -321,7 +320,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	void getTurnsCountFor_playerInQueueWithFive_returnsOne() {
+	public void getTurnsCountFor_playerInQueueWithFive_returnsOne() {
 		final int PLAYERS_FIVE = 5;
 		PlayerManager playerManagerWithFivePlayers = mockPlayerManager(PLAYERS_FIVE);
 		final int QUEUE_FIVE = 5;
@@ -336,6 +335,24 @@ public class TurnManagerTest {
 		int actualCount = turnManager.getTurnsFor(fifthPlayer);
 		assertEquals(EXPECTED_COUNT, actualCount);
 		EasyMock.verify(playerManagerWithFivePlayers);
+	}
+
+	@Test
+	public void addTurnForCurrentPlayer_withOnePlayer_doesNotAddDuplicateTurn() {
+		PlayerManager playerManager = mockPlayerManager(1);
+		turnManager.setPlayerManager(playerManager);
+		final int ONLY_PLAYER = 0;
+		Player singlePlayer = playerManager.getPlayers().get(ONLY_PLAYER);
+		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
+		final int EXPECTED_COUNT = 1;
+		assertEquals(EXPECTED_COUNT, turnManager.getTurnsFor(singlePlayer));
+		turnManager.addTurnForCurrentPlayer();
+		assertEquals(EXPECTED_COUNT, turnManager.getTurnsFor(singlePlayer));
+		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
+		turnManager.endTurnWithoutDraw();
+		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
+
+		EasyMock.verify(playerManager);
 	}
 
 	private PlayerManager mockPlayerManager(int numPlayers) {

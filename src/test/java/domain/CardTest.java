@@ -5,20 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.easymock.EasyMock;
 
 public class CardTest {
-	private static class TestCard extends Card {
-		public TestCard(CardType cardType) {
-			super(cardType);
-		}
-
-		@Override
-		public CardEffect createEffect() {
-			return new CardEffect() {
-				@Override
-				public void execute(GameContext context) {
-				}
-			};
-		}
-	}
 
 	@Test
 	public void constructor_withNullType_throwsNullPointerException() {
@@ -84,5 +70,68 @@ public class CardTest {
 		CardType type = CardType.ATTACK;
 		Card card = new TestCard(type);
 		assertEquals(type, card.getCardType());
+	}
+
+	@Test
+	public void equals_compareWithDifferentCardSubclass_returnsFalse() {
+		CardType type = CardType.NORMAL;
+		Card card1 = new TestCard(type);
+		Card card2 = new AnotherTestCard(type);
+		assertNotEquals(card1, card2);
+	}
+
+	@Test
+	public void equals_compareWithDifferentCardType_returnsFalse() {
+		Card card1 = new TestCard(CardType.NORMAL);
+		Card card2 = new TestCard(CardType.ATTACK);
+		assertNotEquals(card1, card2);
+	}
+
+	@Test
+	public void equals_nullCheckComesBefore_CheckIfClassesNotEqual() {
+		Card card = new TestCard(CardType.NORMAL);
+
+		assertFalse(card.equals(null));
+		boolean result = card.equals(null);
+		assertFalse(result);
+	}
+
+	@Test
+	public void equals_checkIfTwoCardsAreEqual_returnsTrue() {
+		Card card1 = new TestCard(CardType.NORMAL);
+		Card card2 = new TestCard(CardType.NORMAL);
+
+		assertTrue(card1.equals(card2));
+		assertTrue(card2.equals(card1));
+	}
+
+	private static class TestCard extends Card {
+		public TestCard(CardType cardType) {
+			super(cardType);
+		}
+
+		@Override
+		public CardEffect createEffect() {
+			return new CardEffect() {
+				@Override
+				public void execute(GameContext context) {
+				}
+			};
+		}
+	}
+
+	private static class AnotherTestCard extends Card {
+		public AnotherTestCard(CardType cardType) {
+			super(cardType);
+		}
+
+		@Override
+		public CardEffect createEffect() {
+			return new CardEffect() {
+				@Override
+				public void execute(GameContext context) {
+				}
+			};
+		}
 	}
 }

@@ -9,6 +9,7 @@ import ui.UserInterface;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -219,6 +220,21 @@ public class GameContextTest {
 		EasyMock.verify(mockDeck);
 	}
 
+	@Test
+	void shuffleDeckFromDeck_withFullContext_callShuffleDeck() {
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		mockDeck.shuffleDeck(EasyMock.anyObject(Random.class));
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck);
+
+		fullGameContext.shuffleDeckFromDeck();
+
+		EasyMock.verify(mockDeck);
+	}
+
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
@@ -305,4 +321,5 @@ public class GameContextTest {
 		EasyMock.replay(mockCard);
 		return mockCard;
 	}
+
 }
