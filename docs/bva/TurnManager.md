@@ -48,7 +48,7 @@
 
 ---
 
-## Method 2: `public Player getCurrentActivePlayer()`
+## Method 2: `public Player geTest Case urrentActivePlayer()`
 
 ### Step 1–3 Results
 
@@ -60,11 +60,11 @@
 
 ### Step 4
 
-| Test Case | System under test                 | Expected behavior                                             | Implemented? | Test name                                               |
-|-----------|-----------------------------------|---------------------------------------------------------------|--------------|---------------------------------------------------------|
-| 1         | before any `setPlayerManager`     | throws `IllegalStateException("TurnManager not initialized")` | no           | `getCurrentActivePlayer_beforeSetup_throwsException`    |
-| 2         | after `setPlayerManager([p1])`    | returns `p1`                                                  | no           | `getCurrentActivePlayer_singlePlayer_returnsThatPlayer` |
-| 3         | after `setPlayerManager([p1,p2])` | returns `p1`                                                  | no           | `getCurrentActivePlayer_multiPlayers_initialFirst`      |
+| Test Case | System under test                 | Expected behavior                                             | Implemented? | Test name                                                       |
+|-----------|-----------------------------------|---------------------------------------------------------------|--------------|-----------------------------------------------------------------|
+| 1         | before any `setPlayerManager`     | throws `IllegalStateException("TurnManager not initialized")` | no           | `geTest Case urrentActivePlayer_beforeSetup_throwsException`    |
+| 2         | after `setPlayerManager([p1])`    | returns `p1`                                                  | no           | `geTest Case urrentActivePlayer_singlePlayer_returnsThatPlayer` |
+| 3         | after `setPlayerManager([p1,p2])` | returns `p1`                                                  | no           | `geTest Case urrentActivePlayer_multiPlayers_initialFirst`      |
 
 ---
 
@@ -173,7 +173,7 @@
 |-----------|--------------------------------|----------------------------------------------------------|--------------|-----------------------------------------------------|
 | 1         | `syncWith(null)`               | throws `NullPointerException`                            | no           | `syncWith_null_throwsNullPointerException`          |
 | 2         | `syncWith([])`                 | throws `IllegalArgumentException("No players provided")` | no           | `syncWith_emptyList_throwsIllegalArgumentException` |
-| 3         | `syncWith([oldCurrent,p2,p3])` | `queue` matches input; `current == oldCurrent`           | no           | `syncWith_includesCurrent_keepsOrderAndCurrent`     |
+| 3         | `syncWith([oldCurrent,p2,p3])` | `queue` maTest Case hes input; `current == oldCurrent`   | no           | `syncWith_includesCurrent_keepsOrderAndCurrent`     |
 | 4         | `syncWith([p2,p3])`            | `queue = [p2,p3]`; `current == p2`                       | no           | `syncWith_excludesOldCurrent_setsNewCurrent`        |
 | 5         | `syncWith([p3,p1,p2])`         | `queue = [p3,p1,p2]`; `current == p3`                    | no           | `syncWith_reordersQueue_updatesCurrent`             |
 
@@ -218,14 +218,14 @@ in TurnManager.
 
 ### Step 4
 
-|             | System Under Test                                                            | Expected Output                                 | Implemented?       | Test Name                                                   |
-|-------------|------------------------------------------------------------------------------|-------------------------------------------------|--------------------|-------------------------------------------------------------|
-| Test Case 1 | `player = null`, queue is empty                                              | `NullPointerException("Player Cannot be Null")` | :white_check_mark: | `getTurnsCountFor_nullPlayer_throwsNullPointerException`    |
-| Test Case 2 | `player = player`, queue is `[]`                                             | `0`                                             | :white_check_mark: | `getTurnsCountFor_emptyQueue_returnsZero`                   |
-| Test Case 3 | `player = player1`, queue is `[player1, player2]`                            | `1`                                             | :white_check_mark: | `getTurnsCountFor_playerInQueueWithTwo_returnsOne`          |
-| Test Case 4 | `player = player3`, queue is `[player1, player2]`                            | `0`                                             | :white_check_mark: | `getTurnsCountFor_playerNotInQueueWithTwo_returnsZero`      |
-| Test Case 5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark: | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo` |
-| Test Case 6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             | :white_check_mark: | `getTurnsCountFor_playerInQueueWithFive_retur nsOne`        |
+|              | System Under Test                                                            | Expected Output                                 | Implemented?       | Test Name                                                   |
+|--------------|------------------------------------------------------------------------------|-------------------------------------------------|--------------------|-------------------------------------------------------------|
+| Test Case  1 | `player = null`, queue is empty                                              | `NullPointerException("Player Cannot be Null")` | :white_check_mark: | `getTurnsCountFor_nullPlayer_throwsNullPointerException`    |
+| Test Case  2 | `player = player`, queue is `[]`                                             | `0`                                             | :white_check_mark: | `getTurnsCountFor_emptyQueue_returnsZero`                   |
+| Test Case  3 | `player = player1`, queue is `[player1, player2]`                            | `1`                                             | :white_check_mark: | `getTurnsCountFor_playerInQueueWithTwo_returnsOne`          |
+| Test Case  4 | `player = player3`, queue is `[player1, player2]`                            | `0`                                             | :white_check_mark: | `getTurnsCountFor_playerNotInQueueWithTwo_returnsZero`      |
+| Test Case  5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark: | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo` |
+| Test Case  6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             | :white_check_mark: | `getTurnsCountFor_playerInQueueWithFive_retur nsOne`        |
 
 # Method 10: `public void reverseOrder()`
 
@@ -254,6 +254,8 @@ in TurnManager.
 
 ## Method 10: `public boolean public boolean isUnderAttack()`
 
+### Step 1–3 Results
+
 |        | Input 1                  | Input 2                                      | Expected output                                                       |
 |--------|--------------------------|----------------------------------------------|-----------------------------------------------------------------------|
 | Step 1 | Required number of turns | Number of turns the current player has taken | Returns `true` if player still has pending turns due to attack effect |
@@ -265,23 +267,20 @@ in TurnManager.
 |        | `3`                      | `3`                                          | `false` (All turns taken)                                             |
 |        | `3`                      | `0`, `1`, `2`                                | `true` (Still has remaining turns to take)                            |
 
-| | Input 1 (`requiredTurns`) | Input 2 (`currentPlayerTurnsTaken`) | System under test | Expected output |
-Implemented? | Test name |
-| | ------------------------- | ----------------------------------- | ----------------- | --------------- | ------------ | ---------------------------------------------------- |
-| Test Case 1 | `1`                       | `0`                                 | `isUnderAttack()` | `false`         |
-no | `isUnderAttack_defaultTurn_returnsFalse`             |
-| Test Case 2 | `2`                       | `0`                                 | `isUnderAttack()` | `true`          |
-no | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
-| Test Case 3 | `2`                       | `1`                                 | `isUnderAttack()` | `true`          |
-no | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
-| Test Case 4 | `2`                       | `2`                                 | `isUnderAttack()` | `false`         |
-no | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
-| Test Case 5 | `3`                       | `3`                                 | `isUnderAttack()` | `false`         |
-no | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
-| Test Case 6 | `3`                       | `1`                                 | `isUnderAttack()` | `true`          |
-no | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
+### Step 4
+
+|             | System under test                               | Expected output | Implemented? | Test name                                            |
+|-------------|-------------------------------------------------|-----------------|--------------|------------------------------------------------------|
+| Test Case 1 | `requireTurns=1`, `currentPlayerTurnsTaken = 0` | `false`         | no           | `isUnderAttack_defaultTurn_returnsFalse`             |
+| Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `true`          | no           | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
+| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `true`          | no           | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
+| Test Case 4 | `requireTurns=2`, `currentPlayerTurnsTaken = 2` | `false`         | no           | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
+| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 3` | `false`         | no           | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
+| Test Case 6 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `true`          | no           | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
 
 ## Method 11: `public void incrementTurnsTaken()`
+
+### Step 1–3 Results
 
 |        | Input 1                           | Input 2                               | Expected Result / State Change                                                       |
 |--------|-----------------------------------|---------------------------------------|--------------------------------------------------------------------------------------|
@@ -291,3 +290,14 @@ no | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
 |        | `requiredTurns = 2`               | `0`                                   | Incremented to 1; no advancement; `requiredTurns = 2`, `currentPlayerTurnsTaken = 1` |
 |        | `requiredTurns = 2`               | `1`                                   | Incremented to 2; advancement triggered; values reset                                |
 |        | `requiredTurns = 3`               | `2`                                   | Incremented to 3; advancement triggered; values reset                                |
+
+### Step 4
+
+|             | System under test                               | Expected output / state change                                                     | Implemented? | Test name                                                             |
+|-------------|-------------------------------------------------|------------------------------------------------------------------------------------|--------------|-----------------------------------------------------------------------|
+| Test Case 1 | `requireTurns=1`, `currentPlayerTurnsTaken = 0` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | no           | `incrementTurnsTaken_defaultTurn_advancesAndResets`                   |
+| Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `currentPlayerTurnsTaken = 1`; no advancement                                      | no           | `incrementTurnsTaken_partialAttackTurn_doesNotAdvance`                |
+| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | no           | `incrementTurnsTaken_finalAttackTurn_advancesAndResets`               |
+| Test Case 4 | `requireTurns=3`, `currentPlayerTurnsTaken = 2` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | no           | `incrementTurnsTaken_finalTurnOfMultipleTurnAttack_advancesAndResets` |
+| Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `currentPlayerTurnsTaken = 2`; no advancement                                      | no           | `incrementTurnsTaken_midAttack_doesNotAdvance`                        |
+
