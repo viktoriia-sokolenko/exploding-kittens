@@ -196,6 +196,12 @@ public class PlayerManagerTest {
 		assertEquals(0, playerManager.getNumberOfPlayers());
 	}
 
+	@Test
+	public void getNumberOfPlayers_withMinPlayers_returnsTwo() {
+		playerManager.addPlayers(2);
+		assertEquals(2, playerManager.getNumberOfPlayers());
+	}
+
 	private Deck mockDeck() {
 		return EasyMock.createMock(Deck.class);
 	}
