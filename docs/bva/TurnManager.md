@@ -276,7 +276,7 @@ in TurnManager.
 | Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `true`          | :white_check_mark:  | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
 | Test Case 4 | `requireTurns=2`, `currentPlayerTurnsTaken = 2` | `false`         | :white_check_mark:  | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
 | Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 3` | `false`         | :white_check_mark:  | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
-| Test Case 6 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `true`          | no                  | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
+| Test Case 6 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `true`          | :white_check_mark:  | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
 
 ## Method 11: `public void incrementTurnsTaken()`
 
