@@ -4,6 +4,8 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.plaf.TableHeaderUI;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
@@ -65,6 +67,25 @@ public class TurnManagerTest {
 		assertEquals(players.get(0), currentPlayer);
 
 		EasyMock.verify(playerManagerWithThreePlayers);
+	}
+
+	@Test
+	public void setPlayerManager_calledTwice_turnQueueClearedBetweenCalls() {
+		final int THREE_PLAYERS = 3;
+		final int TWO_PLAYERS = 2;
+		PlayerManager firstPlayerManager = mockPlayerManager(THREE_PLAYERS);
+		PlayerManager secondPlayerManager = mockPlayerManager(TWO_PLAYERS);
+
+		turnManager.setPlayerManager(firstPlayerManager);
+		turnManager.setPlayerManager(secondPlayerManager);
+
+		Player currentPlayer = turnManager.getCurrentActivePlayer();
+		assertNotNull(currentPlayer);
+		List<Player> playersFromSecondPlayerManager = secondPlayerManager.getPlayers();
+
+		assertEquals(playersFromSecondPlayerManager.get(0), currentPlayer);
+
+		EasyMock.verify(firstPlayerManager, secondPlayerManager);
 	}
 
 	@Test
@@ -353,6 +374,214 @@ public class TurnManagerTest {
 		assertEquals(singlePlayer, turnManager.getCurrentActivePlayer());
 
 		EasyMock.verify(playerManager);
+	}
+
+	@Test
+	public void reverseOrder_emptyQueue_throwsIllegalStateException() {
+		IllegalStateException exception = assertThrows(
+				IllegalStateException.class,
+				() -> turnManager.reverseOrder()
+		);
+		assertTrue(exception.getMessage().contains("No players to manage"));
+	}
+
+	@Test
+	public void reverseOrder_withTwoPlayers_orderReverses() {
+		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
+		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
+		Player firstPlayer = players.get(0);
+		Player secondPlayer = players.get(1);
+		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+		turnManager.reverseOrder();
+		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
+		EasyMock.verify(playerManagerWithTwoPlayers);
+	}
+
+	@Test
+	public void reverseOrder_withThreePlayers_orderReverses() {
+		final int THREE_PLAYERS = 3;
+		PlayerManager playerManagerWithThreePlayers = mockPlayerManager(THREE_PLAYERS);
+		turnManager.setPlayerManager(playerManagerWithThreePlayers);
+		List<Player> players = playerManagerWithThreePlayers.getPlayers();
+		Player firstPlayer = players.get(0);
+		Player thirdPlayer = players.get(2);
+		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+		turnManager.reverseOrder();
+		assertEquals(thirdPlayer, turnManager.getCurrentActivePlayer());
+		EasyMock.verify(playerManagerWithThreePlayers);
+	}
+
+	@Test
+	public void isUnderAttack_defaultTurn_returnsFalse() {
+		turnManager.setRequiredTurns(1);
+		turnManager.setCurrentPlayerTurnsTaken(0);
+		boolean result = turnManager.isUnderAttack();
+		assertFalse(result);
+	}
+
+	@Test
+	public void isUnderAttack_requiredTwoTakenZero_returnsTrue() {
+		turnManager.setRequiredTurns(2);
+		turnManager.setCurrentPlayerTurnsTaken(0);
+		boolean result = turnManager.isUnderAttack();
+		assertTrue(result);
+	}
+
+	@Test
+	public void isUnderAttack_requiredTwoTakenOne_returnsTrue() {
+		turnManager.setRequiredTurns(2);
+		turnManager.setCurrentPlayerTurnsTaken(1);
+		boolean result = turnManager.isUnderAttack();
+		assertTrue(result);
+	}
+
+	@Test
+	public void isUnderAttack_requiredTwoTakenTwo_returnsFalse() {
+		turnManager.setRequiredTurns(2);
+		turnManager.setCurrentPlayerTurnsTaken(2);
+		boolean result = turnManager.isUnderAttack();
+		assertFalse(result);
+	}
+
+	@Test
+	public void isUnderAttack_requiredThreeTakenThree_returnsFalse() {
+		final int THREE_REQUIRED_TURNS = 3;
+		final int THREE_TURN_COUNT = 3;
+		turnManager.setRequiredTurns(THREE_REQUIRED_TURNS);
+		turnManager.setCurrentPlayerTurnsTaken(THREE_TURN_COUNT);
+		boolean result = turnManager.isUnderAttack();
+		assertFalse(result);
+	}
+
+	@Test
+	public void isUnderAttack_requiredThreeTakenOne_returnsTrue() {
+		final int THREE_REQUIRED_TURNS = 3;
+		turnManager.setRequiredTurns(THREE_REQUIRED_TURNS);
+		turnManager.setCurrentPlayerTurnsTaken(1);
+		boolean result = turnManager.isUnderAttack();
+		assertTrue(result);
+	}
+
+	@Test
+	public void incrementTurnsTaken_defaultTurn_advancesAndResets() {
+		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
+		Player initialPlayer = turnManager.getCurrentActivePlayer();
+
+		turnManager.setRequiredTurns(1);
+		turnManager.setCurrentPlayerTurnsTaken(0);
+		turnManager.incrementTurnsTaken();
+
+		Player newPlayer = turnManager.getCurrentActivePlayer();
+
+		assertNotEquals(initialPlayer, newPlayer);
+		assertEquals(1, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
+	}
+
+	@Test
+	public void incrementTurnsTaken_partialAttackTurn_doesNotAdvance() {
+		turnManager.setRequiredTurns(2);
+		turnManager.setCurrentPlayerTurnsTaken(0);
+		turnManager.incrementTurnsTaken();
+
+		assertEquals(1, turnManager.getCurrentPlayerTurnsTaken());
+		assertEquals(2, turnManager.getRequiredTurns());
+	}
+
+	@Test
+	public void incrementTurnsTaken_finalAttackTurn_advancesAndResets() {
+		turnManager.setRequiredTurns(2);
+		turnManager.setCurrentPlayerTurnsTaken(1);
+		turnManager.incrementTurnsTaken();
+
+		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
+		assertEquals(1, turnManager.getRequiredTurns());
+	}
+
+	@Test
+	public void incrementTurnsTaken_finalTurnOfMultipleTurnAttack_advancesAndResets() {
+		final int THREE_REQUIRED_TURNS = 3;
+		turnManager.setRequiredTurns(THREE_REQUIRED_TURNS);
+		turnManager.setCurrentPlayerTurnsTaken(2);
+		turnManager.incrementTurnsTaken();
+
+		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
+		assertEquals(1, turnManager.getRequiredTurns());
+	}
+
+	@Test
+	public void incrementTurnsTaken_midAttack_doesNotAdvance() {
+		final int THREE_REQUIRED_TURNS = 3;
+		turnManager.setRequiredTurns(THREE_REQUIRED_TURNS);
+		turnManager.setCurrentPlayerTurnsTaken(1);
+		turnManager.incrementTurnsTaken();
+
+		assertEquals(2, turnManager.getCurrentPlayerTurnsTaken());
+		assertEquals(THREE_REQUIRED_TURNS, turnManager.getRequiredTurns());
+	}
+
+	@Test
+	public void setRequiredTurns_negativeOne_throwsIllegalArgumentException() {
+		IllegalArgumentException exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> turnManager.setRequiredTurns(-1)
+		);
+		assertTrue(exception.getMessage().contains("Required turns cannot be negative"));
+	}
+
+	@Test
+	public void setRequiredTurns_zero_zeroRequiredTurns() {
+		turnManager.setRequiredTurns(0);
+		assertEquals(0, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getTurnsFor(mockPlayer()));
+	}
+
+	@Test
+	public void setRequiredTurns_one_oneRequiredTurns() {
+		turnManager.setRequiredTurns(1);
+		assertEquals(1, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getTurnsFor(mockPlayer()));
+	}
+
+	@Test
+	public void setRequiredTurns_two_twoRequiredTurns() {
+		final int TWO_TURNS = 2;
+		turnManager.setRequiredTurns(TWO_TURNS);
+		assertEquals(TWO_TURNS, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getTurnsFor(mockPlayer()));
+	}
+
+	@Test
+	public void setCurrentPlayerTurnsTaken_negativeOne_throwsIllegalArgumentException() {
+		IllegalArgumentException exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> turnManager.setCurrentPlayerTurnsTaken(-1)
+		);
+		assertTrue(
+				exception.getMessage().contains(
+						"Current player turns taken cannot be negative"
+				)
+		);
+	}
+
+	@Test
+	public void setCurrentPlayerTurnsTaken_zero_zeroTurnsTaken() {
+		turnManager.setCurrentPlayerTurnsTaken(0);
+		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
+	}
+
+	@Test
+	public void setCurrentPlayerTurnsTaken_one_oneTurnsTaken() {
+		turnManager.setCurrentPlayerTurnsTaken(1);
+		assertEquals(1, turnManager.getCurrentPlayerTurnsTaken());
+	}
+
+	@Test
+	public void setCurrentPlayerTurnsTaken_two_twoTurnsTaken() {
+		turnManager.setCurrentPlayerTurnsTaken(2);
+		assertEquals(2, turnManager.getCurrentPlayerTurnsTaken());
 	}
 
 	private PlayerManager mockPlayerManager(int numPlayers) {

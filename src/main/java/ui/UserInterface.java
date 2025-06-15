@@ -157,6 +157,11 @@ public class UserInterface {
 				System.out.println("   " +
 						"→ Nuclear option - ends the game!");
 				break;
+			case REVERSE:
+				System.out.println("   " +
+						"→ Reverse the order of play " +
+						"and end your turn without drawing a card");
+				break;
 			case NORMAL:
 				System.out.println("   " +
 						"→ Just a cute cat - no special effect");
@@ -186,6 +191,8 @@ public class UserInterface {
 				return "Alter the Future";
 			case NUKE:
 				return "Nuke";
+			case REVERSE:
+				return "Reverse";
 			case NORMAL:
 				return "Normal Cat";
 			default:
