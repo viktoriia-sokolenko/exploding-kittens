@@ -42,7 +42,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayWelcome_printsExpectedHeader() {
+	public void displayWelcome_printsExpectedHeader() {
 		UserInterface ui = new UserInterface();
 		assertDoesNotThrow(ui::displayWelcome);
 		String out = outContent.toString(StandardCharsets.UTF_8);
@@ -52,7 +52,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayHelp_printsAllCommands() {
+	public void displayHelp_printsAllCommands() {
 		UserInterface ui = new UserInterface();
 		ui.displayHelp();
 		String out = outContent.toString(StandardCharsets.UTF_8);
@@ -66,7 +66,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayError_printsToStderr() {
+	public void displayError_printsToStderr() {
 		UserInterface ui = new UserInterface();
 		ui.displayError("oops");
 		String err = errContent.toString(StandardCharsets.UTF_8);
@@ -74,7 +74,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void getUserInput_readsLineAndPrompts() {
+	public void getUserInput_readsLineAndPrompts() {
 		System.setIn(new ByteArrayInputStream("hello world\n"
 				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
@@ -84,7 +84,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void getNumberOfPlayers_validFirst_tryReturnsImmediately() {
+	public void getNumberOfPlayers_validFirst_tryReturnsImmediately() {
 		System.setIn(new ByteArrayInputStream("3\n"
 				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
@@ -95,7 +95,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void getNumberOfPlayers_invalidThenValid_promptsUntilGood() {
+	public void getNumberOfPlayers_invalidThenValid_promptsUntilGood() {
 		String input = String.join("\n",
 				"foo", "6", "2");
 		System.setIn(new ByteArrayInputStream((input + "\n")
@@ -113,7 +113,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_emptyHand_showsEmptyMessage() {
+	public void displayPlayerHand_emptyHand_showsEmptyMessage() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 		Player player = new Player(hand);
@@ -127,7 +127,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayCardPlayed_showCorrectText() {
+	public void displayCardPlayed_showCorrectText() {
 		UserInterface ui = new UserInterface();
 		Card card = new SkipCard();
 
@@ -138,7 +138,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_singleCard_showsCardWithoutCount() {
+	public void displayPlayerHand_singleCard_showsCardWithoutCount() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
@@ -153,7 +153,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_multipleCardsOfSameType_showsCount() {
+	public void displayPlayerHand_multipleCardsOfSameType_showsCount() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
@@ -169,7 +169,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_multipleDifferentCards_showsAll() {
+	public void displayPlayerHand_multipleDifferentCards_showsAll() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
@@ -186,7 +186,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayCardPlayed_andDrawnCard_showCorrectText() {
+	public void displayCardPlayed_andDrawnCard_showCorrectText() {
 		UserInterface ui = new UserInterface();
 		Card card = new SkipCard();
 
@@ -201,7 +201,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayDrawnCard_explodingKitten_printsSpecialMessage() {
+	public void displayDrawnCard_explodingKitten_printsSpecialMessage() {
 		UserInterface ui = new UserInterface();
 		Card card = new ExpoldingKittenCard();
 
@@ -213,7 +213,7 @@ public class UserInterfaceTest {
 
 
 	@Test
-	void displayCardPlayed_printsCardWithEffect() {
+	public void displayCardPlayed_printsCardWithEffect() {
 		UserInterface ui = new UserInterface();
 		Card card = new SkipCard();
 
@@ -225,7 +225,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayCardEffect_allCardTypes_printsCorrectEffects() {
+	public void displayCardEffect_allCardTypes_printsCorrectEffects() {
 		UserInterface ui = new UserInterface();
 
 		ui.displayCardEffect(CardType.ATTACK);
@@ -280,7 +280,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void formatCardName_allCardTypes_returnsCorrectFormat() {
+	public void formatCardName_allCardTypes_returnsCorrectFormat() {
 		UserInterface ui = new UserInterface();
 		assertEquals("Exploding Kitten",
 				ui.formatCardName(CardType.EXPLODING_KITTEN));
@@ -300,7 +300,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displaySuccess_printsSuccessMessage() {
+	public void displaySuccess_printsSuccessMessage() {
 		UserInterface ui = new UserInterface();
 		String testMessage = "You played: SKIP";
 
@@ -311,7 +311,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayWarning_printsWarningMessage() {
+	public void displayWarning_printsWarningMessage() {
 		UserInterface ui = new UserInterface();
 		String testMessage = "There are only a few cards left in the deck";
 
@@ -324,7 +324,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayTurnStart_printsCorrectTurnInfo() {
+	public void displayTurnStart_printsCorrectTurnInfo() {
 		UserInterface ui = new UserInterface();
 		final int CURRENT_PLAYER = 2;
 		final int TOTAL_PLAYERS = 4;
@@ -337,7 +337,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayDeckEmpty_printsWarningMessage() {
+	public void displayDeckEmpty_printsWarningMessage() {
 		UserInterface ui = new UserInterface();
 
 		ui.displayDeckEmpty();
@@ -348,7 +348,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayDefuseUsed_printsDefuseMessage() {
+	public void displayDefuseUsed_printsDefuseMessage() {
 		UserInterface ui = new UserInterface();
 
 		ui.displayDefuseUsed();
@@ -360,7 +360,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerEliminated_printsPlayerEliminatedMessage() {
+	public void displayPlayerEliminated_printsPlayerEliminatedMessage() {
 		UserInterface ui = new UserInterface();
 
 		ui.displayPlayerEliminated();
@@ -372,7 +372,7 @@ public class UserInterfaceTest {
 
 
 	@Test
-	void displayGameEnd_withWinner_printsVictoryMessage() {
+	public void displayGameEnd_withWinner_printsVictoryMessage() {
 		UserInterface ui = new UserInterface();
 
 		ui.displayGameEnd(true);
@@ -385,7 +385,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayGameEnd_noWinner_printsGameOverMessage() {
+	public void displayGameEnd_noWinner_printsGameOverMessage() {
 		UserInterface ui = new UserInterface();
 		final int NUMBER_OF_EQUAL_SIGNS = 50;
 		ui.displayGameEnd(false);
@@ -398,7 +398,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void getNumberOfPlayers_minimumBoundary_acceptsMinimumValue() {
+	public void getNumberOfPlayers_minimumBoundary_acceptsMinimumValue() {
 		System.setIn(new ByteArrayInputStream("2\n".getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 		int numberOfPlayers = ui.getNumberOfPlayers();
@@ -408,7 +408,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void getNumberOfPlayers_belowMinimum_rejectsAndPrompts() {
+	public void getNumberOfPlayers_belowMinimum_rejectsAndPrompts() {
 		String input = String.join("\n", "1", "2");
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
@@ -421,7 +421,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void getNumberOfPlayers_maximumBoundary_acceptsMaximumValue() {
+	public void getNumberOfPlayers_maximumBoundary_acceptsMaximumValue() {
 		System.setIn(new ByteArrayInputStream("5\n".getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 		int numberOfPlayers = ui.getNumberOfPlayers();
@@ -431,7 +431,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void getNumberOfPlayers_aboveMaximum_rejectsAndPrompts() {
+	public void getNumberOfPlayers_aboveMaximum_rejectsAndPrompts() {
 		String input = String.join("\n", "6", "3");
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
@@ -444,7 +444,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_singleCard_doesNotDisplayOtherCardTypes() {
+	public void displayPlayerHand_singleCard_doesNotDisplayOtherCardTypes() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
@@ -462,7 +462,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_multipleCards_onlyShowsPlayerCards() {
+	public void displayPlayerHand_multipleCards_onlyShowsPlayerCards() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
@@ -482,7 +482,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_verifiesExactCountDisplay() {
+	public void displayPlayerHand_verifiesExactCountDisplay() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
@@ -502,7 +502,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_mixedCards_showsCorrectCounts() {
+	public void displayPlayerHand_mixedCards_showsCorrectCounts() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 
@@ -526,7 +526,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void formatCardName_verifyExactStringMatching() {
+	public void formatCardName_verifyExactStringMatching() {
 		UserInterface ui = new UserInterface();
 		assertEquals("Skip", ui.formatCardName(CardType.SKIP));
 		assertNotEquals("SKIP", ui.formatCardName(CardType.SKIP));
@@ -539,7 +539,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void formatCardName_defaultCase_returnsToString() {
+	public void formatCardName_defaultCase_returnsToString() {
 		UserInterface ui = new UserInterface();
 
 		for (CardType type : CardType.values()) {
@@ -554,7 +554,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_verifyNullCountHandling() {
+	public void displayPlayerHand_verifyNullCountHandling() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 		Player player = new Player(hand);
@@ -574,7 +574,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_countIntegerNullHandling_specific() {
+	public void displayPlayerHand_countIntegerNullHandling_specific() {
 		UserInterface ui = new UserInterface();
 
 		Hand emptyHand = new Hand();
@@ -589,7 +589,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_ternaryOperatorBehavior() {
+	public void displayPlayerHand_ternaryOperatorBehavior() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
@@ -608,7 +608,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_nullCountHandling_PrintsCorrectHand() {
+	public void displayPlayerHand_nullCountHandling_PrintsCorrectHand() {
 		UserInterface ui = new UserInterface();
 		final int NUMBER_OF_CARDS = 1;
 		final int NO_CARDS = 0;
@@ -640,7 +640,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	void displayPlayerHand_nullCardType_printsCorrectHand() {
+	public void displayPlayerHand_nullCardType_printsCorrectHand() {
 		UserInterface ui = new UserInterface();
 		final int NUMBER_OF_CARDS = 2;
 		final int NO_CARDS = 0;
@@ -670,5 +670,132 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Attack"));
 
 		EasyMock.verify(mockPlayer);
+	}
+
+	@Test
+	public void getUserInput_withNullMessageAndNonEmptyConsoleInput_returnsConsoleInput() {
+		System.setIn(new ByteArrayInputStream("hello world\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		String result = ui.getUserInput(null);
+		assertEquals("hello world", result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+	}
+
+	@Test
+	public void getUserInput_withEmptyMessageAndNonEmptyConsoleInput_returnsConsoleInput() {
+		System.setIn(new ByteArrayInputStream("hello world\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		String emptyMessage = "";
+		String result = ui.getUserInput(emptyMessage);
+		assertEquals("hello world", result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+	}
+
+	@Test
+	public void getUserInput_withNonEmptyMessageAndEmptyConsoleInput_keepsAskingForInput() {
+		String input = String.join("\n", "", "hello world");
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		String message = "message";
+		String result = ui.getUserInput(message);
+
+		assertEquals("hello world", result);
+
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		int promptCount = output.split("> ", -1).length - 1;
+		final int EXPECTED_PROMPTS = 2;
+		assertEquals(EXPECTED_PROMPTS, promptCount);
+	}
+
+	@Test
+	public void getUserInput_withValidMessageAndInput_returnsConsoleInputAndPrintsMessage() {
+		System.setIn(new ByteArrayInputStream("hello world\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		String message = "message";
+		String result = ui.getUserInput(message);
+		assertEquals("hello world", result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains(message));
+	}
+
+	@Test
+	public void getNumericUserInput_withNullMessage_returnsConsoleInput() {
+		System.setIn(new ByteArrayInputStream("1\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		int result = ui.getNumericUserInput(null);
+		assertEquals(1, result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+	}
+
+	@Test
+	public void getNumericUserInput_withEmptyMessage_returnsConsoleInput() {
+		System.setIn(new ByteArrayInputStream("1\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		String emptyMessage = "";
+		int result = ui.getNumericUserInput(emptyMessage);
+		assertEquals(1, result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+	}
+
+	@Test
+	public void getNumericUserInput_withNonNumericConsoleInput_keepsAskingForInput() {
+		String input = String.join("\n", "hello world", "0");
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		String message = "message";
+		int result = ui.getNumericUserInput(message);
+
+		assertEquals(0, result);
+
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		int promptCount = output.split("> ", -1).length - 1;
+		final int EXPECTED_PROMPTS = 2;
+		assertEquals(EXPECTED_PROMPTS, promptCount);
+	}
+
+	@Test
+	public void getNumericUserInput_withEmptyConsoleInput_keepsAskingForInput() {
+		String input = String.join("\n", "", "2");
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		String message = "message";
+		int result = ui.getNumericUserInput(message);
+
+		assertEquals(2, result);
+
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(output.contains(message));
+		int promptCount = output.split("> ", -1).length - 1;
+		final int EXPECTED_PROMPTS = 2;
+		assertEquals(EXPECTED_PROMPTS, promptCount);
+	}
+
+	@Test
+	public void getNumericUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage() {
+		System.setIn(new ByteArrayInputStream("2\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+
+		String message = "message";
+		int result = ui.getNumericUserInput(message);
+		assertEquals(2, result);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
+		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains(message));
 	}
 }

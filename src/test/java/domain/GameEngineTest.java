@@ -66,7 +66,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	void constructor_withNullPlayerManager_throwsNullPointerException() {
+	public void constructor_withNullPlayerManager_throwsNullPointerException() {
 		NullPointerException ex = assertThrows(
 				NullPointerException.class,
 				() -> new GameEngine(
@@ -82,7 +82,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	void constructor_withNullDeck_throwsNullPointerException() {
+	public void constructor_withNullDeck_throwsNullPointerException() {
 		NullPointerException ex = assertThrows(
 				NullPointerException.class,
 				() -> new GameEngine(
@@ -98,7 +98,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	void constructor_withNullUI_allowsNullUI() {
+	public void constructor_withNullUI_allowsNullUI() {
 		assertDoesNotThrow(() -> new GameEngine(
 				mockTurnManager,
 				mockPlayerManager,
@@ -110,7 +110,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	void constructor_withNullCardFactory_throwsNullPointerException() {
+	public void constructor_withNullCardFactory_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () ->
 				new GameEngine(
 						mockTurnManager,
@@ -122,7 +122,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	void playCard_withNullPlayer_throwsNullPointerException() {
+	public void playCard_withNullPlayer_throwsNullPointerException() {
 		SkipCard mockSkipCard = EasyMock.createMock(SkipCard.class);
 
 		NullPointerException exception = assertThrows(
@@ -134,7 +134,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	void playCard_withNullCard_throwsNullPointerException() {
+	public void playCard_withNullCard_throwsNullPointerException() {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 
 		NullPointerException exception = assertThrows(
@@ -146,7 +146,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	void playCard_playerHasCard_executesCardEffect() {
+	public void playCard_playerHasCard_executesCardEffect() {
 		Hand hand = new Hand();
 		Player player = new Player(hand);
 		SkipCard skipCard = new SkipCard();

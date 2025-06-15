@@ -232,4 +232,28 @@ public class UserInterface {
 		System.out.println("Thanks for playing Exploding Kittens!");
 		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS) + "\n");
 	}
+
+	public String getUserInput(String message) {
+		while (true) {
+			System.out.println(message);
+			System.out.print("> ");
+			String input = scanner.nextLine();
+			if (!input.isEmpty()) {
+				return input;
+			}
+		}
+	}
+
+	public int getNumericUserInput(String message) {
+		while (true) {
+			System.out.println(message);
+			System.out.print("> ");
+			String input = scanner.nextLine();
+			try {
+				return Integer.parseInt(input);
+			} catch (NumberFormatException ignored) {
+				displayError("Please enter a number between 2 and 5");
+			}
+		}
+	}
 }

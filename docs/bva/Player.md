@@ -63,6 +63,24 @@ possible card types, **except** `Exploding Kitten`, and cards with those types.
 | Test Case 3 | Card `testCard1`, hand `without testCard1` | `IllegalArgumentException` (“Card not in hand: can not remove card”) | :white_check_mark: | removeCardFromHand_withCardNotInHand_throwsIllegalArgumentException |
 | Test Case 4 | Card `testCard2`, hand `[...testCard2...]` | hand `without testCard2`                                             | :white_check_mark: | removeCardFromHand_withCardInHand_removesCard                       |
 
+## Method under test: `addCardToHand(Card card)`
+
+### Step 1-3 Results
+
+|        | Input                                                                                                        | Output                                                        | 
+|--------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| Step 1 | Card                                                                                                         | the state of the hand (does hand has added card) or Exception |
+| Step 2 | Cases                                                                                                        | Boolean or Exception                                          |
+| Step 3 | null, NORMAL, EXPLODING_KITTEN, DEFUSE, ATTACK, SKIP, FAVOR, SHUFFLE, SEE_THE_FUTURE, ALTER_THE_FUTURE, NUKE | true, false or IllegalArgumentException                       |
+
+### Step 4:
+
+|             | System under test (pre-state)         | Expected output / state transition                                          | Implemented?       | Test name                                                            |
+|-------------|---------------------------------------|-----------------------------------------------------------------------------|--------------------|----------------------------------------------------------------------|
+| Test Case 1 | Hand `[...]`, card `null`             | `NullPointerException` ("Card cannot be null")                              | :white_check_mark: | addCardToHand_withNullCard_throwsNullPointerException                |
+| Test Case 2 | Hand `[...]`, card `testCard1`        | Hand `[...testCard1]`                                                       | :white_check_mark: | addCardToHand_withValidCard_insertsCard                              |
+| Test Case 3 | Hand `[...]`, card `EXPLODING_KITTEN` | `IllegalArgumentException` ("Exploding Kitten should not be added to Hand") | :white_check_mark: | addCardToHand_withExplodingKittenCard_throwsIllegalArgumentException |
+
 ## Method under test: `getNumberOfCards()`
 
 ### Step 1‑3 Results
@@ -80,8 +98,6 @@ possible card types, **except** `Exploding Kitten`, and cards with those types.
 | Test Case 1 | Hand with **5** cards  | `5`             | :white_check_mark:  | `getNumberOfCards_fiveCardsInHand_returnsFive`       |
 | Test Case 2 | Hand with **15** cards | `15`            | :white_check_mark:  | `getNumberOfCards_fifteenCardsInHand_returnsFifteen` |
 | Test Case 3 | Hand with **0** cards  | `0`             | :white_check_mark:  | `getNumberOfCards_zeroCardsInHand_returnsZero`       |
-
----
 
 ## Method under test: `hasCardType(CardType cardType)`
 
