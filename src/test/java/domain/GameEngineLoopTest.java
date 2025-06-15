@@ -113,16 +113,16 @@ public class GameEngineLoopTest {
 	@Test
 	public void runGameLoop_withEliminationThenQuit_invokesCorrectMethods()
 			throws Exception {
-		Player elim   = EasyMock.createMock(Player.class);
+		Player eliminated   = EasyMock.createMock(Player.class);
 		Player active = EasyMock.createMock(Player.class);
 
-		EasyMock.expect(elim.isInGame()).andReturn(false);
+		EasyMock.expect(eliminated.isInGame()).andReturn(false);
 		EasyMock.expect(active.isInGame()).andReturn(true);
 		EasyMock.expect(mockTurnManager.getCurrentActivePlayer())
-				.andReturn(elim).andReturn(active);
+				.andReturn(eliminated).andReturn(active);
 		EasyMock.expect(mockUI.getUserInput()).andReturn("quit");
 
-		EasyMock.replay(mockTurnManager, mockUI, elim, active);
+		EasyMock.replay(mockTurnManager, mockUI, eliminated, active);
 
 		TestableGameEngine engine = new TestableGameEngine(
 				mockTurnManager, mockPlayerManager, mockDeck, mockUI,
@@ -136,7 +136,7 @@ public class GameEngineLoopTest {
 		assertEquals(ONE_CYCLE, engine.processCount);
 		assertEquals(ONE_CYCLE, engine.checkCount);
 
-		EasyMock.verify(mockTurnManager, mockUI, elim, active);
+		EasyMock.verify(mockTurnManager, mockUI, eliminated, active);
 	}
 
 	@Test
@@ -170,26 +170,26 @@ public class GameEngineLoopTest {
 	public
 	void initializeGame_dealsCardsAddsDefuseInsertsExplodingKittensAndShowsHelp
 			() {
-		Player p1 = EasyMock.createMock(Player.class);
-		Player p2 = EasyMock.createMock(Player.class);
-		List<Player> players = List.of(p1, p2);
+		Player player1 = EasyMock.createMock(Player.class);
+		Player player2 = EasyMock.createMock(Player.class);
+		List<Player> players = List.of(player1, player2);
 		int playerCount   = players.size();
 		int explodingCount = playerCount - ONE_CYCLE;
 
 		EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(players);
 
-		p1.drawCard(mockDeck);
+		player1.drawCard(mockDeck);
 		EasyMock.expectLastCall().times(INITIAL_HAND_SIZE);
-		p2.drawCard(mockDeck);
+		player2.drawCard(mockDeck);
 		EasyMock.expectLastCall().times(INITIAL_HAND_SIZE);
 
 		Card defuseCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockFactory.createCard(CardType.DEFUSE))
 				.andReturn(defuseCard).times(playerCount);
 
-		p1.addCardToHand(defuseCard);
+		player1.addCardToHand(defuseCard);
 		EasyMock.expectLastCall();
-		p2.addCardToHand(defuseCard);
+		player2.addCardToHand(defuseCard);
 		EasyMock.expectLastCall();
 
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(DECK_SIZE);
@@ -202,7 +202,7 @@ public class GameEngineLoopTest {
 		mockUI.displayHelp();
 		EasyMock.expectLastCall();
 
-		EasyMock.replay(mockPlayerManager, mockDeck, p1, p2,
+		EasyMock.replay(mockPlayerManager, mockDeck, player1, player2,
 				mockFactory, mockUI);
 
 		TestableGameEngine engine = new TestableGameEngine(
@@ -214,7 +214,7 @@ public class GameEngineLoopTest {
 
 		assertTrue(engine.getIsGameRunning());
 
-		EasyMock.verify(mockPlayerManager, mockDeck, p1, p2,
+		EasyMock.verify(mockPlayerManager, mockDeck, player1, player2,
 				mockFactory, mockUI);
 	}
 
@@ -275,9 +275,9 @@ public class GameEngineLoopTest {
 	}
 
 	private Method getMainMethod() throws Exception {
-		Method m = GameEngine.class.getDeclaredMethod(
+		Method method = GameEngine.class.getDeclaredMethod(
 				"main", String[].class);
-		m.setAccessible(true);
-		return m;
+		method.setAccessible(true);
+		return method;
 	}
 }
