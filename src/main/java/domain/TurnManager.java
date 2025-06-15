@@ -53,7 +53,7 @@ public class TurnManager {
 		this.addTurnForCurrentPlayer();
 	}
 
-	private void advanceToNextPlayer() {
+	public void advanceToNextPlayer() {
 		Player current = turnQueue.poll();
 		turnQueue.offer(current);
 		this.currentPlayer = turnQueue.peek();
