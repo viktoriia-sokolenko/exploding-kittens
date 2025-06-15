@@ -275,7 +275,7 @@ public class GameContextTest {
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
+	public void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
 			CardType testCardType) {
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
@@ -317,7 +317,7 @@ public class GameContextTest {
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	void transferCardBetweenPlayers_withCardInHand_transfersCard(CardType testCardType) {
+	public void transferCardBetweenPlayers_withCardInHand_transfersCard(CardType testCardType) {
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
 		EasyMock.expect(userInterface.getNumericUserInput(
