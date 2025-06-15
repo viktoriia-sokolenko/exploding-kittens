@@ -191,6 +191,8 @@ public class UserInterface {
 				return "Alter the Future";
 			case NUKE:
 				return "Nuke";
+			case REVERSE:
+				return "Reverse";
 			case NORMAL:
 				return "Normal Cat";
 			default:
