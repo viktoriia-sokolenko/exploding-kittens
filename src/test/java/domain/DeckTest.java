@@ -931,6 +931,20 @@ public class DeckTest {
 		assertEquals(previousTopCards.get(2), nextTopCards.get(1));
 	}
 
+	@Test
+	public void rearrangeTopThreeCards_deckWithFourCardsAndSameIndices_orderRemainsTheSame()
+	{
+		Deck deck = deckWithFourCardsAndDuplicate();
+
+		int indexOfNewTopCard = deck.getDeckSize() - 1;
+		List<Integer> listOfIndices = new ArrayList<>(List.of(indexOfNewTopCard, 2, 1));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+		assertEquals(previousTopCards, nextTopCards);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
