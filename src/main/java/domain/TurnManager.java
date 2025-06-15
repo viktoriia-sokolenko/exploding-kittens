@@ -102,29 +102,6 @@ public class TurnManager {
 		return count;
 	}
 
-	public void setRequiredTurns(int requiredTurns) {
-		if (requiredTurns < 0) {
-			throw new IllegalArgumentException("Required turns cannot be negative");
-		}
-		this.requiredTurns = requiredTurns;
-		this.currentPlayerTurnsTaken = 0;
-	}
-
-	public void setCurrentPlayerTurnsTaken(int currentPlayerTurnsTaken) {
-		if (currentPlayerTurnsTaken < 0) {
-			throw new IllegalArgumentException("Current player turns taken cannot be negative");
-		}
-		this.currentPlayerTurnsTaken = currentPlayerTurnsTaken;
-	}
-
-	public int getRequiredTurns() {
-		return requiredTurns;
-	}
-
-	public int getCurrentPlayerTurnsTaken() {
-		return currentPlayerTurnsTaken;
-	}
-
 	public void reverseOrder() {
 		if (turnQueue.isEmpty()) {
 			throw new IllegalStateException("No players to manage");
