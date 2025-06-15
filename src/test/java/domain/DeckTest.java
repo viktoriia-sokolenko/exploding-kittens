@@ -685,6 +685,23 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void rearrangeTopThreeCards_deckWithOneCardWithTwoIndices_throwsIllegalArgumentException(CardType testCardType) {
+		Card testCard = mockCard(testCardType);
+		Deck deck = new Deck(List.of(testCard));
+
+		String expectedMessage = "Number of indices is larger than the deck size";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
