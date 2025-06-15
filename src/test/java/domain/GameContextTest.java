@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import ui.UserInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -36,35 +37,35 @@ public class GameContextTest {
 	}
 
 	@Test
-	void constructor_withValidPlayer_createsGameContext() {
+	public void constructor_withValidPlayer_createsGameContext() {
 		assertNotNull(gameContext);
 	}
 
 	@Test
-	void constructor_withNullPlayer_throwsNullPointerException() {
+	public void constructor_withNullPlayer_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			new GameContext(null);
 		});
 	}
 
 	@Test
-	void getCurrentPlayer_returnsCurrentPlayer() {
+	public void getCurrentPlayer_returnsCurrentPlayer() {
 		Player result = gameContext.getCurrentPlayer();
 		assertEquals(mockCurrentPlayer, result);
 	}
 
 	@Test
-	void endTurnWithoutDrawing_doesNotThrowException() {
+	public void endTurnWithoutDrawing_doesNotThrowException() {
 		assertDoesNotThrow(() -> gameContext.endTurnWithoutDrawing());
 	}
 
 	@Test
-	void endTurnWithoutDrawingForAttacks_doesNotThrowException() {
+	public void endTurnWithoutDrawingForAttacks_doesNotThrowException() {
 		assertDoesNotThrow(() -> gameContext.endTurnWithoutDrawingForAttacks());
 	}
 
 	@Test
-	void constructor_withValidParameters_createsGameContext() {
+	public void constructor_withValidParameters_createsGameContext() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -73,7 +74,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void constructor_withNullTurnManager_throwsNullPointerException() {
+	public void constructor_withNullTurnManager_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			new GameContext(null, mockPlayerManager,
 					mockDeck, mockCurrentPlayer,
@@ -82,7 +83,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void constructor_withNullPlayerManager_throwsNullPointerException() {
+	public void constructor_withNullPlayerManager_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			new GameContext(mockTurnManager, null, mockDeck,
 					mockCurrentPlayer, userInterface, mockCardFactory);
@@ -90,7 +91,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void constructor_withNullDeck_throwsNullPointerException() {
+	public void constructor_withNullDeck_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			new GameContext(mockTurnManager, mockPlayerManager, null,
 					mockCurrentPlayer, userInterface, mockCardFactory);
@@ -98,7 +99,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void constructor_withNullCurrentPlayer_throwsNullPointerException() {
+	public void constructor_withNullCurrentPlayer_throwsNullPointerException() {
 		assertThrows(NullPointerException.class, () -> {
 			new GameContext(mockTurnManager, mockPlayerManager, mockDeck,
 					null, userInterface, mockCardFactory);
@@ -106,7 +107,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void fullConstructor_withNullUI_allowsNullUI() {
+	public void fullConstructor_withNullUI_allowsNullUI() {
 		assertDoesNotThrow(() -> {
 			new GameContext(mockTurnManager, mockPlayerManager, mockDeck,
 					mockCurrentPlayer, null, mockCardFactory);
@@ -114,7 +115,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void addTurnForCurrentPlayer_withFullContext_callsTurnManager() {
+	public void addTurnForCurrentPlayer_withFullContext_callsTurnManager() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -129,12 +130,12 @@ public class GameContextTest {
 	}
 
 	@Test
-	void addTurnForCurrentPlayer_withSimpleContext_doesNotThrowException() {
+	public void addTurnForCurrentPlayer_withSimpleContext_doesNotThrowException() {
 		assertDoesNotThrow(() -> gameContext.addTurnForCurrentPlayer());
 	}
 
 	@Test
-	void endTurnWithoutDrawing_withFullContext_callsTurnManager() {
+	public void endTurnWithoutDrawing_withFullContext_callsTurnManager() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -149,7 +150,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void endTurnWithoutDrawingForAttacks_withFullContext_callsTurnManager() {
+	public void endTurnWithoutDrawingForAttacks_withFullContext_callsTurnManager() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -164,7 +165,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException() {
+	public void viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -179,7 +180,8 @@ public class GameContextTest {
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+	public void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard(
+			CardType testCardType) {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -192,7 +194,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void viewTopTwoCardsFromDeck_deckWithTwoCards_returnsTwoLastCards() {
+	public void viewTopTwoCardsFromDeck_deckWithTwoCards_returnsTwoLastCards() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -207,7 +209,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsDuplicates() {
+	public void viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsDuplicates() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -222,7 +224,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void shuffleDeckFromDeck_withFullContext_callShuffleDeck() {
+	public void shuffleDeckFromDeck_withFullContext_callShuffleDeck() {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -238,7 +240,7 @@ public class GameContextTest {
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
+	public void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
 			CardType testCardType) {
 		EasyMock.expect(mockPlayerManager.getNumberOfPlayers())
 				.andReturn(DEFAULT_PLAYERS);
@@ -282,7 +284,7 @@ public class GameContextTest {
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	void transferCardBetweenPlayers_withCardInHand_transfersCard(CardType testCardType) {
+	public void transferCardBetweenPlayers_withCardInHand_transfersCard(CardType testCardType) {
 		EasyMock.expect(mockPlayerManager.getNumberOfPlayers())
 				.andReturn(DEFAULT_PLAYERS);
 
@@ -324,6 +326,42 @@ public class GameContextTest {
 
 		EasyMock.verify(mockPlayerGiver, mockCurrentPlayer,
 				userInterface, mockCardFactory, mockPlayerManager);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void rearrangeTopThreeCardsFromDeck_oneCardDeck_callsRearrangeTopThreeCards(
+			CardType testCardType
+	) {
+		Card mockCard = mockCard(testCardType);
+		List<Card> oneCardList = new ArrayList<>(List.of(mockCard));
+
+		EasyMock.expect(mockDeck.peekTopThreeCards())
+				.andReturn(oneCardList);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(1).anyTimes();
+
+		userInterface.displayCardsFromDeck(oneCardList, 1);
+		EasyMock.expectLastCall().once();
+
+		String messageForPlayer = "Enter the index of a card " +
+						"that you want to put in position 0 " +
+						"starting from the top of the Deck.\n" +
+						"Only possible indexes are from 0 to 0.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				messageForPlayer, 0, 0)).andReturn(0);
+
+		List<Integer> indices = List.of(0);
+		mockDeck.rearrangeTopThreeCards(indices);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.rearrangeTopThreeCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
 	}
 
 	private Card mockCard(CardType cardType) {

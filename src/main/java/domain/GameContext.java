@@ -3,6 +3,7 @@ package domain;
 import ui.UserInterface;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -82,6 +83,14 @@ public class GameContext {
 		deck.shuffleDeck(random);
 	}
 
+	public void rearrangeTopThreeCardsFromDeck() {
+		List<Card> topThreeCards = deck.peekTopThreeCards();
+		userInterface.displayCardsFromDeck(topThreeCards,
+				deck.getDeckSize());
+		List<Integer> indices = getIndicesFromUserInput(topThreeCards);
+		deck.rearrangeTopThreeCards(indices);
+	}
+
 	private Card getCardFromUserInput(String message, Player player) {
 		String cardTypeInput = userInterface.getUserInput(message);
 		CardType cardType = player.parseCardType(cardTypeInput);
@@ -91,5 +100,30 @@ public class GameContext {
 	private Player getPlayerFromUserInput(String message, int maxPlayerIndex) {
 		int playerIndex = userInterface.getNumericUserInput(message, 0, maxPlayerIndex);
 		return playerManager.getPlayerByIndex(playerIndex);
+	}
+
+	private List<Integer> getIndicesFromUserInput(List<Card> topThreeCards) {
+		int deckSize = deck.getDeckSize();
+
+		final int cardsToRearrange = topThreeCards.size();
+		int minCardIndex = deckSize - cardsToRearrange;
+		int maxCardIndex = deckSize - 1;
+
+		List<Integer> indices = new ArrayList<>();
+
+		for (int i = 0; i < cardsToRearrange; i++) {
+			String messageForPlayer =
+					"Enter the index of a card " +
+							"that you want to put in position " +
+							i +
+							" starting from the top of the Deck.\n" +
+							"Only possible indexes are from " +
+							minCardIndex +
+							" to " + maxCardIndex + ".";
+			indices.add(userInterface.getNumericUserInput
+					(messageForPlayer, minCardIndex, maxCardIndex));
+		}
+
+		return indices;
 	}
 }
