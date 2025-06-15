@@ -267,6 +267,12 @@ public class GameContextTest {
 		EasyMock.verify(mockTurnManager);
 	}
 
+	@Test
+	public void reverseOrderPreservingAttackState_nullTurnManager_doesNothing() {
+		GameContext fullGameContext = new GameContext(mockCurrentPlayer);
+		assertDoesNotThrow(() -> fullGameContext.reverseOrderPreservingAttackState());
+	}
+
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
