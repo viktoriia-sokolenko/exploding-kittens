@@ -799,6 +799,25 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void getNumericUserInput_withInputMoreThanMax_keepsAskingForInput() {
+		String input = String.join("\n", "3", "2");
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		String message = "message";
+		int result = ui.getNumericUserInput(message, 1, 2);
+
+		assertEquals(2, result);
+
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(output.contains(message));
+		int promptCount = output.split("> ", -1).length - 1;
+		final int EXPECTED_PROMPTS = 2;
+		assertEquals(EXPECTED_PROMPTS, promptCount);
+	}
+
+	@Test
 	public void displayCardsFromDeck_withEmptyCards_printsNoCardsMessage() {
 		UserInterface ui = new UserInterface();
 		List<Card> emptyCards = new ArrayList<>();
