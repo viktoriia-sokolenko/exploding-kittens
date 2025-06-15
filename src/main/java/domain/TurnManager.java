@@ -3,14 +3,12 @@ package domain;
 import java.util.*;
 
 public class TurnManager {
-	private final Deck deck;
 	private final Queue<Player> turnQueue;
 	private int currentPlayerTurnsTaken;
 	private int requiredTurns;
 	private Player currentPlayer;
 
-	public TurnManager(Deck deck) {
-		this.deck = Objects.requireNonNull(deck, "Deck cannot be null");
+	public TurnManager() {
 		this.turnQueue = new LinkedList<>();
 		this.currentPlayer = null;
 	}
@@ -42,7 +40,11 @@ public class TurnManager {
 			throw new IllegalStateException("No players to manage");
 		}
 
-		advanceToNextPlayer();
+		if (isUnderAttack()) {
+			incrementTurnsTaken();
+		} else {
+			advanceToNextPlayer();
+		}
 	}
 
 	public void endTurnWithoutDrawForAttacks() {

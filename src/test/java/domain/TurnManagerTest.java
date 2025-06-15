@@ -4,8 +4,6 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.plaf.TableHeaderUI;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
@@ -17,19 +15,7 @@ public class TurnManagerTest {
 
 	@BeforeEach
 	public void setUp() {
-		Deck deck = EasyMock.createMock(Deck.class);
-		turnManager = new TurnManager(deck);
-	}
-
-
-	@Test
-	public void constructor_withNullDeck_throwsNullPointerException() {
-		NullPointerException exception = assertThrows(
-				NullPointerException.class,
-				() -> new TurnManager(null)
-		);
-
-		assertEquals("Deck cannot be null", exception.getMessage());
+		turnManager = new TurnManager();
 	}
 
 	@Test
@@ -118,7 +104,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	public void endTurnWithoutDraw_withTwoPlayers_advancesToNextPlayer() {
+	public void endTurnWithoutDraw_withTwoPlayersNotAttacked_advancesToNextPlayer() {
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 
@@ -134,7 +120,7 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	public void endTurnWithoutDraw_withOnePlayer_staysOnSamePlayer() {
+	public void endTurnWithoutDraw_withOnePlayerNotAttacked_staysOnSamePlayer() {
 		PlayerManager playerManager = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManager);
 
@@ -146,6 +132,19 @@ public class TurnManagerTest {
 		assertEquals(remainingPlayer, turnManager.getCurrentActivePlayer());
 
 		EasyMock.verify(playerManager);
+	}
+
+	@Test
+	public void endTurnWithoutDraw_underAttack_callsIncrementTurnsTaken() {
+		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
+
+		turnManager.setRequiredTurns(2);
+		turnManager.setCurrentPlayerTurnsTaken(0);
+		turnManager.endTurnWithoutDraw();
+
+		assertEquals(1, turnManager.getCurrentPlayerTurnsTaken()); // no advance
+		EasyMock.verify(playerManagerWithTwoPlayers);
 	}
 
 	@Test

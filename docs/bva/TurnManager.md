@@ -107,7 +107,7 @@
 | 1         | `queue=[]`, before setUp                          | throws `IllegalStateException("No players to manage")`                         | :white_check_mark: | `endTurnWithoutDraw_beforeSetup_throwsIllegalStateException `        |
 | 2         | `queue=[player1, player2]`, `isUnderAttack=False` | rotates: removes `player1` + re-add to back; `current == player2`              | :white_check_mark: | `endTurnWithoutDraw_withTwoPlayersNotAttacked_advancesToNextPlayer ` |
 | 3         | `queue=[player1]`, `isUnderAttack=False`          | stays on same player, `current==player1`                                       | :white_check_mark: | `endTurnWithoutDraw_withOnePlayerNotAttacked_staysOnSamePlayer  `    |
-| 4         | `isUnderAttack=True`                              | since player is played under attack, it should call incrementTurnsTaken method |  | `endTurnWithoutDraw_underAttack_callsIncrementTurnsTaken `           |
+| 4         | `isUnderAttack=True`                              | since player is played under attack, it should call incrementTurnsTaken method | :white_check_mark: | `endTurnWithoutDraw_underAttack_callsIncrementTurnsTaken `           |
 
 ---
 
