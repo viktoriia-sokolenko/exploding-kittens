@@ -273,7 +273,7 @@ in TurnManager.
 |-------------|-------------------------------------------------|-----------------|---------------------|------------------------------------------------------|
 | Test Case 1 | `requireTurns=1`, `currentPlayerTurnsTaken = 0` | `false`         | :white_check_mark:  | `isUnderAttack_defaultTurn_returnsFalse`             |
 | Test Case 2 | `requireTurns=2`, `currentPlayerTurnsTaken = 0` | `true`          | :white_check_mark:  | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
-| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `true`          | no                  | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
+| Test Case 3 | `requireTurns=2`, `currentPlayerTurnsTaken = 1` | `true`          | :white_check_mark:  | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
 | Test Case 4 | `requireTurns=2`, `currentPlayerTurnsTaken = 2` | `false`         | no                  | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
 | Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 3` | `false`         | no                  | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
 | Test Case 6 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `true`          | no                  | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
