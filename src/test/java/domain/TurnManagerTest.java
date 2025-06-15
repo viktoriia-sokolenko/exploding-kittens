@@ -422,6 +422,14 @@ public class TurnManagerTest {
 		assertFalse(result);
 	}
 
+	@Test
+	public void isUnderAttack_requiredThreeTakenThree_returnsFalse() {
+		turnManager.setRequiredTurns(3);
+		turnManager.setCurrentPlayerTurnsTaken(3);
+		boolean result = turnManager.isUnderAttack();
+		assertFalse(result);
+	}
+
 	private PlayerManager mockPlayerManager(int numPlayers) {
 		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
 		List<Player> players = new ArrayList<>();
