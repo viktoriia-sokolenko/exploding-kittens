@@ -6,6 +6,7 @@ import domain.Player;
 import domain.Card;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -255,5 +256,12 @@ public class UserInterface {
 				displayError("Please enter a number between 2 and 5");
 			}
 		}
+	}
+
+	public void displayCardsFromDeck(List<Card> cards, int deckSize) {
+		if (deckSize < 0) {
+			throw new IllegalArgumentException ("deckSize can not be negative");
+		}
+		System.out.println("No cards to view");
 	}
 }

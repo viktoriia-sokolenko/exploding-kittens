@@ -1,17 +1,15 @@
 package domain;
 
-import domain.*;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import ui.UserInterface;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -797,5 +795,35 @@ public class UserInterfaceTest {
 		assertEquals(2, result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains(message));
+	}
+
+	@Test
+	public void displayCardsFromDeck_withEmptyCards_printsNoCardsMessage() {
+		UserInterface ui = new UserInterface();
+		List<Card> emptyCards = new ArrayList<>();
+
+		ui.displayCardsFromDeck(emptyCards, 1);
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("No cards to view"));
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void displayCardsFromDeck_withNegativeDeckSize_throwsIllegalArgumentException(
+			CardType testCardType) {
+		UserInterface ui = new UserInterface();
+
+		Card testCard = mockCard(testCardType);
+		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
+
+		assertThrows(IllegalArgumentException.class,
+				() -> ui.displayCardsFromDeck(oneCardList, -1));
+	}
+
+	private Card mockCard(CardType cardType) {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+		EasyMock.replay(mockCard);
+		return mockCard;
 	}
 }
