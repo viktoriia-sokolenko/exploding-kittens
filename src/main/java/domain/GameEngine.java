@@ -175,9 +175,11 @@ public class GameEngine {
 	public void displayGameState(Player currentPlayer) {
 		final int NUMBER_OF_EQUAL_SIGNS = 40;
 		System.out.println("\n" + "=".repeat(NUMBER_OF_EQUAL_SIGNS));
-		System.out.println("Current Player's Turn");
+		int currentPlayerIndex = playerManager.getPlayers().indexOf(currentPlayer);
+		System.out.println("Turn of player " + currentPlayerIndex);
 		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS));
 		System.out.println("Players remaining: " + playerManager.getActivePlayers().size());
+		displayIndexesOfActivePlayers();
 		System.out.println("Cards in deck: " + deck.getDeckSize());
 		userInterface.displayPlayerHand(currentPlayer);
 	}
@@ -355,9 +357,20 @@ public class GameEngine {
 		}
 	}
 
+	private void displayIndexesOfActivePlayers() {
+		List<Player> allPlayers = playerManager.getPlayers();
+		List<Integer> activePlayerIndexes = new ArrayList<>();
+		for (int i = 0; i < allPlayers.size(); i++) {
+			if (allPlayers.get(i).isInGame()) {
+				activePlayerIndexes.add(i);
+			}
+		}
+		System.out.println("Active players indices: " + activePlayerIndexes);
+	}
+
 	public static void main(String[] args) {
 		GameEngine game = createNewGame();
 		game.initializeGame();
 		game.runGameLoop();
-		}
+	}
 }
