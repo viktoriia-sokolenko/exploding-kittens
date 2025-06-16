@@ -33,10 +33,11 @@ available card types.
 
 ### Step 4:
 
-|             | System under test                                                     | Expected output / state transition                                      | Implemented?       | Test name                                                                   |
-|-------------|-----------------------------------------------------------------------|-------------------------------------------------------------------------|--------------------|-----------------------------------------------------------------------------|
-| Test Case 1 | Card `[testCard]`, playerGiver hand `without testCard`, currentPlayer | `IllegalArgumentException` (“Card not in hand: can not remove card”)    | :white_check_mark: | transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException |
-| Test Case 2 | Card `[testCard]`, playerGiver hand `[...testCard]`, currentPlayer    | playerGiver hand `without testCard`, currentPlayer hand `[...testCard]` | :white_check_mark: | transferCardBetweenPlayers_withCardInHand_transfersCard                     |
+|             | System under test                                                     | Expected output / state transition                                                 | Implemented?       | Test name                                                                     |
+|-------------|-----------------------------------------------------------------------|------------------------------------------------------------------------------------|--------------------|-------------------------------------------------------------------------------|
+| Test Case 1 | Card `[testCard]`, playerGiver hand `without testCard`, currentPlayer | `IllegalArgumentException` (“Card not in hand: can not remove card”)               | :white_check_mark: | transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException   |
+| Test Case 2 | Card `[testCard]`, playerGiver hand `[...testCard]`, currentPlayer    | playerGiver hand `without testCard`, currentPlayer hand `[...testCard]`            | :white_check_mark: | transferCardBetweenPlayers_withCardInHand_transfersCard                       |
+| Test Case 3 | User inputs invalid card type                                         | IllegalArgumentException("Inputted card type is invalid or was not found in Hand") | :white_check_mark: | transferCardBetweenPlayers_withInvalidCardType_throwsIllegalArgumentException |
 
 ## Method 3: `public List<Card> viewTopTwoCardsFromDeck()`
 
@@ -73,7 +74,7 @@ available card types.
 |-------------|---------------------------|------------------------------------|--------------------|-------------------------------------------------------|
 | Test Case 1 | Context fully initialized | calls `shuffleDeck` from Deck      | :white_check_mark: | shuffleDeckFromDeck_withFullContext_callShuffleDeck() |
 
-## Method 9: `public void reverseOrderPreservingAttackState()`
+## Method 5: `public void reverseOrderPreservingAttackState()`
 
 ### Step 1-3 Results
 
@@ -95,7 +96,7 @@ available card types.
 |-------------|---------------------------|------------------------------------|--------------------|-------------------------------------------------------|
 | Test Case 1 | Context fully initialized | calls `shuffleDeck` from Deck      | :white_check_mark: | shuffleDeckFromDeck_withFullContext_callShuffleDeck() |
 
-## Method 5: `public void rearrangeTopThreeCardsFromDeck()`
+## Method 6: `public void rearrangeTopThreeCardsFromDeck()`
 
 ### Step 1-3 Results
 
@@ -114,7 +115,23 @@ available card types.
 | Test Case 3 | Deck `[card1, card2, card3]`, indices `2, 0, 1`            | Asks player for 3 indexes with minIndex `0` and maxIndex `2`, passes those to Deck.rearrangeTopThreeCards                         | :white_check_mark: | rearrangeTopThreeCardsFromDeck_threeCards_callsRearrangeTopThreeCards     |
 | Test Case 4 | Deck `[card1, card2, card3.1, card3.2]`, indices `1, 2, 3` | Asks player for 3 indexes with minIndex `1` and maxIndex `3`, passes those to Deck.rearrangeTopThreeCards                         | :white_check_mark: | rearrangeTopThreeCardsFromDeck_fourCards_callsRearrangeTopThreeCards      |
 
-## Method 7: `public void buryCardImplementation()`
+## Method 7: `public void swapTopAndBottomDeckCards()`
+
+### Step 1-3 Results
+
+|        | Input                                                                                    | Output                                                     |
+|--------|------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| Step 1 | Deck of cards                                                                            | Calls deck.swapTopAndBottom()                              |
+| Step 2 | Collection                                                                               | Boolean                                                    |
+| Step 3 | Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates | True (must be true that deck.swapTopAndBottom() is called) |
+
+### Step 4:
+
+|             | System under test | Expected output / state transition | Implemented?       | Test name                                                       |
+|-------------|-------------------|------------------------------------|--------------------|-----------------------------------------------------------------|
+| Test Case 1 | Deck              | deck.swapTopAndBottom() is called  | :white_check_mark: | swapTopAndBottomDeckCards_withFullContext_callsSwapTopAndBottom |
+
+## Method 8: `public void buryCardImplementation()`
 
 ### Step 1-3 Results
 
