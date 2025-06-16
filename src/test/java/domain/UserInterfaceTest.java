@@ -62,15 +62,17 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayWelcome_mustPrintExactlyThreeLines() {
-		UserInterface ui = new UserInterface();
+		EasyMock.expect(localeManager.get("exploding.kittens"))
+				.andReturn("\tEXPLODING KITTENS");
+		EasyMock.replay(localeManager);
+
+		UserInterface ui = new UserInterface(localeManager);
 		ui.displayWelcome();
 
-		String[] lines = outContent.toString(StandardCharsets.UTF_8)
-				.split("\\R");
-		final int EXPECTED_LINES = 3;
-		assertEquals(EXPECTED_LINES, lines.length,
-				"displayWelcome() should print exactly 3 lines");
-		assertEquals("=================================", lines[0]);
+		String[] lines = outContent.toString().split("\\R");
+		assertEquals(3, lines.length);
+		assertEquals("=================================",
+				lines[0]);
 		assertEquals("\tEXPLODING KITTENS",       lines[1]);
 		assertEquals("=================================",
 				lines[2].trim());
@@ -110,7 +112,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayHelp_mustIncludeHandCommand() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		ui.displayHelp();
 
 		String[] lines = outContent.toString(StandardCharsets.UTF_8)
@@ -191,7 +193,7 @@ public class UserInterfaceTest {
 	public void getNumberOfPlayers_mustUsePrintNotPrintlnForPrompt() {
 		System.setIn(new ByteArrayInputStream("3\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		ui.getNumberOfPlayers();
 
 		String out = outContent.toString(StandardCharsets.UTF_8);
@@ -231,7 +233,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_mustPrintFourSeparators() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Player p = new Player(new Hand());
 		ui.displayPlayerHand(p);
 
@@ -268,7 +270,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardPlayed_trailingBlankLine() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Card card = new CardFactory().createCard(CardType.SKIP);
 		ui.displayCardPlayed(card);
 
@@ -411,7 +413,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayDrawnCard_mustAlwaysEndWithBlankLine() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Card normal = new CardFactory().createCard(CardType.NORMAL);
 		ui.displayDrawnCard(normal);
 		String out1 = outContent.toString(StandardCharsets.UTF_8);
@@ -559,7 +561,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardEffect_mustHandleSwapTopAndBottom() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		ui.displayCardEffect(CardType.SWAP_TOP_AND_BOTTOM);
 
 		String out = outContent.toString(StandardCharsets.UTF_8);
@@ -748,7 +750,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayGameEnd_false_printsThreeBorders() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		ui.displayGameEnd(false);
 
 		String full = outContent.toString(StandardCharsets.UTF_8);
@@ -1327,7 +1329,7 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream(simulated
 				.getBytes(StandardCharsets.UTF_8)));
 
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		final int MIN = 1;
 		final int MAX  = 5;
 		final int EXPECTED_PROMPTS = 2;
@@ -1359,7 +1361,7 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream(simulated
 				.getBytes(StandardCharsets.UTF_8)));
 
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		int picked = ui.getNumericUserInput(
 				"Enter number:", MIN, MAX);
 		assertEquals(EXPECTED_PROMPTS, picked,
