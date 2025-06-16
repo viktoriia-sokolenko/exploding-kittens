@@ -1485,55 +1485,70 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void displayGameState_mustPrintTwoSeparatorLines()  {
-		final int SEPERATOR_LENGTH = 40;
-		final int EXPECTED_SEPERATOR_COUNT = 2;
-		final int MOCK_DECK_SIZE = 10;
+	public void displayGameState_mustPrintTwoSeparatorLines() {
+		final int SEPERATOR_LENGTH           = 40;
+		final int EXPECTED_SEPERATOR_COUNT   = 2;
+		final int MOCK_DECK_SIZE             = 10;
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockCurrentPlayer.isInGame())
 				.andReturn(true)
 				.anyTimes();
 		EasyMock.replay(mockCurrentPlayer);
-
 		List<Player> players = Collections.singletonList(mockCurrentPlayer);
 		EasyMock.expect(mockPlayerManager.getPlayers())
 				.andReturn(players)
 				.anyTimes();
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
-				.andReturn(players);
+				.andReturn(players)
+				.anyTimes();
 		EasyMock.replay(mockPlayerManager);
-
 		EasyMock.expect(mockDeck.getDeckSize())
-				.andReturn(MOCK_DECK_SIZE);
+				.andReturn(MOCK_DECK_SIZE)
+				.anyTimes();
 		EasyMock.replay(mockDeck);
-
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
-		EasyMock.expectLastCall();
+		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockUserInterface);
+		EasyMock.expect(mockLocaleManager.get("turn.of.player"))
+				.andReturn("")
+				.anyTimes();
+		EasyMock.expect(mockLocaleManager.get("players.remaining"))
+				.andReturn("")
+				.anyTimes();
+		EasyMock.expect(mockLocaleManager.get("active.players.indices"))
+				.andReturn("")
+				.anyTimes();
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("")
+				.anyTimes();
+		EasyMock.replay(mockLocaleManager);
 		ByteArrayOutputStream capturedOut = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(capturedOut,
 				true, StandardCharsets.UTF_8));
+
 		try {
 			gameEngine.displayGameState(mockCurrentPlayer);
 		} finally {
 			System.setOut(originalOut);
 		}
 		String separatorLine = "=".repeat(SEPERATOR_LENGTH);
-		String printed = capturedOut.toString(StandardCharsets.UTF_8);
-		int separatorCount = 0;
-		int searchIndex = 0;
-		while ((searchIndex = printed.indexOf(separatorLine, searchIndex))
-				!= -1) {
+		String printed       = capturedOut
+				.toString(StandardCharsets.UTF_8);
+
+		int separatorCount = 0, idx = 0;
+		while ((idx = printed.indexOf(separatorLine, idx)) != -1) {
 			separatorCount++;
-			searchIndex += separatorLine.length();
+			idx += separatorLine.length();
 		}
+
 		assertEquals(
 				EXPECTED_SEPERATOR_COUNT,
 				separatorCount,
 				String.format(
-						"Expected the %d-character '%s'" +
-								" separator to appear %d times",
+						"Expected the " +
+								"%d-character '%s' separator " +
+								"to appear %d times",
 						SEPERATOR_LENGTH, "=", EXPECTED_SEPERATOR_COUNT
 				)
 		);
