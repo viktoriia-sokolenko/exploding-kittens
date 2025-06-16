@@ -301,6 +301,8 @@ public class GameContextTest {
 
 		String playerMessage =
 				"Enter the index [0, 2] of a player you want to get card from";
+		EasyMock.expect(userInterface.getPlayerIndexPrompt(2))
+				.andReturn(playerMessage);
 		EasyMock.expect(userInterface.getNumericUserInput(
 						playerMessage,
 						0, 2))
@@ -311,6 +313,8 @@ public class GameContextTest {
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
+		EasyMock.expect(userInterface.getCardTransferPrompt())
+				.andReturn("Enter card type you want to give to current player");
 		EasyMock.expect(
 				userInterface.getUserInput(
 						"Enter card type you want to give to current player"
@@ -349,6 +353,8 @@ public class GameContextTest {
 
 		String playerMessage =
 				"Enter the index [0, 2] of a player you want to get card from";
+		EasyMock.expect(userInterface.getPlayerIndexPrompt(2))
+						.andReturn(playerMessage);
 		EasyMock.expect(userInterface.getNumericUserInput(
 						playerMessage,
 						0, 2))
@@ -359,6 +365,8 @@ public class GameContextTest {
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
+		EasyMock.expect(userInterface.getCardTransferPrompt())
+				.andReturn("Enter card type you want to give to current player");
 		EasyMock.expect(
 				userInterface.getUserInput(
 						"Enter card type you want to give to current player"
@@ -398,6 +406,8 @@ public class GameContextTest {
 
 		String playerMessage =
 				"Enter the index [0, 2] of a player you want to get card from";
+		EasyMock.expect(userInterface.getPlayerIndexPrompt(2))
+						.andReturn(playerMessage);
 		EasyMock.expect(userInterface.getNumericUserInput(
 						playerMessage,
 						0, 2))
@@ -406,6 +416,8 @@ public class GameContextTest {
 				.andReturn(mockPlayerGiver);
 
 		String cardTypeInput = "invalidCardType";
+		EasyMock.expect(userInterface.getCardTransferPrompt())
+				.andReturn("Enter card type you want to give to current player");
 		EasyMock.expect(
 				userInterface.getUserInput(
 						"Enter card type you want to give to current player"
@@ -454,6 +466,14 @@ public class GameContextTest {
 		mockDeck.rearrangeTopThreeCards(indices);
 		EasyMock.expectLastCall().once();
 
+		EasyMock.expect(userInterface.getRearrangePrompt(
+						0, 0, 0))
+				.andReturn("Enter the index of a card that you want " +
+						"to put in position 0 " +
+						"starting from the top of the Deck." +
+						"\nOnly possible indices are from 0 to 0. " +
+						"Indices can not repeat.");
+
 		EasyMock.replay(mockDeck, userInterface);
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
@@ -477,6 +497,22 @@ public class GameContextTest {
 
 		userInterface.displayCardsFromDeck(twoCardList, deckSize);
 		EasyMock.expectLastCall().once();
+
+		EasyMock.expect(userInterface.getRearrangePrompt(
+						0, 0, 1))
+				.andReturn("Enter the index of a card that you want " +
+						"to put in position 0 " +
+						"starting from the top of the Deck." +
+						"\nOnly possible indices are from 0 to 1. " +
+						"Indices can not repeat.");
+
+		EasyMock.expect(userInterface.getRearrangePrompt(
+						1, 0, 1))
+				.andReturn("Enter the index of a card that you want " +
+						"to put in position 1 " +
+						"starting from the top of the Deck." +
+						"\nOnly possible indices are from 0 to 1. " +
+						"Indices can not repeat.");
 
 		String message1 = "Enter the index of a card " +
 				"that you want to put in position 0 " +
@@ -549,6 +585,27 @@ public class GameContextTest {
 		EasyMock.expect(userInterface.getNumericUserInput(
 				message3, 0, 2)).andReturn(1);
 
+		EasyMock.expect(userInterface.getRearrangePrompt(0, 0, 2))
+				.andReturn("Enter the index of a card that you " +
+						"want to put in position 0 " +
+						"starting from the top of the Deck." +
+						"\nOnly possible indices are from 0 to 2. " +
+						"Indices can not repeat.");
+
+		EasyMock.expect(userInterface.getRearrangePrompt(1, 0, 2))
+				.andReturn("Enter the index of a card that " +
+						"you want to put in position 1 " +
+						"starting from the top of the Deck." +
+						"\nOnly possible indices are from 0 to 2. " +
+						"Indices can not repeat.");
+
+		EasyMock.expect(userInterface.getRearrangePrompt(2, 0, 2))
+				.andReturn("Enter the index of a card that you " +
+						"want to put in position 2 " +
+						"starting from the top of the Deck." +
+						"\nOnly possible indices are from 0 to 2. " +
+						"Indices can not repeat.");
+
 		List<Integer> duplicateIndices = List.of(2, 0, 1);
 		mockDeck.rearrangeTopThreeCards(duplicateIndices);
 		EasyMock.expectLastCall().once();
@@ -603,6 +660,27 @@ public class GameContextTest {
 				"Indices can not repeat.";
 		EasyMock.expect(userInterface.getNumericUserInput(
 				message3, 1, maxCardIndex)).andReturn(maxCardIndex);
+
+		EasyMock.expect(userInterface.getRearrangePrompt(0, 1, maxCardIndex))
+				.andReturn("Enter the index of a card that " +
+						"you want to put in position 0 " +
+						"starting from the top of the Deck." +
+						"\nOnly possible indices are from 1 to 3. " +
+						"Indices can not repeat.");
+
+		EasyMock.expect(userInterface.getRearrangePrompt(1, 1, maxCardIndex))
+				.andReturn("Enter the index of a card that " +
+						"you want to put in position 1 " +
+						"starting from the top of the Deck." +
+						"\nOnly possible indices are from 1 to 3. " +
+						"Indices can not repeat.");
+
+		EasyMock.expect(userInterface.getRearrangePrompt(2, 1, maxCardIndex))
+				.andReturn("Enter the index of a card that " +
+						"you want to put in position 2 " +
+						"starting from the top of the Deck." +
+						"\nOnly possible indices are from 1 to 3. " +
+						"Indices can not repeat.");
 
 		List<Integer> indices = List.of(1, 2, maxCardIndex);
 		mockDeck.rearrangeTopThreeCards(indices);
@@ -749,6 +827,20 @@ public class GameContextTest {
 
 		GameContext gameContext = new GameContext(currentPlayer);
 		gameContext.moveAllExplodingKittensToTop();
+
+		EasyMock.verify(currentPlayer);
+	}
+
+	@Test
+	public void moveAllExplodingKittensToTop_uiIsNull_noActionTaken() {
+		Player currentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(currentPlayer);
+
+		GameContext gameContext1 = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, currentPlayer, null, mockCardFactory);
+
+		gameContext1.moveAllExplodingKittensToTop();
 
 		EasyMock.verify(currentPlayer);
 	}

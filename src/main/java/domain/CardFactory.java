@@ -30,6 +30,8 @@ public class CardFactory {
 				return new BuryCard();
 			case REVERSE:
 				return new ReverseCard();
+			case SWAP_TOP_AND_BOTTOM:
+					return new SwapTopAndBottomCard();
 			default: throw new IllegalArgumentException("Unknown card type: " + type);
 		}
 	}
