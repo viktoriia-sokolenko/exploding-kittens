@@ -156,19 +156,19 @@ public class PlayerManagerTest {
 		assertEquals(MAX_NUMBER_OF_PLAYERS, playerManager.getActivePlayers().size());
 	}
 
-//	@Test
-//	public void getActivePlayers_withOneActivePlayer_returnsOnePlayer() {
-//		playerManager.addPlayers(MAX_NUMBER_OF_PLAYERS);
-//		List<Player> players = playerManager.getPlayers();
-//
-//		// Remove all but one player
-//		for (int i = 0; i < players.size() - 1; i++) {
-//			playerManager.removePlayerFromGame(players.get(i));
-//		}
-//
-//		assertEquals(1, playerManager.getActivePlayers().size());
-//		assertTrue(playerManager.getActivePlayers().get(0).isInGame());
-//	}
+	@Test
+	public void getActivePlayers_withOneActivePlayer_returnsOnePlayer() {
+		playerManager.addPlayers(MAX_NUMBER_OF_PLAYERS);
+		List<Player> players = playerManager.getPlayers();
+
+		// Remove all but one player
+		for (int i = 0; i < players.size() - 1; i++) {
+			playerManager.removePlayerFromGame(players.get(i));
+		}
+
+		assertEquals(1, playerManager.getActivePlayers().size());
+		assertTrue(playerManager.getActivePlayers().get(0).isInGame());
+	}
 
 	@Test
 	public void getPlayerByIndex_withNegativeIndex_throwsIndexOutOfBoundsException() {
