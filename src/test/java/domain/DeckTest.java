@@ -1196,7 +1196,7 @@ public class DeckTest {
 	}
 
 	@Test
-	public void moveAllExplodingKittensToTop_mixedDeckWithDuplicateCards_explodingKittensGroupedAtTop() {
+	public void moveAllExplodingKittensToTop_mixedDeckWithDuplicateCards_explodingKittensTop() {
 		Card favorCard1 = mockCard(CardType.FAVOR);
 		Card kitten1 = mockCard(CardType.EXPLODING_KITTEN);
 		Card favorCard2 = mockCard(CardType.FAVOR);
