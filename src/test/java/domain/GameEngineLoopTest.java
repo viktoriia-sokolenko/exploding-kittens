@@ -252,7 +252,8 @@ public class GameEngineLoopTest {
 		assertEquals("init failed", exception.getMessage());
 		assertFalse(engine.loopCalled,
 				"runGameLoop() " +
-						"should not be called when initializeGame() throws");
+						"should not be called when " +
+						"initializeGame() throws");
 	}
 
 	@Test
@@ -280,8 +281,10 @@ public class GameEngineLoopTest {
 							output.contains("players"),
 					"Expected welcome message not found");
 			assertTrue(output.contains
-							("Thanks for playing") || output.contains("quit"),
-					"Expected quit message not found");
+							("Thanks for playing") ||
+							output.contains("quit"),
+					"Expected quit message " +
+							"not found");
 
 		} finally {
 			System.setIn(originalIn);
