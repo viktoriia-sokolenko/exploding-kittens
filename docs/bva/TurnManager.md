@@ -123,13 +123,13 @@
 
 ### Step 4
 
-|             | System Under Test                                                                | Expected Output / State Transition                                  | Implemented?        | Test Name                                                                  |
-|-------------|----------------------------------------------------------------------------------|---------------------------------------------------------------------|---------------------|----------------------------------------------------------------------------|
-| Test Case 1 | Not under attack, default value(`requiredTurns==1`, `currentPlayerTurnsTaken=0`) | Sets `requiredTurns = 3`, resets `taken = 0`                        | :white_check_mark:  | `endTurnWithoutDrawForAttacks_notUnderAttack_setsTurnsToThreeAndAdvances`  |
-| Test Case 2 | Under attack (`requiredTurns==3`, `currentPlayerTurnsTaken=1`)                   | Adds 2 → `requiredTurns =  (3 - 1) + 2 = 4` for next player, resets | :white_check_mark:  | `endTurnWithoutDrawForAttacks_underAttack_addsTwoTurnsAndAdvances`         |
-| Test Case 3 | Edge attack (`requiredTurns==2`, `currentPlayerTurnsTaken=1`)                    | Adds 2 → `requiredTurns = (2 - 1) + 2 = 3` for next player, resets  | :white_check_mark:  | `endTurnWithoutDrawForAttacks_almostDoneUnderAttack_addsTwoTurnsCorrectly` |
-| Test Case 4 | Stacked attack (`requiredTurns==5`, `currentPlayerTurnsTaken=4`)                 | Adds 2 → `requiredTurns = 7`, resets                                | No                  | `endTurnWithoutDrawForAttacks_stackedAttack_addsTwoTurnsAgain`             |
-| Test Case 5 | Empty player queue, before setUp                                                 | Throws `IllegalStateException`                                      | :white_check_mark:  | `endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException `     |
+|             | System Under Test                                                                                                       | Expected Output / State Transition                                  | Implemented?       | Test Name                                                                  |
+|-------------|-------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|--------------------|----------------------------------------------------------------------------|
+| Test Case 1 | Not under attack, default value(`requiredTurns==1`, `currentPlayerTurnsTaken=0`)                                        | Sets `requiredTurns = 3`, resets `taken = 0`                        | :white_check_mark: | `endTurnWithoutDrawForAttacks_notUnderAttack_setsTurnsToThreeAndAdvances`  |
+| Test Case 2 | Under attack (`requiredTurns==3`, `currentPlayerTurnsTaken=1`)                                                          | Adds 2 → `requiredTurns =  (3 - 1) + 2 = 4` for next player, resets | :white_check_mark: | `endTurnWithoutDrawForAttacks_underAttack_addsTwoTurnsAndAdvances`         |
+| Test Case 3 | Edge attack (`requiredTurns==2`, `currentPlayerTurnsTaken=1`)                                                           | Adds 2 → `requiredTurns = (2 - 1) + 2 = 3` for next player, resets  | :white_check_mark: | `endTurnWithoutDrawForAttacks_almostDoneUnderAttack_addsTwoTurnsCorrectly` |
+| Test Case 4 | Player 1 plays attack → Player 2 gets 2 turns. Player 2 plays attack (before taking any turns) → Player 3 gets 4 turns. | `requiredTurns = 4`, for Player 3                                   | :white_check_mark: | `endTurnWithoutDrawForAttacks_stackedAttack_addsTwoTurnsAgain`             |
+| Test Case 5 | Empty player queue, before setUp                                                                                        | Throws `IllegalStateException`                                      | :white_check_mark: | `endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException `     |
 
 ---
 

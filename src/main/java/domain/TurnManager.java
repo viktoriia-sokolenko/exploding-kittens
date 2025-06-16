@@ -55,7 +55,7 @@ public class TurnManager {
 		}
 		int remainingTurns = requiredTurns - currentPlayerTurnsTaken;
 		advanceToNextPlayer();
-		requiredTurns = remainingTurns + 2;
+		requiredTurns = Math.max(1, remainingTurns + 2);
 		currentPlayerTurnsTaken = 0;
 	}
 
