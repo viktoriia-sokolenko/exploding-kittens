@@ -725,14 +725,16 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void
-	createInitialDeck_whenExactlyEnoughCards_doesNotAddNormalCards() {
+	public void createInitialDeck_whenExactlyEnoughCards_doesNotAddNormalCards() {
 		CardFactory mockFactory = EasyMock.createMock(CardFactory.class);
 
-		final int ONE_CARD = 1;
-		final int TWO_CARDS = 2;
-		final int FOUR_CARDS = 4;
-		final int FIVE_CARDS = 5;
+		final int ONE_CARD    = 1;
+		final int TWO_CARDS   = 2;
+		final int FOUR_CARDS  = 4;
+		final int FIVE_CARDS  = 5;
+		final int SIXTEEN_PLAYERS        = 16;
+		final int TARGET_NUMBER_OF_CARDS = 56 - SIXTEEN_PLAYERS;
+
 		EasyMock.expect(mockFactory.createCards(CardType.ATTACK, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.ATTACK, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SKIP, FOUR_CARDS))
@@ -741,6 +743,8 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.FAVOR, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SHUFFLE, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.BURY, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.BURY, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.REVERSE, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.REVERSE, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE,
@@ -753,25 +757,37 @@ public class GameEngineTest {
 						FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.NUKE, ONE_CARD))
 				.andReturn(createMockCardList(CardType.NUKE, ONE_CARD));
+		EasyMock.expect(mockFactory.createCards(CardType.SWAP_TOP_AND_BOTTOM,
+						FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SWAP_TOP_AND_BOTTOM,
+						FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.DEFUSE, TWO_CARDS))
 				.andReturn(createMockCardList(CardType.DEFUSE, TWO_CARDS));
 
 		EasyMock.replay(mockFactory);
-		final int TWENTY_FOUR_PLAYERS = 24;
-
 		List<Card> deck = GameEngine.createInitialDeck(mockFactory,
-			TWENTY_FOUR_PLAYERS);
-
+				SIXTEEN_PLAYERS);
 		long normalCardCount = deck.stream()
-				.filter(card -> card.getCardType() == CardType.NORMAL)
+				.filter(c -> c.getCardType() == CardType.NORMAL)
 				.count();
-		assertEquals(0, normalCardCount);
-		final int EXPECTED_CARD_COUNT = 32;
-		assertEquals(EXPECTED_CARD_COUNT, deck.size());
+		assertEquals(
+				0,
+				normalCardCount,
+				"Should not add any NORMAL " +
+						"cards when exactly enough cards exist"
+		);
 
-		// This will fail if createCards(NORMAL, 0) is called
+		assertEquals(
+				TARGET_NUMBER_OF_CARDS,
+				deck.size(),
+				"Deck size should be " +
+						"TARGET_NUMBER_OF_CARDS " +
+						"when no NORMAL cards added"
+		);
+
 		EasyMock.verify(mockFactory);
 	}
+
 
 	@Test
 	public void handleDrawCommand_withNullPlayer_throwsNullPointerException() {
