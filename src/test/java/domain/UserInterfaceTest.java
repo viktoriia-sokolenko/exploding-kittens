@@ -282,6 +282,11 @@ public class UserInterfaceTest {
 		assertTrue(outContent.toString(StandardCharsets.UTF_8)
 				.contains(" → Reverse the order of play " +
 						"and end your turn without drawing a card"));
+
+		ui.displayCardEffect(CardType.SWAP_TOP_AND_BOTTOM);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains (" → Swap the top and bottom cards of the deck"));
+
 	}
 
 	@Test
