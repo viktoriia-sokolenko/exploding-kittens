@@ -288,15 +288,23 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardPlayed_trailingBlankLine() {
+		EasyMock.expect(localeManager.get("card.played"))
+				.andReturn("You played: ");
+		EasyMock.expect(localeManager.get("card.name.skip"))
+				.andReturn("Skip").anyTimes();
+		EasyMock.expect(localeManager.get("card.effect.skip"))
+				.andReturn("");
+		EasyMock.replay(localeManager);
+
 		UserInterface ui = new UserInterface(localeManager);
 		Card card = new CardFactory().createCard(CardType.SKIP);
 		ui.displayCardPlayed(card);
 
 		String out = outContent.toString(StandardCharsets.UTF_8);
-		assertTrue(out.endsWith(System.lineSeparator()
-						+ System.lineSeparator()),
-				"displayCardPlayed() must leave a " +
-						"trailing blank line");
+		assertTrue(out.endsWith(System.lineSeparator() +
+						System.lineSeparator()),
+				"displayCardPlayed() must leave " +
+						"a trailing blank line");
 	}
 
 	@Test
