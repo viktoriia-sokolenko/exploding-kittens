@@ -234,4 +234,25 @@ public class GameEngineLoopTest {
         assertTrue(engine.loopCalled,
                 "runGameLoop() should have been called");
     }
+
+    @Test
+    public void gameFlow_initializeThrows_handlesException()  {
+        TestableMainEngine engine = new TestableMainEngine(
+                mockTurnManager, mockPlayerManager, mockDeck,
+                mockUI, mockFactory, mockRandom
+        ) {
+            @Override
+            public void initializeGame() {
+                throw new RuntimeException("init failed");
+            }
+        };
+
+        RuntimeException exception = assertThrows
+                (RuntimeException.class, engine::initializeGame);
+
+        assertEquals("init failed", exception.getMessage());
+        assertFalse(engine.loopCalled,
+                "runGameLoop() " +
+                        "should not be called when initializeGame() throws");
+    }
 }
