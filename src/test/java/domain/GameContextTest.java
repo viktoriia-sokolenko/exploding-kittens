@@ -597,4 +597,35 @@ public class GameContextTest {
 		EasyMock.verify(currentPlayer);
 	}
 
+	@Test
+	public void
+	moveAllExplodingKittensToTop_deckIsNotNull_callsDeckDisplaysSuccess() {
+		TurnManager turnManager = EasyMock.createMock(TurnManager.class);
+		PlayerManager playerManager = EasyMock.createMock(PlayerManager.class);
+		Deck deck = EasyMock.createMock(Deck.class);
+		Player currentPlayer = EasyMock.createMock(Player.class);
+		UserInterface userInterface = EasyMock.createMock(UserInterface.class);
+		CardFactory cardFactory = EasyMock.createMock(CardFactory.class);
+
+		String expectedSuccessMessage =
+				"All Exploding Kittens moved to the top of the deck!";
+
+		deck.moveAllExplodingKittensToTop();
+		EasyMock.expectLastCall().once();
+
+		userInterface.displaySuccess(expectedSuccessMessage);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(turnManager, playerManager, deck, currentPlayer,
+				userInterface, cardFactory);
+
+		GameContext gameContext = new GameContext(turnManager, playerManager,
+				deck,
+				currentPlayer, userInterface, cardFactory);
+
+		gameContext.moveAllExplodingKittensToTop();
+
+		EasyMock.verify(turnManager, playerManager, deck, currentPlayer,
+				userInterface, cardFactory);
+	}
 }
