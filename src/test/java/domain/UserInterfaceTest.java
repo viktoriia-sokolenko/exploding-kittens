@@ -1517,7 +1517,6 @@ public class UserInterfaceTest {
 
 	@Test
 	public void getRearrangePrompt_returnsCorrectFormattedMessage() {
-		LocaleManager localeManager = EasyMock.createMock(LocaleManager.class);
 		UserInterface ui = new UserInterface(localeManager);
 
 		EasyMock.expect(localeManager.get("rearrange.card.prompt"))
@@ -1533,6 +1532,22 @@ public class UserInterfaceTest {
 				"you want to put in position 0 starting " +
 				"from the top of the Deck.\nOnly possible indices " +
 				"are from 1 to 2. Indices can not repeat.";
+		assertEquals(expectedPrompt, actualPrompt);
+
+		EasyMock.verify(localeManager);
+	}
+
+	@Test
+	public void getCardTransferPrompt_returnsCorrectMessage() {
+		UserInterface ui = new UserInterface(localeManager);
+
+		EasyMock.expect(localeManager.get("card.transfer.prompt"))
+				.andReturn("Enter card type you want to give to current player");
+
+		EasyMock.replay(localeManager);
+
+		String actualPrompt = ui.getCardTransferPrompt();
+		String expectedPrompt = "Enter card type you want to give to current player";
 		assertEquals(expectedPrompt, actualPrompt);
 
 		EasyMock.verify(localeManager);
