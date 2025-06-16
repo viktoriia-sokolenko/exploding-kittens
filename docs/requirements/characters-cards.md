@@ -53,7 +53,7 @@ The team should list all the different characters or cards and briefly describe 
 
 ## 7. See the Future Card
 - **Effect**:
-    - Privately view the **top 3 cards** of the draw pile.
+    - Privately view the **top 2 cards** of the draw pile.
     - Do **not** rearrange them.
 
 ---
