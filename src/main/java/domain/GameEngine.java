@@ -248,6 +248,15 @@ public class GameEngine {
 		turnManager.advanceToNextPlayer();
 	}
 
+	public int getPlayerChoiceForKittenPlacement() {
+		int deckSize = deck.getDeckSize();
+		String message = "Choose a position to insert the Exploding Kitten " +
+				"(0 = bottom, "
+				+ deckSize + " = top of deck)";
+		final int MIN = 0;
+		return userInterface.getNumericUserInput(message, MIN, deckSize);
+	}
+
 	public void processCommand(String input, Player currentPlayer) {
 		if (input == null || input.trim().isEmpty()) {
 			userInterface.

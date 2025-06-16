@@ -782,7 +782,7 @@ public class GameEngineTest {
 
 	@Test
 	public void getPlayerChoiceForKittenPlacement_promptsWithDeckSizeAndReturnsChoice()
-			throws Exception {
+			{
 		final int EXPECTED_RETURN_FOUR = 4;
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(EXPECTED_RETURN_FOUR)
 				.once();
@@ -796,7 +796,7 @@ public class GameEngineTest {
 				.andReturn(EXPECTED_RETURN_TWO).once();
 
 		EasyMock.replay(mockDeck, mockUserInterface);
-		int choice = gameEngine.getPlayerChoiceForKittenPlacement()
+		int choice = gameEngine.getPlayerChoiceForKittenPlacement();
 
 		assertEquals(EXPECTED_RETURN_TWO, choice);
 
