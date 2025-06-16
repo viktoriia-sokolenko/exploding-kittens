@@ -91,3 +91,18 @@ available card types.
 | Test Case 2 | turnManager.isUnderAttack() == false | only `reverseOrder()` called from TurnManager                      | :white_check_mark: | reverseOrderPreservingAttackState_notUnderAttack_onlyReverses       |
 | Test Case 3 | turnManager == null                  | does nothing (doesn't call `reverseOrderPreservingAttackState`)    | :white_check_mark: | reverseOrderPreservingAttackState_nullTurnManager_doesNothing       |
 
+## Method 10: `public void swapTopAndBottomDeckCards()`
+
+### Step 1-3 Results
+
+|        | Input                                                                                    | Output                                                     |
+|--------|------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| Step 1 | Deck of cards                                                                            | Calls deck.swapTopAndBottom()                              |
+| Step 2 | Collection                                                                               | Boolean                                                    |
+| Step 3 | Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates | True (must be true that deck.swapTopAndBottom() is called) |
+
+### Step 4:
+
+|             | System under test | Expected output / state transition | Implemented?       | Test name                                                       |
+|-------------|-------------------|------------------------------------|--------------------|-----------------------------------------------------------------|
+| Test Case 1 | Deck              | deck.swapTopAndBottom() is called  | :white_check_mark: | swapTopAndBottomDeckCards_withFullContext_callsSwapTopAndBottom |
