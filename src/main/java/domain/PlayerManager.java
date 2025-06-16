@@ -70,6 +70,6 @@ public class PlayerManager {
 		if (index < 0) {
 			return true;
 		}
-        return index >= players.size();
-    }
+		return index >= players.size();
+	}
 }

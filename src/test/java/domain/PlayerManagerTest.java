@@ -7,15 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 public class PlayerManagerTest {
-	private static final int NUM_CARDS               = 20;
-	private static final int TOO_MANY_PLAYERS        = 6;
-	private static final int DEFAULT_PLAYERS         = 3;
-	private static final int FOUR_PLAYERS            = 4;
-	private static final int MAX_NUMBER_OF_PLAYERS   = 5;
-	private static final int MIN_NUMBER_OF_PLAYERS   = 2;
+	private static final int NUM_CARDS				 = 20;
+	private static final int TOO_MANY_PLAYERS		 = 6;
+	private static final int DEFAULT_PLAYERS		 = 3;
+	private static final int FOUR_PLAYERS			 = 4;
+	private static final int MAX_NUMBER_OF_PLAYERS	 = 5;
+	private static final int MIN_NUMBER_OF_PLAYERS	 = 2;
 
-	private static final int ZERO_INDEX              = 0;
-	private static final int NEGATIVE_INDEX          = -1;
+	private static final int ZERO_INDEX				 = 0;
+	private static final int NEGATIVE_INDEX			 = -1;
 
 	private PlayerManager playerManager;
 	private Deck mockDeck;
