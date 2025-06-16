@@ -16,6 +16,7 @@ import java.io.PrintStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import java.nio.charset.StandardCharsets;
@@ -223,7 +224,8 @@ public class GameEngineTest {
 
 	@ParameterizedTest
 	@ValueSource(ints = {MIN_PLAYERS, THREE_PLAYERS, FOUR_PLAYERS, MAX_PLAYERS})
-	public void createInitialDeck_withValidPlayerCount_createsCorrectDeck(int numPlayers) {
+	public void
+	createInitialDeck_withValidPlayerCount_createsCorrectDeck(int numPlayers) {
 		CardFactory factory = new CardFactory();
 		List<Card> deck = GameEngine.createInitialDeck(factory, numPlayers);
 
@@ -246,6 +248,7 @@ public class GameEngineTest {
 
 		assertEquals("Player cannot be null", exception.getMessage());
 	}
+
 
 	@Test
 	public void showAvailableCardTypes_withEmptyHand_printsNothing() {
