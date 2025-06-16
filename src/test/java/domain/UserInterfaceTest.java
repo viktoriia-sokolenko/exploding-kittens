@@ -141,6 +141,24 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void displayPlayerHand_mustPrintFourSeparators() {
+		UserInterface ui = new UserInterface();
+		Player p = new Player(new Hand());
+		ui.displayPlayerHand(p);
+
+		final int EXPECTED_NUMBER_OF_DASHES = 40;
+		final int EXPECTED_NUMBER_OF_TIMES_PRINTED = 4;
+		String full = outContent.toString(StandardCharsets.UTF_8);
+		String sep  = "─".repeat(EXPECTED_NUMBER_OF_DASHES);
+		long count = full.lines().filter(l -> l.contains(sep)).count();
+		assertEquals(EXPECTED_NUMBER_OF_TIMES_PRINTED, count,
+
+				"displayPlayerHand() " +
+						"should print the 40-dash separator " +
+						"exactly 4 times");
+	}
+
+	@Test
 	public void displayCardPlayed_showCorrectText() {
 		UserInterface ui = new UserInterface();
 		Card card = new SkipCard();
