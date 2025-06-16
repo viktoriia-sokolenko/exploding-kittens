@@ -171,6 +171,7 @@ public class UserInterface {
 				System.out.println("   " +
 						"→ Draw a card and secretly " +
 						"into anywhere in draw pile");
+				break;
 			case NORMAL:
 				System.out.println("   " +
 						"→ Just a cute cat - no special effect");
