@@ -346,7 +346,8 @@ public class GameContextTest {
 		String messageForPlayer = "Enter the index of a card " +
 						"that you want to put in position 0 " +
 						"starting from the top of the Deck.\n" +
-						"Only possible indexes are from 0 to 0.";
+						"Only possible indices are from 0 to 0. " +
+						"Indices can not repeat.";
 		EasyMock.expect(userInterface.getNumericUserInput(
 				messageForPlayer, 0, 0)).andReturn(0);
 
@@ -381,14 +382,16 @@ public class GameContextTest {
 		String message1 = "Enter the index of a card " +
 				"that you want to put in position 0 " +
 				"starting from the top of the Deck.\n" +
-				"Only possible indexes are from 0 to 1.";
+				"Only possible indices are from 0 to 1. " +
+				"Indices can not repeat.";
 		EasyMock.expect(userInterface.getNumericUserInput(
 						message1, 0, 1)).andReturn(1);
 
 		String message2 = "Enter the index of a card " +
 				"that you want to put in position 1 " +
 				"starting from the top of the Deck.\n" +
-				"Only possible indexes are from 0 to 1.";
+				"Only possible indices are from 0 to 1. " +
+				"Indices can not repeat.";
 		EasyMock.expect(userInterface.getNumericUserInput(
 				message2, 0, 1)).andReturn(1);
 
@@ -410,8 +413,8 @@ public class GameContextTest {
 
 	@Test
 	public void rearrangeTopThreeCardsFromDeck_threeCards_callsRearrangeTopThreeCards() {
-		Card card1 = mockCard(CardType.NORMAL);
-		Card card2 = mockCard(CardType.ATTACK);
+		Card card1 = mockCard(CardType.SKIP);
+		Card card2 = mockCard(CardType.DEFUSE);
 		Card card3 = mockCard(CardType.SEE_THE_FUTURE);
 		List<Card> threeCardList = new ArrayList<>(List.of(card1, card2, card3));
 		int deckSize = threeCardList.size();
@@ -426,26 +429,84 @@ public class GameContextTest {
 		String message1 = "Enter the index of a card " +
 				"that you want to put in position 0 " +
 				"starting from the top of the Deck.\n" +
-				"Only possible indexes are from 0 to 2.";
+				"Only possible indices are from 0 to 2. " +
+				"Indices can not repeat.";
 		EasyMock.expect(userInterface.getNumericUserInput(
 				message1, 0, 2)).andReturn(2);
 
 		String message2 = "Enter the index of a card " +
 				"that you want to put in position 1 " +
 				"starting from the top of the Deck.\n" +
-				"Only possible indexes are from 0 to 2.";
+				"Only possible indices are from 0 to 2. " +
+				"Indices can not repeat.";
 		EasyMock.expect(userInterface.getNumericUserInput(
 				message2, 0, 2)).andReturn(0);
 
 		String message3 = "Enter the index of a card " +
 				"that you want to put in position 2 " +
 				"starting from the top of the Deck.\n" +
-				"Only possible indexes are from 0 to 2.";
+				"Only possible indices are from 0 to 2. " +
+				"Indices can not repeat.";
 		EasyMock.expect(userInterface.getNumericUserInput(
 				message3, 0, 2)).andReturn(1);
 
 		List<Integer> duplicateIndices = List.of(2, 0, 1);
 		mockDeck.rearrangeTopThreeCards(duplicateIndices);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.rearrangeTopThreeCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
+	}
+
+	@Test
+	public void rearrangeTopThreeCardsFromDeck_fourCards_callsRearrangeTopThreeCards() {
+		Card card1 = mockCard(CardType.FAVOR);
+		Card card2 = mockCard(CardType.SHUFFLE);
+		Card card3 = mockCard(CardType.EXPLODING_KITTEN);
+		List<Card> topThreeCards = new ArrayList<>(
+				List.of(card1, card2, card3));
+		int deckSize = topThreeCards.size() + 1;
+
+		EasyMock.expect(mockDeck.peekTopThreeCards())
+				.andReturn(topThreeCards);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(deckSize).anyTimes();
+
+		userInterface.displayCardsFromDeck(topThreeCards, deckSize);
+		EasyMock.expectLastCall().once();
+
+		int maxCardIndex = deckSize - 1;
+		String message1 = "Enter the index of a card " +
+				"that you want to put in position 0 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 1 to 3. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message1, 1, maxCardIndex)).andReturn(1);
+
+		String message2 = "Enter the index of a card " +
+				"that you want to put in position 1 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 1 to 3. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message2, 1, maxCardIndex)).andReturn(2);
+
+		String message3 = "Enter the index of a card " +
+				"that you want to put in position 2 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 1 to 3. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message3, 1, maxCardIndex)).andReturn(maxCardIndex);
+
+		List<Integer> indices = List.of(1, 2, maxCardIndex);
+		mockDeck.rearrangeTopThreeCards(indices);
 		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(mockDeck, userInterface);

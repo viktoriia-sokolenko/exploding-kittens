@@ -117,9 +117,10 @@ public class GameContext {
 							"that you want to put in position " +
 							i +
 							" starting from the top of the Deck.\n" +
-							"Only possible indexes are from " +
+							"Only possible indices are from " +
 							minCardIndex +
-							" to " + maxCardIndex + ".";
+							" to " + maxCardIndex + "." +
+							" Indices can not repeat.";
 			indices.add(userInterface.getNumericUserInput
 					(messageForPlayer, minCardIndex, maxCardIndex));
 		}
