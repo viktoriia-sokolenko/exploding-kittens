@@ -644,51 +644,6 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void handleDrawCommand_withExplodingKitten_usesDefuseAndEndsTurn() {
-		Card mockExplodingKitten = createMockCard(CardType.EXPLODING_KITTEN);
-
-		Player mockPlayer = EasyMock.createMock(Player.class);
-		EasyMock.expect(mockPlayer.hasCardType(CardType.DEFUSE))
-				.andReturn(true);
-		mockPlayer.removeDefuseCard();
-		EasyMock.expectLastCall();
-		EasyMock.replay(mockPlayer);
-
-		final int NUMBER_OF_CARDS = 10;
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(NUMBER_OF_CARDS
-		).times(2);
-		EasyMock.expect(mockDeck.draw()).andReturn(mockExplodingKitten);
-		mockDeck.insertCardAt(EasyMock.eq(mockExplodingKitten),
-				EasyMock.anyInt());
-		EasyMock.expectLastCall();
-		EasyMock.replay(mockDeck);
-
-		mockUserInterface.displayDrawnCard(mockExplodingKitten);
-		EasyMock.expectLastCall();
-		EasyMock.replay(mockUserInterface);
-
-		mockTurnManager.advanceToNextPlayer();
-		EasyMock.expectLastCall();
-		EasyMock.replay(mockTurnManager);
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		PrintStream originalOut = System.out;
-		System.setOut(new PrintStream(outputStream, true,
-				StandardCharsets.UTF_8));
-
-		try {
-			gameEngine.handleDrawCommand(mockPlayer);
-			String output = outputStream.toString(StandardCharsets.UTF_8);
-			assertTrue
-					(output.contains("You drew an Exploding Kitten" +
-							" but used a Defuse card!"));
-		} finally {
-			System.setOut(originalOut);
-		}
-
-		EasyMock.verify(mockPlayer, mockDeck, mockUserInterface, mockTurnManager);
-	}
-
-	@Test
 	public void handleDrawCommand_withExplodingKittenAndNoDefuse_removesPlayer() {
 		Card mockExplodingKitten = createMockCard(CardType.EXPLODING_KITTEN);
 
@@ -785,6 +740,75 @@ public class GameEngineTest {
 	}
 
 	@Test
+	public
+	void
+	handleDrawCommand_withExplodingKittenAndDefuse_usesDefuseAndReinsertsAndAdvancesTurn() {
+		Card kitten = createMockCard(CardType.EXPLODING_KITTEN);
+		final int DECK_SIZE = 5;
+		final int EXPECTED_NUMBER_OF_CALLS = 2;
+		Player player = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(DECK_SIZE)
+				.times(EXPECTED_NUMBER_OF_CALLS);
+		EasyMock.expect(mockDeck.draw()).andReturn(kitten).once();
+
+		EasyMock.expect(player.hasCardType(CardType.DEFUSE))
+				.andReturn(true).once();
+		player.removeDefuseCard();
+		EasyMock.expectLastCall().once();
+		mockUserInterface.displayDrawnCard(kitten);
+		EasyMock.expectLastCall().once();
+		mockUserInterface.displayDefuseUsed();
+		EasyMock.expectLastCall().once();
+		String prompt =
+				"Choose a position to insert the Exploding Kitten " +
+						"(0 = bottom, 5 = top of deck)";
+		final int MAX = 5;
+		final int MIN = 0;
+
+		EasyMock.expect(
+				mockUserInterface.getNumericUserInput(prompt, MIN, MAX)
+		).andReturn(EXPECTED_NUMBER_OF_CALLS).once();
+
+		final int INDEX_TO_INSERT_CARD_AT = 2;
+		mockDeck.insertCardAt(kitten, INDEX_TO_INSERT_CARD_AT);
+		EasyMock.expectLastCall().once();
+		mockUserInterface.displaySuccess(
+				"Exploding Kitten placed back in the deck at position 2"
+		);
+		EasyMock.expectLastCall().once();
+
+		mockTurnManager.advanceToNextPlayer();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck, player, mockUserInterface, mockTurnManager);
+		gameEngine.handleDrawCommand(player);
+		EasyMock.verify(mockDeck, player, mockUserInterface, mockTurnManager);
+	}
+
+	@Test
+	public void getPlayerChoiceForKittenPlacement_promptsWithDeckSizeAndReturnsChoice()
+			{
+		final int EXPECTED_RETURN_FOUR = 4;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(EXPECTED_RETURN_FOUR)
+				.once();
+		String prompt =
+				"Choose a position to insert the Exploding Kitten " +
+						"(0 = bottom, 4 = top of deck)";
+		final int MIN = 0;
+		final int MAX = 4;
+		final int EXPECTED_RETURN_TWO = 2;
+		EasyMock.expect(mockUserInterface.getNumericUserInput(prompt, MIN, MAX))
+				.andReturn(EXPECTED_RETURN_TWO).once();
+
+		EasyMock.replay(mockDeck, mockUserInterface);
+		int choice = gameEngine.getPlayerChoiceForKittenPlacement();
+
+		assertEquals(EXPECTED_RETURN_TWO, choice);
+
+		EasyMock.verify(mockDeck, mockUserInterface);
+	}
+
+
+	@Test
 	public void displayGameStatus_withTwoActivePlayers_displaysCorrectStatus() {
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		final int NUMBER_OF_CARDS = 5;
@@ -826,6 +850,8 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockPlayerManager, mockDeck, mockTurnManager, mockCurrentPlayer);
 	}
+
+
 
 	@Test
 	public void displayGameStatus_withOneActivePlayer_displaysCorrectStatus() {
@@ -918,11 +944,14 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_withTwoPlayersAndFullDeck_displaysCorrectState() {
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockCurrentPlayer.isInGame()).andReturn(true);
 		EasyMock.replay(mockCurrentPlayer);
 
 		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer,
-				EasyMock.createMock(Player.class));
+				mockActivePlayer());
 		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(activePlayers).anyTimes();
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 20;
@@ -948,8 +977,9 @@ public class GameEngineTest {
 					output.contains
 							("=========================" +
 									"==============="));
-			assertTrue(output.contains("Current Player's Turn"));
+			assertTrue(output.contains("Turn of player 0"));
 			assertTrue(output.contains("Players remaining: 2"));
+			assertTrue(output.contains("Active players indices: [0, 1]"));
 			assertTrue(output.contains("Cards in deck: 20"));
 		} finally {
 			System.setOut(originalOut);
@@ -961,11 +991,17 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_withOnePlayerRemaining_displaysCorrectState() {
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockCurrentPlayer.isInGame()).andReturn(true);
 		EasyMock.replay(mockCurrentPlayer);
 
+		Player mockDefeatedPlayer = mockInactivePlayer();
+
 		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer);
+		List<Player> allPlayers = Arrays.asList(mockCurrentPlayer, mockDefeatedPlayer);
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
 				.andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(allPlayers).anyTimes();
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 5;
@@ -988,6 +1024,7 @@ public class GameEngineTest {
 			String output = outputStream.toString(StandardCharsets.UTF_8);
 
 			assertTrue(output.contains("Players remaining: 1"));
+			assertTrue(output.contains("Active players indices: [0]"));
 			assertTrue(output.contains("Cards in deck: 5"));
 		} finally {
 			System.setOut(originalOut);
@@ -999,17 +1036,20 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_withFivePlayersRemaining_displaysCorrectState() {
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockCurrentPlayer.isInGame()).andReturn(true);
 		EasyMock.replay(mockCurrentPlayer);
 
 		List<Player> activePlayers = Arrays.asList(
 				mockCurrentPlayer,
-				EasyMock.createMock(Player.class),
-				EasyMock.createMock(Player.class),
-				EasyMock.createMock(Player.class),
-				EasyMock.createMock(Player.class)
+				mockActivePlayer(),
+				mockActivePlayer(),
+				mockActivePlayer(),
+				mockActivePlayer()
 		);
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
 				.andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(activePlayers).anyTimes();
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 35;
@@ -1042,11 +1082,14 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_withEmptyDeck_displaysZeroCards() {
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockCurrentPlayer.isInGame()).andReturn(true);
 		EasyMock.replay(mockCurrentPlayer);
 
 		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer);
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
 				.andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(activePlayers).anyTimes();
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 0;
@@ -1079,10 +1122,13 @@ public class GameEngineTest {
 	@Test
 	public void displayGameState_ensuresUserInterfaceDisplayPlayerHandCalled() {
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockCurrentPlayer.isInGame()).andReturn(true);
 		EasyMock.replay(mockCurrentPlayer);
 
 		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer);
 		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(activePlayers).anyTimes();
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 8;
@@ -1121,6 +1167,8 @@ public class GameEngineTest {
 		}
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
 				.andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(activePlayers).anyTimes();
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 54;
@@ -1685,7 +1733,7 @@ public class GameEngineTest {
 		mockUserInterface.displayError("Error executing command: Invalid card type");
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockPlayer, mockUserInterface);
-		gameEngine.processCommand("play   skip", mockPlayer);
+		gameEngine.processCommand("play	  skip", mockPlayer);
 
 		EasyMock.verify(mockPlayer, mockUserInterface);
 	}
@@ -1810,5 +1858,19 @@ public class GameEngineTest {
 				Arguments.of("favor", CardType.FAVOR, false),
 				Arguments.of("shuffle", CardType.SHUFFLE, false)
 		);
+	}
+
+	private Player mockActivePlayer() {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.isInGame()).andReturn(true).anyTimes();
+		EasyMock.replay(mockPlayer);
+		return mockPlayer;
+	}
+
+	private Player mockInactivePlayer() {
+		Player mockPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockPlayer.isInGame()).andReturn(false).anyTimes();
+		EasyMock.replay(mockPlayer);
+		return mockPlayer;
 	}
 }
