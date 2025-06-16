@@ -291,4 +291,51 @@ public class GameEngineLoopTest {
 			System.setOut(originalOut);
 		}
 	}
+
+	@Test
+	public void main_runsGameSuccessfully_and_performsInitializationAndLoop() {
+		InputStream  originalIn  = System.in;
+		PrintStream  originalOut = System.out;
+
+		try {
+			String input = "2\nquit\n";
+			System.setIn(new ByteArrayInputStream(input
+					.getBytes(StandardCharsets.UTF_8)));
+			ByteArrayOutputStream outputCapture = new ByteArrayOutputStream();
+			System.setOut(new PrintStream(outputCapture,
+					true, StandardCharsets.UTF_8));
+
+			assertDoesNotThrow(() -> GameEngine.main(new String[]{}));
+
+			String output = outputCapture.toString(StandardCharsets.UTF_8);
+
+			assertTrue(
+					output.contains("Welcome") ||
+							output.contains("players"),
+					"Expected welcome prompt not found"
+			);
+
+			assertTrue(
+					output.toLowerCase().contains("help"),
+					"Expected help instructions " +
+							"not found (initializeGame wasn't called)"
+			);
+
+			String sep = "=".repeat(40);
+			assertTrue(
+					output.contains(sep),
+					"Expected a 40‐'=' separator " +
+							"(runGameLoop wasn't called)"
+			);
+			assertTrue(
+					output.contains("Thanks for playing") ||
+							output.contains("quit"),
+					"Expected quit message not found"
+			);
+		} finally {
+			System.setIn(originalIn);
+			System.setOut(originalOut);
+		}
+	}
+
 }
