@@ -18,3 +18,14 @@
 ## Acknowledgements
 
 REFERENCES, SOURCE OF HELP ETC
+
+* **Textbook Used to Ensure Code Standard** <br>
+>**Title:** Clean Code: A Handbook of Agile Software Craftsmanship <br>
+**Author:** Robert C. Martin <br>
+**Publisher:** Pearson <br>
+**ISBN:** 9780136083238
+
+* Google Coding Standard
+* Professor Yiji Zhang (Northwestern University)
+
+
