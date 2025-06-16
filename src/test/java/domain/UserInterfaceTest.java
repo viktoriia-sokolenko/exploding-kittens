@@ -1553,6 +1553,24 @@ public class UserInterfaceTest {
 		EasyMock.verify(localeManager);
 	}
 
+	@Test
+	public void getPlayerIndexPrompt_returnsCorrectFormattedMessage() {
+		UserInterface ui = new UserInterface(localeManager);
+
+		EasyMock.expect(localeManager.get("player.index.prompt"))
+				.andReturn("Enter the index [0, %d] of a player you want " +
+						"to get card from");
+
+		EasyMock.replay(localeManager);
+
+		String actualPrompt = ui.getPlayerIndexPrompt(2);
+		String expectedPrompt = "Enter the index [0, 2] of a player you want " +
+				"to get card from";
+		assertEquals(expectedPrompt, actualPrompt);
+
+		EasyMock.verify(localeManager);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
