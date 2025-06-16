@@ -1,6 +1,7 @@
 ![Gradle Build](https://github.com/nu-cs-sqe/course-project-20242510-team-05/actions/workflows/main.yml/badge.svg)
 
-# PROJECT NAME
+# Exploding Kitten Game
+
 
 ## Contributors
 
