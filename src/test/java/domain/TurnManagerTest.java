@@ -196,6 +196,25 @@ public class TurnManagerTest {
 	}
 
 	@Test
+	public void endTurnWithoutDrawForAttacks_almostDoneUnderAttack_addsTwoTurnsCorrectly() {
+		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
+		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
+		turnManager.setRequiredTurns(2);
+		turnManager.setCurrentPlayerTurnsTaken(1);
+		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
+		Player firstPlayer = players.get(0);
+		Player secondPlayer = players.get(1);
+		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
+
+		turnManager.endTurnWithoutDrawForAttacks();
+
+		assertEquals(3, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
+		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
+		EasyMock.verify(playerManagerWithTwoPlayers);
+	}
+
+	@Test
 	public void addTurnForCurrentPlayer_beforeSetup_throwsIllegalStateException() {
 		assertThrows(IllegalStateException.class, () -> {
 			turnManager.addTurnForCurrentPlayer();
