@@ -155,20 +155,19 @@ public class TurnManagerTest {
 	}
 
 	@Test
-	public void endTurnWithoutDrawForAttacks_notUnderAttack_setsTurnsToThreeAndAdvances() {
-		final int THREE_TURNS = 3;
+	public void endTurnWithoutDrawForAttacks_notUnderAttack_setsTurnsToTwoAndAdvances() {
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
 		Player firstPlayer = players.get(0);
 		Player secondPlayer = players.get(1);
-		assertEquals(1, turnManager.getRequiredTurns());
+		assertEquals(0, turnManager.getRequiredTurns());
 		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
 		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
 
 		turnManager.endTurnWithoutDrawForAttacks();
 
-		assertEquals(THREE_TURNS, turnManager.getRequiredTurns());
+		assertEquals(2, turnManager.getRequiredTurns());
 		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
 		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
 		EasyMock.verify(playerManagerWithTwoPlayers);

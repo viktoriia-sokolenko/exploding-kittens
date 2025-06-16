@@ -11,7 +11,7 @@ public class TurnManager {
 	public TurnManager() {
 		this.turnQueue = new LinkedList<>();
 		this.currentPlayer = null;
-		this.requiredTurns = 1;
+		this.requiredTurns = 0;
 		this.currentPlayerTurnsTaken = 0;
 	}
 
@@ -55,7 +55,7 @@ public class TurnManager {
 		}
 		int remainingTurns = requiredTurns - currentPlayerTurnsTaken;
 		advanceToNextPlayer();
-		requiredTurns = Math.max(1, remainingTurns + 2);
+		requiredTurns = remainingTurns + 2;
 		currentPlayerTurnsTaken = 0;
 	}
 
