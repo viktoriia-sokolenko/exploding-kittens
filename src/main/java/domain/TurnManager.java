@@ -11,6 +11,8 @@ public class TurnManager {
 	public TurnManager() {
 		this.turnQueue = new LinkedList<>();
 		this.currentPlayer = null;
+		this.requiredTurns = 1;
+		this.currentPlayerTurnsTaken = 0;
 	}
 
 	Player getCurrentActivePlayer() {
@@ -52,9 +54,13 @@ public class TurnManager {
 			throw new IllegalStateException("No players to manage");
 		}
 
-		this.endTurnWithoutDraw();
-		this.addTurnForCurrentPlayer();
-		this.addTurnForCurrentPlayer();
+		if (isUnderAttack()) {
+			requiredTurns += 2;
+		} else {
+			requiredTurns = 3;
+		}
+		currentPlayerTurnsTaken = 0;
+		advanceToNextPlayer();
 	}
 
 	public void advanceToNextPlayer() {

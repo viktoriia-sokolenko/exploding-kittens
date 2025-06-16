@@ -96,8 +96,8 @@
 
 |            | Input 1                                                                             | Input 2                                                           | Output / State Change                                                                                                                                                                                                                                                                                                                     |
 |------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | none                                                                                | Whether or not turnManager from GameContext is being under attack | if not underattacked: removes `current`; re-adds if >1 remain; updates `current`, if underattack: calls increment turns taken                                                                                                                                                                                                             |
-| **Step 2** | uninitialized; empty queue; one player; ≥2 players                                  | Boolean                                                           | Cases: throws ISE or rotates accordingly depending on on isunderattackstate                                                                                                                                                                                                                                                               |
+| **Step 1** | none                                                                                | Whether or not turnManager from GameContext is being under attack | if not under attacked: removes `current`; re-adds if >1 remain; updates `current`, if underattack: calls increment turns taken                                                                                                                                                                                                            |
+| **Step 2** | uninitialized; empty queue; one player; ≥2 players                                  | Boolean                                                           | Cases: throws Exception or rotates accordingly depending on isUnderAttack state                                                                                                                                                                                                                                                           |
 | **Step 3** | 1. `queue=[]`  <br> 2. `queue=[player1]`  <br> 3. `queue=[player1,player2,player3]` | `isUnderAttack= True`, `isUnderAttack=False`                      | **1** → throws `IllegalStateException("No players to manage")`<br>**2** → removes `player1`; queue=\[]; `current=player1` (end‐of‐game)<br>**3** → rotates: removes `player1`, re-adds; queue=\[player2,player3,player1]; `current=player2`, <br> Under Attacked: amount of turns taken for player increases (currentPlayerTurnsTaken +1) |
 
 ### Step 4
@@ -115,26 +115,21 @@
 
 ### Step 1–3 Results
 
-|            | Input                                                                                                      | Output / State Change                                                             |
-|------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| **Step 1** | The current contents of the `turnQueue`                                                                    | Queue updated: current advances, next gets 2 turns                                |
-| **Step 2** | Collection (Empty, Exactly 2 Element, Exactly 5 Elements (Max), Element containing duplicates)             | Next player receives 2 turns, player order preserved, or Exception                |
-| **Step 3** | `[]`, `[player1, player2]`, `[player1, player2, player1]`, `[player1, player2, player3, player4, player5]` | `IllegalStateException("No players to manage")`, Correct advancement or exception |
-
-##### Note:
-
-* Exactly 2 Elements for turnQueue because PlayerManager have a requirement that there should be between 2 and 5 players
-  in TurnManager.
-* Don't need to test 5 Elements (two is more than enough) since the integration test for Game should allow testing
-  multiple players and each doing their different turns and card
+|            | Input 1                                  | Input 2                                      | Input 3                                                           | Output / State Change                                                                                      |
+|------------|------------------------------------------|----------------------------------------------|-------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| **Step 1** | the amount of Required Turns player need | the amount of turns current player has taken | Whether or not turnManager from GameContext is being under attack | Depending on the state of the player, increases the required turns taken for next player (allows stacking) |
+| **Step 2** | Count                                    | Count                                        | Boolean                                                           | throws Exception or rotates accordingly depending on isUnderAttack state                                   |
+| **Step 3** | `requiredTurns` == `1`,`3`,`2`,`5`       | `currentPlayerTurnsTaken` == `0`,`1`,`4`     | `isUnderAttack= True`, `isUnderAttack=False`                      | setsRequiredTurns and Advances or throws IllegalStateException                                             |
 
 ### Step 4
 
-| Test Case | System under test                                                          | Expected behavior                                                                                         | Implemented?       | Test name                                                                   |
-|-----------|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|--------------------|-----------------------------------------------------------------------------|
-| 1         | `queue=[]`                                                                 | throws `IllegalStateException("No players to manage")`                                                    | :white_check_mark: | `endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException `      |
-| 2         | `queue=[player1, player2]`                                                 | removes `player1`; re-adds exactly one `player1`; `current == player2`, `player2` now have two turns more | :white_check_mark: | `endTurnWithoutDrawForAttacks_withTwoPlayers_incrementTurnForPlayerTwo `    |
-| 3         | `queue=[player1,player2,player3]` player2 is the one that will play attack | removes `player2`; re-adds exactly one `player2`; `current == player3`, `player3` now have two turns more | :white_check_mark: | `endTurnWithoutDrawForAttacks_withThreePlayers_incrementTurnForPlayerThree` |
+|             | System Under Test                                                                | Expected Output / State Transition           | Implemented?       | Test Name                                                                  |
+|-------------|----------------------------------------------------------------------------------|----------------------------------------------|--------------------|----------------------------------------------------------------------------|
+| Test Case 1 | Not under attack, default value(`requiredTurns==1`, `currentPlayerTurnsTaken=0`) | Sets `requiredTurns = 3`, resets `taken = 0` | :white_check_mark: | `endTurnWithoutDrawForAttacks_notUnderAttack_setsTurnsToThreeAndAdvances`  |
+| Test Case 2 | Under attack (`requiredTurns==3`, `currentPlayerTurnsTaken=1`)                   | Adds 2 → `requiredTurns = 5`, resets         | No                 | `endTurnWithoutDrawForAttacks_underAttack_addsTwoTurnsAndAdvances`         |
+| Test Case 3 | Edge attack (`requiredTurns==2`, `currentPlayerTurnsTaken=1`)                    | Adds 2 → `requiredTurns = 4`, resets         | No                 | `endTurnWithoutDrawForAttacks_almostDoneUnderAttack_addsTwoTurnsCorrectly` |
+| Test Case 4 | Stacked attack (`requiredTurns==5`, `currentPlayerTurnsTaken=4`)                 | Adds 2 → `requiredTurns = 7`, resets         | No                 | `endTurnWithoutDrawForAttacks_stackedAttack_addsTwoTurnsAgain`             |
+| Test Case 5 | Empty player queue, before setUp                                                 | Throws `IllegalStateException`               | :white_check_mark: | `endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException `     |
 
 ---
 
