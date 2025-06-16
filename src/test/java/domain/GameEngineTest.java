@@ -542,6 +542,8 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.ATTACK, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SKIP, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SKIP, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.BURY, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.BURY, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.FAVOR, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.FAVOR, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
@@ -588,6 +590,7 @@ public class GameEngineTest {
 		final int FOUR_CARDS = 4;
 		final int FIVE_CARDS = 5;
 		final int SIXTEEN_CARDS = 16;
+    
 		// user interface wouldn't let this go through
 		// but this is for some of the mutation test
 		final int FIFTY_PLAYERS = 50;
@@ -599,6 +602,8 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.FAVOR, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SHUFFLE, TWO_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.BURY, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.BURY, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.REVERSE, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.REVERSE, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE,
@@ -616,9 +621,9 @@ public class GameEngineTest {
 		EasyMock.expect(mockFactory.createCards(CardType.SWAP_TOP_AND_BOTTOM,
 						FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SWAP_TOP_AND_BOTTOM,
-						FOUR_CARDS));
+						TWO_CARDS));
 
-		// currentCards = 2+2+2+2+3+2+1+2+2+4 = 22
+		// currentCards = 2+2+2+2+3+2+1+2+2+2+2 = 22
 		// targetNumberOfCards = 56 - 50 = 6
 		// numberOfCardsNeeded = 22 - 6 = 16
 		EasyMock.expect(mockFactory.createCards(CardType.NORMAL, SIXTEEN_CARDS))
@@ -633,7 +638,6 @@ public class GameEngineTest {
 				.filter(card -> card.getCardType() == CardType.NORMAL)
 				.count();
 		assertEquals(SIXTEEN_CARDS, normalCardCount);
-
 		EasyMock.verify(mockFactory);
 	}
 
@@ -794,8 +798,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public
-	void
+	public void
 	handleDrawCommand_withExplodingKittenAndDefuse_usesDefuseAndReinsertsAndAdvancesTurn() {
 		Card kitten = createMockCard(CardType.EXPLODING_KITTEN);
 		final int DECK_SIZE = 5;
@@ -847,8 +850,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void getPlayerChoiceForKittenPlacement_promptsWithDeckSizeAndReturnsChoice()
-			{
+	public void getPlayerChoiceForKittenPlacement_promptsWithDeckSizeAndReturnsChoice() {
 		final int EXPECTED_RETURN_FOUR = 4;
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(EXPECTED_RETURN_FOUR)
 				.once();
@@ -928,7 +930,6 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockPlayerManager, mockDeck, mockTurnManager, mockCurrentPlayer);
 	}
-
 
 
 	@Test

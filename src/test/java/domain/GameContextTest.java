@@ -24,7 +24,6 @@ public class GameContextTest {
 	private CardFactory mockCardFactory;
 	private static final int DEFAULT_PLAYERS = 3;
 
-
 	@BeforeEach
 	public void setUp() {
 		mockCurrentPlayer = EasyMock.createMock(Player.class);
@@ -125,7 +124,6 @@ public class GameContextTest {
 		EasyMock.replay(mockTurnManager);
 
 		fullGameContext.addTurnForCurrentPlayer();
-
 		EasyMock.verify(mockTurnManager);
 	}
 
@@ -145,7 +143,6 @@ public class GameContextTest {
 		EasyMock.replay(mockTurnManager);
 
 		fullGameContext.endTurnWithoutDrawing();
-
 		EasyMock.verify(mockTurnManager);
 	}
 
@@ -160,7 +157,6 @@ public class GameContextTest {
 		EasyMock.replay(mockTurnManager);
 
 		fullGameContext.endTurnWithoutDrawingForAttacks();
-
 		EasyMock.verify(mockTurnManager);
 	}
 
@@ -253,7 +249,6 @@ public class GameContextTest {
 		EasyMock.replay(mockDeck);
 
 		fullGameContext.shuffleDeckFromDeck();
-
 		EasyMock.verify(mockDeck);
 	}
 
@@ -714,6 +709,109 @@ public class GameContextTest {
 
 		EasyMock.verify(mockDeck);
 	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void buryCardImplementation_insertAtTop_insertsAtTop(CardType testCardType) {
+		Card mockCard = mockCard(testCardType);
+
+		EasyMock.expect(mockDeck.draw()).andReturn(mockCard).once();
+		userInterface.displayDrawnCard(mockCard);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(1).once();
+
+		EasyMock.expect(userInterface.getNumericUserInput(
+				EasyMock.contains("Where would you like to bury this card?"),
+				EasyMock.eq(0), EasyMock.eq(1)
+		)).andReturn(0).once();
+
+		mockDeck.insertCardAt(mockCard, 0);
+		EasyMock.expectLastCall().once();
+
+		userInterface.displaySuccess(EasyMock.contains("Player"));
+		EasyMock.expectLastCall().once();
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck, userInterface, mockTurnManager);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.buryCardImplementation();
+		EasyMock.verify(mockDeck, userInterface, mockTurnManager);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void buryCardImplementation_insertAtBottom_insertsAtBottom(CardType testCardType) {
+		final int MAX_INDEX = 5;
+		Card mockCard = mockCard(testCardType);
+		EasyMock.expect(mockDeck.draw()).andReturn(mockCard).once();
+
+		userInterface.displayDrawnCard(mockCard);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(MAX_INDEX).once();
+
+		EasyMock.expect(userInterface.getNumericUserInput(
+				EasyMock.contains("Where would you like to bury this card?"),
+				EasyMock.eq(0), EasyMock.eq(MAX_INDEX)
+		)).andReturn(MAX_INDEX).once();
+
+		mockDeck.insertCardAt(mockCard, MAX_INDEX);
+		EasyMock.expectLastCall().once();
+
+		userInterface.displaySuccess(EasyMock.contains("Player"));
+		EasyMock.expectLastCall().once();
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck, userInterface, mockTurnManager);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.buryCardImplementation();
+		EasyMock.verify(mockDeck, userInterface, mockTurnManager);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void buryCardImplementation_insertAtMiddle_insertsAtMiddle(CardType testCardType) {
+		final int MAX_INDEX = 5;
+		final int MIDDLE_INDEX = 3;
+		Card mockCard = mockCard(testCardType);
+		EasyMock.expect(mockDeck.draw()).andReturn(mockCard).once();
+
+		userInterface.displayDrawnCard(mockCard);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(MAX_INDEX).once();
+
+		EasyMock.expect(userInterface.getNumericUserInput(
+				EasyMock.contains("Where would you like to bury this card?"),
+				EasyMock.eq(0), EasyMock.eq(MAX_INDEX)
+		)).andReturn(MIDDLE_INDEX).once();
+
+		mockDeck.insertCardAt(mockCard, MIDDLE_INDEX);
+		EasyMock.expectLastCall().once();
+
+		userInterface.displaySuccess(EasyMock.contains("Player"));
+		EasyMock.expectLastCall().once();
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck, userInterface, mockTurnManager);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.buryCardImplementation();
+		EasyMock.verify(mockDeck, userInterface, mockTurnManager);
+	}
+
 
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
