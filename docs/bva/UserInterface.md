@@ -7,7 +7,7 @@ input as the variable under test and identify numeric and nonâ€‘numeric boundary
 `displayWelcome`, `displayHelp`, etc.) do not produce functional *outputs* beyond printing, so their BVAs focus on the
 *state variations* that influence what is printed (e.g., empty vs. nonâ€‘empty hands).
 
----
+I am using Parametrized Testing, so whenever I use `testCardType` or `testCard`, it means that the test runs for all the possible card types or for cards with all the card types.
 
 ## Method under test: `public int getNumberOfPlayers()`
 
@@ -133,7 +133,7 @@ These methods share the same structure: they print a line referencing the cardâ€
 | Test Case 3 | message `"message"`, input1 `""`, input2 `"hello world"` | returns ""; stdout repeats "> " and "message" twice       | :white_check_mark: | `getUserInput_withNonEmptyMessageAndEmptyConsoleInput_keepsAskingForInput`  |
 | Test Case 4 | message `"message"`, input `"hello world"`               | returns "hello world"; stdout contains "> " and "message" | :white_check_mark: | `getUserInput_withValidMessageAndInput_returnsConsoleInputAndPrintsMessage` |
 
-## Method under test: `int getNumericUserInput(String message)`
+## Method under test: `int getNumericUserInput(String message, int max, int min)`
 
 ### Step 1-3 Results
 
@@ -145,10 +145,34 @@ These methods share the same structure: they print a line referencing the cardâ€
 
 ### Step 4
 
-|             | System under test                                  | Expected output                                    | Implemented?       | Test name                                                                  |
-|-------------|----------------------------------------------------|----------------------------------------------------|--------------------|----------------------------------------------------------------------------|
-| Test Case 1 | message `null`, input `"1"`                        | returns `1`                                        | :white_check_mark: | `getNumericUserInput_withNullMessage_returnsConsoleInput`                  |
-| Test Case 1 | message `""`, input `"0"`                          | returns 0; stdout contains "> " and "message"      | :white_check_mark: | `getNumericUserInput_withEmptyMessage_returnsConsoleInput`                 |
-| Test Case 1 | message `""`, input1 `"hello world"`, input2 `"0"` | returns 0; stdout contains "> " twice              | :white_check_mark: | `getNumericUserInput_withNonNumericConsoleInput_keepsAskingForInput`       |
-| Test Case 2 | message `"message"`, input1 `""`, input2 `"2"`     | returns 3; stdout repeats "> " and "message" twice | :white_check_mark: | `getNumericUserInput_withEmptyConsoleInput_keepsAskingForInput`            |
-| Test Case 2 | message `"message"`, input `"2"`                   | returns 3; stdout contains "> " and "message"      | :white_check_mark: | `getNumericUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage` |
+|             | System under test                                                    | Expected output                                     | Implemented?       | Test name                                                                  |
+|-------------|----------------------------------------------------------------------|-----------------------------------------------------|--------------------|----------------------------------------------------------------------------|
+| Test Case 1 | message `null`, input `"1"`, min `0`, max `1`                        | returns `1`                                         | :white_check_mark: | `getNumericUserInput_withNullMessage_returnsConsoleInput`                  |
+| Test Case 2 | message `""`, input `"0"`, min `0`, max `2`                          | returns 0; stdout contains "> " and "message"       | :white_check_mark: | `getNumericUserInput_withEmptyMessage_returnsConsoleInput`                 |
+| Test Case 3 | message `""`, input1 `"hello world"`, input2 `"0"`, min `0`, max `1` | returns 0; stdout contains "> " twice               | :white_check_mark: | `getNumericUserInput_withNonNumericConsoleInput_keepsAskingForInput`       |
+| Test Case 4 | message `"message"`, input1 `""`, input2 `"2"`, min `0`, max `4`     | returns 3; stdout repeats "> " and "message" twice  | :white_check_mark: | `getNumericUserInput_withEmptyConsoleInput_keepsAskingForInput`            |
+| Test Case 5 | message `"message"`, input `"2"`, min `1`, max `2`                   | returns 2; stdout contains "> " and "message"       | :white_check_mark: | `getNumericUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage` |
+| Test Case 6 | message `"message"`, input1 `"3"`, input2 `"2"`, min `1`, max `2`    | returns 2; stdout contains "> " and "message" twice | :white_check_mark: | `getNumericUserInput_withInputMoreThanMax_keepsAskingForInput`             |
+| Test Case 7 | message `"message"`, input1 `"0"`, input2 `"1"`, min `1`, max `4`    | returns 1; stdout contains "> " and "message" twice | :white_check_mark: | `getNumericUserInput_withInputLessThanMin_keepsAskingForInput`             |
+
+## Method under test: `void displayCardsFromDeck(List<Card> cards, int deckSize)`
+
+### Step 1-3 Results
+
+|            | Input 1                                                                                  | Input 2                                    | Output                                                                      |
+|------------|------------------------------------------------------------------------------------------|--------------------------------------------|-----------------------------------------------------------------------------|
+| **Step 1** | cards to be printed to be viewed by the player                                           | deck size to be used to print card indexes | prints ":Top of deck:" and card types and their indexes or throws exception |
+| **Step 2** | Collection                                                                               | Count                                      | String or exception                                                         |
+| **Step 3** | Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates | `-1`, `0`, `1`, `>1`, `>cards.size()`      | List of cards printed or IllegalArgumentException                           |
+
+### Step 4
+
+|             | System under test                                                          | Expected output                                                                           | Implemented?       | Test name                                                                        |
+|-------------|----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|--------------------|----------------------------------------------------------------------------------|
+| Test Case 1 | cards `[]` deckSize `1`                                                    | prints `"No cards to view"`                                                               | :white_check_mark: | `displayCardsFromDeck_withEmptyCards_printsNoCardsMessage`                       |
+| Test Case 2 | cards `[testCard]`, deckSize `-1`                                          | `IllegalArgumentException` (deckSize can not be negative)                                 | :white_check_mark: | `displayCardsFromDeck_withNegativeDeckSize_throwsIllegalArgumentException`       |
+| Test Case 3 | cards `[testCard]`, deckSize `0`                                           | `IllegalArgumentException` (deckSize is less than number of cards to display)             | :white_check_mark: | `displayCardsFromDeck_withOneCardAndDeckSizeZero_throwsIllegalArgumentException` |
+| Test Case 4 | cards `[testCard]`, deckSize `1`                                           | prints `":Top of deck:"`, `card1Type, index 0`                                            | :white_check_mark: | `displayCardsFromDeck_withOneCard_printCardTypeAndIndex`                         |
+| Test Case 5 | cards `[NORMAL, ALTER_THE_FUTURE]`, deckSize `1`                           | `IllegalArgumentException` (deckSize is less than number of cards to display)             | :white_check_mark: | `displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException` |
+| Test Case 6 | cards `[NORMAL, ALTER_THE_FUTURE]`, deckSize `2`                           | prints `":Top of deck:"`, `card1Type, index 1`, `card2Type, index 0`                      | :white_check_mark: | `displayCardsFromDeck_withTwoCards_printCardTypeAndIndex`                        |
+| Test Case 7 | cards `[SEE_THE_FUTURE, EXPLODING_KITTEN, EXPLODING_KITTEN]`, deckSize `4` | prints `":Top of deck:"`, `card1Type, index 3`, `card2Type, index 2`, `card2Type, index1` | :white_check_mark: | `displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex`          |

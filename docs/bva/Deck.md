@@ -180,6 +180,60 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 3 | Deck `[card1, card2]`            | Returns `[card1, card2]`;                  | :white_check_mark: | peekTopTwoCards_deckWithTwoCards_returnsTwoLastCards                     |
 | Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `[card2.1, card2.2]`;              | :white_check_mark: | peekTopTwoCards_deckWithThreeCardsAndDuplicate_returnsLastDuplicateCards |
 
+## Method 8: `public List<Card> peekTopThreeCards()`
+
+### Step 1-3 Results
+
+|        | Input                                                                                                                     | Output                                                                                                            |
+|--------|---------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| Step 1 | Deck of Cards                                                                                                             | Three Cards on top of deck, i.e last index from deck                                                              |
+| Step 2 | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, Exactly 3 Elements, More than 3 Elements containing Duplicates) | Collections of 1-3 Card objects or Exception                                                                      |
+| Step 3 | `[]`, `[card1]`, `[card1, card2]`, `[card1, card2, card3]`, duplicates `[card1, card2, card3, card4.1, card4.2]`          | `[card1]`, `[card1, card2]`, `[card2, card3]`, duplicates `[card3, card4.1, card4.2]` or `NoSuchElementException` |
+
+### Step 4:
+
+|             | System under test                       | Expected output / state transition         | Implemented?       | Test name                                                                 |
+|-------------|-----------------------------------------|--------------------------------------------|--------------------|---------------------------------------------------------------------------|
+| Test Case 1 | Deck `[]`                               | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | peekTopThreeCards_emptyDeck_throwsNoSuchElementException                  |
+| Test Case 2 | Deck `[card1]`                          | Returns `[card1]`;                         | :white_check_mark: | peekTopThreeCards_deckWithOneCard_returnsTheOnlyCard                      |
+| Test Case 3 | Deck `[card1, card2]`                   | Returns `[card1, card2]`;                  | :white_check_mark: | peekTopThreeCards_deckWithTwoCards_returnsTwoLastCards                    |
+| Test Case 3 | Deck `[card1, card2, card3]`            | Returns `[card1, card2, card3]`;           | :white_check_mark: | peekTopThreeCards_deckWithThreeCards_returnsThreeLastCards                |
+| Test Case 4 | Deck `[card1, card2, card3.1, card3.2]` | Returns `[card3, card4.1, card4.2]`;       | :white_check_mark: | peekTopThreeCards_deckWithFourCardsAndDuplicate_returnsLastDuplicateCards |
+
+## Method 9: `public void rearrangeTopThreeCards(List<int> newIndices)`
+
+### Step 1-3 Results
+
+|        | Input 1                                                                                                                               | Input 2                                                                    | Input 4                                                                                                                            | Output                                                                                                                                                                                                     |
+|--------|---------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Step 1 | List of new array indices for the card to be rearranged                                                                               | indexOfNewTopCard, indexOfNewSecondCardFromTop, indexOfNewThirdCardFromTop | Deck of Cards                                                                                                                      | Deck of Cards with top three cards rearranged                                                                                                                                                              |
+| Step 2 | List of Array Indices                                                                                                                 | Array Indices                                                              | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, Exactly 3 Elements, More than 3 Elements, Element containing duplicates) | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, Exactly 3 Elements, More than 3 Elements, Element containing duplicates) or Exception                                                            |
+| Step 3 | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, Exactly 3 Elements, 3 elements containing Duplicates, more than 3 elements) | `-1`, `0`, `size-3`, `size-2`, `size-1`, `size` size+1`                    | `[]`, `[card1]`, `[card1, card2]`, `[card1, card2, card3]`, duplicates `[card1, card2, card3, card4.1, card4.2]`                   | `[card1]`, Rearranged `[card1, card2]`, `[card1, card2, card3]`, duplicates `[card1, card2, card3, card4.1, card4.2]` or `NoSuchElementException`, `IndexOutOfBoundsException`, `IllegalArgumentException` |
+
+### Step 4:
+
+|              | System under test                                          | Expected output / state transition                                            | Implemented?       | Test name                                                                       |
+|--------------|------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------|---------------------------------------------------------------------------------|
+| Test Case 1  | Deck `[]`, indices `[0, 1, 2]`                             | `NoSuchElementException` (Deck is empty)                                      | :white_check_mark: | rearrangeTopThreeCards_emptyDeck_throwsNoSuchElementException                   |
+| Test Case 2  | Deck `[card1]`, indices `[0, 1]`                           | `IllegalArgumentException` (Number of indices is larger than the deck size)   | :white_check_mark: | rearrangeTopThreeCards_oneCardDeckWithTwoIndices_throwsIllegalArgumentException |
+| Test Case 3  | Deck `[card1, card2]`, indices `[0, 1, 2]`                 | `IllegalArgumentException` (Number of indices is larger than the deck size)   | :white_check_mark: | rearrangeTopThreeCards_TwoCardsThreeIndices_throwsIllegalArgumentException      |
+| Test Case 4  | Deck `[card1, card2, card3]`, indices `[0, 1, 2, 3]`       | `IllegalArgumentException` (Number of indices is larger than the deck size)   | :white_check_mark: | rearrangeTopThreeCards_ThreeCardsFourIndices_throwsIllegalArgumentException     |
+| Test Case 5  | Deck `[card1, card2]`, indices `-1, 1`                     | `IllegalArgumentException` (Negative indices are not allowed)                 | :white_check_mark: | rearrangeTopThreeCards_withNegativeFirstIndex_throwsIllegalArgumentException    |
+| Test Case 6  | Deck `[card1, card2]`, indices `0, -1`                     | `IllegalArgumentException` (Negative indices are not allowed)                 | :white_check_mark: | rearrangeTopThreeCards_withNegativeSecondIndex_throwsIllegalArgumentException   |
+| Test Case 7  | Deck `[card1, card2, card3]`, indices `3, 1, 0`            | `IllegalArgumentException` (With deck size s, indices must be [s - 1, s - 3]) | :white_check_mark: | rearrangeTopThreeCards_ThreeCardsIndexThree_throwsIllegalArgumentException      |
+| Test Case 8  | Deck `[card1, card2, card3.1, card3.2]`, indices `3, 0, 2` | `IllegalArgumentException` (With deck size s, indices must be [s - 1, s - 3]) | :white_check_mark: | rearrangeTopThreeCards_FourCardsIndexZero_throwsIllegalArgumentException        |
+| Test Case 9  | Deck `[card1, card2, card3.1, card3.2]`, indices `1, 2, 1` | `IllegalArgumentException` (Duplicate indices are not allowed)                | :white_check_mark: | rearrangeTopThreeCards_withSameFirstThirdIndex_throwsIllegalArgumentException   |
+| Test Case 10 | Deck `[card1, card2]`, indices `0, 0`                      | `IllegalArgumentException` (Duplicate indices are not allowed)                | :white_check_mark: | rearrangeTopThreeCards_withSameFirstSecondIndex_throwsIllegalArgumentException  |
+| Test Case 11 | Deck `[card1, card2, card3]`, indices `0, 2, 2`            | `IllegalArgumentException` (Duplicate indices are not allowed)                | :white_check_mark: | rearrangeTopThreeCards_withSameSecondThirdIndex_throwsIllegalArgumentException  |
+| Test Case 12 | Deck `[card1]`, indices `[0]`                              | Deck `[card1]`                                                                | :white_check_mark: | rearrangeTopThreeCards_deckWithOneCard_orderRemainsTheSame                      |
+| Test Case 13 | Deck `[card1, card2]`, indices `[1, 0]`                    | Deck `[card1, card2]`                                                         | :white_check_mark: | rearrangeTopThreeCards_deckWithTwoCardsAndSameIndices_orderRemainsTheSame       |
+| Test Case 14 | Deck `[card1, card2]`, indices `[0, 1]`                    | Deck `[card2, card1]`                                                         | :white_check_mark: | rearrangeTopThreeCards_deckWithTwoCardsAndReversedIndices_reversesCards         |
+| Test Case 15 | Deck `[card1, card2, card3]`, indices `2, 1, 0`            | Deck `[card1, card2, card3]`                                                  | :white_check_mark: | rearrangeTopThreeCards_deckWithThreeCardsAndSameIndices_orderRemainsTheSame     |
+| Test Case 16 | Deck `[card1, card2, card3]`, indices `1, 0, 2`            | Deck `[card3, card1, card2]`                                                  | :white_check_mark: | rearrangeTopThreeCards_deckWithThreeCardsAndDifferentIndices_changesOrder       |
+| Test Case 17 | Deck `[card1, card2, card3.1, card3.2]`, indices `3, 2, 1` | Deck `[card1, card2, card3.1, card3.2]`                                       | :white_check_mark: | rearrangeTopThreeCards_deckWithFourCardsAndSameIndices_orderRemainsTheSame      |
+| Test Case 18 | Deck `[card1, card2, card3.1, card3.2]`, indices `2, 1, 3` | Deck `[card1, card3.2, card2, card3.1]`                                       | :white_check_mark: | rearrangeTopThreeCards_deckWithFourCardsAndThreeDifferentIndices_changesOrder   |
+| Test Case 19 | Deck `[card1, card2, card3.1, card3.2]`, indices `1, 2, 3` | Deck `[card1, card3.2, card3.1, card2]`                                       | :white_check_mark: | rearrangeTopThreeCards_deckWithFourCardsAndTwoDifferentIndices_reversesCards    |
+
 ## Method 10: `public void swapTopAndBottom()`
 
 ### Step 1-3 Results

@@ -663,6 +663,424 @@ public class DeckTest {
 		assertEquals(card3BeforeSwapping, card1AfterSwapping);
 	}
 
+	@Test
+	public void peekTopThreeCards_emptyDeck_throwsNoSuchElementException() {
+		List<Card> emptyCardList = new ArrayList<>();
+
+		Deck deck = new Deck(emptyCardList);
+
+		String expectedMessage = "Deck is empty";
+
+		Exception exception = assertThrows(NoSuchElementException.class,
+				deck::peekTopThreeCards);
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void peekTopThreeCards_deckWithOneCard_returnsTheOnlyCard(CardType testCardType) {
+		Card expectedCard = mockCard(testCardType);
+		List<Card> expectedCardList = new ArrayList<>(List.of(expectedCard));
+
+		Deck deck = new Deck(expectedCardList);
+		List <Card> actualCardList = deck.peekTopThreeCards();
+
+		assertEquals(expectedCardList, actualCardList);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void peekTopThreeCards_deckWithTwoCards_returnsTwoLastCards(List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		Card expectedCard1 = cards.get(1);
+		Card expectedCard2 = cards.get(0);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(expectedCard1, expectedCard2));
+		List <Card> actualCardList = deck.peekTopThreeCards();
+
+		assertEquals(expectedCardList, actualCardList);
+	}
+
+	@Test
+	public void peekTopThreeCards_deckWithThreeCards_returnsThreeLastCards() {
+		Deck deck = deckWithThreeCards();
+		Card expectedCard1 = deck.getCardAt(2);
+		Card expectedCard2 = deck.getCardAt(1);
+		Card expectedCard3 = deck.getCardAt(0);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(expectedCard1, expectedCard2, expectedCard3));
+
+		List <Card> actualCardList = deck.peekTopThreeCards();
+		assertEquals(expectedCardList, actualCardList);
+	}
+
+	@Test
+	public void peekTopThreeCards_deckWithFourCardsAndDuplicate_returnsLastDuplicateCards() {
+		Deck deck = deckWithFourCardsAndDuplicate();
+		int indexSizeMinusOne = deck.getDeckSize() - 1;
+		Card expectedCard1 = deck.getCardAt(indexSizeMinusOne);
+		Card expectedCard2 = deck.getCardAt(2);
+		Card expectedCard3 = deck.getCardAt(1);
+		List <Card> expectedCardList = new ArrayList<>(
+				List.of(expectedCard1, expectedCard2, expectedCard3));
+
+		List <Card> actualCardList = deck.peekTopThreeCards();
+		assertEquals(expectedCardList, actualCardList);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_emptyDeck_throwsNoSuchElementException() {
+		List<Card> emptyCardList = new ArrayList<>();
+		Deck deck = new Deck(emptyCardList);
+		String expectedMessage = "Deck is empty";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1, 2));
+
+		Exception exception = assertThrows(NoSuchElementException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void rearrangeTopThreeCards_oneCardDeckWithTwoIndices_throwsIllegalArgumentException(
+			CardType testCardType) {
+		Card testCard = mockCard(testCardType);
+		Deck deck = new Deck(List.of(testCard));
+
+		String expectedMessage = "Number of indices is larger than the deck size";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_TwoCardsThreeIndices_throwsIllegalArgumentException(
+			List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		String expectedMessage = "Number of indices is larger than the deck size";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1, 2));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_ThreeCardsFourIndices_throwsIllegalArgumentException() {
+		Deck deck = deckWithThreeCards();
+
+		String expectedMessage = "Number of indices is larger than the deck size";
+
+		int extraIndex = deck.getDeckSize();
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1, 2, extraIndex));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_withNegativeFirstIndex_throwsIllegalArgumentException(
+			List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		String expectedMessage = "Negative indices are not allowed";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(-1, 1));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_withNegativeSecondIndex_throwsIllegalArgumentException(
+			List<Card> cards) {
+		Deck deck = new Deck(cards);
+
+		String expectedMessage = "Negative indices are not allowed";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, -1));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_ThreeCardsIndexThree_throwsIllegalArgumentException() {
+		Deck deck = deckWithThreeCards();
+
+		String expectedMessage =
+				"With deck size s, indices must be [s - 1, s - 3]";
+
+		int wrongIndex = deck.getDeckSize();
+		List<Integer> listOfIndices = new ArrayList<>(List.of(wrongIndex, 1, 0));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_FourCardsIndexZero_throwsIllegalArgumentException() {
+		Deck deck = deckWithFourCardsAndDuplicate();
+
+		String expectedMessage =
+				"With deck size s, indices must be [s - 1, s - 3]";
+
+		int indexForTopCard = deck.getDeckSize() - 1;
+		List<Integer> listOfIndices = new ArrayList<>(List.of(indexForTopCard, 0, 2));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_withSameFirstThirdIndex_throwsIllegalArgumentException()
+	{
+		Deck deck = deckWithFourCardsAndDuplicate();
+
+		String expectedMessage =
+				"Duplicate indices are not allowed";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(1, 2, 1));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_withSameFirstSecondIndex_throwsIllegalArgumentException(
+			List<Card> cards
+	)
+	{
+		Deck deck = new Deck(cards);
+
+		String expectedMessage =
+				"Duplicate indices are not allowed";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 0));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_withSameSecondThirdIndex_throwsIllegalArgumentException()
+	{
+		Deck deck = deckWithThreeCards();
+
+		String expectedMessage =
+				"Duplicate indices are not allowed";
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 2, 2));
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> deck.rearrangeTopThreeCards(listOfIndices));
+
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void rearrangeTopThreeCards_deckWithOneCard_orderRemainsTheSame(
+			CardType testCardType) {
+		Card testCard = mockCard(testCardType);
+		Deck deck = new Deck(List.of(testCard));
+		int expectedDeckSize = deck.getDeckSize();
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+		assertEquals(previousTopCards, nextTopCards);
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_deckWithTwoCardsAndSameIndices_orderRemainsTheSame(
+			List<Card> cards) {
+		Deck deck = new Deck(cards);
+		int expectedDeckSize = deck.getDeckSize();
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(1, 0));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+		assertEquals(previousTopCards, nextTopCards);
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void rearrangeTopThreeCards_deckWithTwoCardsAndReversedIndices_reversesCards(
+			List<Card> cards) {
+		Deck deck = new Deck(cards);
+		int expectedDeckSize = deck.getDeckSize();
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+
+		assertEquals(previousTopCards.get(0), nextTopCards.get(1));
+		assertEquals(previousTopCards.get(1), nextTopCards.get(0));
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_deckWithThreeCardsAndSameIndices_orderRemainsTheSame()
+	{
+		Deck deck = deckWithThreeCards();
+		int expectedDeckSize = deck.getDeckSize();
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(2, 1, 0));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+		assertEquals(previousTopCards, nextTopCards);
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_deckWithThreeCardsAndDifferentIndices_changesOrder()
+	{
+		Deck deck = deckWithThreeCards();
+		int expectedDeckSize = deck.getDeckSize();
+
+		List<Integer> listOfIndices = new ArrayList<>(List.of(1, 0, 2));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+
+		assertEquals(previousTopCards.get(0), nextTopCards.get(2));
+		assertEquals(previousTopCards.get(1), nextTopCards.get(0));
+		assertEquals(previousTopCards.get(2), nextTopCards.get(1));
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_deckWithFourCardsAndSameIndices_orderRemainsTheSame()
+	{
+		Deck deck = deckWithFourCardsAndDuplicate();
+		int expectedDeckSize = deck.getDeckSize();
+
+		int indexOfNewTopCard = deck.getDeckSize() - 1;
+		List<Integer> listOfIndices = new ArrayList<>(
+				List.of(indexOfNewTopCard,
+						indexOfNewTopCard - 1,
+						indexOfNewTopCard - 2));
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+		assertEquals(previousTopCards, nextTopCards);
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_deckWithFourCardsAndThreeDifferentIndices_changesOrder()
+	{
+		Deck deck = deckWithFourCardsAndDuplicate();
+		int expectedDeckSize = deck.getDeckSize();
+
+		int indexOfNewTopCard = deck.getDeckSize() - 1;
+		List<Integer> listOfIndices = new ArrayList<>(
+				List.of(indexOfNewTopCard - 1,
+						indexOfNewTopCard - 2,
+						indexOfNewTopCard));
+
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+
+		assertEquals(previousTopCards.get(0), nextTopCards.get(2));
+		assertEquals(previousTopCards.get(2), nextTopCards.get(1));
+		assertEquals(previousTopCards.get(1), nextTopCards.get(0));
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
+	}
+
+	@Test
+	public void rearrangeTopThreeCards_deckWithFourCardsAndTwoDifferentIndices_reversesCards()
+	{
+		Deck deck = deckWithFourCardsAndDuplicate();
+		int expectedDeckSize = deck.getDeckSize();
+
+		int indexOfNewTopCard = deck.getDeckSize() - 1;
+		List<Integer> listOfIndices = new ArrayList<>(
+				List.of(indexOfNewTopCard - 2,
+						indexOfNewTopCard - 1,
+						indexOfNewTopCard));
+
+		List<Card> previousTopCards = deck.peekTopThreeCards();
+		deck.rearrangeTopThreeCards(listOfIndices);
+		List<Card> nextTopCards = deck.peekTopThreeCards();
+
+		assertEquals(previousTopCards.get(0), nextTopCards.get(2));
+		assertEquals(previousTopCards.get(1), nextTopCards.get(1));
+		assertEquals(previousTopCards.get(2), nextTopCards.get(0));
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
@@ -682,6 +1100,21 @@ public class DeckTest {
 		Card card2 = mockCard(CardType.NORMAL);
 		Card card3 = mockCard(CardType.NORMAL);
 		return new Deck(List.of(card1, card2, card3));
+	}
+
+	private Deck deckWithThreeCards() {
+		Card card1 = mockCard(CardType.ALTER_THE_FUTURE);
+		Card card2 = mockCard(CardType.NUKE);
+		Card card3 = mockCard(CardType.FAVOR);
+		return new Deck(List.of(card1, card2, card3));
+	}
+
+	private Deck deckWithFourCardsAndDuplicate() {
+		Card card1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card card2 = mockCard(CardType.SKIP);
+		Card card3 = mockCard(CardType.NORMAL);
+		Card card4 = mockCard(CardType.NORMAL);
+		return new Deck(List.of(card1, card2, card3, card4));
 	}
 
 	private Card mockCard(CardType type) {

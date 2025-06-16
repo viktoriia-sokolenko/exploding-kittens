@@ -3,6 +3,7 @@ package domain;
 import ui.UserInterface;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -63,16 +64,21 @@ public class GameContext {
 	}
 
 	public void transferCardBetweenPlayers() {
-		String playerMessage = "Enter the player you want to get card from";
-		Player playerGiver = getPlayerFromUserInput(playerMessage);
+		int maxPlayerIndex = playerManager.getNumberOfPlayers() - 1;
+
+		String playerMessage = "Enter the index [0, " + maxPlayerIndex +
+				"] of a player you want to get card from";
+		Player playerGiver = getPlayerFromUserInput(playerMessage, maxPlayerIndex);
 		String cardMessage = "Enter card type you want to give to current player";
 		Card cardToTransfer = getCardFromUserInput(cardMessage, playerGiver);
 		playerGiver.removeCardFromHand(cardToTransfer);
 		currentPlayer.addCardToHand(cardToTransfer);
 	}
 
-	public List<Card> viewTopTwoCardsFromDeck() {
-		return deck.peekTopTwoCards();
+	public void viewTopTwoCardsFromDeck() {
+		List<Card> topTwoCards = deck.peekTopTwoCards();
+		int deckSize = deck.getDeckSize();
+		userInterface.displayCardsFromDeck(topTwoCards, deckSize);
 	}
 
 	public void shuffleDeckFromDeck() {
@@ -89,6 +95,14 @@ public class GameContext {
 		}
 	}
 
+	public void rearrangeTopThreeCardsFromDeck() {
+		List<Card> topThreeCards = deck.peekTopThreeCards();
+		userInterface.displayCardsFromDeck(topThreeCards,
+				deck.getDeckSize());
+		List<Integer> indices = getIndicesFromUserInput(topThreeCards);
+		deck.rearrangeTopThreeCards(indices);
+	}
+
 	public void swapTopAndBottomDeckCards() {
 		deck.swapTopAndBottom();
 	}
@@ -96,12 +110,42 @@ public class GameContext {
 	private Card getCardFromUserInput(String message, Player player) {
 		String cardTypeInput = userInterface.getUserInput(message);
 		CardType cardType = player.parseCardType(cardTypeInput);
+		if (cardType == null) {
+			throw new IllegalArgumentException(
+					"Inputted card type is invalid or was not found in Hand");
+		}
 		return cardFactory.createCard(cardType);
 	}
 
-	private Player getPlayerFromUserInput(String message) {
-		int playerIndex = userInterface.getNumericUserInput(message);
+	private Player getPlayerFromUserInput(String message, int maxPlayerIndex) {
+		int playerIndex = userInterface.getNumericUserInput(message, 0, maxPlayerIndex);
 		return playerManager.getPlayerByIndex(playerIndex);
 
+	}
+
+	private List<Integer> getIndicesFromUserInput(List<Card> topThreeCards) {
+		int deckSize = deck.getDeckSize();
+
+		final int cardsToRearrange = topThreeCards.size();
+		int minCardIndex = deckSize - cardsToRearrange;
+		int maxCardIndex = deckSize - 1;
+
+		List<Integer> indices = new ArrayList<>();
+
+		for (int i = 0; i < cardsToRearrange; i++) {
+			String messageForPlayer =
+					"Enter the index of a card " +
+							"that you want to put in position " +
+							i +
+							" starting from the top of the Deck.\n" +
+							"Only possible indices are from " +
+							minCardIndex +
+							" to " + maxCardIndex + "." +
+							" Indices can not repeat.";
+			indices.add(userInterface.getNumericUserInput
+					(messageForPlayer, minCardIndex, maxCardIndex));
+		}
+
+		return indices;
 	}
 }
