@@ -14,10 +14,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Stream;
@@ -172,6 +172,8 @@ public class GameEngineTest {
 		EasyMock.verify(mockTurnManager);
 	}
 
+
+
 	@Test
 	public void createNewGame_createsValidGameEngine() {
 		InputStream originalIn = System.in;
@@ -188,10 +190,93 @@ public class GameEngineTest {
 		}
 	}
 
+	@Test
+	public void createNewGame_displaysWelcomeFirst() {
+		InputStream originalIn = System.in;
+		PrintStream originalOut = System.out;
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+		try {
+			System.setOut(new PrintStream(outputStream,
+					true, StandardCharsets.UTF_8));
+			String simulatedInput = "1\n3\n";
+			System.setIn(new ByteArrayInputStream(
+					simulatedInput.getBytes(StandardCharsets.UTF_8)));
+
+			GameEngine engine = GameEngine.createNewGame();
+			String output = outputStream.toString(StandardCharsets.UTF_8);
+			String[] lines = output.split("\n");
+
+			assertTrue(lines.length >= 2,
+					"Should have multiple lines of " +
+							"output (welcome + prompt). " +
+							"Got:\n" + output);
+
+			String firstLine = lines[0].toLowerCase();
+			assertTrue(
+					firstLine.contains("welcome") ||
+							firstLine.contains("exploding") ||
+							firstLine.contains("kitten")   ||
+							firstLine.contains("game")     ||
+							!firstLine.contains("player"),
+					"First output should be a " +
+							"welcome message, not the player prompt" +
+							".\nFirst line was: "
+							+ lines[0]
+			);
+
+			assertNotNull(engine);
+		} finally {
+			System.setIn(originalIn);
+			System.setOut(originalOut);
+		}
+	}
+
+
+	@Test
+	public void createNewGame_mustShuffleDeck() throws Exception {
+		InputStream oldIn = System.in;
+		try {
+			String simulatedInput = "1\n3\n";
+			System.setIn(new ByteArrayInputStream(
+					simulatedInput.getBytes(StandardCharsets.UTF_8)));
+
+			GameEngine engine = GameEngine.createNewGame();
+
+			Field deckField = GameEngine.class.getDeclaredField("deck");
+			deckField.setAccessible(true);
+			Deck deck = (Deck) deckField.get(engine);
+
+			Field listField = Deck.class.getDeclaredField("deck");
+			listField.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			List<Card> actualOrder = (List<Card>) listField.get(deck);
+
+			CardFactory cardFactory = new CardFactory();
+			final int NUMBER_OF_PLAYERS = 3;
+			List<Card> baseline =
+					GameEngine.createInitialDeck(cardFactory,
+							NUMBER_OF_PLAYERS);
+
+			assertFalse(
+					baseline.equals(actualOrder),
+					"createNewGame() must call " +
+							"shuffleDeck(...) " +
+							"— after shuffle the " +
+							"internal list " +
+							"should not equal the " +
+							"un-shuffled baseline"
+			);
+		} finally {
+			System.setIn(oldIn);
+		}
+	}
+
 
 	@ParameterizedTest
 	@ValueSource(ints = {MIN_PLAYERS, THREE_PLAYERS, FOUR_PLAYERS, MAX_PLAYERS})
-	public void createInitialDeck_withValidPlayerCount_createsCorrectDeck(int numPlayers) {
+	public void
+	createInitialDeck_withValidPlayerCount_createsCorrectDeck(int numPlayers) {
 		CardFactory factory = new CardFactory();
 		List<Card> deck = GameEngine.createInitialDeck(factory, numPlayers);
 
@@ -214,6 +299,7 @@ public class GameEngineTest {
 
 		assertEquals("Player cannot be null", exception.getMessage());
 	}
+
 
 	@Test
 	public void showAvailableCardTypes_withEmptyHand_printsNothing() {
@@ -640,6 +726,71 @@ public class GameEngineTest {
 		assertEquals(SIXTEEN_CARDS, normalCardCount);
 		EasyMock.verify(mockFactory);
 	}
+
+	@Test
+	public void createInitialDeck_whenExactlyEnoughCards_doesNotAddNormalCards() {
+		CardFactory mockFactory = EasyMock.createMock(CardFactory.class);
+
+		final int ONE_CARD    = 1;
+		final int TWO_CARDS   = 2;
+		final int FOUR_CARDS  = 4;
+		final int FIVE_CARDS  = 5;
+		final int SIXTEEN_PLAYERS        = 16;
+		final int TARGET_NUMBER_OF_CARDS = 56 - SIXTEEN_PLAYERS;
+
+		EasyMock.expect(mockFactory.createCards(CardType.ATTACK, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.ATTACK, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SKIP, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SKIP, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.FAVOR, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.FAVOR, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SHUFFLE, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.BURY, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.BURY, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.REVERSE, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.REVERSE, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE,
+						FIVE_CARDS))
+				.andReturn(createMockCardList(CardType.SEE_THE_FUTURE,
+						FIVE_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.ALTER_THE_FUTURE,
+						FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.ALTER_THE_FUTURE,
+						FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.NUKE, ONE_CARD))
+				.andReturn(createMockCardList(CardType.NUKE, ONE_CARD));
+		EasyMock.expect(mockFactory.createCards(CardType.SWAP_TOP_AND_BOTTOM,
+						FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SWAP_TOP_AND_BOTTOM,
+						FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.DEFUSE, TWO_CARDS))
+				.andReturn(createMockCardList(CardType.DEFUSE, TWO_CARDS));
+
+		EasyMock.replay(mockFactory);
+		List<Card> deck = GameEngine.createInitialDeck(mockFactory,
+				SIXTEEN_PLAYERS);
+		long normalCardCount = deck.stream()
+				.filter(c -> c.getCardType() == CardType.NORMAL)
+				.count();
+		assertEquals(
+				0,
+				normalCardCount,
+				"Should not add any NORMAL " +
+						"cards when exactly enough cards exist"
+		);
+
+		assertEquals(
+				TARGET_NUMBER_OF_CARDS,
+				deck.size(),
+				"Deck size should be " +
+						"TARGET_NUMBER_OF_CARDS " +
+						"when no NORMAL cards added"
+		);
+
+		EasyMock.verify(mockFactory);
+	}
+
 
 	@Test
 	public void handleDrawCommand_withNullPlayer_throwsNullPointerException() {
@@ -1356,6 +1507,76 @@ public class GameEngineTest {
 		}
 
 		EasyMock.verify(mockPlayerManager, mockDeck, mockUserInterface, mockCurrentPlayer);
+	}
+
+	@Test
+	public void displayGameState_mustPrintTwoSeparatorLines() {
+		final int SEPERATOR_LENGTH           = 40;
+		final int EXPECTED_SEPERATOR_COUNT   = 2;
+		final int MOCK_DECK_SIZE             = 10;
+		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockCurrentPlayer.isInGame())
+				.andReturn(true)
+				.anyTimes();
+		EasyMock.replay(mockCurrentPlayer);
+		List<Player> players = Collections.singletonList(mockCurrentPlayer);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(players)
+				.anyTimes();
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(players)
+				.anyTimes();
+		EasyMock.replay(mockPlayerManager);
+		EasyMock.expect(mockDeck.getDeckSize())
+				.andReturn(MOCK_DECK_SIZE)
+				.anyTimes();
+		EasyMock.replay(mockDeck);
+		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockUserInterface);
+		EasyMock.expect(mockLocaleManager.get("turn.of.player"))
+				.andReturn("")
+				.anyTimes();
+		EasyMock.expect(mockLocaleManager.get("players.remaining"))
+				.andReturn("")
+				.anyTimes();
+		EasyMock.expect(mockLocaleManager.get("active.players.indices"))
+				.andReturn("")
+				.anyTimes();
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("")
+				.anyTimes();
+		EasyMock.replay(mockLocaleManager);
+		ByteArrayOutputStream capturedOut = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(capturedOut,
+				true, StandardCharsets.UTF_8));
+
+		try {
+			gameEngine.displayGameState(mockCurrentPlayer);
+		} finally {
+			System.setOut(originalOut);
+		}
+		String separatorLine = "=".repeat(SEPERATOR_LENGTH);
+		String printed       = capturedOut
+				.toString(StandardCharsets.UTF_8);
+
+		int separatorCount = 0, idx = 0;
+		while ((idx = printed.indexOf(separatorLine, idx)) != -1) {
+			separatorCount++;
+			idx += separatorLine.length();
+		}
+
+		assertEquals(
+				EXPECTED_SEPERATOR_COUNT,
+				separatorCount,
+				String.format(
+						"Expected the " +
+								"%d-character '%s' separator " +
+								"to appear %d times",
+						SEPERATOR_LENGTH, "=", EXPECTED_SEPERATOR_COUNT
+				)
+		);
 	}
 
 	@Test

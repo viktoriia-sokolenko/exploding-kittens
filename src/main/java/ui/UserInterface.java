@@ -73,8 +73,8 @@ public class UserInterface {
 				displayError(getMessage("error.players.number"));
 			}
 		}
-	}
 
+	}
 
 	public void displayPlayerHand(Player player) {
 		int total = player.getNumberOfCards();
