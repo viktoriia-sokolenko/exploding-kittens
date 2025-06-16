@@ -71,6 +71,15 @@ public class Deck {
 		if (deck.isEmpty()) {
 			throw new NoSuchElementException("Deck is empty");
 		}
+
+		int topIndex = deck.size() - 1;
+		Card topCard = deck.get(topIndex);
+
+		int bottomIndex = 0;
+		Card bottomCard = deck.get(bottomIndex);
+
+		deck.set(topIndex, bottomCard);
+		deck.set(bottomIndex, topCard);
 	}
 
 	private boolean isIndexOutOfBounds(int index) {

@@ -628,6 +628,23 @@ public class DeckTest {
 		assertEquals(expectedCard, actualCard);
 	}
 
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void swapTopAndBottom_deckWithTwoCards_swapsCards
+			(List<Card> cards) {
+		Deck deck = new Deck(cards);
+		Card card1BeforeSwapping = deck.getCardAt(0);
+		Card card2BeforeSwapping = deck.getCardAt(1);
+
+		deck.swapTopAndBottom();
+		Card card1AfterSwapping = deck.getCardAt(0);
+		Card card2AfterSwapping = deck.getCardAt(1);
+
+		assertEquals(card1BeforeSwapping, card2AfterSwapping);
+		assertEquals(card2BeforeSwapping, card1AfterSwapping);
+
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
