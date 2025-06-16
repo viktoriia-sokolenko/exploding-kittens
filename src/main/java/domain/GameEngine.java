@@ -123,6 +123,9 @@ public class GameEngine {
 						NUMBER_OF_ESSENTIAL_CARDS));
 		deck.addAll(cardFactory
 				.createCards(CardType.NUKE, NUMBER_OF_NUKE_CARDS));
+		deck.addAll(cardFactory
+				.createCards(CardType.SWAP_TOP_AND_BOTTOM,
+						NUMBER_OF_ESSENTIAL_CARDS));
 		// We're giving the players two extra defusing in the deck
 		deck.addAll(cardFactory
 				.createCards
