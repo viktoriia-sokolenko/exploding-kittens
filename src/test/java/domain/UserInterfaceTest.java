@@ -251,20 +251,26 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_mustPrintFourSeparators() {
+		EasyMock.expect(localeManager.get("hand.title"))
+				.andReturn("YOUR HAND");
+		EasyMock.expect(localeManager.get("hand.cards"))
+				.andReturn("cards");
+		EasyMock.expect(localeManager.get("hand.empty"))
+				.andReturn("(empty)");
+		EasyMock.expect(localeManager.get("hand.usage"))
+				.andReturn("");
+		EasyMock.replay(localeManager);
+
 		UserInterface ui = new UserInterface(localeManager);
 		Player p = new Player(new Hand());
 		ui.displayPlayerHand(p);
 
-		final int EXPECTED_NUMBER_OF_DASHES = 40;
-		final int EXPECTED_NUMBER_OF_TIMES_PRINTED = 4;
-		String full = outContent.toString(StandardCharsets.UTF_8);
-		String sep  = "─".repeat(EXPECTED_NUMBER_OF_DASHES);
-		long count = full.lines().filter(l -> l.contains(sep)).count();
-		assertEquals(EXPECTED_NUMBER_OF_TIMES_PRINTED, count,
-
+		final String sep = "─".repeat(40);
+		long count = outContent.toString(StandardCharsets.UTF_8).lines()
+				.filter(l -> l.contains(sep)).count();
+		assertEquals(4, count,
 				"displayPlayerHand() " +
-						"should print the 40-dash separator " +
-						"exactly 4 times");
+						"should print the 40-dash separator exactly 4 times");
 	}
 
 	@Test
