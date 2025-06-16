@@ -321,9 +321,10 @@ public class GameEngineLoopTest {
 							"not found (initializeGame wasn't called)"
 			);
 
-			String sep = "=".repeat(40);
+			final int EXPECTED_NUMBER_OF_SEPERATORS = 40;
+			String seperators = "=".repeat(EXPECTED_NUMBER_OF_SEPERATORS);
 			assertTrue(
-					output.contains(sep),
+					output.contains(seperators),
 					"Expected a 40‐'=' separator " +
 							"(runGameLoop wasn't called)"
 			);

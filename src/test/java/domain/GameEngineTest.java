@@ -182,37 +182,39 @@ public class GameEngineTest {
 	@Test
 	public void createNewGame_displaysWelcomeFirst() {
 		InputStream originalIn = System.in;
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
 		try {
-			System.setOut(new PrintStream(outputStream));
+			System.setOut(new PrintStream(outputStream,
+					true, StandardCharsets.UTF_8));
 			String simulatedInput = "3\n";
-			System.setIn(new ByteArrayInputStream(simulatedInput
-					.getBytes(StandardCharsets.UTF_8)));
+			System.setIn(new ByteArrayInputStream(
+					simulatedInput.getBytes(StandardCharsets.UTF_8)));
 
 			GameEngine engine = GameEngine.createNewGame();
-
-			String output = outputStream.toString();
+			String output = outputStream.toString(StandardCharsets.UTF_8);
 			String[] lines = output.split("\n");
 
 			assertTrue(lines.length >= 2,
-
 					"Should have multiple lines of " +
 							"output (welcome + prompt). " +
-							"Got: " + output);
+							"Got:\n" + output);
 
 			String firstLine = lines[0].toLowerCase();
-			assertTrue(firstLine.contains("welcome") ||
+			assertTrue(
+					firstLine.contains("welcome") ||
 							firstLine.contains("exploding") ||
-							firstLine.contains("kitten") ||
-							firstLine.contains("game") ||
+							firstLine.contains("kitten")   ||
+							firstLine.contains("game")     ||
 							!firstLine.contains("player"),
-					"First output should be welcome message, " +
-							"not player prompt. First line: " + lines[0]);
+					"First output should be a " +
+							"welcome message, not the player prompt" +
+							".\nFirst line was: "
+							+ lines[0]
+			);
 
 			assertNotNull(engine);
-
 		} finally {
 			System.setIn(originalIn);
 			System.setOut(originalOut);
@@ -242,8 +244,10 @@ public class GameEngineTest {
 					createInitialDeck(cardFactory, NUMBER_OF_PLAYERS);
 			assertFalse(
 					baseline.equals(actualOrder),
-					"createNewGame() must call shuffleDeck(...)" +
-							" — after shuffle the internal list should not " +
+					"createNewGame() must call " +
+							"shuffleDeck(...)" +
+							" — after shuffle the internal " +
+							"list should not " +
 							"equal the un-shuffled baseline"
 			);
 		} finally {
@@ -703,7 +707,8 @@ public class GameEngineTest {
 				.filter(card -> card.getCardType() == CardType.NORMAL)
 				.count();
 		assertEquals(0, normalCardCount);
-		assertEquals(32, deck.size());
+		final int EXPECTED_CARD_COUNT = 32;
+		assertEquals(EXPECTED_CARD_COUNT, deck.size());
 
 		// This will fail if createCards(NORMAL, 0) is called
 		EasyMock.verify(mockFactory);
