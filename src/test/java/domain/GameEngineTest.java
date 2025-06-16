@@ -234,13 +234,16 @@ public class GameEngineTest {
 	public void createNewGame_mustShuffleDeck() throws Exception {
 		InputStream oldIn = System.in;
 		try {
-			System.setIn(new ByteArrayInputStream("3\n"
-					.getBytes(StandardCharsets.UTF_8)));
+			String simulatedInput = "1\n3\n";
+			System.setIn(new ByteArrayInputStream(
+					simulatedInput.getBytes(StandardCharsets.UTF_8)));
+
 			GameEngine engine = GameEngine.createNewGame();
 
 			Field deckField = GameEngine.class.getDeclaredField("deck");
 			deckField.setAccessible(true);
 			Deck deck = (Deck) deckField.get(engine);
+
 			Field listField = Deck.class.getDeclaredField("deck");
 			listField.setAccessible(true);
 			@SuppressWarnings("unchecked")
@@ -248,15 +251,18 @@ public class GameEngineTest {
 
 			CardFactory cardFactory = new CardFactory();
 			final int NUMBER_OF_PLAYERS = 3;
-			List<Card> baseline = GameEngine.
-					createInitialDeck(cardFactory, NUMBER_OF_PLAYERS);
+			List<Card> baseline =
+					GameEngine.createInitialDeck(cardFactory,
+							NUMBER_OF_PLAYERS);
+
 			assertFalse(
 					baseline.equals(actualOrder),
 					"createNewGame() must call " +
-							"shuffleDeck(...)" +
-							" — after shuffle the internal " +
-							"list should not " +
-							"equal the un-shuffled baseline"
+							"shuffleDeck(...) " +
+							"— after shuffle the " +
+							"internal list " +
+							"should not equal the " +
+							"un-shuffled baseline"
 			);
 		} finally {
 			System.setIn(oldIn);
