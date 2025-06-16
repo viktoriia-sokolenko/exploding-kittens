@@ -148,4 +148,12 @@ public class GameContext {
 
 		return indices;
 	}
+
+	public void moveAllExplodingKittensToTop() {
+		if (deck != null && userInterface != null) {
+			deck.moveAllExplodingKittensToTop();
+			userInterface.displaySuccess
+					("All Exploding Kittens moved to the top of the deck!");
+		}
+	}
 }
