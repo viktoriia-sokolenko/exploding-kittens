@@ -65,8 +65,9 @@ public class GameContext {
 
 	public void transferCardBetweenPlayers() {
 		int maxPlayerIndex = playerManager.getNumberOfPlayers() - 1;
-		String playerMessage = "Enter the index of a player you want to get card from"
-				+ " (0, " + maxPlayerIndex + ")";
+
+		String playerMessage = "Enter the index [0, " + maxPlayerIndex +
+				"] of a player you want to get card from";
 		Player playerGiver = getPlayerFromUserInput(playerMessage, maxPlayerIndex);
 		String cardMessage = "Enter card type you want to give to current player";
 		Card cardToTransfer = getCardFromUserInput(cardMessage, playerGiver);
@@ -102,9 +103,17 @@ public class GameContext {
 		deck.rearrangeTopThreeCards(indices);
 	}
 
+	public void swapTopAndBottomDeckCards() {
+		deck.swapTopAndBottom();
+	}
+
 	private Card getCardFromUserInput(String message, Player player) {
 		String cardTypeInput = userInterface.getUserInput(message);
 		CardType cardType = player.parseCardType(cardTypeInput);
+		if (cardType == null) {
+			throw new IllegalArgumentException(
+					"Inputted card type is invalid or was not found in Hand");
+		}
 		return cardFactory.createCard(cardType);
 	}
 
