@@ -66,10 +66,9 @@ public class GameContext {
 	public void transferCardBetweenPlayers() {
 		int maxPlayerIndex = playerManager.getNumberOfPlayers() - 1;
 
-		String playerMessage = "Enter the index [0, " + maxPlayerIndex +
-				"] of a player you want to get card from";
+		String playerMessage = userInterface.getPlayerIndexPrompt(maxPlayerIndex);
 		Player playerGiver = getPlayerFromUserInput(playerMessage, maxPlayerIndex);
-		String cardMessage = "Enter card type you want to give to current player";
+		String cardMessage = userInterface.getCardTransferPrompt();
 		Card cardToTransfer = getCardFromUserInput(cardMessage, playerGiver);
 		playerGiver.removeCardFromHand(cardToTransfer);
 		currentPlayer.addCardToHand(cardToTransfer);
@@ -107,6 +106,18 @@ public class GameContext {
 		deck.swapTopAndBottom();
 	}
 
+	public void buryCardImplementation() {
+		Card topCard = deck.draw();
+		userInterface.displayDrawnCard(topCard);
+
+		int deckSize = deck.getDeckSize();
+		int insertIndex = getNumericIndexFromUserInput(deckSize);
+
+		deck.insertCardAt(topCard, insertIndex);
+		userInterface.displaySuccess("Player " + currentPlayer + " has buried a card.");
+		endTurnWithoutDrawing();
+	}
+
 	private Card getCardFromUserInput(String message, Player player) {
 		String cardTypeInput = userInterface.getUserInput(message);
 		CardType cardType = player.parseCardType(cardTypeInput);
@@ -123,6 +134,14 @@ public class GameContext {
 
 	}
 
+	private int getNumericIndexFromUserInput(int deckSize) {
+		return userInterface.getNumericUserInput(
+				"Where would you like to bury this card? (0 = top, "
+						+ deckSize + " = bottom)",
+				0, deckSize
+		);
+	}
+
 	private List<Integer> getIndicesFromUserInput(List<Card> topThreeCards) {
 		int deckSize = deck.getDeckSize();
 
@@ -133,15 +152,8 @@ public class GameContext {
 		List<Integer> indices = new ArrayList<>();
 
 		for (int i = 0; i < cardsToRearrange; i++) {
-			String messageForPlayer =
-					"Enter the index of a card " +
-							"that you want to put in position " +
-							i +
-							" starting from the top of the Deck.\n" +
-							"Only possible indices are from " +
-							minCardIndex +
-							" to " + maxCardIndex + "." +
-							" Indices can not repeat.";
+			String messageForPlayer = userInterface
+					.getRearrangePrompt(i, minCardIndex, maxCardIndex);
 			indices.add(userInterface.getNumericUserInput
 					(messageForPlayer, minCardIndex, maxCardIndex));
 		}
@@ -156,4 +168,5 @@ public class GameContext {
 					("All Exploding Kittens moved to the top of the deck!");
 		}
 	}
+
 }

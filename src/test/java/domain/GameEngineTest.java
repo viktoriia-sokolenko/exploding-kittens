@@ -1,5 +1,6 @@
 package domain;
 
+import locale.LocaleManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.easymock.EasyMock;
@@ -30,6 +31,7 @@ public class GameEngineTest {
 	private Deck mockDeck;
 	private CardFactory mockCardFactory;
 	private SecureRandom mockSecureRandom;
+	private LocaleManager mockLocaleManager;
 	private static final int MIN_PLAYERS = 2;
 	private static final int MAX_PLAYERS = 5;
 	private static final int THREE_PLAYERS = 3;
@@ -43,6 +45,7 @@ public class GameEngineTest {
 		mockDeck = EasyMock.createMock(Deck.class);
 		mockCardFactory = EasyMock.createMock(CardFactory.class);
 		mockSecureRandom = EasyMock.createMock(SecureRandom.class);
+		mockLocaleManager = EasyMock.createMock(LocaleManager.class);
 
 		gameEngine = createValidGameEngine();
 	}
@@ -57,7 +60,8 @@ public class GameEngineTest {
 						mockDeck,
 						mockUserInterface,
 						mockCardFactory,
-						mockSecureRandom
+						mockSecureRandom,
+						mockLocaleManager
 				)
 		);
 		assertEquals("turnManager must not be null",
@@ -74,7 +78,8 @@ public class GameEngineTest {
 						mockDeck,
 						mockUserInterface,
 						mockCardFactory,
-						mockSecureRandom
+						mockSecureRandom,
+						mockLocaleManager
 				)
 		);
 		assertEquals("playerManager must not be null", ex.getMessage());
@@ -90,7 +95,8 @@ public class GameEngineTest {
 						null,
 						mockUserInterface,
 						mockCardFactory,
-						mockSecureRandom
+						mockSecureRandom,
+						mockLocaleManager
 				)
 		);
 		assertEquals("deck must not be null", ex.getMessage());
@@ -104,7 +110,8 @@ public class GameEngineTest {
 				mockDeck,
 				null,
 				mockCardFactory,
-				mockSecureRandom
+				mockSecureRandom,
+				mockLocaleManager
 		));
 	}
 
@@ -117,7 +124,8 @@ public class GameEngineTest {
 						mockDeck,
 						mockUserInterface,
 						null,
-						mockSecureRandom));
+						mockSecureRandom,
+						mockLocaleManager));
 	}
 
 	@Test
@@ -168,7 +176,7 @@ public class GameEngineTest {
 		InputStream originalIn = System.in;
 
 		try {
-			String simulatedInput = "3\n";
+			String simulatedInput = "2\n3\n";
 			System.setIn(new ByteArrayInputStream(simulatedInput
 					.getBytes(StandardCharsets.UTF_8)));
 
@@ -314,16 +322,20 @@ public class GameEngineTest {
 		List<CardType> singleCardList = Arrays.asList(CardType.ATTACK);
 		EasyMock.expect(mockPlayer.getAvailableCardTypes())
 				.andReturn(singleCardList);
-		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockLocaleManager.get("game.available.cards"))
+				.andReturn("Available cards: ");
+
+		EasyMock.replay(mockPlayer, mockLocaleManager);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream, true,
 				StandardCharsets.UTF_8));
-		;
 
 		try {
 			gameEngine.showAvailableCardTypes(mockPlayer);
-			String expected = "Available cards: attack\n";
+			String expected = "Available cards: " +
+					"attack\n";
 			String actual = normalizeOutputForAssertion(outputStream
 					.toString(StandardCharsets.UTF_8));
 
@@ -342,7 +354,10 @@ public class GameEngineTest {
 				CardType.ATTACK, CardType.SKIP, CardType.FAVOR);
 		EasyMock.expect(mockPlayer.getAvailableCardTypes())
 				.andReturn(multipleCardsList);
-		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockLocaleManager.get("game.available.cards"))
+				.andReturn("Available cards: ");
+		EasyMock.replay(mockPlayer, mockLocaleManager);
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
@@ -369,7 +384,10 @@ public class GameEngineTest {
 				CardType.SEE_THE_FUTURE, CardType.ALTER_THE_FUTURE);
 		EasyMock.expect(mockPlayer.getAvailableCardTypes())
 				.andReturn(underscoreCardsList);
-		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockLocaleManager.get("game.available.cards"))
+				.andReturn("Available cards: ");
+		EasyMock.replay(mockPlayer, mockLocaleManager);
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
@@ -397,8 +415,11 @@ public class GameEngineTest {
 				CardType.SEE_THE_FUTURE,
 				CardType.NORMAL,
 				CardType.DEFUSE);
+
 		EasyMock.expect(mockPlayer.getAvailableCardTypes()).andReturn(mixedCardsList);
-		EasyMock.replay(mockPlayer);
+		EasyMock.expect(mockLocaleManager.get("game.available.cards"))
+				.andReturn("Available cards: ");
+		EasyMock.replay(mockPlayer, mockLocaleManager);
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
@@ -425,7 +446,11 @@ public class GameEngineTest {
 				List.of(CardType.EXPLODING_KITTEN);
 		EasyMock.expect(mockPlayer.getAvailableCardTypes()
 		).andReturn(singleUnderscoreCard);
-		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockLocaleManager.get("game.available.cards"))
+				.andReturn("Available cards: ");
+		EasyMock.replay(mockPlayer, mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream, true,
@@ -448,8 +473,12 @@ public class GameEngineTest {
 	public void showAvailableCardTypes_withAllCardTypes_printsCompleteList() {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		List<CardType> allCardTypes = Arrays.asList(CardType.values());
+
 		EasyMock.expect(mockPlayer.getAvailableCardTypes()).andReturn(allCardTypes);
-		EasyMock.replay(mockPlayer);
+		EasyMock.expect(mockLocaleManager.get("game.available.cards"))
+				.andReturn("Available cards: ");
+		EasyMock.replay(mockPlayer, mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream, true,
@@ -493,6 +522,12 @@ public class GameEngineTest {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
 
+		EasyMock.expect(mockLocaleManager.get("command.play.usage"))
+				.andReturn("Usage: play <card_type> " +
+						"(e.g., 'play skip' or 'play attack')")
+				.anyTimes();
+		EasyMock.replay(mockLocaleManager);
+
 		mockUserInterface
 				.displayError(
 						"Usage: play <card_type> " +
@@ -517,6 +552,12 @@ public class GameEngineTest {
 						" (e.g., 'play skip' or 'play attack')");
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
+
+		EasyMock.expect(mockLocaleManager.get("command.play.usage"))
+				.andReturn("Usage: play <card_type> " +
+						"(e.g., 'play skip' or 'play attack')")
+				.anyTimes();
+		EasyMock.replay(mockLocaleManager);
 
 		String[] parts = {};
 		gameEngine.handlePlayCommand(parts, mockPlayer);
@@ -578,6 +619,8 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.ATTACK, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SKIP, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SKIP, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.BURY, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.BURY, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.FAVOR, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.FAVOR, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
@@ -596,6 +639,10 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.NUKE, ONE_CARD));
 		EasyMock.expect(mockFactory.createCards(CardType.DEFUSE, TWO_CARDS))
 				.andReturn(createMockCardList(CardType.DEFUSE, TWO_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SWAP_TOP_AND_BOTTOM,
+						FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SWAP_TOP_AND_BOTTOM,
+						FOUR_CARDS));
 
 		EasyMock.replay(mockFactory);
 
@@ -619,7 +666,8 @@ public class GameEngineTest {
 		final int THREE_CARDS = 3;
 		final int FOUR_CARDS = 4;
 		final int FIVE_CARDS = 5;
-		final int TWELEVE_CARDS = 12;
+		final int SIXTEEN_CARDS = 16;
+
 		// user interface wouldn't let this go through
 		// but this is for some of the mutation test
 		final int FIFTY_PLAYERS = 50;
@@ -631,6 +679,8 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.FAVOR, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SHUFFLE, TWO_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.BURY, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.BURY, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.REVERSE, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.REVERSE, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE,
@@ -645,12 +695,16 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.NUKE, ONE_CARD));
 		EasyMock.expect(mockFactory.createCards(CardType.DEFUSE, TWO_CARDS))
 				.andReturn(createMockCardList(CardType.DEFUSE, TWO_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SWAP_TOP_AND_BOTTOM,
+						FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SWAP_TOP_AND_BOTTOM,
+						TWO_CARDS));
 
-		// currentCards = 2+2+2+2+3+2+1+2+2 = 18
+		// currentCards = 2+2+2+2+3+2+1+2+2+2+2 = 22
 		// targetNumberOfCards = 56 - 50 = 6
-		// numberOfCardsNeeded = 18 - 6 = 12
-		EasyMock.expect(mockFactory.createCards(CardType.NORMAL, TWELEVE_CARDS))
-				.andReturn(createMockCardList(CardType.NORMAL, TWELEVE_CARDS));
+		// numberOfCardsNeeded = 22 - 6 = 16
+		EasyMock.expect(mockFactory.createCards(CardType.NORMAL, SIXTEEN_CARDS))
+				.andReturn(createMockCardList(CardType.NORMAL, SIXTEEN_CARDS));
 
 		EasyMock.replay(mockFactory);
 
@@ -660,8 +714,7 @@ public class GameEngineTest {
 		long normalCardCount = deck.stream()
 				.filter(card -> card.getCardType() == CardType.NORMAL)
 				.count();
-		assertEquals(TWELEVE_CARDS, normalCardCount);
-
+		assertEquals(SIXTEEN_CARDS, normalCardCount);
 		EasyMock.verify(mockFactory);
 	}
 
@@ -793,6 +846,11 @@ public class GameEngineTest {
 
 		EasyMock.replay(mockTurnManager);
 
+		EasyMock.expect(mockLocaleManager.get("exploding.kitten.no.defuse"))
+				.andReturn("BOOM! You drew an Exploding Kitten " +
+						"and had no Defuse card!");
+		EasyMock.replay(mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream, true,
@@ -866,8 +924,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public
-	void
+	public void
 	handleDrawCommand_withExplodingKittenAndDefuse_usesDefuseAndReinsertsAndAdvancesTurn() {
 		Card kitten = createMockCard(CardType.EXPLODING_KITTEN);
 		final int DECK_SIZE = 5;
@@ -903,6 +960,14 @@ public class GameEngineTest {
 		);
 		EasyMock.expectLastCall().once();
 
+		EasyMock.expect(mockLocaleManager.get("exploding.kitten.placed"))
+				.andReturn("Exploding Kitten placed back in " +
+						"the deck at position ");
+		EasyMock.expect(mockLocaleManager.get("exploding.kitten.insert.prompt"))
+				.andReturn("Choose a position to insert the Exploding Kitten " +
+						"(0 = bottom, %d = top of deck)");
+		EasyMock.replay(mockLocaleManager);
+
 		mockTurnManager.advanceToNextPlayer();
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockDeck, player, mockUserInterface, mockTurnManager);
@@ -911,8 +976,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void getPlayerChoiceForKittenPlacement_promptsWithDeckSizeAndReturnsChoice()
-			{
+	public void getPlayerChoiceForKittenPlacement_promptsWithDeckSizeAndReturnsChoice() {
 		final int EXPECTED_RETURN_FOUR = 4;
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(EXPECTED_RETURN_FOUR)
 				.once();
@@ -926,6 +990,12 @@ public class GameEngineTest {
 				.andReturn(EXPECTED_RETURN_TWO).once();
 
 		EasyMock.replay(mockDeck, mockUserInterface);
+
+		EasyMock.expect(mockLocaleManager.get("exploding.kitten.insert.prompt"))
+				.andReturn("Choose a position to insert the Exploding Kitten " +
+						"(0 = bottom, %d = top of deck)");
+		EasyMock.replay(mockLocaleManager);
+
 		int choice = gameEngine.getPlayerChoiceForKittenPlacement();
 
 		assertEquals(EXPECTED_RETURN_TWO, choice);
@@ -956,6 +1026,16 @@ public class GameEngineTest {
 				.andReturn(mockCurrentPlayer);
 		EasyMock.replay(mockTurnManager);
 
+		EasyMock.expect(mockLocaleManager.get("status.title"))
+				.andReturn("=== GAME STATUS ===");
+		EasyMock.expect(mockLocaleManager.get("active.players"))
+				.andReturn("Active players: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("status.current.player.cards"))
+				.andReturn("Current player has %d cards");
+		EasyMock.replay(mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream
@@ -976,7 +1056,6 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockPlayerManager, mockDeck, mockTurnManager, mockCurrentPlayer);
 	}
-
 
 
 	@Test
@@ -1001,6 +1080,16 @@ public class GameEngineTest {
 		EasyMock.expect(mockTurnManager.getCurrentActivePlayer())
 				.andReturn(mockCurrentPlayer);
 		EasyMock.replay(mockTurnManager);
+
+		EasyMock.expect(mockLocaleManager.get("status.title"))
+				.andReturn("=== GAME STATUS ===");
+		EasyMock.expect(mockLocaleManager.get("active.players"))
+				.andReturn("Active players: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("status.current.player.cards"))
+				.andReturn("Current player has %d cards");
+		EasyMock.replay(mockLocaleManager);
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
@@ -1039,6 +1128,16 @@ public class GameEngineTest {
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
 				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
+
+		EasyMock.expect(mockLocaleManager.get("status.title"))
+				.andReturn("=== GAME STATUS ===");
+		EasyMock.expect(mockLocaleManager.get("active.players"))
+				.andReturn("Active players: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("status.current.player.cards"))
+				.andReturn("Current player has %d cards");
+		EasyMock.replay(mockLocaleManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 25;
 		EasyMock.expect(mockDeck.getDeckSize())
@@ -1079,6 +1178,16 @@ public class GameEngineTest {
 		EasyMock.expect(mockPlayerManager.getPlayers())
 				.andReturn(activePlayers).anyTimes();
 		EasyMock.replay(mockPlayerManager);
+
+		EasyMock.expect(mockLocaleManager.get("turn.of.player"))
+				.andReturn("Turn of player ");
+		EasyMock.expect(mockLocaleManager.get("players.remaining"))
+				.andReturn("Players remaining: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("active.players.indices"))
+				.andReturn("Active players indices: ");
+		EasyMock.replay(mockLocaleManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 20;
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(
@@ -1140,6 +1249,16 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
+		EasyMock.expect(mockLocaleManager.get("turn.of.player"))
+				.andReturn("Turn of player ");
+		EasyMock.expect(mockLocaleManager.get("players.remaining"))
+				.andReturn("Players remaining: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("active.players.indices"))
+				.andReturn("Active players indices: ");
+		EasyMock.replay(mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream, true,
@@ -1183,6 +1302,16 @@ public class GameEngineTest {
 				NUMBER_OF_CARDS_IN_DECK
 		);
 		EasyMock.replay(mockDeck);
+
+		EasyMock.expect(mockLocaleManager.get("turn.of.player"))
+				.andReturn("Turn of player ");
+		EasyMock.expect(mockLocaleManager.get("players.remaining"))
+				.andReturn("Players remaining: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("active.players.indices"))
+				.andReturn("Active players indices: ");
+		EasyMock.replay(mockLocaleManager);
 
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
 		EasyMock.expectLastCall();
@@ -1228,6 +1357,16 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
+		EasyMock.expect(mockLocaleManager.get("turn.of.player"))
+				.andReturn("Turn of player ");
+		EasyMock.expect(mockLocaleManager.get("players.remaining"))
+				.andReturn("Players remaining: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("active.players.indices"))
+				.andReturn("Active players indices: ");
+		EasyMock.replay(mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream,
@@ -1267,6 +1406,16 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
+		EasyMock.expect(mockLocaleManager.get("turn.of.player"))
+				.andReturn("Turn of player ");
+		EasyMock.expect(mockLocaleManager.get("players.remaining"))
+				.andReturn("Players remaining: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("active.players.indices"))
+				.andReturn("Active players indices: ");
+		EasyMock.replay(mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream,
@@ -1296,6 +1445,16 @@ public class GameEngineTest {
 		EasyMock.expect(mockPlayerManager.getPlayers())
 				.andReturn(activePlayers).anyTimes();
 		EasyMock.replay(mockPlayerManager);
+
+		EasyMock.expect(mockLocaleManager.get("turn.of.player"))
+				.andReturn("Turn of player ");
+		EasyMock.expect(mockLocaleManager.get("players.remaining"))
+				.andReturn("Players remaining: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("active.players.indices"))
+				.andReturn("Active players indices: ");
+		EasyMock.replay(mockLocaleManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 54;
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(
@@ -1382,6 +1541,10 @@ public class GameEngineTest {
 
 	@Test
 	public void handleQuitCommand_setsGameRunningToFalse() {
+		EasyMock.expect(mockLocaleManager.get("game.quit.thanks"))
+				.andReturn("Thanks for playing Exploding Kittens!");
+		EasyMock.replay(mockLocaleManager);
+
 		assertTrue(gameEngine.getIsGameRunning());
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
@@ -1398,6 +1561,10 @@ public class GameEngineTest {
 
 	@Test
 	public void handleQuitCommand_displaysThankYouMessage() {
+		EasyMock.expect(mockLocaleManager.get("game.quit.thanks"))
+				.andReturn("Thanks for playing Exploding Kittens!");
+		EasyMock.replay(mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream,
@@ -1666,6 +1833,10 @@ public class GameEngineTest {
 				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
+		EasyMock.expect(mockLocaleManager.get("game.over.win"))
+				.andReturn("\nGAME OVER! The last player standing wins!");
+		EasyMock.replay(mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream, true,
@@ -1691,6 +1862,10 @@ public class GameEngineTest {
 				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
+		EasyMock.expect(mockLocaleManager.get("game.over.lose"))
+				.andReturn("\nGAME OVER! Everyone exploded!");
+		EasyMock.replay(mockLocaleManager);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream,
@@ -1715,6 +1890,14 @@ public class GameEngineTest {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
 
+		EasyMock.expect(mockLocaleManager.get("command.error.empty"))
+				.andReturn("Please enter a command. Type 'help' for " +
+						"available commands.");
+		EasyMock.expect(mockLocaleManager.get("command.error.unknown"))
+				.andReturn("Unknown command: %s. Type 'help' for " +
+						"available commands.");
+		EasyMock.replay(mockLocaleManager);
+
 		mockUserInterface.displayError("Please enter a command. " +
 				"Type 'help' for available commands.");
 		EasyMock.expectLastCall();
@@ -1729,6 +1912,16 @@ public class GameEngineTest {
 	public void processCommand_withEmptyInput_displaysError() {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockLocaleManager.get("command.error.empty"))
+				.andReturn("Please enter a command. " +
+						"Type 'help' for available commands.");
+		EasyMock.expect(mockLocaleManager.get("command.error.unknown"))
+				.andReturn("Unknown command: %s. " +
+						"Type 'help' for available commands.");
+		EasyMock.expect(mockLocaleManager.get("command.error.exception"))
+				.andReturn("Error executing command: %s");
+		EasyMock.replay(mockLocaleManager);
 
 		mockUserInterface.displayError("" +
 				"Please enter a command. Type 'help' for available commands.");
@@ -1745,6 +1938,11 @@ public class GameEngineTest {
 	public void processCommand_withWhitespaceOnlyInput_displaysError() {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
+
+		EasyMock.expect(mockLocaleManager.get("command.error.empty"))
+				.andReturn("Please enter a command. " +
+						"Type 'help' for available commands.");
+		EasyMock.replay(mockLocaleManager);
 
 		mockUserInterface.displayError("Please enter " +
 				"a command. Type 'help' for available commands.");
@@ -1812,6 +2010,13 @@ public class GameEngineTest {
 				new IllegalArgumentException("Invalid card type"));
 		EasyMock.replay(mockPlayer);
 
+		EasyMock.expect(mockLocaleManager.get("command.error.empty"))
+				.andReturn("Please enter a command. " +
+						"Type 'help' for available commands.");
+		EasyMock.expect(mockLocaleManager.get("command.error.exception"))
+				.andReturn("Error executing command: %s");
+		EasyMock.replay(mockLocaleManager);
+
 		mockUserInterface.displayError("Error executing command: Invalid card type");
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
@@ -1833,6 +2038,16 @@ public class GameEngineTest {
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockPlayer, mockDeck, mockUserInterface,
 				mockTurnManager, mockPlayerManager);
+
+		EasyMock.expect(mockLocaleManager.get("command.error.empty"))
+				.andReturn("Please enter a command. " +
+						"Type 'help' for available commands.");
+		EasyMock.expect(mockLocaleManager.get("command.error.unknown"))
+				.andReturn("Unknown command: %s. " +
+						"Type 'help' for available commands.");
+		EasyMock.expect(mockLocaleManager.get("command.error.exception"))
+				.andReturn("Error executing command: %s");
+		EasyMock.replay(mockLocaleManager);
 
 		gameEngine.processCommand("draw", mockPlayer);
 		EasyMock.verify(mockDeck, mockUserInterface, mockPlayer,
@@ -1894,6 +2109,16 @@ public class GameEngineTest {
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.replay(mockPlayer);
 
+		EasyMock.expect(mockLocaleManager.get("command.error.empty"))
+				.andReturn("Please enter a command. " +
+						"Type 'help' for available commands.");
+		EasyMock.expect(mockLocaleManager.get("command.error.unknown"))
+				.andReturn("Unknown command: %s. " +
+						"Type 'help' for available commands.");
+		EasyMock.expect(mockLocaleManager.get("command.error.exception"))
+				.andReturn("Error executing command: %s");
+		EasyMock.replay(mockLocaleManager);
+
 		mockUserInterface.displayError("Unknown command: "
 				+ input + ". Type 'help' for available commands.");
 		EasyMock.expectLastCall();
@@ -1910,6 +2135,13 @@ public class GameEngineTest {
 
 		EasyMock.expect(mockPlayer.parseCardType("skip"))
 				.andThrow(new IllegalArgumentException("Invalid card type"));
+
+		EasyMock.expect(mockLocaleManager.get("command.error.empty"))
+				.andReturn("Please enter a command. " +
+						"Type 'help' for available commands.");
+		EasyMock.expect(mockLocaleManager.get("command.error.exception"))
+				.andReturn("Error executing command: %s");
+		EasyMock.replay(mockLocaleManager);
 
 		mockUserInterface.displayError("Error executing command: Invalid card type");
 		EasyMock.expectLastCall();
@@ -1941,6 +2173,16 @@ public class GameEngineTest {
 		EasyMock.expect(mockTurnManager.getCurrentActivePlayer())
 				.andReturn(mockCurrentPlayer);
 		EasyMock.replay(mockTurnManager);
+
+		EasyMock.expect(mockLocaleManager.get("status.title"))
+				.andReturn("=== GAME STATUS ===");
+		EasyMock.expect(mockLocaleManager.get("active.players"))
+				.andReturn("Active players: ");
+		EasyMock.expect(mockLocaleManager.get("cards.in.deck"))
+				.andReturn("Cards in deck: ");
+		EasyMock.expect(mockLocaleManager.get("status.current.player.cards"))
+				.andReturn("Current player has %d cards");
+		EasyMock.replay(mockLocaleManager);
 
 		final int EXPECTED_NUMBER_OF_CARDS_TWO = 5;
 		EasyMock.expect(mockCurrentPlayer.getNumberOfCards()).
@@ -1994,7 +2236,8 @@ public class GameEngineTest {
 
 	private GameEngine createValidGameEngine() {
 		return new GameEngine(mockTurnManager, mockPlayerManager, mockDeck,
-				mockUserInterface, mockCardFactory, mockSecureRandom);
+				mockUserInterface, mockCardFactory,
+				mockSecureRandom, mockLocaleManager);
 	}
 
 	private Player createMockPlayer() {

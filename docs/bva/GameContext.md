@@ -92,10 +92,9 @@ available card types.
 | Test Case 2 | turnManager.isUnderAttack() == false | only `reverseOrder()` called from TurnManager                      | :white_check_mark: | reverseOrderPreservingAttackState_notUnderAttack_onlyReverses       |
 | Test Case 3 | turnManager == null                  | does nothing (doesn't call `reverseOrderPreservingAttackState`)    | :white_check_mark: | reverseOrderPreservingAttackState_nullTurnManager_doesNothing       |
 
-
-|             | System under test         | Expected output / state transition | Implemented?       | Test name                                              |
-|-------------|---------------------------|------------------------------------|--------------------|--------------------------------------------------------|
-| Test Case 1 | Context fully initialized | calls `shuffleDeck` from Deck      | :white_check_mark: | shuffleDeckFromDeck_withFullContext_callShuffleDeck()  |
+|             | System under test         | Expected output / state transition | Implemented?       | Test name                                             |
+|-------------|---------------------------|------------------------------------|--------------------|-------------------------------------------------------|
+| Test Case 1 | Context fully initialized | calls `shuffleDeck` from Deck      | :white_check_mark: | shuffleDeckFromDeck_withFullContext_callShuffleDeck() |
 
 ## Method 6: `public void rearrangeTopThreeCardsFromDeck()`
 
@@ -131,3 +130,27 @@ available card types.
 |             | System under test | Expected output / state transition | Implemented?       | Test name                                                       |
 |-------------|-------------------|------------------------------------|--------------------|-----------------------------------------------------------------|
 | Test Case 1 | Deck              | deck.swapTopAndBottom() is called  | :white_check_mark: | swapTopAndBottomDeckCards_withFullContext_callsSwapTopAndBottom |
+
+## Method 8: `public void buryCardImplementation()`
+
+### Step 1-3 Results
+
+|        | Input 1                  | Input 2                                  | Input 3             | Output                                                      |
+|--------|--------------------------|------------------------------------------|---------------------|-------------------------------------------------------------|
+| Step 1 | Top card drawn from deck | User input: index to insert the top card | the different cards | Calls `deck.insertCardAt(topCard, index)`                   |
+| Step 2 | Count (deck size)        | Range: Index value (0 to deckSize)       | Card Object         | Card inserted at specified position                         |
+| Step 3 | Deck size: `0`, `1`, `5` | `-1`, `0`, `1`, `deckSize`, `deckSize+1` | Card instance       | Invalid input rejected OR card inserted in correct position |
+
+### Step 4:
+
+#### Important Note
+
+* Each of the card below will be using paramaterized testing to ensure that all card works and goes through
+* Does not test for index `0`, `-1`, and `size + 1` because the method that it calls properly handles it through
+  thorough testing from that end
+
+|             | System under test           | Expected output / state transition                   | Implemented?       | Test name                                             |
+|-------------|-----------------------------|------------------------------------------------------|--------------------|-------------------------------------------------------|
+| Test Case 1 | Deck = 1, `[allCardTypes]`  | Input `0`: inserts top card at the top (index 0)     | :white_check_mark: | buryCardImplementation_insertAtTop_insertsAtTop       |
+| Test Case 2 | Deck Size = 5, allCardTypes | Input `5`: inserts top card at bottom (index = size) | :white_check_mark: | buryCardImplementation_insertAtBottom_insertsAtBottom |
+| Test Case 3 | Deck Size = 5, allCardTypes | Input `2`: inserts card at index 2 (middle of deck)  | :white_check_mark: | buryCardImplementation_insertAtMiddle_insertsAtMiddle |
