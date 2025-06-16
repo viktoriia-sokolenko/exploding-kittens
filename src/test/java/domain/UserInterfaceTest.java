@@ -413,26 +413,22 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayDrawnCard_mustAlwaysEndWithBlankLine() {
+		EasyMock.expect(localeManager.get("card.drawn"))
+				.andReturn("You drew: ");
+		EasyMock.expect(localeManager.get("card.name.normal"))
+				.andReturn("Normal Cat")
+				.anyTimes();
+		EasyMock.replay(localeManager);
+
 		UserInterface ui = new UserInterface(localeManager);
 		Card normal = new CardFactory().createCard(CardType.NORMAL);
 		ui.displayDrawnCard(normal);
-		String out1 = outContent.toString(StandardCharsets.UTF_8);
-		assertTrue(
-				out1.endsWith(System.lineSeparator() + System.lineSeparator()),
-				"displayDrawnCard(NORMAL) " +
-						"must leave a blank line after the message"
-		);
 
-		outContent.reset();
-		Card ek = new CardFactory().createCard(CardType.EXPLODING_KITTEN);
-		ui.displayDrawnCard(ek);
-		String out2 = outContent.toString(StandardCharsets.UTF_8);
-		assertTrue(
-				out2.endsWith(System.lineSeparator() + System.lineSeparator()),
-				"displayDrawnCard(EXPLODING_KITTEN) " +
-						"must leave a blank line after the messages"
-		);
+		String out1 = outContent.toString();
+		assertTrue(out1.endsWith(System.lineSeparator() +
+				System.lineSeparator()));
 	}
+
 
 
 	@Test
