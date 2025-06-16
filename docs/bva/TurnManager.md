@@ -8,192 +8,90 @@
 
 ---
 
-## Method 0: **Constructor**
-
-### Step 1–3 Results
-
-|            | Input                                        | Output / State Change                                                                                             |
-|------------|----------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | `deck`                                       | stores `deck`; `queue` and `current` remain unset                                                                 |
-| **Step 2** | `deck == null`<br>`deck != null`             | throws NPE if null; otherwise proceeds                                                                            |
-| **Step 3** | 1. `deck = null`  <br> 2. `deck = validDeck` | **1** → throws `NullPointerException("Deck is null")`<br>**2** → stores `deck`; `queue` and `current` still unset |
-
-### Step 4
-
-| Test Case | System under test       | Expected behavior                              | Implemented? | Test name                                  |
-|-----------|-------------------------|------------------------------------------------|--------------|--------------------------------------------|
-| 0.1       | `new TurnManager(null)` | throws `NullPointerException("Deck is null")`  | no           | `ctor_nullDeck_throwsNullPointerException` |
-| 0.2       | `new TurnManager(deck)` | stores ref; queue/current remain uninitialized | no           | `ctor_validDeck_initializesState`          |
-
----
-
 ## Method 1: `public void setPlayerManager(PlayerManager pm)`
 
-### Step 1–3 Results
+### Step 1-3 Results
 
-|            | Input                                                                                                                       | Output / State Change                                                                                                                                                                          |
-|------------|-----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | `PlayerManager pm`                                                                                                          | none (loads `pm.getPlayers()` into `queue`; sets `current`)                                                                                                                                    |
-| **Step 2** | `pm == null`<br>`pm.getPlayers()` empty<br>`size=1`<br>`size>1`                                                             | throws NPE if `pm` null; IAE if list empty; otherwise initializes `queue` and `current`                                                                                                        |
-| **Step 3** | 1. `pm = null`  <br> 2. `pm.getPlayers() = []`  <br> 3. `pm.getPlayers() = [p1]`  <br> 4. `pm.getPlayers() = [p1,p2,p3,p4]` | **1** → throws `NullPointerException`<br>**2** → throws `IllegalArgumentException("No players provided")`<br>**3** → `queue=[p1]`, `current=p1`<br>**4** → `queue=[p1,p2,p3,p4]`, `current=p1` |
+|        | Input                                        | Output / State Change                                      |
+|--------|----------------------------------------------|------------------------------------------------------------|
+| Step 1 | PlayerManager pm                             | Initializes turnQueue with players and sets current player |
+| Step 2 | null, empty players list, valid players list | NPE, IAE, or successful initialization                     |
+| Step 3 | null, [], [p1,p2,p3]                         | NPE, IAE("No players"), or success                         |
 
-### Step 4
+### Step 4:
 
-| Test Case | System under test                 | Expected behavior                                        | Implemented? | Test name                                                   |
-|-----------|-----------------------------------|----------------------------------------------------------|--------------|-------------------------------------------------------------|
-| 1         | `setPlayerManager(null)`          | throws `NullPointerException`                            | no           | `setPlayerManager_null_throwsNullPointerException`          |
-| 2         | `pm.getPlayers().isEmpty()`       | throws `IllegalArgumentException("No players provided")` | no           | `setPlayerManager_emptyList_throwsIllegalArgumentException` |
-| 3         | `pm.getPlayers() = [p1]`          | `queue = [p1]`; `current == p1`                          | no           | `setPlayerManager_singlePlayer_initializesCorrectly`        |
-| 4         | `pm.getPlayers() = [p1,p2,p3,p4]` | `queue = [p1,p2,p3,p4]`; `current == p1`                 | no           | `setPlayerManager_multiplePlayers_preservesOrder`           |
+##### Each-choice strategy (covering main scenarios)
 
----
+|             | System under test                      | Expected output                                    | Implemented? | Test name                                                             |
+|-------------|----------------------------------------|----------------------------------------------------|--------------|-----------------------------------------------------------------------|
+| Test Case 1 | `setPlayerManager(null)`               | throws NullPointerException                        | ✓            | `setPlayerManager_withNullPlayerManager_throwsNullPointerException`   |
+| Test Case 2 | `setPlayerManager(emptyPlayerManager)` | throws IllegalArgumentException("No players")      | ✓            | `setPlayerManager_withEmptyPlayerList_throwsIllegalArgumentException` |
+| Test Case 3 | `setPlayerManager(validPlayerManager)` | initializes queue and sets first player as current | ✓            | `setPlayerManager_withValidPlayers_initializesCurrentPlayer`          |
 
-## Method 2: `public Player geTest Case urrentActivePlayer()`
+## Method 2: `public Player getCurrentActivePlayer()`
 
-### Step 1–3 Results
+### Step 1-3 Results
 
-|            | Input                                                                                                              | Output / State Change                                                                                                 |
-|------------|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | none                                                                                                               | returns `current`                                                                                                     |
-| **Step 2** | before vs. after `setPlayerManager(...)`                                                                           | throws ISE if uninitialized; otherwise returns first element of `queue`                                               |
-| **Step 3** | 1. before `setPlayerManager`  <br> 2. after `setPlayerManager([p1])`  <br> 3. after `setPlayerManager([p1,p2,p3])` | **1** → throws `IllegalStateException("TurnManager not initialized")`<br>**2** → returns `p1`<br>**3** → returns `p1` |
+|        | Input                | Output / State Change                               |
+|--------|----------------------|-----------------------------------------------------|
+| Step 1 | None                 | Returns current active player                       |
+| Step 2 | Before/after setup   | IllegalStateException or Player reference           |
+| Step 3 | Not init, After init | ISE("not initialized") or reference to first player |
 
-### Step 4
+### Step 4:
 
-| Test Case | System under test                 | Expected behavior                                             | Implemented? | Test name                                                       |
-|-----------|-----------------------------------|---------------------------------------------------------------|--------------|-----------------------------------------------------------------|
-| 1         | before any `setPlayerManager`     | throws `IllegalStateException("TurnManager not initialized")` | no           | `geTest Case urrentActivePlayer_beforeSetup_throwsException`    |
-| 2         | after `setPlayerManager([p1])`    | returns `p1`                                                  | no           | `geTest Case urrentActivePlayer_singlePlayer_returnsThatPlayer` |
-| 3         | after `setPlayerManager([p1,p2])` | returns `p1`                                                  | no           | `geTest Case urrentActivePlayer_multiPlayers_initialFirst`      |
+##### Each-choice strategy
 
----
+|             | System under test           | Expected output                                 | Implemented? | Test name                                                        |
+|-------------|-----------------------------|-------------------------------------------------|--------------|------------------------------------------------------------------|
+| Test Case 1 | Before initialization       | throws IllegalStateException("not initialized") | ✓            | `getCurrentActivePlayer_beforeSetup_throwsIllegalStateException` |
+| Test Case 2 | After proper initialization | returns first player from queue                 | ✓            | `getCurrentActivePlayer_afterSetup_returnsFirstPlayer`           |
 
-## Method 3: `public void endTurnAndDraw() throws NoCardsToMoveException`
+## Method 3: `public void endTurnWithoutDraw()`
 
-### Step 1–3 Results
+### Step 1-3 Results
 
-|            | Preconditions                                                                                                                                                                                                                                       | Output / State Change                                                                                                                                                                                                                                                                                                                                                      |
-|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | none                                                                                                                                                                                                                                                | removes `current` from front of `queue`, calls `deck.draw()`; re-adds player to back if >1 remain; updates `current`                                                                                                                                                                                                                                                       |
-| **Step 2** | uninitialized; empty queue; deck empty with ≥1 player; deck≥1 & one player; deck≥1 & two players                                                                                                                                                    | throws ISE or NCME; otherwise rotates + draws                                                                                                                                                                                                                                                                                                                              |
-| **Step 3** | 1. before `setPlayerManager`  <br> 2. after `setPlayerManager([])`  <br> 3. after `setPlayerManager([p1])`, `deck.size()==0`  <br> 4. after `setPlayerManager([p1])`, `deck.size()>=1`  <br> 5. after `setPlayerManager([p1,p2])`, `deck.size()>=2` | **1** → throws `IllegalStateException("TurnManager not initialized")`<br>**2** → throws `IllegalStateException("No players to manage")`<br>**3** → underlying `draw()` throws `NoCardsToMoveException`; `queue` unchanged<br>**4** → `p1` draws one card; `queue=[p1]`; `current=p1` (end‐of‐game)<br>**5** → `p1` draws one card, re-added; `queue=[p2,p1]`; `current=p2` |
+|        | Input                                  | Output / State Change                              |
+|--------|----------------------------------------|----------------------------------------------------|
+| Step 1 | Current game state                     | Advances turn or increments attack counter         |
+| Step 2 | Empty queue, Normal turn, Under attack | ISE, advance turn, or increment counter            |
+| Step 3 | [], [p1,p2], Under attack state        | ISE("No players"), advance turn, increment counter |
 
-### Step 4
+### Step 4:
 
-| Test Case | System under test                                   | Expected behavior                                                      | Implemented? | Test name                                               |
-|-----------|-----------------------------------------------------|------------------------------------------------------------------------|--------------|---------------------------------------------------------|
-| 1         | before any `setPlayerManager`                       | throws `IllegalStateException("TurnManager not initialized")`          | no           | `endTurnAndDraw_beforeSetup_throwsException`            |
-| 2         | after `setPlayerManager([])`                        | throws `IllegalStateException("No players to manage")`                 | no           | `endTurnAndDraw_noPlayers_throwsException`              |
-| 3         | after `setPlayerManager([p1])`, `deck.size()==0`    | underlying `draw()` throws `NoCardsToMoveException`, queue unchanged   | no           | `endTurnAndDraw_emptyDeck_throwsNoCardsToMoveException` |
-| 4         | after `setPlayerManager([p1])`, `deck.size()>=1`    | player draws 1 card; queue empty; `current` reflects end‐of‐game state | no           | `endTurnAndDraw_singlePlayer_drawsAndEndsGame`          |
-| 5         | after `setPlayerManager([p1,p2])`, `deck.size()>=2` | `p1` draws+re-add; `current` advances to `p2`; queue = `[p2, p1]`      | no           | `endTurnAndDraw_twoPlayers_rotatesCorrectly`            |
+##### Each-choice strategy
 
----
+|             | System under test             | Expected output                            | Implemented? | Test name                                                           |
+|-------------|-------------------------------|--------------------------------------------|--------------|---------------------------------------------------------------------|
+| Test Case 1 | Before initialization         | throws IllegalStateException("No players") | ✓            | `endTurnWithoutDraw_beforeSetup_throwsIllegalStateException`        |
+| Test Case 2 | Two players, not under attack | Advances to next player                    | ✓            | `endTurnWithoutDraw_withTwoPlayersNotAttacked_advancesToNextPlayer` |
+| Test Case 3 | One player, not under attack  | Stays on same player                       | ✓            | `endTurnWithoutDraw_withOnePlayerNotAttacked_staysOnSamePlayer`     |
+| Test Case 4 | Under attack                  | Increments turns taken                     | ✓            | `endTurnWithoutDraw_underAttack_callsIncrementTurnsTaken`           |
 
-## Method 4: `public void endTurnWithoutDraw()`
+## Method 4: `public boolean isUnderAttack()`
 
-### Step 1–3 Results
+### Step 1-3 Results
 
-|            | Input 1                                                                             | Input 2                                                           | Output / State Change                                                                                                                                                                                                                                                                                                                     |
-|------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | none                                                                                | Whether or not turnManager from GameContext is being under attack | if not under attacked: removes `current`; re-adds if >1 remain; updates `current`, if underattack: calls increment turns taken                                                                                                                                                                                                            |
-| **Step 2** | uninitialized; empty queue; one player; ≥2 players                                  | Boolean                                                           | Cases: throws Exception or rotates accordingly depending on isUnderAttack state                                                                                                                                                                                                                                                           |
-| **Step 3** | 1. `queue=[]`  <br> 2. `queue=[player1]`  <br> 3. `queue=[player1,player2,player3]` | `isUnderAttack= True`, `isUnderAttack=False`                      | **1** → throws `IllegalStateException("No players to manage")`<br>**2** → removes `player1`; queue=\[]; `current=player1` (end‐of‐game)<br>**3** → rotates: removes `player1`, re-adds; queue=\[player2,player3,player1]; `current=player2`, <br> Under Attacked: amount of turns taken for player increases (currentPlayerTurnsTaken +1) |
+|        | Input                               | Output / State Change |
+|--------|-------------------------------------|-----------------------|
+| Step 1 | Required turns, turns taken         | Boolean result        |
+| Step 2 | Various combinations of turn counts | true/false            |
+| Step 3 | (1,0), (2,0), (2,1), (2,2), (3,3)   | false, true results   |
 
-### Step 4
+### Step 4:
 
-| Test Case | System under test                                 | Expected behavior                                                              | Implemented?       | Test name                                                            |
-|-----------|---------------------------------------------------|--------------------------------------------------------------------------------|--------------------|----------------------------------------------------------------------|
-| 1         | `queue=[]`, before setUp                          | throws `IllegalStateException("No players to manage")`                         | :white_check_mark: | `endTurnWithoutDraw_beforeSetup_throwsIllegalStateException `        |
-| 2         | `queue=[player1, player2]`, `isUnderAttack=False` | rotates: removes `player1` + re-add to back; `current == player2`              | :white_check_mark: | `endTurnWithoutDraw_withTwoPlayersNotAttacked_advancesToNextPlayer ` |
-| 3         | `queue=[player1]`, `isUnderAttack=False`          | stays on same player, `current==player1`                                       | :white_check_mark: | `endTurnWithoutDraw_withOnePlayerNotAttacked_staysOnSamePlayer  `    |
-| 4         | `isUnderAttack=True`                              | since player is played under attack, it should call incrementTurnsTaken method | :white_check_mark: | `endTurnWithoutDraw_underAttack_callsIncrementTurnsTaken `           |
+##### All-combination strategy
 
----
+|             | System under test                          | Expected output | Implemented? | Test name                                            |
+|-------------|--------------------------------------------|-----------------|--------------|------------------------------------------------------|
+| Test Case 1 | Default turn (required=1, taken=0)         | false           | ✓            | `isUnderAttack_defaultTurn_returnsFalse`             |
+| Test Case 2 | Attack start (required=2, taken=0)         | true            | ✓            | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
+| Test Case 3 | Mid-attack (required=2, taken=1)           | true            | ✓            | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
+| Test Case 4 | Attack complete (required=2, taken=2)      | false           | ✓            | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
+| Test Case 5 | Long attack complete (required=3, taken=3) | false           | ✓            | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
+| Test Case 6 | Long attack ongoing (required=3, taken=1)  | true            | ✓            | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
 
-## Method 5: `public void endTurnWithoutDrawForAttacks()`
-
-### Step 1–3 Results
-
-|            | Input 1                                  | Input 2                                      | Input 3                                                           | Output / State Change                                                                                      |
-|------------|------------------------------------------|----------------------------------------------|-------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| **Step 1** | the amount of Required Turns player need | the amount of turns current player has taken | Whether or not turnManager from GameContext is being under attack | Depending on the state of the player, increases the required turns taken for next player (allows stacking) |
-| **Step 2** | Count                                    | Count                                        | Boolean                                                           | throws Exception or rotates accordingly depending on isUnderAttack state                                   |
-| **Step 3** | `requiredTurns` == `1`,`3`,`2`,`5`       | `currentPlayerTurnsTaken` == `0`,`1`,`4`     | `isUnderAttack= True`, `isUnderAttack=False`                      | setsRequiredTurns and Advances or throws IllegalStateException                                             |
-
-### Step 4
-
-|             | System Under Test                                                                                                       | Expected Output / State Transition                                  | Implemented?       | Test Name                                                                  |
-|-------------|-------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|--------------------|----------------------------------------------------------------------------|
-| Test Case 1 | Not under attack, default value(`requiredTurns==0`, `currentPlayerTurnsTaken=0`)                                        | Sets `requiredTurns = 2`, resets `taken = 0`                        | :white_check_mark: | `endTurnWithoutDrawForAttacks_notUnderAttack_setsTurnsToTwoAndAdvances`    |
-| Test Case 2 | Under attack (`requiredTurns==3`, `currentPlayerTurnsTaken=1`)                                                          | Adds 2 → `requiredTurns =  (3 - 1) + 2 = 4` for next player, resets | :white_check_mark: | `endTurnWithoutDrawForAttacks_underAttack_addsTwoTurnsAndAdvances`         |
-| Test Case 3 | Edge attack (`requiredTurns==2`, `currentPlayerTurnsTaken=1`)                                                           | Adds 2 → `requiredTurns = (2 - 1) + 2 = 3` for next player, resets  | :white_check_mark: | `endTurnWithoutDrawForAttacks_almostDoneUnderAttack_addsTwoTurnsCorrectly` |
-| Test Case 4 | Player 1 plays attack → Player 2 gets 2 turns. Player 2 plays attack (before taking any turns) → Player 3 gets 4 turns. | `requiredTurns = 4`, for Player 3                                   | :white_check_mark: | `endTurnWithoutDrawForAttacks_stackedAttack_addsTwoTurnsAgain`             |
-| Test Case 5 | Empty player queue, before setUp                                                                                        | Throws `IllegalStateException`                                      | :white_check_mark: | `endTurnWithoutDrawForAttacks_emptyQueue_throwsIllegalStateException `     |
-
----
-
-## Method 6: `public void addTurnForCurrentPlayer()`
-
-### Step 1–3 Results
-
-|            | Preconditions                                                | Output / State Change                                                                                                                             |
-|------------|--------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | none                                                         | inserts `current` at index 1                                                                                                                      |
-| **Step 2** | uninitialized; empty queue; one player; ≥2 players           | throws ISE or duplicates accordingly                                                                                                              |
-| **Step 3** | 1. `queue=[]`  <br> 2. `queue=[p1]`  <br> 3. `queue=[p1,p2]` | **1** → throws `IllegalStateException("No players to manage")`<br>**2** → queue=\[p1,p1]; `current=p1`<br>**3** → queue=\[p1,p1,p2]; `current=p1` |
-
-### Step 4
-
-| Test Case | System under test | Expected behavior                                      | Implemented? | Test name                                                 |
-|-----------|-------------------|--------------------------------------------------------|--------------|-----------------------------------------------------------|
-| 1         | `queue=[]`        | throws `IllegalStateException("No players to manage")` | no           | `addTurnForCurrentPlayer_noPlayers_throwsException`       |
-| 2         | `queue=[p1]`      | transforms to `[p1,p1]`; `current == p1`               | no           | `addTurnForCurrentPlayer_singlePlayer_duplicatesNextTurn` |
-| 3         | `queue=[p1,p2]`   | transforms to `[p1,p1,p2]`; `current == p1`            | no           | `addTurnForCurrentPlayer_multiplePlayers_insertsProperly` |
-
----
-
-## Method 7: `public void syncWith(List<Player> activePlayers)`
-
-### Step 1–3 Results
-
-|            | Input                                                                                                                                                                           | Output / State Change                                                                                                                                                                                                                                       |
-|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | `List<Player> activePlayers`                                                                                                                                                    | none (rebuilds `queue` from input; sets `current`)                                                                                                                                                                                                          |
-| **Step 2** | `null`; empty list; contains old `current`; missing old `current`; reordered                                                                                                    | throws NPE or IAE; otherwise resets `queue` and `current`                                                                                                                                                                                                   |
-| **Step 3** | 1. `activePlayers = null`  <br> 2. `activePlayers = []`  <br> 3. `activePlayers = [oldCurrent,p2,...]`  <br> 4. `activePlayers = [p2,p3]`  <br> 5. `activePlayers = [p3,p1,p2]` | **1** → throws `NullPointerException`<br>**2** → throws `IllegalArgumentException("No players provided")`<br>**3** → `queue=[oldCurrent,p2,...]`; `current=oldCurrent`<br>**4** → `queue=[p2,p3]`; `current=p2`<br>**5** → `queue=[p3,p1,p2]`; `current=p3` |
-
-### Step 4
-
-| Test Case | System under test              | Expected behavior                                        | Implemented? | Test name                                           |
-|-----------|--------------------------------|----------------------------------------------------------|--------------|-----------------------------------------------------|
-| 1         | `syncWith(null)`               | throws `NullPointerException`                            | no           | `syncWith_null_throwsNullPointerException`          |
-| 2         | `syncWith([])`                 | throws `IllegalArgumentException("No players provided")` | no           | `syncWith_emptyList_throwsIllegalArgumentException` |
-| 3         | `syncWith([oldCurrent,p2,p3])` | `queue` maTest Case hes input; `current == oldCurrent`   | no           | `syncWith_includesCurrent_keepsOrderAndCurrent`     |
-| 4         | `syncWith([p2,p3])`            | `queue = [p2,p3]`; `current == p2`                       | no           | `syncWith_excludesOldCurrent_setsNewCurrent`        |
-| 5         | `syncWith([p3,p1,p2])`         | `queue = [p3,p1,p2]`; `current == p3`                    | no           | `syncWith_reordersQueue_updatesCurrent`             |
-
----
-
-## Method 8: `public List<Player> getTurnOrder()`
-
-### Step 1–3 Results
-
-|            | Preconditions                                                                                                 | Output / State Change                                                                                                              |
-|------------|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| **Step 1** | none                                                                                                          | returns snapshot of `queue`                                                                                                        |
-| **Step 2** | before setup; after setup; after sync/end-turn                                                                | throws ISE or returns list                                                                                                         |
-| **Step 3** | 1. before `setPlayerManager`  <br> 2. after `setPlayerManager([p1,p2])`  <br> 3. after `syncWith([p3,p1,p2])` | **1** → throws `IllegalStateException("TurnManager not initialized")`<br>**2** → returns `[p1,p2]`<br>**3** → returns `[p3,p1,p2]` |
-
-### Step 4
-
-| Test Case | System under test                    | Expected behavior                                             | Implemented? | Test name                                     |
-|-----------|--------------------------------------|---------------------------------------------------------------|--------------|-----------------------------------------------|
-| 1         | before any `setPlayerManager`        | throws `IllegalStateException("TurnManager not initialized")` | no           | `getTurnOrder_beforeSetup_throwsException`    |
-| 2         | after `setPlayerManager([p1,p2,p3])` | returns `[p1,p2,p3]`                                          | no           | `getTurnOrder_afterSetup_returnsInitialOrder` |
-| 3         | after `syncWith([p3,p1,p2])`         | returns `[p3,p1,p2]`                                          | no           | `getTurnOrder_afterMutations_reflectsQueue`   |
-
-## Method 9: `public int getTurnsCountFor(Player player)`
+## Method 5: `public int getTurnsCountFor(Player player)`
 
 #### Note:
 
@@ -223,7 +121,7 @@ in TurnManager.
 | Test Case  5 | `player = player1`, queue is `[player1, player2, player1]`                   | `2`                                             | :white_check_mark: | `getTurnsCountFor_duplicatePlayerInQueueWithTwo_returnsTwo` |
 | Test Case  6 | `player = player5`, queue is `[player1, player2, player3, player4, player5]` | `1`                                             | :white_check_mark: | `getTurnsCountFor_playerInQueueWithFive_retur nsOne`        |
 
-# Method 10: `public void reverseOrder()`
+# Method 6: `public void reverseOrder()`
 
 ### Step 1–3 Results
 
@@ -248,7 +146,7 @@ in TurnManager.
 | 2         | `queue=[player1, player2]`        | `queue=[player2, player1]`                             | :white_check_mark: | `reverseOrder_withTwoPlayers_orderReverses `           |
 | 3         | `queue=[player1,player2,player3]` | `queue=[player3,player2,player1]`                      | :white_check_mark: | `reverseOrder _withThreePlayers_orderReverses`         |
 
-## Method 10: `public boolean isUnderAttack()`
+## Method 7: `public boolean isUnderAttack()`
 
 ### Step 1–3 Results
 
@@ -274,7 +172,7 @@ in TurnManager.
 | Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 3` | `false`         | :white_check_mark: | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
 | Test Case 6 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `true`          | :white_check_mark: | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
 
-## Method 11: `public void incrementTurnsTaken()`
+## Method 8: `public void incrementTurnsTaken()`
 
 ### Step 1–3 Results
 
@@ -297,7 +195,7 @@ in TurnManager.
 | Test Case 4 | `requireTurns=3`, `currentPlayerTurnsTaken = 2` | `advanceToNextPlayer()` called, `requiredTurns = 1`, `currentPlayerTurnsTaken = 0` | :white_check_mark: | `incrementTurnsTaken_finalTurnOfMultipleTurnAttack_advancesAndResets` |
 | Test Case 5 | `requireTurns=3`, `currentPlayerTurnsTaken = 1` | `currentPlayerTurnsTaken = 2`; no advancement                                      | :white_check_mark: | `incrementTurnsTaken_midAttack_doesNotAdvance`                        |
 
-## Method 12: `public void setRequiredTurns(int requiredTurns)`
+## Method 9: `public void setRequiredTurns(int requiredTurns)`
 
 ### Step 1–3 Results
 
@@ -316,7 +214,7 @@ in TurnManager.
 | 3         | `setRequiredTurns(1)`  | `requiredTurns == 1`                                                   | :white_check_mark: | `setRequiredTurns_one_oneRequiredTurns`                        |
 | 4         | `setRequiredTurns(2)`  | `requiredTurns == 2`                                                   | :white_check_mark: | `setRequiredTurns_two_twoRequiredTurns`                        |
 
-## Method 13: `public void setCurrentPlayerTurnsTaken(int turnTaken)`
+## Method 10: `public void setCurrentPlayerTurnsTaken(int turnTaken)`
 
 ### Step 1–3 Results
 
@@ -328,10 +226,9 @@ in TurnManager.
 
 ### Step 4
 
-
-| Test Case | System under test                | Expected behavior                                                                  | Implemented?        | Test name                                                                |
-|-----------|----------------------------------|------------------------------------------------------------------------------------|---------------------|--------------------------------------------------------------------------|
-| 1         | `setCurrentPlayerTurnsTaken(-1)` | throws `IllegalArgumentException("Current player turns taken cannot be negative")` | :white_check_mark:  | `setCurrentPlayerTurnsTaken_negativeOne_throwsIllegalArgumentException ` |
-| 2         | `setCurrentPlayerTurnsTaken(0)`  | `requiredTurns == 0`                                                               | :white_check_mark:  | `setCurrentPlayerTurnsTaken_zero_zeroTurnsTaken`                         |
-| 3         | `setCurrentPlayerTurnsTaken(1)`  | `requiredTurns == 1`                                                               | :white_check_mark:  | `setCurrentPlayerTurnsTaken_one_oneTurnsTaken`                           |
-| 4         | `setCurrentPlayerTurnsTaken(2)`  | `requiredTurns == 2`                                                               | :white_check_mark:  | `setCurrentPlayerTurnsTaken_two_twoTurnsTaken`                           |
+| Test Case | System under test                | Expected behavior                                                                  | Implemented?       | Test name                                                                |
+|-----------|----------------------------------|------------------------------------------------------------------------------------|--------------------|--------------------------------------------------------------------------|
+| 1         | `setCurrentPlayerTurnsTaken(-1)` | throws `IllegalArgumentException("Current player turns taken cannot be negative")` | :white_check_mark: | `setCurrentPlayerTurnsTaken_negativeOne_throwsIllegalArgumentException ` |
+| 2         | `setCurrentPlayerTurnsTaken(0)`  | `requiredTurns == 0`                                                               | :white_check_mark: | `setCurrentPlayerTurnsTaken_zero_zeroTurnsTaken`                         |
+| 3         | `setCurrentPlayerTurnsTaken(1)`  | `requiredTurns == 1`                                                               | :white_check_mark: | `setCurrentPlayerTurnsTaken_one_oneTurnsTaken`                           |
+| 4         | `setCurrentPlayerTurnsTaken(2)`  | `requiredTurns == 2`                                                               | :white_check_mark: | `setCurrentPlayerTurnsTaken_two_twoTurnsTaken`                           |
