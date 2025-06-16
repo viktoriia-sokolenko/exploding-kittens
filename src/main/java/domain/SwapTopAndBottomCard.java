@@ -13,7 +13,7 @@ public class SwapTopAndBottomCard extends Card {
 	private static class SwapTopAndBottomEffect implements CardEffect {
 		@Override
 		public void execute(GameContext context) {
-			return;
+			context.swapTopAndBottomDeckCards();
 		}
 	}
 }
