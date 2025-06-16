@@ -303,7 +303,7 @@ public class GameEngineLoopTest {
 		PrintStream  originalOut = System.out;
 
 		try {
-			String input = "2\nquit\n";
+			String input = "1\n2\nquit\n";
 			System.setIn(new ByteArrayInputStream(input
 					.getBytes(StandardCharsets.UTF_8)));
 			ByteArrayOutputStream outputCapture = new ByteArrayOutputStream();
@@ -343,5 +343,6 @@ public class GameEngineLoopTest {
 			System.setOut(originalOut);
 		}
 	}
+
 
 }
