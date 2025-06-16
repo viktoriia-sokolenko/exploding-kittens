@@ -282,8 +282,9 @@ public class GameEngine {
 					handleQuitCommand();
 					break;
 				default:
-					userInterface.displayError("Unknown command: "
-							+ command + ". Type 'help' for available commands.");
+					userInterface.displayError(
+						"Unknown command: " + command + ". Type 'help' for available commands."
+					);
 			}
 		} catch (Exception e) {
 			userInterface.displayError("Error executing command: " +
