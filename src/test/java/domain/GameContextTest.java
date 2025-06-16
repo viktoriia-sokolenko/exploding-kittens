@@ -680,7 +680,7 @@ public class GameContextTest {
 		EasyMock.expect(userInterface.getNumericUserInput(
 				EasyMock.contains("Where would you like to bury this card?"),
 				EasyMock.eq(0), EasyMock.eq(MAX_INDEX)
-		)).andReturn(MAX_INDEX).once(); // inserting at bottom
+		)).andReturn(MAX_INDEX).once();
 
 		mockDeck.insertCardAt(mockCard, MAX_INDEX);
 		EasyMock.expectLastCall().once();
@@ -715,7 +715,7 @@ public class GameContextTest {
 		EasyMock.expect(userInterface.getNumericUserInput(
 				EasyMock.contains("Where would you like to bury this card?"),
 				EasyMock.eq(0), EasyMock.eq(MAX_INDEX)
-		)).andReturn(MIDDLE_INDEX).once(); // inserting at bottom
+		)).andReturn(MIDDLE_INDEX).once();
 
 		mockDeck.insertCardAt(mockCard, MIDDLE_INDEX);
 		EasyMock.expectLastCall().once();
