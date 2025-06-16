@@ -1515,6 +1515,29 @@ public class UserInterfaceTest {
 		assertTrue(out.contains(expectedCardInfo));
 	}
 
+	@Test
+	public void getRearrangePrompt_returnsCorrectFormattedMessage() {
+		LocaleManager localeManager = EasyMock.createMock(LocaleManager.class);
+		UserInterface ui = new UserInterface(localeManager);
+
+		EasyMock.expect(localeManager.get("rearrange.card.prompt"))
+				.andReturn("Enter the index of a card that you want " +
+						"to put in position %d starting from the top of " +
+						"the Deck.\nOnly possible indices are " +
+						"from %d to %d. Indices can not repeat.");
+
+		EasyMock.replay(localeManager);
+
+		String actualPrompt = ui.getRearrangePrompt(0, 1, 2);
+		String expectedPrompt = "Enter the index of a card that " +
+				"you want to put in position 0 starting " +
+				"from the top of the Deck.\nOnly possible indices " +
+				"are from 1 to 2. Indices can not repeat.";
+		assertEquals(expectedPrompt, actualPrompt);
+
+		EasyMock.verify(localeManager);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
