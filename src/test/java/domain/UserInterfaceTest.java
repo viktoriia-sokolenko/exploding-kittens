@@ -1,17 +1,15 @@
 package domain;
 
-import domain.*;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import ui.UserInterface;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +17,7 @@ public class UserInterfaceTest {
 	private final PrintStream originalOut = System.out;
 	private final PrintStream originalErr = System.err;
 	private final InputStream originalIn = System.in;
+	private static final int MAX_PLAYERS = 5;
 
 	private ByteArrayOutputStream outContent;
 	private ByteArrayOutputStream errContent;
@@ -738,7 +737,7 @@ public class UserInterfaceTest {
 				.getBytes(StandardCharsets.UTF_8)));
 		UserInterface ui = new UserInterface();
 
-		int result = ui.getNumericUserInput(null);
+		int result = ui.getNumericUserInput(null, 0, 1);
 		assertEquals(1, result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 	}
@@ -750,7 +749,7 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface();
 
 		String emptyMessage = "";
-		int result = ui.getNumericUserInput(emptyMessage);
+		int result = ui.getNumericUserInput(emptyMessage, 0, 2);
 		assertEquals(1, result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 	}
@@ -763,7 +762,7 @@ public class UserInterfaceTest {
 
 		UserInterface ui = new UserInterface();
 		String message = "message";
-		int result = ui.getNumericUserInput(message);
+		int result = ui.getNumericUserInput(message, 0, 1);
 
 		assertEquals(0, result);
 
@@ -781,7 +780,8 @@ public class UserInterfaceTest {
 
 		UserInterface ui = new UserInterface();
 		String message = "message";
-		int result = ui.getNumericUserInput(message);
+		final int maxBasedOnMaxNumberOfPlayers = 4;
+		int result = ui.getNumericUserInput(message, 0, maxBasedOnMaxNumberOfPlayers);
 
 		assertEquals(2, result);
 
@@ -799,9 +799,183 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface();
 
 		String message = "message";
-		int result = ui.getNumericUserInput(message);
+		int result = ui.getNumericUserInput(message, 1, 2);
 		assertEquals(2, result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains(message));
+	}
+
+	@Test
+	public void getNumericUserInput_withInputMoreThanMax_keepsAskingForInput() {
+		String input = String.join("\n", "3", "2");
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		String message = "message";
+		int result = ui.getNumericUserInput(message, 1, 2);
+
+		assertEquals(2, result);
+
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(output.contains(message));
+		int promptCount = output.split("> ", -1).length - 1;
+		final int EXPECTED_PROMPTS = 2;
+		assertEquals(EXPECTED_PROMPTS, promptCount);
+	}
+
+	@Test
+	public void getNumericUserInput_withInputLessThanMin_keepsAskingForInput() {
+		String input = String.join("\n", "0", "1");
+		System.setIn(new ByteArrayInputStream((input + "\n")
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		String message = "message";
+		int maxIndexForMaxPlayers = MAX_PLAYERS - 1;
+		int result = ui.getNumericUserInput(message, 1, maxIndexForMaxPlayers);
+
+		assertEquals(1, result);
+
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(output.contains(message));
+		int promptCount = output.split("> ", -1).length - 1;
+		final int EXPECTED_PROMPTS = 2;
+		assertEquals(EXPECTED_PROMPTS, promptCount);
+	}
+
+	@Test
+	public void displayCardsFromDeck_withEmptyCards_printsNoCardsMessage() {
+		UserInterface ui = new UserInterface();
+		List<Card> emptyCards = new ArrayList<>();
+
+		ui.displayCardsFromDeck(emptyCards, 1);
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("No cards to view"));
+		assertFalse(out.contains(":Top of deck:"));
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void displayCardsFromDeck_withNegativeDeckSize_throwsIllegalArgumentException(
+			CardType testCardType) {
+		UserInterface ui = new UserInterface();
+
+		Card testCard = mockCard(testCardType);
+		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
+
+		String expectedMessage = "deckSize can not be negative";
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> ui.displayCardsFromDeck(oneCardList, -1));
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void displayCardsFromDeck_withOneCardAndDeckSizeZero_throwsIllegalArgumentException(
+			CardType testCardType
+	) {
+		UserInterface ui = new UserInterface();
+
+		Card testCard = mockCard(testCardType);
+		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
+
+		String expectedMessage = "deckSize is less than number of cards to display";
+		Exception exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> ui.displayCardsFromDeck(oneCardList, 0));
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void displayCardsFromDeck_withOneCard_printCardTypeAndIndex(
+			CardType testCardType
+	) {
+		UserInterface ui = new UserInterface();
+
+		Card testCard = mockCard(testCardType);
+		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
+
+		ui.displayCardsFromDeck(oneCardList, 1);
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		String expectedCardInfo = ui.formatCardName(testCardType) + ", index: 0";
+
+		assertFalse(out.contains("No cards to view"));
+		assertTrue(out.contains(expectedCardInfo));
+		assertTrue(out.contains(":Top of deck:"));
+	}
+
+	@Test
+	public void displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException()
+	{
+		UserInterface ui = new UserInterface();
+
+		Card testCard1 = mockCard(CardType.NORMAL);
+		Card testCard2 = mockCard(CardType.ALTER_THE_FUTURE);
+		List<Card> twoCardList = new ArrayList<>(List.of(testCard1, testCard2));
+
+		String expectedMessage = "deckSize is less than number of cards to display";
+		Exception exception = assertThrows(
+				IllegalArgumentException.class,
+				() -> ui.displayCardsFromDeck(twoCardList, 1));
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@Test
+	public void displayCardsFromDeck_withTwoCards_printCardTypeAndIndex() {
+		UserInterface ui = new UserInterface();
+
+		Card testCard1 = mockCard(CardType.NORMAL);
+		Card testCard2 = mockCard(CardType.ALTER_THE_FUTURE);
+
+		List<Card> twoCardList = new ArrayList<>
+				(List.of(testCard1, testCard2));
+
+		ui.displayCardsFromDeck(twoCardList, 2);
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		String expectedCardInfo =
+				"\n:Top of deck:\n" +
+				"Normal Cat, index: 1\n" +
+				"Alter the Future, index: 0";
+
+		assertFalse(out.contains("No cards to view"));
+		assertTrue(out.contains(expectedCardInfo));
+	}
+
+	@Test
+	public void displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex()
+	{
+		UserInterface ui = new UserInterface();
+
+		Card testCard1 = mockCard(CardType.SEE_THE_FUTURE);
+		Card testCard2 = mockCard(CardType.EXPLODING_KITTEN);
+		Card testCard3 = mockCard(CardType.EXPLODING_KITTEN);
+
+		List<Card> threeCardList = new ArrayList<>
+				(List.of(testCard1, testCard2, testCard3));
+
+		int deckSizeOneMoreThanCardsSize = threeCardList.size() + 1;
+		ui.displayCardsFromDeck(threeCardList, deckSizeOneMoreThanCardsSize);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		String expectedCardInfo =
+				"\n:Top of deck:\n" +
+						"See the Future, index: 3\n" +
+						"Exploding Kitten, index: 2\n" +
+						"Exploding Kitten, index: 1";
+
+		assertFalse(out.contains("No cards to view"));
+		assertTrue(out.contains(expectedCardInfo));
+	}
+
+	private Card mockCard(CardType cardType) {
+		Card mockCard = EasyMock.createMock(Card.class);
+		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
+		EasyMock.replay(mockCard);
+		return mockCard;
 	}
 }

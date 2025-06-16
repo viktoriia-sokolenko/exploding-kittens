@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import ui.UserInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -21,6 +22,7 @@ public class GameContextTest {
 	private Deck mockDeck;
 	private UserInterface userInterface;
 	private CardFactory mockCardFactory;
+	private static final int DEFAULT_PLAYERS = 3;
 
 
 	@BeforeEach
@@ -35,7 +37,7 @@ public class GameContextTest {
 	}
 
 	@Test
-	void constructor_withValidPlayer_createsGameContext() {
+	public void constructor_withValidPlayer_createsGameContext() {
 		assertNotNull(gameContext);
 	}
 
@@ -172,7 +174,7 @@ public class GameContextTest {
 				.andThrow(new NoSuchElementException("Deck is empty"));
 		EasyMock.replay(mockDeck);
 		assertThrows(NoSuchElementException.class,
-				() -> fullGameContext.viewTopTwoCardsFromDeck());
+				fullGameContext::viewTopTwoCardsFromDeck);
 		EasyMock.verify(mockDeck);
 	}
 
@@ -184,11 +186,17 @@ public class GameContextTest {
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		List<Card> expectedCardList = List.of(mockCard(testCardType));
+
 		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
-		EasyMock.replay(mockDeck);
-		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
-		assertEquals(expectedCardList, actualCardList);
-		EasyMock.verify(mockDeck);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(1).anyTimes();
+
+		userInterface.displayCardsFromDeck(expectedCardList, 1);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		fullGameContext.viewTopTwoCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
 	}
 
 	@Test
@@ -199,11 +207,17 @@ public class GameContextTest {
 		Card card1 = mockCard(CardType.NORMAL);
 		Card card2 = mockCard(CardType.FAVOR);
 		List<Card> expectedCardList = List.of(card1, card2);
+
 		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
-		EasyMock.replay(mockDeck);
-		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
-		assertEquals(expectedCardList, actualCardList);
-		EasyMock.verify(mockDeck);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(2).anyTimes();
+
+		userInterface.displayCardsFromDeck(expectedCardList, 2);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		fullGameContext.viewTopTwoCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
 	}
 
 	@Test
@@ -214,11 +228,18 @@ public class GameContextTest {
 		Card duplicateCard1 = mockCard(CardType.SKIP);
 		Card duplicateCard2 = mockCard(CardType.SKIP);
 		List<Card> expectedCardList = List.of(duplicateCard1, duplicateCard2);
+
+		final int deckSize = 3;
 		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
-		EasyMock.replay(mockDeck);
-		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
-		assertEquals(expectedCardList, actualCardList);
-		EasyMock.verify(mockDeck);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(deckSize).anyTimes();
+
+		userInterface.displayCardsFromDeck(expectedCardList, deckSize);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		fullGameContext.viewTopTwoCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
 	}
 
 	@Test
@@ -277,10 +298,14 @@ public class GameContextTest {
 	@EnumSource(CardType.class)
 	public void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
 			CardType testCardType) {
+		EasyMock.expect(mockPlayerManager.getNumberOfPlayers())
+				.andReturn(DEFAULT_PLAYERS);
+
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
 		EasyMock.expect(userInterface.getNumericUserInput(
-						"Enter the player you want to get card from"))
+				"Enter the index of a player you want to get card from (0, 2)",
+						0, 2))
 				.andReturn(playerIndex);
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
@@ -318,10 +343,16 @@ public class GameContextTest {
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	public void transferCardBetweenPlayers_withCardInHand_transfersCard(CardType testCardType) {
+		EasyMock.expect(mockPlayerManager.getNumberOfPlayers())
+				.andReturn(DEFAULT_PLAYERS);
+
 		int playerIndex = 1;
 		Player mockPlayerGiver = EasyMock.createMock(Player.class);
+		String playerInputMessage =
+				"Enter the index of a player you want to get card from (0, 2)";
 		EasyMock.expect(userInterface.getNumericUserInput(
-						"Enter the player you want to get card from"))
+						playerInputMessage,
+						0, 2))
 				.andReturn(playerIndex);
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
@@ -355,6 +386,197 @@ public class GameContextTest {
 
 		EasyMock.verify(mockPlayerGiver, mockCurrentPlayer,
 				userInterface, mockCardFactory, mockPlayerManager);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void rearrangeTopThreeCardsFromDeck_oneCardDeck_callsRearrangeTopThreeCards(
+			CardType testCardType
+	) {
+		Card mockCard = mockCard(testCardType);
+		List<Card> oneCardList = new ArrayList<>(List.of(mockCard));
+
+		EasyMock.expect(mockDeck.peekTopThreeCards())
+				.andReturn(oneCardList);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(1).anyTimes();
+
+		userInterface.displayCardsFromDeck(oneCardList, 1);
+		EasyMock.expectLastCall().once();
+
+		String messageForPlayer = "Enter the index of a card " +
+						"that you want to put in position 0 " +
+						"starting from the top of the Deck.\n" +
+						"Only possible indices are from 0 to 0. " +
+						"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				messageForPlayer, 0, 0)).andReturn(0);
+
+		List<Integer> indices = List.of(0);
+		mockDeck.rearrangeTopThreeCards(indices);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.rearrangeTopThreeCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
+	}
+
+	@Test
+	public void rearrangeTopThreeCardsFromDeck_sameIndices_throwsIllegalArgumentException() {
+		Card card1 = mockCard(CardType.NORMAL);
+		Card card2 = mockCard(CardType.ATTACK);
+		List<Card> twoCardList = new ArrayList<>(List.of(card1, card2));
+		int deckSize = twoCardList.size();
+
+		EasyMock.expect(mockDeck.peekTopThreeCards())
+				.andReturn(twoCardList);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(deckSize).anyTimes();
+
+		userInterface.displayCardsFromDeck(twoCardList, deckSize);
+		EasyMock.expectLastCall().once();
+
+		String message1 = "Enter the index of a card " +
+				"that you want to put in position 0 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 0 to 1. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+						message1, 0, 1)).andReturn(1);
+
+		String message2 = "Enter the index of a card " +
+				"that you want to put in position 1 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 0 to 1. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message2, 0, 1)).andReturn(1);
+
+		List<Integer> duplicateIndices = List.of(1, 1);
+		mockDeck.rearrangeTopThreeCards(duplicateIndices);
+		EasyMock.expectLastCall().andThrow(new IllegalArgumentException(
+				"Duplicate indices are not allowed"));
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		assertThrows(IllegalArgumentException.class,
+				fullGameContext::rearrangeTopThreeCardsFromDeck);
+		EasyMock.verify(mockDeck, userInterface);
+	}
+
+	@Test
+	public void rearrangeTopThreeCardsFromDeck_threeCards_callsRearrangeTopThreeCards() {
+		Card card1 = mockCard(CardType.SKIP);
+		Card card2 = mockCard(CardType.DEFUSE);
+		Card card3 = mockCard(CardType.SEE_THE_FUTURE);
+		List<Card> threeCardList = new ArrayList<>(List.of(card1, card2, card3));
+		int deckSize = threeCardList.size();
+
+		EasyMock.expect(mockDeck.peekTopThreeCards())
+				.andReturn(threeCardList);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(deckSize).anyTimes();
+
+		userInterface.displayCardsFromDeck(threeCardList, deckSize);
+		EasyMock.expectLastCall().once();
+
+		String message1 = "Enter the index of a card " +
+				"that you want to put in position 0 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 0 to 2. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message1, 0, 2)).andReturn(2);
+
+		String message2 = "Enter the index of a card " +
+				"that you want to put in position 1 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 0 to 2. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message2, 0, 2)).andReturn(0);
+
+		String message3 = "Enter the index of a card " +
+				"that you want to put in position 2 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 0 to 2. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message3, 0, 2)).andReturn(1);
+
+		List<Integer> duplicateIndices = List.of(2, 0, 1);
+		mockDeck.rearrangeTopThreeCards(duplicateIndices);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.rearrangeTopThreeCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
+	}
+
+	@Test
+	public void rearrangeTopThreeCardsFromDeck_fourCards_callsRearrangeTopThreeCards() {
+		Card card1 = mockCard(CardType.FAVOR);
+		Card card2 = mockCard(CardType.SHUFFLE);
+		Card card3 = mockCard(CardType.EXPLODING_KITTEN);
+		List<Card> topThreeCards = new ArrayList<>(
+				List.of(card1, card2, card3));
+		int deckSize = topThreeCards.size() + 1;
+
+		EasyMock.expect(mockDeck.peekTopThreeCards())
+				.andReturn(topThreeCards);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(deckSize).anyTimes();
+
+		userInterface.displayCardsFromDeck(topThreeCards, deckSize);
+		EasyMock.expectLastCall().once();
+
+		int maxCardIndex = deckSize - 1;
+		String message1 = "Enter the index of a card " +
+				"that you want to put in position 0 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 1 to 3. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message1, 1, maxCardIndex)).andReturn(1);
+
+		String message2 = "Enter the index of a card " +
+				"that you want to put in position 1 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 1 to 3. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message2, 1, maxCardIndex)).andReturn(2);
+
+		String message3 = "Enter the index of a card " +
+				"that you want to put in position 2 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indices are from 1 to 3. " +
+				"Indices can not repeat.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message3, 1, maxCardIndex)).andReturn(maxCardIndex);
+
+		List<Integer> indices = List.of(1, 2, maxCardIndex);
+		mockDeck.rearrangeTopThreeCards(indices);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.rearrangeTopThreeCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
 	}
 
 	private Card mockCard(CardType cardType) {

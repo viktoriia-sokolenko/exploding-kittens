@@ -20,12 +20,12 @@ public class SeeTheFutureTest {
 	void execute_seeTheFutureEffect_callsViewTopTwoCardsFromDeck() {
 		SeeTheFutureCard seeTheFutureCard = new SeeTheFutureCard();
 		CardEffect seeTheFutureEffect = seeTheFutureCard.createEffect();
-		List<Card> mockCards = List.of(EasyMock.createMock(Card.class),
-				EasyMock.createMock(Card.class));;
+
 		GameContext mockGameContext = EasyMock.createMock(GameContext.class);
-		EasyMock.expect(mockGameContext.viewTopTwoCardsFromDeck())
-				.andReturn(mockCards).once();
+		mockGameContext.viewTopTwoCardsFromDeck();
+		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockGameContext);
+
 		seeTheFutureEffect.execute(mockGameContext);
 		EasyMock.verify(mockGameContext);
 	}

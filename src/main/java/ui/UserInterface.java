@@ -6,6 +6,7 @@ import domain.Player;
 import domain.Card;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -251,16 +252,45 @@ public class UserInterface {
 		}
 	}
 
-	public int getNumericUserInput(String message) {
+	public int getNumericUserInput(String message, int min, int max) {
 		while (true) {
 			System.out.println(message);
 			System.out.print("> ");
 			String input = scanner.nextLine();
+			String errorMessage = "Please enter a number between "
+					+ min + " and " + max + ".";
 			try {
-				return Integer.parseInt(input);
-			} catch (NumberFormatException ignored) {
-				displayError("Please enter a number between 2 and 5");
+				int inputInt = Integer.parseInt(input);
+				if (inputInt < min || inputInt > max) {
+					displayError(errorMessage);
+				} else {
+					return inputInt;
+				}
+			} catch (NumberFormatException e) {
+				displayError(errorMessage);
 			}
+		}
+	}
+
+	public void displayCardsFromDeck(List<Card> cards, int deckSize) {
+		if (deckSize < 0) {
+			throw new IllegalArgumentException ("deckSize can not be negative");
+		}
+		if (cards.size() > deckSize) {
+			throw new IllegalArgumentException(
+					"deckSize is less than number of cards to display");
+		}
+		if (cards.isEmpty()) {
+			System.out.println("No cards to view");
+			return;
+		}
+		System.out.println("\n" + ":Top of deck:");
+		for (int i = 0; i < cards.size(); i++) {
+			Card card = cards.get(i);
+			CardType cardTypeToDisplay = card.getCardType();
+			int index = deckSize - i - 1;
+			System.out.println(formatCardName(cardTypeToDisplay)
+					+ ", index: " + index);
 		}
 	}
 }

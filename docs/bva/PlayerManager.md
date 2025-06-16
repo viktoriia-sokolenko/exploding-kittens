@@ -92,3 +92,21 @@
 | Test Case 4 | index `0`, players `[player1, player2]`  | `player1`                   | :white_check_mark: | getPlayerByIndex_twoPlayersWithZeroIndex_returnsFirstPlayer                 |
 | Test Case 5 | index `1`, players `[player1, player2]`  | `player2`                   | :white_check_mark: | getPlayerByIndex_twoPlayersWithOneIndex_returnsSecondPlayer                 |
 | Test Case 6 | index `3`, players `[player1, player2]`  | `IndexOutOfBoundsException` | :white_check_mark: | getPlayerByIndex_twoPlayersWithThreeIndex_throwsIndexOutOfBoundsException   |
+
+## Method under test: `getNumberOfPlayers()`
+
+### Step 1-3 Results
+
+|        | Input                                                                                                  | Output                        |
+|--------|--------------------------------------------------------------------------------------------------------|-------------------------------|
+| Step 1 | the state of the players list                                                                          | number of players in the list |
+| Step 2 | Collection                                                                                             | Count                         |
+| Step 3 | empty list; list with 2 elements (min number of players); list with 5 elements (max number of players) | 0; 2, 5                       |
+
+### Step 4:
+
+|             | System under test                                       | Expected output | Implemented?       | Test name                                     |
+|-------------|---------------------------------------------------------|-----------------|--------------------|-----------------------------------------------|
+| Test Case 1 | players `[]`                                            | 0               | :white_check_mark: | getNumberOfPlayers_withNoPlayers_returnsZero  |
+| Test Case 2 | players `[player1, player2]`                            | 2               | :white_check_mark: | getNumberOfPlayers_withMinPlayers_returnsTwo  |
+| Test Case 3 | players `[player1, player2, player3, player4, player5]` | 5               | :white_check_mark: | getNumberOfPlayers_withMaxPlayers_returnsFive |

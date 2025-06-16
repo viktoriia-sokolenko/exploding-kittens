@@ -8,7 +8,13 @@ public class AlterTheFutureCard extends Card {
 
 	@Override
 	public CardEffect createEffect() {
-		// Temporary empty implementation
-		return null;
+		return new AlterTheFutureEffect();
+	}
+
+	private static class AlterTheFutureEffect implements CardEffect {
+		@Override
+		public void execute(GameContext context) {
+			context.rearrangeTopThreeCardsFromDeck();
+		}
 	}
 }
