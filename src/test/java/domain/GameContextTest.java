@@ -586,4 +586,15 @@ public class GameContextTest {
 		return mockCard;
 	}
 
+	@Test
+	public void moveAllExplodingKittensToTop_deckIsNull_noActionTaken() {
+		Player currentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(currentPlayer);
+
+		GameContext gameContext = new GameContext(currentPlayer);
+		gameContext.moveAllExplodingKittensToTop();
+
+		EasyMock.verify(currentPlayer);
+	}
+
 }
