@@ -734,6 +734,20 @@ public class GameContextTest {
 	}
 
 	@Test
+	public void moveAllExplodingKittensToTop_uiIsNull_noActionTaken() {
+		Player currentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.replay(currentPlayer);
+
+		GameContext gameContext1 = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, currentPlayer, null, mockCardFactory);
+
+		gameContext1.moveAllExplodingKittensToTop();
+
+		EasyMock.verify(currentPlayer);
+	}
+
+	@Test
 	public void
 	moveAllExplodingKittensToTop_deckIsNotNull_callsDeckDisplaysSuccess() {
 		TurnManager turnManager = EasyMock.createMock(TurnManager.class);
