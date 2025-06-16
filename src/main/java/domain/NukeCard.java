@@ -13,7 +13,7 @@ public class NukeCard extends Card {
 	private static class NukeEffect implements CardEffect {
 		@Override
 		public void execute(GameContext context) {
-			return;
+			context.moveAllExplodingKittensToTop();
 		}
 	}
 }

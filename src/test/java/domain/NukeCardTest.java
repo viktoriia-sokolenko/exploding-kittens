@@ -15,4 +15,19 @@ public class NukeCardTest {
         assertNotNull(effect, "Effect cannot be null");
     }
 
+    @Test
+    void execute_nukeEffect_callsMoveAllExplodingKittensToTop() {
+        NukeCard nukeCard = new NukeCard();
+        CardEffect nukeEffect = nukeCard.createEffect();
+        GameContext mockGameContext = EasyMock.createMock(GameContext.class);
+
+        mockGameContext.moveAllExplodingKittensToTop();
+        EasyMock.expectLastCall();
+        EasyMock.replay(mockGameContext);
+
+        nukeEffect.execute(mockGameContext);
+
+        EasyMock.verify(mockGameContext);
+    }
+
 }
