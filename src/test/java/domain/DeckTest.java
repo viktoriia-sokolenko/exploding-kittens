@@ -1073,4 +1073,24 @@ public class DeckTest {
 		final int ZERO_DECK_SIZE = 0;
 		assertEquals(ZERO_DECK_SIZE, deck.getDeckSize());
 	}
+
+	@Test
+	public
+	void
+	moveAllExplodingKittensToTop_deckWithNoExplodingKittens_orderUnchanged() {
+		Card card1 = mockCard(CardType.DEFUSE);
+		Card card2 = mockCard(CardType.FAVOR);
+		Card card3 = mockCard(CardType.SHUFFLE);
+		List<Card> cardsList = new ArrayList<>(List.of(card1, card2, card3));
+		final int EXPECTED_SIZE = 3;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(card1, deck.getCardAt(0));
+		assertEquals(card2, deck.getCardAt(1));
+		assertEquals(card3, deck.getCardAt(2));
+	}
+
 }
