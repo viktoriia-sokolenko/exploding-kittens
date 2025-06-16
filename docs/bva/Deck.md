@@ -180,7 +180,24 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 3 | Deck `[card1, card2]`            | Returns `[card1, card2]`;                  | :white_check_mark: | peekTopTwoCards_deckWithTwoCards_returnsTwoLastCards                     |
 | Test Case 4 | Deck `[card1, card2.1, card2.2]` | Returns `[card2.1, card2.2]`;              | :white_check_mark: | peekTopTwoCards_deckWithThreeCardsAndDuplicate_returnsLastDuplicateCards |
 
+## Method 10: `public void swapTopAndBottom()`
 
+### Step 1-3 Results
+
+|        | Input                                                                                                 | Output                                                                                                             |
+|--------|-------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| Step 1 | Deck of Cards                                                                                         | Deck of Cards with top and bottom cards swapped                                                                    |
+| Step 2 | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates) | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates) or Exception |
+| Step 3 | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                             | `[card1]`, `[card2, card1]`, duplicates `[card2.2, card2.1, card1]` or `NoSuchElementException`                    |
+
+### Step 4:
+
+|             | System under test                | Expected output / state transition         | Implemented?       | Test name                                                  |
+|-------------|----------------------------------|--------------------------------------------|--------------------|------------------------------------------------------------|
+| Test Case 1 | Deck `[]`                        | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | swapTopAndBottom_emptyDeck_throwsNoSuchElementException    |
+| Test Case 2 | Deck `[card1]`                   | Deck `[card1]`;                            | :white_check_mark: | swapTopAndBottom_deckWithOneCard_orderRemainsTheSame       |
+| Test Case 3 | Deck `[card1, card2]`            | Deck `[card1, card2]`;                     | :white_check_mark: | swapTopAndBottom_deckWithTwoCards_swapsCards               |
+| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Deck `[card2.2, card2.1, card1]`;          | :white_check_mark: | swapTopAndBottom_deckWithThreeCardsAndDuplicate_swapsCards |
 
 ## Method under test: `giveCardToPlayer(Player p)`
 
