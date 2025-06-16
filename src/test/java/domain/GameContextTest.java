@@ -364,6 +364,50 @@ public class GameContextTest {
 		EasyMock.verify(mockDeck, userInterface);
 	}
 
+	@Test
+	public void rearrangeTopThreeCardsFromDeck_sameIndices_throwsIllegalArgumentException() {
+		Card card1 = mockCard(CardType.NORMAL);
+		Card card2 = mockCard(CardType.ATTACK);
+		List<Card> twoCardList = new ArrayList<>(List.of(card1, card2));
+
+		EasyMock.expect(mockDeck.peekTopThreeCards())
+				.andReturn(twoCardList);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(2).anyTimes();
+
+		userInterface.displayCardsFromDeck(twoCardList, 2);
+		EasyMock.expectLastCall().once();
+
+		String message1 = "Enter the index of a card " +
+				"that you want to put in position 0 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indexes are from 0 to 1.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+						message1, 0, 1)).andReturn(1);
+
+		String message2 = "Enter the index of a card " +
+				"that you want to put in position 1 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indexes are from 0 to 1.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message2, 0, 1)).andReturn(1);
+
+		List<Integer> duplicateIndices = List.of(1, 1);
+		mockDeck.rearrangeTopThreeCards(duplicateIndices);
+		EasyMock.expectLastCall().andThrow(new IllegalArgumentException(
+				"Duplicate indices are not allowed"));
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		assertThrows(IllegalArgumentException.class, () -> {
+			fullGameContext.rearrangeTopThreeCardsFromDeck();
+		});
+		EasyMock.verify(mockDeck, userInterface);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
