@@ -1175,4 +1175,23 @@ public class DeckTest {
 		assertEquals(kitten1, deck.getCardAt(CARD_AT_INDEX_TWO));
 		assertEquals(kitten2, deck.peekTop());
 	}
+
+	@Test
+	public void moveAllExplodingKittensToTop_singleExplodingKittenAtBottom_kittenMovesToTop() {
+		Card explodingKitten = mockCard(CardType.EXPLODING_KITTEN);
+		Card normalCard = mockCard(CardType.NORMAL);
+		Card defuseCard = mockCard(CardType.DEFUSE);
+		List<Card> cardsList = new ArrayList<>(List.of(explodingKitten,
+				normalCard, defuseCard));
+		final int EXPECTED_SIZE = 3;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+		final int CARD_AT_INDEX_ZERO = 0;
+		final int CARD_AT_INDEX_ONE = 1;
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(normalCard, deck.getCardAt(CARD_AT_INDEX_ZERO));
+		assertEquals(defuseCard, deck.getCardAt(CARD_AT_INDEX_ONE));
+		assertEquals(explodingKitten, deck.peekTop());
+	}
 }
