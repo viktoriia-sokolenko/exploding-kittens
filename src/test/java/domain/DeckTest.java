@@ -1123,4 +1123,164 @@ public class DeckTest {
 		EasyMock.replay(card);
 		return card;
 	}
+
+
+	@Test
+	public void moveAllExplodingKittensToTop_emptyDeck_deckRemainsEmpty() {
+		List<Card> emptyCardList = new ArrayList<>();
+
+		Deck deck = new Deck(emptyCardList);
+		deck.moveAllExplodingKittensToTop();
+		final int ZERO_DECK_SIZE = 0;
+		assertEquals(ZERO_DECK_SIZE, deck.getDeckSize());
+	}
+
+	@Test
+	public
+	void
+	moveAllExplodingKittensToTop_deckWithNoExplodingKittens_orderUnchanged() {
+		Card card1 = mockCard(CardType.DEFUSE);
+		Card card2 = mockCard(CardType.FAVOR);
+		Card card3 = mockCard(CardType.SHUFFLE);
+		List<Card> cardsList = new ArrayList<>(List.of(card1, card2, card3));
+		final int EXPECTED_SIZE = 3;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(card1, deck.getCardAt(0));
+		assertEquals(card2, deck.getCardAt(1));
+		assertEquals(card3, deck.getCardAt(2));
+	}
+
+	@Test
+	public void
+	moveAllExplodingKittensToTop_deckWithOnlyExplodingKittens_orderUnchanged() {
+		Card kitten1 = mockCard(CardType.EXPLODING_KITTEN);
+		Card kitten2 = mockCard(CardType.EXPLODING_KITTEN);
+		List<Card> cardsList = new ArrayList<>(List.of(kitten1, kitten2));
+		final int EXPECTED_SIZE = 2;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(kitten1, deck.getCardAt(0));
+		assertEquals(kitten2, deck.getCardAt(1));
+	}
+
+	@Test
+	public void
+	moveAllExplodingKittensToTop_deckWithOneExplodingKitten_kittenMovesToTop() {
+		Card normalCard = mockCard(CardType.NORMAL);
+		Card explodingKitten = mockCard(CardType.EXPLODING_KITTEN);
+		Card favorCard = mockCard(CardType.FAVOR);
+		List<Card> cardsList = new ArrayList<>(List.of(normalCard,
+				explodingKitten, favorCard));
+		final int EXPECTED_SIZE = 3;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(normalCard, deck.getCardAt(0));
+		assertEquals(favorCard, deck.getCardAt(1));
+		assertEquals(explodingKitten, deck.peekTop());
+	}
+
+	@Test
+	public void
+	moveAllExplodingKittensTop_deckWithMultipleExplodingKittens_allKittenTop() {
+		Card defuseCard = mockCard(CardType.DEFUSE);
+		Card kitten1 = mockCard(CardType.EXPLODING_KITTEN);
+		Card shuffleCard = mockCard(CardType.SHUFFLE);
+		Card kitten2 = mockCard(CardType.EXPLODING_KITTEN);
+		Card favorCard = mockCard(CardType.FAVOR);
+		List<Card> cardsList = new ArrayList<>(List.of
+				(defuseCard, kitten1, shuffleCard, kitten2, favorCard));
+		final int EXPECTED_SIZE = 5;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+		final int CARD_AT_INDEX_ZERO = 0;
+		final int CARD_AT_INDEX_ONE = 1;
+		final int CARD_AT_INDEX_TWO = 2;
+		final int CARD_AT_INDEX_THREE = 3;
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(defuseCard, deck.getCardAt(CARD_AT_INDEX_ZERO));
+		assertEquals(shuffleCard, deck.getCardAt(CARD_AT_INDEX_ONE));
+		assertEquals(favorCard, deck.getCardAt(CARD_AT_INDEX_TWO));
+		assertEquals(kitten1, deck.getCardAt(CARD_AT_INDEX_THREE));
+		assertEquals(kitten2, deck.peekTop());
+	}
+
+	@Test
+	public void moveAllExplodingKittensTop_explodingKittensAlreadyAtTop_orderUnchanged() {
+		Card defuseCard = mockCard(CardType.DEFUSE);
+		Card shuffleCard = mockCard(CardType.SHUFFLE);
+		Card kitten1 = mockCard(CardType.EXPLODING_KITTEN);
+		Card kitten2 = mockCard(CardType.EXPLODING_KITTEN);
+		List<Card> cardsList = new ArrayList<>(List.of(defuseCard,
+				shuffleCard, kitten1, kitten2));
+		final int EXPECTED_SIZE = 4;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+		final int CARD_AT_INDEX_ZERO = 0;
+		final int CARD_AT_INDEX_ONE = 1;
+		final int CARD_AT_INDEX_TWO = 2;
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(defuseCard, deck.getCardAt(CARD_AT_INDEX_ZERO));
+		assertEquals(shuffleCard, deck.getCardAt(CARD_AT_INDEX_ONE));
+		assertEquals(kitten1, deck.getCardAt(CARD_AT_INDEX_TWO));
+		assertEquals(kitten2, deck.peekTop());
+	}
+
+	@Test
+	public void moveAllExplodingKittensToTop_singleExplodingKittenAtBottom_kittenMovesToTop() {
+		Card explodingKitten = mockCard(CardType.EXPLODING_KITTEN);
+		Card normalCard = mockCard(CardType.NORMAL);
+		Card defuseCard = mockCard(CardType.DEFUSE);
+		List<Card> cardsList = new ArrayList<>(List.of(explodingKitten,
+				normalCard, defuseCard));
+		final int EXPECTED_SIZE = 3;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+		final int CARD_AT_INDEX_ZERO = 0;
+		final int CARD_AT_INDEX_ONE = 1;
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(normalCard, deck.getCardAt(CARD_AT_INDEX_ZERO));
+		assertEquals(defuseCard, deck.getCardAt(CARD_AT_INDEX_ONE));
+		assertEquals(explodingKitten, deck.peekTop());
+	}
+
+	@Test
+	public void moveAllExplodingKittensToTop_mixedDeckWithDuplicateCards_explodingKittensTop() {
+		Card favorCard1 = mockCard(CardType.FAVOR);
+		Card kitten1 = mockCard(CardType.EXPLODING_KITTEN);
+		Card favorCard2 = mockCard(CardType.FAVOR);
+		Card kitten2 = mockCard(CardType.EXPLODING_KITTEN);
+		Card kitten3 = mockCard(CardType.EXPLODING_KITTEN);
+		List<Card> cardsList = new ArrayList<>(List.of(favorCard1, kitten1,
+				favorCard2, kitten2, kitten3));
+		final int EXPECTED_SIZE = 5;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+
+		final int CARD_AT_INDEX_ZERO = 0;
+		final int CARD_AT_INDEX_ONE = 1;
+		final int CARD_AT_INDEX_TWO = 2;
+		final int CARD_AT_INDEX_THREE = 3;
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(favorCard1, deck.getCardAt(CARD_AT_INDEX_ZERO));
+		assertEquals(favorCard2, deck.getCardAt(CARD_AT_INDEX_ONE));
+
+		assertEquals(kitten1, deck.getCardAt(CARD_AT_INDEX_TWO));
+		assertEquals(kitten2, deck.getCardAt(CARD_AT_INDEX_THREE));
+		assertEquals(kitten3, deck.peekTop());
+	}
+
 }
