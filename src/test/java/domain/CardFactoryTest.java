@@ -3,6 +3,7 @@ package domain;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.List;
 
 public class CardFactoryTest {
@@ -122,6 +123,14 @@ public class CardFactoryTest {
 	}
 
 	@Test
+	public void createCard_withSwapTopAndBottomCardType_createsCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.SWAP_TOP_AND_BOTTOM);
+		assertInstanceOf(SwapTopAndBottomCard.class, card);
+		assertEquals(CardType.SWAP_TOP_AND_BOTTOM, card.getCardType());
+	}
+
+	@Test
 	public void createCards_withNullTypeAndValidCount_throwsNullPointerException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(NullPointerException.class,
@@ -161,9 +170,9 @@ public class CardFactoryTest {
 	@Test
 	public void createCards_withMultipleDifferentTypes_returnsCorrectTypeForEachCardType() {
 		CardFactory factory = new CardFactory();
-		Card normal	   = factory.createCard(CardType.NORMAL);
+		Card normal = factory.createCard(CardType.NORMAL);
 		Card exploding = factory.createCard(CardType.EXPLODING_KITTEN);
-		Card defuse	   = factory.createCard(CardType.DEFUSE);
+		Card defuse = factory.createCard(CardType.DEFUSE);
 
 		assertInstanceOf(NormalCard.class, normal);
 		assertInstanceOf(ExpoldingKittenCard.class, exploding);
