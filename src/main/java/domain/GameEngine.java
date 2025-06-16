@@ -24,12 +24,12 @@ public class GameEngine {
 			CardFactory cardFactory,
 			SecureRandom secureRandom
 	) {
-		this.cardManager   = new CardManager();
-		this.turnManager   = Objects.requireNonNull(turnManager,
+		this.cardManager = new CardManager();
+		this.turnManager = Objects.requireNonNull(turnManager,
 				"turnManager must not be null");
 		this.playerManager = Objects.requireNonNull(playerManager,
 				"playerManager must not be null");
-		this.deck		   = Objects.requireNonNull(deck,
+		this.deck = Objects.requireNonNull(deck,
 				"deck must not be null");
 		this.userInterface = userInterface;
 		this.cardFactory = Objects.requireNonNull(cardFactory,
@@ -105,6 +105,8 @@ public class GameEngine {
 				.createCards(CardType.FAVOR, NUMBER_OF_ESSENTIAL_CARDS));
 		deck.addAll(cardFactory
 				.createCards(CardType.SHUFFLE, NUMBER_OF_ESSENTIAL_CARDS));
+		deck.addAll(cardFactory
+				.createCards(CardType.BURY, NUMBER_OF_ESSENTIAL_CARDS));
 		deck.addAll(cardFactory
 				.createCards(CardType.REVERSE, NUMBER_OF_ESSENTIAL_CARDS));
 		deck.addAll(cardFactory
@@ -274,7 +276,7 @@ public class GameEngine {
 							"Type 'help' for available commands.");
 			return;
 		}
-		String cleanedInput	 = input.trim().replaceAll("\\s+", " ");
+		String cleanedInput = input.trim().replaceAll("\\s+", " ");
 		String[] parts = cleanedInput.split(" ");
 		String command = parts[0];
 

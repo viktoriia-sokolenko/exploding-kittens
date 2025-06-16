@@ -282,6 +282,11 @@ public class UserInterfaceTest {
 		assertTrue(outContent.toString(StandardCharsets.UTF_8)
 				.contains(" → Reverse the order of play " +
 						"and end your turn without drawing a card"));
+
+		ui.displayCardEffect(CardType.BURY);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains(" → Draw a card and secretly " +
+						"into anywhere in draw pile"));
 	}
 
 	@Test
@@ -293,6 +298,7 @@ public class UserInterfaceTest {
 		assertEquals("Attack", ui.formatCardName(CardType.ATTACK));
 		assertEquals("Skip", ui.formatCardName(CardType.SKIP));
 		assertEquals("Favor", ui.formatCardName(CardType.FAVOR));
+		assertEquals("Bury", ui.formatCardName(CardType.BURY));
 		assertEquals("Shuffle", ui.
 				formatCardName(CardType.SHUFFLE));
 		assertEquals("See the Future",

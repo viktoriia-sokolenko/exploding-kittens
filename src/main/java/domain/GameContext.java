@@ -107,6 +107,18 @@ public class GameContext {
 		deck.swapTopAndBottom();
 	}
 
+	public void buryCardImplementation() {
+		Card topCard = deck.draw();
+		userInterface.displayDrawnCard(topCard);
+
+		int deckSize = deck.getDeckSize();
+		int insertIndex = getNumericIndexFromUserInput(deckSize);
+
+		deck.insertCardAt(topCard, insertIndex);
+		userInterface.displaySuccess("Player " + currentPlayer + " has buried a card.");
+		endTurnWithoutDrawing();
+	}
+
 	private Card getCardFromUserInput(String message, Player player) {
 		String cardTypeInput = userInterface.getUserInput(message);
 		CardType cardType = player.parseCardType(cardTypeInput);
@@ -121,6 +133,14 @@ public class GameContext {
 		int playerIndex = userInterface.getNumericUserInput(message, 0, maxPlayerIndex);
 		return playerManager.getPlayerByIndex(playerIndex);
 
+	}
+
+	private int getNumericIndexFromUserInput(int deckSize) {
+		return userInterface.getNumericUserInput(
+				"Where would you like to bury this card? (0 = top, "
+						+ deckSize + " = bottom)",
+				0, deckSize
+		);
 	}
 
 	private List<Integer> getIndicesFromUserInput(List<Card> topThreeCards) {
@@ -156,4 +176,5 @@ public class GameContext {
 					("All Exploding Kittens moved to the top of the deck!");
 		}
 	}
+
 }
