@@ -247,6 +247,16 @@ public class PlayerManagerTest {
 		assertEquals("Index out of bounds", ex.getMessage());
 	}
 
+	@Test
+	public void
+	getPlayerByIndex_emptyList_throwsIndexOutOfBoundsException() {
+		IndexOutOfBoundsException ex = assertThrows(
+				IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(ZERO_INDEX)
+		);
+		assertEquals("Index out of bounds", ex.getMessage());
+	}
+
 	private Deck mockDeck() {
 		return EasyMock.createMock(Deck.class);
 	}
