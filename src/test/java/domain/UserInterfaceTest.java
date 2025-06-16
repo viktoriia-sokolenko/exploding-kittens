@@ -1390,37 +1390,34 @@ public class UserInterfaceTest {
 
 	@Test
 	public void getNumericUserInput_nonNumeric_invokesDisplayErrorOnce() {
-		String simulated = "foo\n4\n";
+		EasyMock.expect(localeManager.get("error.limit.number"))
+				.andReturn("Please enter a number between %d and %d.").anyTimes();
+		EasyMock.expect(localeManager.get("error"))
+				.andReturn("Error: ").anyTimes();
+		EasyMock.replay(localeManager);
+
 		final int MIN = 1;
 		final int MAX = 5;
 		final int EXPECTED_PROMPTS = 4;
+		final int ONE = 1;
+		String simulated = "foo\n4\n";
 		System.setIn(new ByteArrayInputStream(simulated
 				.getBytes(StandardCharsets.UTF_8)));
-
 		UserInterface ui = new UserInterface(localeManager);
-		int picked = ui.getNumericUserInput(
-				"Enter number:", MIN, MAX);
-		assertEquals(EXPECTED_PROMPTS, picked,
-				"Should return the valid integer after the " +
-						"bad input");
 
-		String err = errContent.toString(StandardCharsets.UTF_8);
-		long errors = err.lines()
-				.filter(l ->
-						l.contains
-								("Please enter a " +
-										"number between" +
-										" 1 and 5."))
+		int result = ui.getNumericUserInput
+				("Enter number:", MIN, MAX);
+		assertEquals(EXPECTED_PROMPTS, result,
+				"Should return the valid integer after the bad input");
+
+		long errors = errContent.toString(StandardCharsets.UTF_8).lines()
+				.filter(l -> l.contains("Please enter a " +
+						"number between 1 and 5."))
 				.count();
-		final int EXPECTS_ONE_PROMPT = 1;
-		assertEquals(
-				EXPECTS_ONE_PROMPT,
-				errors,
-				"" +
-						"getNumericUserInput() " +
-						"must call displayError(...) " +
-						"exactly once for non-numeric input"
-		);
+		assertEquals(ONE, errors,
+				"getNumericUserInput() must call " +
+						"displayError(...) " +
+						"exactly once for non-numeric input");
 	}
 
 	@Test
