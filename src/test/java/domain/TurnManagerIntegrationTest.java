@@ -23,21 +23,10 @@ public class TurnManagerIntegrationTest {
 			cards.add(new SkipCard());
 		}
 		deck = new Deck(cards);
-		turnManager = new TurnManager(deck);
+		turnManager = new TurnManager();
 
 		playerManager = new PlayerManager(deck);
 		playerManager.addPlayers(DEFAULT_NUM_PLAYERS);
-	}
-
-
-	@Test
-	void constructor_withNullDeck_throwsNullPointerException() {
-		NullPointerException exception = assertThrows(
-				NullPointerException.class,
-				() -> new TurnManager(null)
-		);
-
-		assertEquals("Deck cannot be null", exception.getMessage());
 	}
 
 	@Test

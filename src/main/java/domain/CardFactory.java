@@ -28,6 +28,8 @@ public class CardFactory {
 				return new FavorCard();
 			case BURY:
 				return new BuryCard();
+			case REVERSE:
+				return new ReverseCard();
 			default: throw new IllegalArgumentException("Unknown card type: " + type);
 		}
 	}
