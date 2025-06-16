@@ -221,7 +221,8 @@ public class GameEngine {
 	public void handleDrawCommand(Player currentPlayer) {
 		Objects.requireNonNull(currentPlayer, "Player cannot be null");
 
-		if (deck.getDeckSize() == 0) {
+		final int DECK_SIZE_OF_ZERO = 0;
+		if (deck.getDeckSize() == DECK_SIZE_OF_ZERO) {
 			userInterface.displayError("Deck is empty!");
 			return;
 		}
@@ -229,25 +230,39 @@ public class GameEngine {
 		Card drawnCard = deck.draw();
 		userInterface.displayDrawnCard(drawnCard);
 
-
 		if (drawnCard.getCardType() == CardType.EXPLODING_KITTEN) {
-			if (currentPlayer.hasCardType(CardType.DEFUSE)) {
-				System.out.println("You drew an Exploding " +
-						"Kitten but used a Defuse card!");
-				currentPlayer.removeDefuseCard();
-				deck.insertCardAt(drawnCard, secureRandom.
-						nextInt(deck.getDeckSize()));
-			} else {
-				System.out.println("BOOM! You drew an " +
-						"Exploding Kitten and had no Defuse card!");
-				playerManager.removePlayerFromGame(currentPlayer);
-				return;
-			}
+			handleExplodingKittenDrawWithUI(currentPlayer, drawnCard);
 		} else {
 			currentPlayer.addCardToHand(drawnCard);
+			turnManager.advanceToNextPlayer();
 		}
+	}
 
-		turnManager.advanceToNextPlayer();
+	private void handleExplodingKittenDrawWithUI
+			(Player currentPlayer, Card explodingKitten) {
+		if (currentPlayer.hasCardType(CardType.DEFUSE)) {
+			currentPlayer.removeDefuseCard();
+			userInterface.displayDefuseUsed();
+			int position = getPlayerChoiceForKittenPlacement();
+			deck.insertCardAt(explodingKitten, position);
+
+			userInterface.displaySuccess("Exploding Kitten placed" +
+					" back in the deck at position " + position);
+			turnManager.advanceToNextPlayer();
+		} else {
+			System.out.println("BOOM! You drew an Exploding Kitten and " +
+					"had no Defuse card!");
+			playerManager.removePlayerFromGame(currentPlayer);
+		}
+	}
+
+	public int getPlayerChoiceForKittenPlacement() {
+		int deckSize = deck.getDeckSize();
+		String message = "Choose a position to insert the Exploding Kitten " +
+				"(0 = bottom, "
+				+ deckSize + " = top of deck)";
+		final int MIN = 0;
+		return userInterface.getNumericUserInput(message, MIN, deckSize);
 	}
 
 	public void processCommand(String input, Player currentPlayer) {
@@ -257,7 +272,7 @@ public class GameEngine {
 							"Type 'help' for available commands.");
 			return;
 		}
-		String cleanedInput  = input.trim().replaceAll("\\s+", " ");
+		String cleanedInput	 = input.trim().replaceAll("\\s+", " ");
 		String[] parts = cleanedInput.split(" ");
 		String command = parts[0];
 
@@ -284,7 +299,7 @@ public class GameEngine {
 				default:
 					userInterface
 							.displayError
-							("Unknown command: " + command  +
+							("Unknown command: " + command	+
 									". " +
 									"Type 'help' " +
 									"for available commands.");
@@ -353,13 +368,9 @@ public class GameEngine {
 		System.out.println("Active players indices: " + activePlayerIndexes);
 	}
 
-	private void main(String[] args) {
-		try {
-			this.initializeGame();
-			this.runGameLoop();
-		} catch (Exception e) {
-			userInterface.displayError("Game encountered an error: "
-					+ e.getMessage());
-		}
+	public static void main(String[] args) {
+		GameEngine game = createNewGame();
+		game.initializeGame();
+		game.runGameLoop();
 	}
 }
