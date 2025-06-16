@@ -53,23 +53,23 @@ public class UserInterface {
 		return scanner.nextLine();
 	}
 
-	public int getNumberOfPlayers() {
-		while (true) {
-			System.out.print("How many players? (2-5)");
-			String input = scanner.nextLine();
-			try {
-				int numberOfPlayers = Integer.parseInt(input);
-				if (numberOfPlayers >= MIN_NUMBER_OF_PLAYERS &&
-						numberOfPlayers <= MAX_NUMBER_OF_PLAYERS) {
-					return numberOfPlayers;
-				} else {
+		public int getNumberOfPlayers() {
+			while (true) {
+				System.out.print("How many players? (2-5)");
+				String input = scanner.nextLine();
+				try {
+					int numberOfPlayers = Integer.parseInt(input);
+					if (numberOfPlayers >= MIN_NUMBER_OF_PLAYERS &&
+							numberOfPlayers <= MAX_NUMBER_OF_PLAYERS) {
+						return numberOfPlayers;
+					} else {
+						displayError("Please enter a number between 2 and 5");
+					}
+				} catch (NumberFormatException ignored) {
 					displayError("Please enter a number between 2 and 5");
 				}
-			} catch (NumberFormatException ignored) {
-				displayError("Please enter a number between 2 and 5");
 			}
 		}
-	}
 
 
 	public void displayPlayerHand(Player player) {

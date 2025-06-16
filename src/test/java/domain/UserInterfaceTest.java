@@ -9,6 +9,7 @@ import ui.UserInterface;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -77,6 +78,23 @@ public class UserInterfaceTest {
 		assertTrue(out.contains("status"));
 		assertTrue(out.contains("help"));
 		assertTrue(out.contains("quit"));
+	}
+
+	@Test
+	public void displayHelp_mustIncludeHandCommand() {
+		UserInterface ui = new UserInterface();
+		ui.displayHelp();
+
+		String[] lines = outContent.toString(StandardCharsets.UTF_8)
+				.split("\\R");
+		boolean found = Arrays.stream(lines)
+				.filter(l ->
+						l.contains("hand") && l.contains
+								("Show your current hand"))
+				.count() == 1;
+		assertTrue(found,
+				"displayHelp() must print the 'hand - " +
+						"Show your current hand' line exactly once");
 	}
 
 	@Test
