@@ -110,3 +110,22 @@
 | Test Case 1 | players `[]`                                            | 0               | :white_check_mark: | getNumberOfPlayers_withNoPlayers_returnsZero  |
 | Test Case 2 | players `[player1, player2]`                            | 2               | :white_check_mark: | getNumberOfPlayers_withMinPlayers_returnsTwo  |
 | Test Case 3 | players `[player1, player2, player3, player4, player5]` | 5               | :white_check_mark: | getNumberOfPlayers_withMaxPlayers_returnsFive |
+
+## Method 6: `public List<Player> getActivePlayers()`
+
+### Step 1–3 Results
+
+|            | Input                      | Output / State Change                  |
+|------------|----------------------------|----------------------------------------|
+| **Step 1** | internal players list      | List of only active players            |
+| **Step 2** | Collection                 | Collection                             |
+| **Step 3** | empty, partial, all active | empty list, partial list, or full list |
+
+### Step 4
+
+| Test Case   | System under test                       | Expected behavior       | Implemented?       | Test name                                                 |
+|-------------|-----------------------------------------|-------------------------|--------------------|-----------------------------------------------------------|
+| Test Case 1 | empty player list                       | return empty list       | :white_check_mark: | `getActivePlayers_withNoPlayers_returnsEmptyList`         |
+| Test Case 2 | all players active                      | return all players      | :white_check_mark: | `getActivePlayers_allPlayersActive_returnsAllPlayers`     |
+| Test Case 3 | add 4 players, remove 2 players         | return 2 active players | :white_check_mark: | `getActivePlayers_afterRemovals_returnsOnlyActivePlayers` |
+| Test Case 4 | add max players (5), remove all but one | return 1 active player  | :white_check_mark: | `getActivePlayers_withOneActivePlayer_returnsOnePlayer`   |
