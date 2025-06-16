@@ -18,8 +18,13 @@ repositories {
 }
 
 application {
-    mainClass = "Code.Main"
+    mainClass = "domain.GameEngine"
 }
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
+
 
 dependencies {
     implementation("com.puppycrawl.tools:checkstyle:10.18.2")
