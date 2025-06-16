@@ -865,6 +865,7 @@ public class DeckTest {
 			CardType testCardType) {
 		Card testCard = mockCard(testCardType);
 		Deck deck = new Deck(List.of(testCard));
+		int expectedDeckSize = deck.getDeckSize();
 
 		List<Integer> listOfIndices = new ArrayList<>(List.of(0));
 		List<Card> previousTopCards = deck.peekTopThreeCards();
@@ -872,6 +873,9 @@ public class DeckTest {
 
 		List<Card> nextTopCards = deck.peekTopThreeCards();
 		assertEquals(previousTopCards, nextTopCards);
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
 	}
 
 	@ParameterizedTest
@@ -879,6 +883,7 @@ public class DeckTest {
 	public void rearrangeTopThreeCards_deckWithTwoCardsAndSameIndices_orderRemainsTheSame(
 			List<Card> cards) {
 		Deck deck = new Deck(cards);
+		int expectedDeckSize = deck.getDeckSize();
 
 		List<Integer> listOfIndices = new ArrayList<>(List.of(1, 0));
 		List<Card> previousTopCards = deck.peekTopThreeCards();
@@ -886,6 +891,9 @@ public class DeckTest {
 
 		List<Card> nextTopCards = deck.peekTopThreeCards();
 		assertEquals(previousTopCards, nextTopCards);
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
 	}
 
 	@ParameterizedTest
@@ -893,6 +901,7 @@ public class DeckTest {
 	public void rearrangeTopThreeCards_deckWithTwoCardsAndReversedIndices_reversesCards(
 			List<Card> cards) {
 		Deck deck = new Deck(cards);
+		int expectedDeckSize = deck.getDeckSize();
 
 		List<Integer> listOfIndices = new ArrayList<>(List.of(0, 1));
 		List<Card> previousTopCards = deck.peekTopThreeCards();
@@ -901,12 +910,16 @@ public class DeckTest {
 
 		assertEquals(previousTopCards.get(0), nextTopCards.get(1));
 		assertEquals(previousTopCards.get(1), nextTopCards.get(0));
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
 	}
 
 	@Test
 	public void rearrangeTopThreeCards_deckWithThreeCardsAndSameIndices_orderRemainsTheSame()
 	{
 		Deck deck = deckWithThreeCards();
+		int expectedDeckSize = deck.getDeckSize();
 
 		List<Integer> listOfIndices = new ArrayList<>(List.of(2, 1, 0));
 		List<Card> previousTopCards = deck.peekTopThreeCards();
@@ -914,12 +927,16 @@ public class DeckTest {
 
 		List<Card> nextTopCards = deck.peekTopThreeCards();
 		assertEquals(previousTopCards, nextTopCards);
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
 	}
 
 	@Test
 	public void rearrangeTopThreeCards_deckWithThreeCardsAndDifferentIndices_changesOrder()
 	{
 		Deck deck = deckWithThreeCards();
+		int expectedDeckSize = deck.getDeckSize();
 
 		List<Integer> listOfIndices = new ArrayList<>(List.of(1, 0, 2));
 		List<Card> previousTopCards = deck.peekTopThreeCards();
@@ -929,12 +946,16 @@ public class DeckTest {
 		assertEquals(previousTopCards.get(0), nextTopCards.get(2));
 		assertEquals(previousTopCards.get(1), nextTopCards.get(0));
 		assertEquals(previousTopCards.get(2), nextTopCards.get(1));
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
 	}
 
 	@Test
 	public void rearrangeTopThreeCards_deckWithFourCardsAndSameIndices_orderRemainsTheSame()
 	{
 		Deck deck = deckWithFourCardsAndDuplicate();
+		int expectedDeckSize = deck.getDeckSize();
 
 		int indexOfNewTopCard = deck.getDeckSize() - 1;
 		List<Integer> listOfIndices = new ArrayList<>(
@@ -946,12 +967,16 @@ public class DeckTest {
 
 		List<Card> nextTopCards = deck.peekTopThreeCards();
 		assertEquals(previousTopCards, nextTopCards);
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
 	}
 
 	@Test
 	public void rearrangeTopThreeCards_deckWithFourCardsAndThreeDifferentIndices_changesOrder()
 	{
 		Deck deck = deckWithFourCardsAndDuplicate();
+		int expectedDeckSize = deck.getDeckSize();
 
 		int indexOfNewTopCard = deck.getDeckSize() - 1;
 		List<Integer> listOfIndices = new ArrayList<>(
@@ -966,12 +991,16 @@ public class DeckTest {
 		assertEquals(previousTopCards.get(0), nextTopCards.get(2));
 		assertEquals(previousTopCards.get(2), nextTopCards.get(1));
 		assertEquals(previousTopCards.get(1), nextTopCards.get(0));
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
 	}
 
 	@Test
 	public void rearrangeTopThreeCards_deckWithFourCardsAndTwoDifferentIndices_reversesCards()
 	{
 		Deck deck = deckWithFourCardsAndDuplicate();
+		int expectedDeckSize = deck.getDeckSize();
 
 		int indexOfNewTopCard = deck.getDeckSize() - 1;
 		List<Integer> listOfIndices = new ArrayList<>(
@@ -986,6 +1015,9 @@ public class DeckTest {
 		assertEquals(previousTopCards.get(0), nextTopCards.get(2));
 		assertEquals(previousTopCards.get(1), nextTopCards.get(1));
 		assertEquals(previousTopCards.get(2), nextTopCards.get(0));
+
+		int actualDeckSize = deck.getDeckSize();
+		assertEquals(expectedDeckSize, actualDeckSize);
 	}
 
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
