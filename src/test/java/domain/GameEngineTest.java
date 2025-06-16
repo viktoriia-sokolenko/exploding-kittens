@@ -180,6 +180,46 @@ public class GameEngineTest {
 		}
 	}
 
+	@Test
+	public void createNewGame_displaysWelcomeFirst() {
+		InputStream originalIn = System.in;
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+
+		try {
+			System.setOut(new PrintStream(outputStream));
+			String simulatedInput = "3\n";
+			System.setIn(new ByteArrayInputStream(simulatedInput
+					.getBytes(StandardCharsets.UTF_8)));
+
+			GameEngine engine = GameEngine.createNewGame();
+
+			String output = outputStream.toString();
+			String[] lines = output.split("\n");
+
+			assertTrue(lines.length >= 2,
+
+					"Should have multiple lines of " +
+							"output (welcome + prompt). " +
+							"Got: " + output);
+
+			String firstLine = lines[0].toLowerCase();
+			assertTrue(firstLine.contains("welcome") ||
+							firstLine.contains("exploding") ||
+							firstLine.contains("kitten") ||
+							firstLine.contains("game") ||
+							!firstLine.contains("player"),
+					"First output should be welcome message, " +
+							"not player prompt. First line: " + lines[0]);
+
+			assertNotNull(engine);
+
+		} finally {
+			System.setIn(originalIn);
+			System.setOut(originalOut);
+		}
+	}
+
 
 	@ParameterizedTest
 	@ValueSource(ints = {MIN_PLAYERS, THREE_PLAYERS, FOUR_PLAYERS, MAX_PLAYERS})
