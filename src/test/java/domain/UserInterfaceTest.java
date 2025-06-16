@@ -619,7 +619,7 @@ public class UserInterfaceTest {
 		final int NO_CARDS = 0;
 		Player mockPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockPlayer.getNumberOfCards()).andReturn(
-				NUMBER_OF_CARDS)
+						NUMBER_OF_CARDS)
 				.anyTimes();
 		EasyMock.expect(mockPlayer.getCardTypeCount(CardType.SKIP))
 				.andReturn(null);
@@ -939,11 +939,14 @@ public class UserInterfaceTest {
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		String expectedCardInfo =
 				"\n:Top of deck:\n" +
-				"Normal Cat, index: 1\n" +
-				"Alter the Future, index: 0";
+						"Normal Cat, index: 1\n" +
+						"Alter the Future, index: 0";
 
 		assertFalse(out.contains("No cards to view"));
-		assertTrue(out.contains(expectedCardInfo));
+
+		String normalizedOut = normalizeOutputForAssertion(out);
+		String normalizedExpected = normalizeOutputForAssertion(expectedCardInfo);
+		assertTrue(normalizedOut.contains(normalizedExpected));
 	}
 
 	@Test
@@ -969,7 +972,16 @@ public class UserInterfaceTest {
 						"Exploding Kitten, index: 1";
 
 		assertFalse(out.contains("No cards to view"));
-		assertTrue(out.contains(expectedCardInfo));
+
+		String normalizedOut = normalizeOutputForAssertion(out);
+		String normalizedExpected = normalizeOutputForAssertion(expectedCardInfo);
+		assertTrue(normalizedOut.contains(normalizedExpected));
+	}
+
+	private String normalizeOutputForAssertion(String rawOutput) {
+		return rawOutput
+				.replace("\r\n", "\n")
+				.replace("\r", "\n");
 	}
 
 	private Card mockCard(CardType cardType) {

@@ -3,16 +3,16 @@ package domain;
 import java.util.*;
 
 public class TurnManager {
-	private final Deck deck;
 	private final Queue<Player> turnQueue;
 	private int currentPlayerTurnsTaken;
 	private int requiredTurns;
 	private Player currentPlayer;
 
-	public TurnManager(Deck deck) {
-		this.deck = Objects.requireNonNull(deck, "Deck cannot be null");
+	public TurnManager() {
 		this.turnQueue = new LinkedList<>();
 		this.currentPlayer = null;
+		this.requiredTurns = 0;
+		this.currentPlayerTurnsTaken = 0;
 	}
 
 	Player getCurrentActivePlayer() {
@@ -42,17 +42,21 @@ public class TurnManager {
 			throw new IllegalStateException("No players to manage");
 		}
 
-		advanceToNextPlayer();
+		if (isUnderAttack()) {
+			incrementTurnsTaken();
+		} else {
+			advanceToNextPlayer();
+		}
 	}
 
 	public void endTurnWithoutDrawForAttacks() {
 		if (turnQueue.isEmpty()) {
 			throw new IllegalStateException("No players to manage");
 		}
-
-		this.endTurnWithoutDraw();
-		this.addTurnForCurrentPlayer();
-		this.addTurnForCurrentPlayer();
+		int remainingTurns = requiredTurns - currentPlayerTurnsTaken;
+		advanceToNextPlayer();
+		requiredTurns = remainingTurns + 2;
+		currentPlayerTurnsTaken = 0;
 	}
 
 	public void advanceToNextPlayer() {

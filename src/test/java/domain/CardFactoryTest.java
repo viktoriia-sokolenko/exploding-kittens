@@ -98,6 +98,14 @@ public class CardFactoryTest {
 	}
 
 	@Test
+	public void createCard_withReverseCardType_createsCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.REVERSE);
+		assertInstanceOf(ReverseCard.class, card);
+		assertEquals(CardType.REVERSE, card.getCardType());
+	}
+
+	@Test
 	public void createCard_withNukeCardType_createsCard() {
 		CardFactory factory = new CardFactory();
 		Card card = factory.createCard(CardType.NUKE);
