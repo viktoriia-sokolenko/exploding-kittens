@@ -204,6 +204,8 @@ public class UserInterface {
 				return "Reverse";
 			case SWAP_TOP_AND_BOTTOM:
 				return "Swap Top and Bottom";
+			case BURY:
+				return "Bury";
 			case NORMAL:
 				return "Normal Cat";
 			default:

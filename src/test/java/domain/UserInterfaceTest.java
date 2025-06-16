@@ -298,6 +298,7 @@ public class UserInterfaceTest {
 		assertEquals("Attack", ui.formatCardName(CardType.ATTACK));
 		assertEquals("Skip", ui.formatCardName(CardType.SKIP));
 		assertEquals("Favor", ui.formatCardName(CardType.FAVOR));
+		assertEquals("Bury", ui.formatCardName(CardType.BURY));
 		assertEquals("Shuffle", ui.
 				formatCardName(CardType.SHUFFLE));
 		assertEquals("See the Future",
