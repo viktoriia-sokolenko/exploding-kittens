@@ -15,6 +15,10 @@
 - JUnit 5.10
 - Gradle 8.10
 
+## Note
+Please check the other README.md file under docs/design as it also contains important information
+
+
 ## Acknowledgements
 
 REFERENCES, SOURCE OF HELP ETC
