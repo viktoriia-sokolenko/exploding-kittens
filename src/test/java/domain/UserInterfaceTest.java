@@ -276,6 +276,12 @@ public class UserInterfaceTest {
 
 		ui.displayCardEffect(CardType.EXPLODING_KITTEN);
 		assertEquals("", outContent.toString(StandardCharsets.UTF_8));
+		outContent.reset();
+
+		ui.displayCardEffect(CardType.REVERSE);
+		assertTrue(outContent.toString(StandardCharsets.UTF_8)
+				.contains(" → Reverse the order of play " +
+						"and end your turn without drawing a card"));
 	}
 
 	@Test

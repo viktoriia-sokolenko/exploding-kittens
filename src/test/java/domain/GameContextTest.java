@@ -180,8 +180,8 @@ public class GameContextTest {
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	public void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard(
-			CardType testCardType) {
+	public void viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard
+			(CardType testCardType) {
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
@@ -257,6 +257,43 @@ public class GameContextTest {
 		EasyMock.verify(mockDeck);
 	}
 
+	@Test
+	public void reverseOrderPreservingAttackState_underAttack_incrementsAndReverses() {
+		EasyMock.expect(mockTurnManager.isUnderAttack()).andReturn(true);
+		mockTurnManager.incrementTurnsTaken();
+		EasyMock.expectLastCall();
+		mockTurnManager.reverseOrder();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.reverseOrderPreservingAttackState();
+		EasyMock.verify(mockTurnManager);
+	}
+
+	@Test
+	public void reverseOrderPreservingAttackState_notUnderAttack_onlyReverses() {
+		EasyMock.expect(mockTurnManager.isUnderAttack()).andReturn(false);
+		mockTurnManager.reverseOrder();
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockTurnManager);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+		fullGameContext.reverseOrderPreservingAttackState();
+		EasyMock.verify(mockTurnManager);
+	}
+
+	@Test
+	public void reverseOrderPreservingAttackState_nullTurnManager_doesNothing() {
+		GameContext fullGameContext = new GameContext(mockCurrentPlayer);
+		assertDoesNotThrow(() -> fullGameContext.reverseOrderPreservingAttackState());
+	}
+
 	@ParameterizedTest
 	@EnumSource(CardType.class)
 	public void transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException(
@@ -276,9 +313,11 @@ public class GameContextTest {
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
-		EasyMock.expect(userInterface.getUserInput(
-				"Enter card type you want to give to current player"))
-				.andReturn(cardTypeInput);
+		EasyMock.expect(
+				userInterface.getUserInput(
+						"Enter card type you want to give to current player"
+				)
+		).andReturn(cardTypeInput);
 		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
 				.andReturn(testCardType);
 		EasyMock.expect(mockCardFactory.createCard(testCardType))
@@ -321,9 +360,11 @@ public class GameContextTest {
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
-		EasyMock.expect(userInterface.getUserInput(
-				"Enter card type you want to give to current player"))
-				.andReturn(cardTypeInput);
+		EasyMock.expect(
+				userInterface.getUserInput(
+						"Enter card type you want to give to current player"
+				)
+		).andReturn(cardTypeInput);
 		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
 				.andReturn(testCardType);
 		EasyMock.expect(mockCardFactory.createCard(testCardType))

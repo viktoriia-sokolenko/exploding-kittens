@@ -85,6 +85,15 @@ public class GameContext {
 		deck.shuffleDeck(random);
 	}
 
+	public void reverseOrderPreservingAttackState() {
+		if (turnManager != null) {
+			if (turnManager.isUnderAttack()) {
+				turnManager.incrementTurnsTaken();
+			}
+			turnManager.reverseOrder();
+		}
+	}
+
 	public void rearrangeTopThreeCardsFromDeck() {
 		List<Card> topThreeCards = deck.peekTopThreeCards();
 		userInterface.displayCardsFromDeck(topThreeCards,
@@ -102,6 +111,7 @@ public class GameContext {
 	private Player getPlayerFromUserInput(String message, int maxPlayerIndex) {
 		int playerIndex = userInterface.getNumericUserInput(message, 0, maxPlayerIndex);
 		return playerManager.getPlayerByIndex(playerIndex);
+
 	}
 
 	private List<Integer> getIndicesFromUserInput(List<Card> topThreeCards) {
