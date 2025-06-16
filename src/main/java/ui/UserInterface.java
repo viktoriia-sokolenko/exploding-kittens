@@ -167,6 +167,10 @@ public class UserInterface {
 				System.out.println("   " +
 						"→ Swap the top and bottom cards of the deck");
 				break;
+			case BURY:
+				System.out.println("   " +
+						"→ Draw a card and secretly " +
+						"into anywhere in draw pile");
 			case NORMAL:
 				System.out.println("   " +
 						"→ Just a cute cat - no special effect");

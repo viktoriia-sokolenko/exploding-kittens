@@ -12,10 +12,7 @@ public enum CardType {
 	ALTER_THE_FUTURE,
 	NUKE,
 	REVERSE,
-<<<<<<< wip-bury-card-class
 	BURY,
-=======
 	SWAP_TOP_AND_BOTTOM,
->>>>>>> main
 	UNKNOWN_CARD_FOR_TEST
 }
