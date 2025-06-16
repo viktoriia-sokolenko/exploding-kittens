@@ -177,7 +177,7 @@ public class GameEngineTest {
 		InputStream originalIn = System.in;
 
 		try {
-			String simulatedInput = "1\n3\n";
+			String simulatedInput = "2\n3\n";
 			System.setIn(new ByteArrayInputStream(simulatedInput
 					.getBytes(StandardCharsets.UTF_8)));
 
