@@ -10,18 +10,18 @@
 ### Step 4:
 ##### All-combination or each-choice: YOUR-DECISION
 
-|              | System under test | Expected output | Implemented? |
-|--------------|-------------------|-----------------|--------------|
-| Test Case 1  |                   |                 |              |
-| Test Case 2  |                   |                 |              |
-| Test Case 3  |                   |                 |              |
-| Test Case 4  |                   |                 |              |
-| Test Case 5  |                   |                 |              |
-| Test Case 6  |                   |                 |              |
-| Test Case 7  |                   |                 |              |
-| Test Case 8  |                   |                 |              |
-| Test Case 9  |                   |                 |              |
-| Test Case 10 |                   |                 |              |
+|              | System under test | Expected output | Implemented? | Test name |
+|--------------|-------------------|-----------------|--------------|-----------|
+| Test Case 1  |                   |                 |              |           |
+| Test Case 2  |                   |                 |              |           |
+| Test Case 3  |                   |                 |              |           |
+| Test Case 4  |                   |                 |              |           |
+| Test Case 5  |                   |                 |              |           |
+| Test Case 6  |                   |                 |              |           |
+| Test Case 7  |                   |                 |              |           |
+| Test Case 8  |                   |                 |              |           |
+| Test Case 9  |                   |                 |              |           |
+| Test Case 10 |                   |                 |              |           |
 
 
 
