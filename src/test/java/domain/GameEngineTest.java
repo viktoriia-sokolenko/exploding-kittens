@@ -1707,7 +1707,7 @@ public class GameEngineTest {
 		mockUserInterface.displayError("Error executing command: Invalid card type");
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockPlayer, mockUserInterface);
-		gameEngine.processCommand("play   skip", mockPlayer);
+		gameEngine.processCommand("play	  skip", mockPlayer);
 
 		EasyMock.verify(mockPlayer, mockUserInterface);
 	}
