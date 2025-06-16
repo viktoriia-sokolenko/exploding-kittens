@@ -139,4 +139,10 @@ public class GameContext {
 
 		return indices;
 	}
+
+	public void moveAllExplodingKittensToTop() {
+		if (deck == null) {
+			return;
+		}
+	}
 }
