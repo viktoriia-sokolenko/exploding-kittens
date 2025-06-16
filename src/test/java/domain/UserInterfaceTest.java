@@ -145,6 +145,24 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void getNumberOfPlayers_mustUsePrintNotPrintlnForPrompt() {
+		System.setIn(new ByteArrayInputStream("3\n"
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface();
+		ui.getNumberOfPlayers();
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains
+						("How many players? (2-5)"),
+				"getNumberOfPlayers() must call System.out" +
+						".print(\"How many players? (2-5)\")");
+		assertFalse(out.startsWith("How many players? (2-5)" +
+						System.lineSeparator()),
+				"getNumberOfPlayers() should use print(), " +
+						"not println, for the prompt");
+	}
+
+	@Test
 	public void displayPlayerHand_emptyHand_showsEmptyMessage() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
