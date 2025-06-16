@@ -80,6 +80,15 @@ public class GameContext {
 		deck.shuffleDeck(random);
 	}
 
+	public void reverseOrderPreservingAttackState() {
+		if (turnManager != null) {
+			if (turnManager.isUnderAttack()) {
+				turnManager.incrementTurnsTaken();
+			}
+			turnManager.reverseOrder();
+		}
+	}
+
 	private Card getCardFromUserInput(String message, Player player) {
 		String cardTypeInput = userInterface.getUserInput(message);
 		CardType cardType = player.parseCardType(cardTypeInput);
@@ -89,5 +98,6 @@ public class GameContext {
 	private Player getPlayerFromUserInput(String message) {
 		int playerIndex = userInterface.getNumericUserInput(message);
 		return playerManager.getPlayerByIndex(playerIndex);
+
 	}
 }

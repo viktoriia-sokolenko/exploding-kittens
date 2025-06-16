@@ -5,6 +5,8 @@ import java.util.*;
 public class TurnManager {
 	private final Deck deck;
 	private final Queue<Player> turnQueue;
+	private int currentPlayerTurnsTaken;
+	private int requiredTurns;
 	private Player currentPlayer;
 
 	public TurnManager(Deck deck) {
@@ -98,5 +100,51 @@ public class TurnManager {
 			}
 		}
 		return count;
+	}
+
+	public void reverseOrder() {
+		if (turnQueue.isEmpty()) {
+			throw new IllegalStateException("No players to manage");
+		}
+		List<Player> players = new ArrayList<>(turnQueue);
+		Collections.reverse(players);
+		syncWith(players);
+	}
+
+	public void incrementTurnsTaken() {
+		currentPlayerTurnsTaken++;
+		if (currentPlayerTurnsTaken >= requiredTurns) {
+			advanceToNextPlayer();
+			requiredTurns = 1;
+			currentPlayerTurnsTaken = 0;
+		}
+	}
+
+	public boolean isUnderAttack() {
+		return requiredTurns > 1 && currentPlayerTurnsTaken < requiredTurns;
+	}
+
+	public void setRequiredTurns(int requiredTurns) {
+		if (requiredTurns < 0) {
+			throw new IllegalArgumentException("Required turns cannot be negative");
+		}
+		this.requiredTurns = requiredTurns;
+	}
+
+	public void setCurrentPlayerTurnsTaken(int currentPlayerTurnsTaken) {
+		if (currentPlayerTurnsTaken < 0) {
+			throw new IllegalArgumentException(
+					"Current player turns taken cannot be negative"
+			);
+		}
+		this.currentPlayerTurnsTaken = currentPlayerTurnsTaken;
+	}
+
+	public int getRequiredTurns() {
+		return requiredTurns;
+	}
+
+	public int getCurrentPlayerTurnsTaken() {
+		return currentPlayerTurnsTaken;
 	}
 }
