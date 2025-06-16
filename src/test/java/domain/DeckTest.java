@@ -1194,4 +1194,32 @@ public class DeckTest {
 		assertEquals(defuseCard, deck.getCardAt(CARD_AT_INDEX_ONE));
 		assertEquals(explodingKitten, deck.peekTop());
 	}
+
+	@Test
+	public void moveAllExplodingKittensToTop_mixedDeckWithDuplicateCards_explodingKittensGroupedAtTop() {
+		Card favorCard1 = mockCard(CardType.FAVOR);
+		Card kitten1 = mockCard(CardType.EXPLODING_KITTEN);
+		Card favorCard2 = mockCard(CardType.FAVOR);
+		Card kitten2 = mockCard(CardType.EXPLODING_KITTEN);
+		Card kitten3 = mockCard(CardType.EXPLODING_KITTEN);
+		List<Card> cardsList = new ArrayList<>(List.of(favorCard1, kitten1,
+				favorCard2, kitten2, kitten3));
+		final int EXPECTED_SIZE = 5;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+
+		final int CARD_AT_INDEX_ZERO = 0;
+		final int CARD_AT_INDEX_ONE = 1;
+		final int CARD_AT_INDEX_TWO = 2;
+		final int CARD_AT_INDEX_THREE = 3;
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(favorCard1, deck.getCardAt(CARD_AT_INDEX_ZERO));
+		assertEquals(favorCard2, deck.getCardAt(CARD_AT_INDEX_ONE));
+
+		assertEquals(kitten1, deck.getCardAt(CARD_AT_INDEX_TWO));
+		assertEquals(kitten2, deck.getCardAt(CARD_AT_INDEX_THREE));
+		assertEquals(kitten3, deck.peekTop());
+	}
+
 }
