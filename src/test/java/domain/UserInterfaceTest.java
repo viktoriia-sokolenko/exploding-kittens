@@ -366,6 +366,18 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void displayCardEffect_mustHandleSwapTopAndBottom() {
+		UserInterface ui = new UserInterface();
+		ui.displayCardEffect(CardType.SWAP_TOP_AND_BOTTOM);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("→ Swap the top and bottom " +
+						"cards of the deck"),
+				"displayCardEffect() " +
+						"must print the SWAP_TOP_AND_BOTTOM message");
+	}
+
+	@Test
 	public void formatCardName_allCardTypes_returnsCorrectFormat() {
 		UserInterface ui = new UserInterface();
 		assertEquals("Exploding Kitten",
