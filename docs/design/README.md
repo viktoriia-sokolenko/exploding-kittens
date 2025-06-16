@@ -66,11 +66,7 @@ the worst cases above and use the Exception Note since there weren't any other s
 
 ## Integration Testing
 
-We have many integration testing in our Project. We also had an additional extra one that Viktoriia have been working on
-and wanting to be on her end. The PR is set and
-made [Game Setup Integration Test (done but Gradle Build Failing)](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/86)
-and test passes very well, but it seems to fail (as of right now) due to Spotbug. If we had more time, fixing this would
-not be an issue. Thanks for your understanding.
+We have many integration testing in our Project. We also have an additional extra one that Viktoriia has worked on for game setup feature. Thanks for your understanding.
 
 ### Note On Internalization
 
