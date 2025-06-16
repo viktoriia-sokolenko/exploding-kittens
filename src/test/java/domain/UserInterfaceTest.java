@@ -51,6 +51,21 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void displayWelcome_mustPrintExactlyThreeLines() {
+		UserInterface ui = new UserInterface();
+		ui.displayWelcome();
+
+		String[] lines = outContent.toString(StandardCharsets.UTF_8)
+				.split("\\R");
+		assertEquals(3, lines.length,
+				"displayWelcome() should print exactly 3 lines");
+		assertEquals("=================================", lines[0]);
+		assertEquals("\tEXPLODING KITTENS",       lines[1]);
+		assertEquals("=================================",
+				lines[2].trim());
+	}
+
+	@Test
 	public void displayHelp_printsAllCommands() {
 		UserInterface ui = new UserInterface();
 		ui.displayHelp();
