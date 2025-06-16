@@ -583,15 +583,19 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardEffect_mustHandleSwapTopAndBottom() {
+		EasyMock.expect(localeManager.get("card.effect.swap_top_and_bottom"))
+				.andReturn("→ Swap the top and bottom cards of the deck");
+		EasyMock.replay(localeManager);
+
 		UserInterface ui = new UserInterface(localeManager);
 		ui.displayCardEffect(CardType.SWAP_TOP_AND_BOTTOM);
 
 		String out = outContent.toString(StandardCharsets.UTF_8);
-		assertTrue(out.contains("→ Swap the top and bottom " +
-						"cards of the deck"),
+		assertTrue(out.contains("→ Swap the top and bottom cards of the deck"),
 				"displayCardEffect() " +
 						"must print the SWAP_TOP_AND_BOTTOM message");
 	}
+
 
 	@Test
 	public void formatCardName_allCardTypes_returnsCorrectFormat() {
