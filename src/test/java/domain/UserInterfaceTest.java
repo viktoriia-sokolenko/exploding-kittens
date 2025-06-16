@@ -1391,7 +1391,9 @@ public class UserInterfaceTest {
 
 		long count = errContent.toString(StandardCharsets.UTF_8).lines()
 				.filter(l ->
-						l.contains("Please enter a number between 1 and 5."))
+						l.contains
+								("Please enter a number " +
+										"between 1 and 5."))
 				.count();
 		assertEquals(1L, count,
 				"getNumericUserInput() must call displayError(...) " +
