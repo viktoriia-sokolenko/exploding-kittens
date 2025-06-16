@@ -1,5 +1,6 @@
 package domain;
 
+import locale.LocaleManager;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,6 +19,7 @@ public class UserInterfaceTest {
 	private final PrintStream originalErr = System.err;
 	private final InputStream originalIn = System.in;
 	private static final int MAX_PLAYERS = 5;
+	private LocaleManager localeManager;
 
 	private ByteArrayOutputStream outContent;
 	private ByteArrayOutputStream errContent;
@@ -30,6 +32,8 @@ public class UserInterfaceTest {
 				StandardCharsets.UTF_8));
 		System.setErr(new PrintStream(errContent, true,
 				StandardCharsets.UTF_8));
+		
+		localeManager = EasyMock.createMock(LocaleManager.class);
 	}
 
 
@@ -42,7 +46,12 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayWelcome_printsExpectedHeader() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
+
+		EasyMock.expect(localeManager.get("exploding.kittens"))
+				.andReturn("	EXPLODING KITTENS");
+		EasyMock.replay(localeManager);
+
 		assertDoesNotThrow(ui::displayWelcome);
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("================================="));
@@ -52,7 +61,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayHelp_printsAllCommands() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		ui.displayHelp();
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("Available commands:"));
@@ -66,7 +75,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayError_printsToStderr() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		ui.displayError("oops");
 		String err = errContent.toString(StandardCharsets.UTF_8);
 		assertTrue(err.contains("Error: oops"));
@@ -76,7 +85,7 @@ public class UserInterfaceTest {
 	public void getUserInput_readsLineAndPrompts() {
 		System.setIn(new ByteArrayInputStream("hello world\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		String result = ui.getUserInput();
 		assertEquals("hello world", result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
@@ -86,7 +95,7 @@ public class UserInterfaceTest {
 	public void getNumberOfPlayers_validFirst_tryReturnsImmediately() {
 		System.setIn(new ByteArrayInputStream("3\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		int numberOfPlayers = ui.getNumberOfPlayers();
 		final int NUMBER_OF_PLAYERS = 3;
 		assertEquals(NUMBER_OF_PLAYERS, numberOfPlayers);
@@ -99,7 +108,7 @@ public class UserInterfaceTest {
 				"foo", "6", "2");
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		int numberOfPlayers = ui.getNumberOfPlayers();
 		final int NUMBER_OF_PLAYERS = 2;
 		assertEquals(NUMBER_OF_PLAYERS, numberOfPlayers);
@@ -113,7 +122,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_emptyHand_showsEmptyMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 		Player player = new Player(hand);
 
@@ -127,7 +136,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardPlayed_showCorrectText() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Card card = new SkipCard();
 
 		ui.displayCardPlayed(card);
@@ -138,7 +147,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_singleCard_showsCardWithoutCount() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
 		Player player = new Player(hand);
@@ -153,7 +162,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_multipleCardsOfSameType_showsCount() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
 		hand.addCard(new SkipCard());
@@ -169,7 +178,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_multipleDifferentCards_showsAll() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
 		hand.addCard(new SkipCard());
@@ -186,7 +195,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardPlayed_andDrawnCard_showCorrectText() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Card card = new SkipCard();
 
 		ui.displayCardPlayed(card);
@@ -201,7 +210,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayDrawnCard_explodingKitten_printsSpecialMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Card card = new ExpoldingKittenCard();
 
 		ui.displayDrawnCard(card);
@@ -213,7 +222,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardPlayed_printsCardWithEffect() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Card card = new SkipCard();
 
 		ui.displayCardPlayed(card);
@@ -225,7 +234,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardEffect_allCardTypes_printsCorrectEffects() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		ui.displayCardEffect(CardType.ATTACK);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8)
@@ -291,7 +300,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void formatCardName_allCardTypes_returnsCorrectFormat() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		assertEquals("Exploding Kitten",
 				ui.formatCardName(CardType.EXPLODING_KITTEN));
 		assertEquals("Defuse", ui.formatCardName(CardType.DEFUSE));
@@ -311,7 +320,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displaySuccess_printsSuccessMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		String testMessage = "You played: SKIP";
 
 		ui.displaySuccess(testMessage);
@@ -322,7 +331,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayWarning_printsWarningMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		String testMessage = "There are only a few cards left in the deck";
 
 		ui.displayWarning(testMessage);
@@ -335,7 +344,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayTurnStart_printsCorrectTurnInfo() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		final int CURRENT_PLAYER = 2;
 		final int TOTAL_PLAYERS = 4;
 
@@ -348,7 +357,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayDeckEmpty_printsWarningMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		ui.displayDeckEmpty();
 
@@ -359,7 +368,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayDefuseUsed_printsDefuseMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		ui.displayDefuseUsed();
 
@@ -371,7 +380,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerEliminated_printsPlayerEliminatedMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		ui.displayPlayerEliminated();
 
@@ -383,7 +392,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayGameEnd_withWinner_printsVictoryMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		ui.displayGameEnd(true);
 		final int NUMBER_OF_EQUAL_SIGNS = 50;
@@ -396,7 +405,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayGameEnd_noWinner_printsGameOverMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		final int NUMBER_OF_EQUAL_SIGNS = 50;
 		ui.displayGameEnd(false);
 
@@ -410,7 +419,7 @@ public class UserInterfaceTest {
 	@Test
 	public void getNumberOfPlayers_minimumBoundary_acceptsMinimumValue() {
 		System.setIn(new ByteArrayInputStream("2\n".getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		int numberOfPlayers = ui.getNumberOfPlayers();
 		final int EXPECTED_NUMBER_OF_PLAYERS = 2;
 		assertEquals(EXPECTED_NUMBER_OF_PLAYERS, numberOfPlayers);
@@ -422,7 +431,7 @@ public class UserInterfaceTest {
 		String input = String.join("\n", "1", "2");
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		int numberOfPlayers = ui.getNumberOfPlayers();
 		final int EXPECTED_NUMBER_OF_PLAYERS = 2;
 		assertEquals(EXPECTED_NUMBER_OF_PLAYERS, numberOfPlayers);
@@ -433,7 +442,7 @@ public class UserInterfaceTest {
 	@Test
 	public void getNumberOfPlayers_maximumBoundary_acceptsMaximumValue() {
 		System.setIn(new ByteArrayInputStream("5\n".getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		int numberOfPlayers = ui.getNumberOfPlayers();
 		final int EXPECTED_NUMBER_OF_PLAYERS = 5;
 		assertEquals(EXPECTED_NUMBER_OF_PLAYERS, numberOfPlayers);
@@ -445,7 +454,7 @@ public class UserInterfaceTest {
 		String input = String.join("\n", "6", "3");
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		int numberOfPlayers = ui.getNumberOfPlayers();
 		final int EXPECTED_NUMBER_OF_PLAYERS = 3;
 		assertEquals(EXPECTED_NUMBER_OF_PLAYERS, numberOfPlayers);
@@ -455,7 +464,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_singleCard_doesNotDisplayOtherCardTypes() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
 		Player player = new Player(hand);
@@ -473,7 +482,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_multipleCards_onlyShowsPlayerCards() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
 		hand.addCard(new AttackCard());
@@ -493,7 +502,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_verifiesExactCountDisplay() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
 		hand.addCard(new SkipCard());
@@ -513,7 +522,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_mixedCards_showsCorrectCounts() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 
 		hand.addCard(new SkipCard());
@@ -537,7 +546,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void formatCardName_verifyExactStringMatching() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		assertEquals("Skip", ui.formatCardName(CardType.SKIP));
 		assertNotEquals("SKIP", ui.formatCardName(CardType.SKIP));
 		assertNotEquals("skip", ui.formatCardName(CardType.SKIP));
@@ -550,7 +559,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void formatCardName_defaultCase_returnsToString() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		for (CardType type : CardType.values()) {
 			String result = ui.formatCardName(type);
@@ -565,7 +574,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_verifyNullCountHandling() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 		Player player = new Player(hand);
 
@@ -585,7 +594,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_countIntegerNullHandling_specific() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		Hand emptyHand = new Hand();
 		Player playerWithEmptyHand = new Player(emptyHand);
@@ -600,7 +609,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_ternaryOperatorBehavior() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		Hand hand = new Hand();
 		hand.addCard(new SkipCard());
 		Player player = new Player(hand);
@@ -619,7 +628,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_nullCountHandling_PrintsCorrectHand() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		final int NUMBER_OF_CARDS = 1;
 		final int NO_CARDS = 0;
 		Player mockPlayer = EasyMock.createMock(Player.class);
@@ -651,7 +660,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayPlayerHand_nullCardType_printsCorrectHand() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		final int NUMBER_OF_CARDS = 2;
 		final int NO_CARDS = 0;
 		Player mockPlayer = EasyMock.createMock(Player.class);
@@ -686,7 +695,7 @@ public class UserInterfaceTest {
 	public void getUserInput_withNullMessageAndNonEmptyConsoleInput_returnsConsoleInput() {
 		System.setIn(new ByteArrayInputStream("hello world\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		String result = ui.getUserInput(null);
 		assertEquals("hello world", result);
@@ -697,7 +706,7 @@ public class UserInterfaceTest {
 	public void getUserInput_withEmptyMessageAndNonEmptyConsoleInput_returnsConsoleInput() {
 		System.setIn(new ByteArrayInputStream("hello world\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		String emptyMessage = "";
 		String result = ui.getUserInput(emptyMessage);
@@ -711,7 +720,7 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
 
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		String message = "message";
 		String result = ui.getUserInput(message);
 
@@ -727,7 +736,7 @@ public class UserInterfaceTest {
 	public void getUserInput_withValidMessageAndInput_returnsConsoleInputAndPrintsMessage() {
 		System.setIn(new ByteArrayInputStream("hello world\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		String message = "message";
 		String result = ui.getUserInput(message);
@@ -740,7 +749,7 @@ public class UserInterfaceTest {
 	public void getNumericUserInput_withNullMessage_returnsConsoleInput() {
 		System.setIn(new ByteArrayInputStream("1\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		int result = ui.getNumericUserInput(null, 0, 1);
 		assertEquals(1, result);
@@ -751,7 +760,7 @@ public class UserInterfaceTest {
 	public void getNumericUserInput_withEmptyMessage_returnsConsoleInput() {
 		System.setIn(new ByteArrayInputStream("1\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		String emptyMessage = "";
 		int result = ui.getNumericUserInput(emptyMessage, 0, 2);
@@ -765,7 +774,7 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
 
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		String message = "message";
 		int result = ui.getNumericUserInput(message, 0, 1);
 
@@ -783,7 +792,7 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
 
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		String message = "message";
 		final int maxBasedOnMaxNumberOfPlayers = 4;
 		int result = ui.getNumericUserInput(message, 0, maxBasedOnMaxNumberOfPlayers);
@@ -801,7 +810,7 @@ public class UserInterfaceTest {
 	public void getNumericUserInput_withIntegerInput_returnsConsoleInputAndPrintsMessage() {
 		System.setIn(new ByteArrayInputStream("2\n"
 				.getBytes(StandardCharsets.UTF_8)));
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		String message = "message";
 		int result = ui.getNumericUserInput(message, 1, 2);
@@ -816,7 +825,7 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
 
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		String message = "message";
 		int result = ui.getNumericUserInput(message, 1, 2);
 
@@ -835,7 +844,7 @@ public class UserInterfaceTest {
 		System.setIn(new ByteArrayInputStream((input + "\n")
 				.getBytes(StandardCharsets.UTF_8)));
 
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		String message = "message";
 		int maxIndexForMaxPlayers = MAX_PLAYERS - 1;
 		int result = ui.getNumericUserInput(message, 1, maxIndexForMaxPlayers);
@@ -851,7 +860,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardsFromDeck_withEmptyCards_printsNoCardsMessage() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 		List<Card> emptyCards = new ArrayList<>();
 
 		ui.displayCardsFromDeck(emptyCards, 1);
@@ -864,7 +873,7 @@ public class UserInterfaceTest {
 	@EnumSource(CardType.class)
 	public void displayCardsFromDeck_withNegativeDeckSize_throwsIllegalArgumentException(
 			CardType testCardType) {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		Card testCard = mockCard(testCardType);
 		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
@@ -881,7 +890,7 @@ public class UserInterfaceTest {
 	public void displayCardsFromDeck_withOneCardAndDeckSizeZero_throwsIllegalArgumentException(
 			CardType testCardType
 	) {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		Card testCard = mockCard(testCardType);
 		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
@@ -899,7 +908,7 @@ public class UserInterfaceTest {
 	public void displayCardsFromDeck_withOneCard_printCardTypeAndIndex(
 			CardType testCardType
 	) {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		Card testCard = mockCard(testCardType);
 		List<Card> oneCardList = new ArrayList<>(List.of(testCard));
@@ -916,7 +925,7 @@ public class UserInterfaceTest {
 	@Test
 	public void displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException()
 	{
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		Card testCard1 = mockCard(CardType.NORMAL);
 		Card testCard2 = mockCard(CardType.ALTER_THE_FUTURE);
@@ -932,7 +941,7 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayCardsFromDeck_withTwoCards_printCardTypeAndIndex() {
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		Card testCard1 = mockCard(CardType.NORMAL);
 		Card testCard2 = mockCard(CardType.ALTER_THE_FUTURE);
@@ -954,7 +963,7 @@ public class UserInterfaceTest {
 	@Test
 	public void displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex()
 	{
-		UserInterface ui = new UserInterface();
+		UserInterface ui = new UserInterface(localeManager);
 
 		Card testCard1 = mockCard(CardType.SEE_THE_FUTURE);
 		Card testCard2 = mockCard(CardType.EXPLODING_KITTEN);

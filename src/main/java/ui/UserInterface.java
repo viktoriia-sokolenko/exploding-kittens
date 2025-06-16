@@ -4,6 +4,7 @@ package ui;
 import domain.CardType;
 import domain.Player;
 import domain.Card;
+import locale.LocaleManager;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -13,15 +14,17 @@ public class UserInterface {
 	private final Scanner scanner;
 	private static final int MAX_NUMBER_OF_PLAYERS = 5;
 	private static final int MIN_NUMBER_OF_PLAYERS = 2;
+	private LocaleManager localeManager;
 
-	public UserInterface() {
+	public UserInterface(LocaleManager localeManager) {
 		this.scanner = new Scanner(System.in, StandardCharsets.UTF_8);
+		this.localeManager = localeManager;
 	}
 
 	public void displayWelcome() {
 		final String border = "=================================";
 		System.out.println(border);
-		System.out.println("\tEXPLODING KITTENS");
+		System.out.println(getMessage("exploding.kittens"));
 		System.out.println(border + "\n");
 	}
 
@@ -298,5 +301,9 @@ public class UserInterface {
 			System.out.println(formatCardName(cardTypeToDisplay)
 					+ ", index: " + index);
 		}
+	}
+
+	private String getMessage(String key) {
+		return localeManager.get(key);
 	}
 }

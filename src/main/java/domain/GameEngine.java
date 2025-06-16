@@ -4,6 +4,10 @@ package domain;
 import java.util.*;
 import java.security.SecureRandom;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
+import locale.LocaleManager;
 import ui.UserInterface;
 
 public class GameEngine {
@@ -15,6 +19,7 @@ public class GameEngine {
 	private final CardFactory cardFactory;
 	private final SecureRandom secureRandom;
 	private boolean gameRunning = true;
+	private final LocaleManager localeManager;
 
 	public GameEngine(
 			TurnManager turnManager,
@@ -22,7 +27,8 @@ public class GameEngine {
 			Deck deck,
 			UserInterface userInterface,
 			CardFactory cardFactory,
-			SecureRandom secureRandom
+			SecureRandom secureRandom,
+			LocaleManager localeManager
 	) {
 		this.cardManager   = new CardManager();
 		this.turnManager   = Objects.requireNonNull(turnManager,
@@ -36,6 +42,7 @@ public class GameEngine {
 				"cardFactory must not be null");
 		// We need this in order to satisfy the spotsbug error
 		this.secureRandom = new SecureRandom();
+		this.localeManager = localeManager;
 	}
 
 	public void playCard(Player player, Card card) {
@@ -85,7 +92,8 @@ public class GameEngine {
 	}
 
 	public void handleQuitCommand() {
-		System.out.println("Thanks for playing Exploding Kittens!");
+		String quitMessage = getMessage("game.quit.thanks");
+		System.out.println(quitMessage);
 		setGameRunning(false);
 	}
 
@@ -132,7 +140,14 @@ public class GameEngine {
 	}
 
 	public static GameEngine createNewGame() {
-		UserInterface userInterface = new UserInterface();
+		LocaleManager localeManager = new LocaleManager();
+
+		UserInterface userInterface = new UserInterface(localeManager);
+
+		String localeMessage = localeManager.get("choose.locale");
+		int locale = userInterface.getNumericUserInput(localeMessage, 1, 2);
+		localeManager.chooseLocale(locale);
+
 		CardFactory cardFactory = new CardFactory();
 
 		userInterface.displayWelcome();
@@ -152,14 +167,15 @@ public class GameEngine {
 		turnManager.setPlayerManager(playerManager);
 
 		return new GameEngine(turnManager, playerManager, deck, userInterface,
-				cardFactory, secureRandom);
+				cardFactory, secureRandom, localeManager);
 	}
 
 	public void showAvailableCardTypes(Player player) {
 		Objects.requireNonNull(player, "Player cannot be null");
 		List<CardType> available = player.getAvailableCardTypes();
 		if (!available.isEmpty()) {
-			System.out.print("Available cards: ");
+
+			System.out.print(getMessage("game.available.cards"));
 			for (int i = 0; i < available.size(); i++) {
 				System.out.print(available.get(i)
 						.name().toLowerCase()
@@ -366,6 +382,10 @@ public class GameEngine {
 			}
 		}
 		System.out.println("Active players indices: " + activePlayerIndexes);
+	}
+
+	private String getMessage(String key) {
+		return localeManager.get(key);
 	}
 
 	public static void main(String[] args) {
