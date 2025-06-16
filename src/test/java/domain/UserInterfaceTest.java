@@ -69,7 +69,8 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface(localeManager);
 		ui.displayWelcome();
 
-		String[] lines = outContent.toString().split("\\R");
+		String[] lines = outContent.toString
+				(StandardCharsets.UTF_8).split("\\R");
 		final int EXPEPECTED_LINE_COUNT = 3;
 		assertEquals(EXPEPECTED_LINE_COUNT, lines.length);
 		assertEquals("=================================",
@@ -461,7 +462,8 @@ public class UserInterfaceTest {
 		Card normal = new CardFactory().createCard(CardType.NORMAL);
 		ui.displayDrawnCard(normal);
 
-		String out1 = outContent.toString();
+		String out1 = outContent.toString
+				(StandardCharsets.UTF_8);
 		assertTrue(out1.endsWith(System.lineSeparator() +
 				System.lineSeparator()));
 	}
@@ -799,7 +801,7 @@ public class UserInterfaceTest {
 		ui.displayGameEnd(false);
 
 		final int EXPECTED_NUMBER_OF_EQUAL_SIGNS = 50;
-		String full = outContent.toString();
+		String full = outContent.toString(StandardCharsets.UTF_8);
 		long count = full.lines()
 				.filter(l -> l.contains("=".repeat(
 						EXPECTED_NUMBER_OF_EQUAL_SIGNS
