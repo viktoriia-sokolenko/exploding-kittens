@@ -15,10 +15,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Stream;
@@ -1321,6 +1318,61 @@ public class GameEngineTest {
 		}
 
 		EasyMock.verify(mockPlayerManager, mockDeck, mockUserInterface, mockCurrentPlayer);
+	}
+
+	@Test
+	public void displayGameState_mustPrintTwoSeparatorLines()  {
+		final int SEPERATOR_LENGTH = 40;
+		final int EXPECTED_SEPERATOR_COUNT = 2;
+		final int MOCK_DECK_SIZE = 10;
+		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
+		EasyMock.expect(mockCurrentPlayer.isInGame())
+				.andReturn(true)
+				.anyTimes();
+		EasyMock.replay(mockCurrentPlayer);
+
+		List<Player> players = Collections.singletonList(mockCurrentPlayer);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(players)
+				.anyTimes();
+		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(players);
+		EasyMock.replay(mockPlayerManager);
+
+		EasyMock.expect(mockDeck.getDeckSize())
+				.andReturn(MOCK_DECK_SIZE);
+		EasyMock.replay(mockDeck);
+
+		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
+		EasyMock.expectLastCall();
+		EasyMock.replay(mockUserInterface);
+		ByteArrayOutputStream capturedOut = new ByteArrayOutputStream();
+		PrintStream originalOut = System.out;
+		System.setOut(new PrintStream(capturedOut,
+				true, StandardCharsets.UTF_8));
+		try {
+			gameEngine.displayGameState(mockCurrentPlayer);
+		} finally {
+			System.setOut(originalOut);
+		}
+		String separatorLine = "=".repeat(SEPERATOR_LENGTH);
+		String printed = capturedOut.toString(StandardCharsets.UTF_8);
+		int separatorCount = 0;
+		int searchIndex = 0;
+		while ((searchIndex = printed.indexOf(separatorLine, searchIndex))
+				!= -1) {
+			separatorCount++;
+			searchIndex += separatorLine.length();
+		}
+		assertEquals(
+				EXPECTED_SEPERATOR_COUNT,
+				separatorCount,
+				String.format(
+						"Expected the %d-character '%s'" +
+								" separator to appear %d times",
+						SEPERATOR_LENGTH, "=", EXPECTED_SEPERATOR_COUNT
+				)
+		);
 	}
 
 	@Test
