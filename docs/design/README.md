@@ -26,7 +26,7 @@ testing. However, once we started during Internalization, all
 our hardwork crumbled. Things started to break. previous good working stopped working. We were able to fix many of the
 issues. However, unfortunately, due to time constraints and personal committments conflicts, we were unable to fully
 complete and address the difference in the new mutation test, and test that were failing, and so we were only able to
-have about 90% mutation testing and approximately 99% code coverage. We had solutions to them all but on Gradle, the 
+have about 90% mutation testing and approximately 99% code coverage. We had solutions to them all but on Gradle, the
 test weren't passing and we don't have much time longer to fix it.
 As a result, we ask for your understanding in this. Please and thank you.
 
@@ -63,6 +63,14 @@ since, according to Uncle Bob, if a field isn't needed for most methods, then it
 As a result, both solutions required both violated Uncle Bob clean code,
 so we decided to just use the best solution from
 the worst cases above and use the Exception Note since there weren't any other solutions to go alongside it.
+
+## Integration Testing
+
+We have many integration testing in our Project. We also had an additional extra one that Viktoriia have been working on
+and wanting to be on her end. The PR is set and
+made [Game Setup Integration Test (done but Gradle Build Failing)](https://github.com/nu-cs-sqe/course-project-20242510-team-05-20242503/pull/86)
+and test passes very well, but it seems to fail (as of right now) due to Spotbug. If we had more time, fixing this would
+not be an issue. Thanks for your understanding.
 
 ### Note On Internalization
 
