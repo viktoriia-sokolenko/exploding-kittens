@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -218,6 +219,38 @@ public class GameEngineTest {
 		} finally {
 			System.setIn(originalIn);
 			System.setOut(originalOut);
+		}
+	}
+
+
+	@Test
+	public void createNewGame_mustShuffleDeck() throws Exception {
+		InputStream oldIn = System.in;
+		try {
+			System.setIn(new ByteArrayInputStream("3\n"
+					.getBytes(StandardCharsets.UTF_8)));
+			GameEngine engine = GameEngine.createNewGame();
+
+			Field deckField = GameEngine.class.getDeclaredField("deck");
+			deckField.setAccessible(true);
+			Deck deck = (Deck) deckField.get(engine);
+			Field listField = Deck.class.getDeclaredField("deck");
+			listField.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			List<Card> actualOrder = (List<Card>) listField.get(deck);
+
+			CardFactory cardFactory = new CardFactory();
+			final int NUMBER_OF_PLAYERS = 3;
+			List<Card> baseline = GameEngine.
+					createInitialDeck(cardFactory, NUMBER_OF_PLAYERS);
+			assertFalse(
+					baseline.equals(actualOrder),
+					"createNewGame() must call shuffleDeck(...)" +
+							" — after shuffle the internal list should not " +
+							"equal the un-shuffled baseline"
+			);
+		} finally {
+			System.setIn(oldIn);
 		}
 	}
 
