@@ -780,6 +780,29 @@ public class GameEngineTest {
 		EasyMock.verify(mockDeck, player, mockUserInterface, mockTurnManager);
 	}
 
+	@Test
+	public void getPlayerChoiceForKittenPlacement_promptsWithDeckSizeAndReturnsChoice()
+			throws Exception {
+		final int EXPECTED_RETURN_FOUR = 4;
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(EXPECTED_RETURN_FOUR)
+				.once();
+		String prompt =
+				"Choose a position to insert the Exploding Kitten " +
+						"(0 = bottom, 4 = top of deck)";
+		final int MIN = 0;
+		final int MAX = 4;
+		final int EXPECTED_RETURN_TWO = 2;
+		EasyMock.expect(mockUserInterface.getNumericUserInput(prompt, MIN, MAX))
+				.andReturn(EXPECTED_RETURN_TWO).once();
+
+		EasyMock.replay(mockDeck, mockUserInterface);
+		int choice = gameEngine.getPlayerChoiceForKittenPlacement()
+
+		assertEquals(EXPECTED_RETURN_TWO, choice);
+
+		EasyMock.verify(mockDeck, mockUserInterface);
+	}
+
 
 	@Test
 	public void displayGameStatus_withTwoActivePlayers_displaysCorrectStatus() {
