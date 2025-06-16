@@ -103,18 +103,18 @@ public class GameEngineLoopTest {
 
     @BeforeEach
     public void setUp() {
-        mockTurnManager   = EasyMock.createMock(TurnManager.class);
-        mockUI            = EasyMock.createMock(UserInterface.class);
+        mockTurnManager = EasyMock.createMock(TurnManager.class);
+        mockUI = EasyMock.createMock(UserInterface.class);
         mockPlayerManager = EasyMock.createMock(PlayerManager.class);
-        mockDeck          = EasyMock.createMock(Deck.class);
-        mockFactory       = EasyMock.createMock(CardFactory.class);
-        mockRandom        = EasyMock.createMock(SecureRandom.class);
+        mockDeck = EasyMock.createMock(Deck.class);
+        mockFactory = EasyMock.createMock(CardFactory.class);
+        mockRandom = EasyMock.createMock(SecureRandom.class);
     }
 
     @Test
     public void runGameLoop_withEliminationThenQuit_invokesCorrectMethods()
             throws Exception {
-        Player eliminated   = EasyMock.createMock(Player.class);
+        Player eliminated = EasyMock.createMock(Player.class);
         Player active = EasyMock.createMock(Player.class);
 
         EasyMock.expect(eliminated.isInGame()).andReturn(false);
@@ -168,13 +168,12 @@ public class GameEngineLoopTest {
     }
 
     @Test
-    public
-    void initializeGame_dealsCardsAddsDefuseInsertsExplodingKittensAndShowsHelp
+    public void initializeGame_dealsCardsAddsDefuseInsertsExplodingKittensAndShowsHelp
             () {
         Player player1 = EasyMock.createMock(Player.class);
         Player player2 = EasyMock.createMock(Player.class);
         List<Player> players = List.of(player1, player2);
-        int playerCount   = players.size();
+        int playerCount = players.size();
         int explodingCount = playerCount - ONE_CYCLE;
 
         EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(players);
@@ -236,7 +235,7 @@ public class GameEngineLoopTest {
     }
 
     @Test
-    public void gameFlow_initializeThrows_handlesException()  {
+    public void gameFlow_initializeThrows_handlesException() {
         TestableMainEngine engine = new TestableMainEngine(
                 mockTurnManager, mockPlayerManager, mockDeck,
                 mockUI, mockFactory, mockRandom
@@ -254,5 +253,39 @@ public class GameEngineLoopTest {
         assertFalse(engine.loopCalled,
                 "runGameLoop() " +
                         "should not be called when initializeGame() throws");
+    }
+
+    @Test
+    public void main_runsGameSuccessfully() {
+        InputStream originalIn = System.in;
+        PrintStream originalOut = System.out;
+
+        try {
+            String input = "2\nquit\n";
+            System.setIn(new ByteArrayInputStream
+                    (input.getBytes(StandardCharsets.UTF_8)));
+
+            ByteArrayOutputStream outputCapture =
+                    new ByteArrayOutputStream();
+            System.setOut(new PrintStream(outputCapture,
+                    true, StandardCharsets.UTF_8));
+
+            assertDoesNotThrow(() -> {
+                GameEngine.main(new String[]{});
+            });
+
+            String output = outputCapture.toString(StandardCharsets.UTF_8);
+            assertTrue(
+                    output.contains("Welcome") ||
+                            output.contains("players"),
+                    "Expected welcome message not found");
+            assertTrue(output.contains
+                            ("Thanks for playing") || output.contains("quit"),
+                    "Expected quit message not found");
+
+        } finally {
+            System.setIn(originalIn);
+            System.setOut(originalOut);
+        }
     }
 }
