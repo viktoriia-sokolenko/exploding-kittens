@@ -106,6 +106,14 @@ public class CardFactoryTest {
 	}
 
 	@Test
+	public void createCard_withBuryCardType_createsCard() {
+		CardFactory factory = new CardFactory();
+		Card card = factory.createCard(CardType.BURY);
+		assertInstanceOf(BuryCard.class, card);
+		assertEquals(CardType.BURY, card.getCardType());
+	}
+
+	@Test
 	public void createCards_withNullTypeAndValidCount_throwsNullPointerException() {
 		CardFactory factory = new CardFactory();
 		assertThrows(NullPointerException.class,

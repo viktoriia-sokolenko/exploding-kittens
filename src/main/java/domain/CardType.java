@@ -12,5 +12,6 @@ public enum CardType {
 	ALTER_THE_FUTURE,
 	NUKE,
 	REVERSE,
+	BURY,
 	UNKNOWN_CARD_FOR_TEST
 }
