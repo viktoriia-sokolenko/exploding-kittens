@@ -579,6 +579,37 @@ public class GameContextTest {
 		EasyMock.verify(mockDeck, userInterface);
 	}
 
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void buryCardImplementation_insertAtTop_insertsCorrectly(CardType testCardType) {
+		Card mockCard = mockCard(testCardType);
+
+		EasyMock.expect(mockDeck.draw()).andReturn(mockCard).once();
+		userInterface.displayDrawnCard(mockCard);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(1).once();
+
+		EasyMock.expect(userInterface.getNumericUserInput(
+				EasyMock.contains("Where would you like to bury this card?"),
+				EasyMock.eq(0), EasyMock.eq(1)
+		)).andReturn(0).once();
+
+		mockDeck.insertCardAt(mockCard, 0);
+		EasyMock.expectLastCall().once();
+
+		userInterface.displaySuccess(EasyMock.contains("Player"));
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+		fullGameContext.buryCardImplementation();
+
+		EasyMock.verify(mockDeck);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);

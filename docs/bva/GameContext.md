@@ -91,10 +91,9 @@ available card types.
 | Test Case 2 | turnManager.isUnderAttack() == false | only `reverseOrder()` called from TurnManager                      | :white_check_mark: | reverseOrderPreservingAttackState_notUnderAttack_onlyReverses       |
 | Test Case 3 | turnManager == null                  | does nothing (doesn't call `reverseOrderPreservingAttackState`)    | :white_check_mark: | reverseOrderPreservingAttackState_nullTurnManager_doesNothing       |
 
-
-|             | System under test         | Expected output / state transition | Implemented?       | Test name                                              |
-|-------------|---------------------------|------------------------------------|--------------------|--------------------------------------------------------|
-| Test Case 1 | Context fully initialized | calls `shuffleDeck` from Deck      | :white_check_mark: | shuffleDeckFromDeck_withFullContext_callShuffleDeck()  |
+|             | System under test         | Expected output / state transition | Implemented?       | Test name                                             |
+|-------------|---------------------------|------------------------------------|--------------------|-------------------------------------------------------|
+| Test Case 1 | Context fully initialized | calls `shuffleDeck` from Deck      | :white_check_mark: | shuffleDeckFromDeck_withFullContext_callShuffleDeck() |
 
 ## Method 5: `public void rearrangeTopThreeCardsFromDeck()`
 
@@ -114,3 +113,28 @@ available card types.
 | Test Case 2 | Deck `[card1, card2]`, indices `[1, 1]`                    | Only asks player for 2 indexes with minIndex `0` and maxIndex `1`, `IllegalArgumentException` (Duplicate indices are not allowed) | :white_check_mark: | rearrangeTopThreeCardsFromDeck_sameIndices_throwsIllegalArgumentException |
 | Test Case 3 | Deck `[card1, card2, card3]`, indices `2, 0, 1`            | Asks player for 3 indexes with minIndex `0` and maxIndex `2`, passes those to Deck.rearrangeTopThreeCards                         | :white_check_mark: | rearrangeTopThreeCardsFromDeck_threeCards_callsRearrangeTopThreeCards     |
 | Test Case 4 | Deck `[card1, card2, card3.1, card3.2]`, indices `1, 2, 3` | Asks player for 3 indexes with minIndex `1` and maxIndex `3`, passes those to Deck.rearrangeTopThreeCards                         | :white_check_mark: | rearrangeTopThreeCardsFromDeck_fourCards_callsRearrangeTopThreeCards      |
+
+## Method 7: `public void buryCardImplementation()`
+
+### Step 1-3 Results
+
+|        | Input 1                  | Input 2                                  | Input 3             | Output                                                      |
+|--------|--------------------------|------------------------------------------|---------------------|-------------------------------------------------------------|
+| Step 1 | Top card drawn from deck | User input: index to insert the top card | the different cards | Calls `deck.insertCardAt(topCard, index)`                   |
+| Step 2 | Count (deck size)        | Range: Index value (0 to deckSize)       | Card Object         | Card inserted at specified position                         |
+| Step 3 | Deck size: `0`, `1`, `5` | `-1`, `0`, `1`, `deckSize`, `deckSize+1` | Card instance       | Invalid input rejected OR card inserted in correct position |
+
+### Step 4:
+
+#### Important Note
+
+Each of the card below will be using paramaterized testing to ensure that all card works and goes through
+
+|             | System under test                          | Expected output / state transition                                      | Implemented?       | Test name                                                 |
+|-------------|--------------------------------------------|-------------------------------------------------------------------------|--------------------|-----------------------------------------------------------|
+| Test Case 1 | Deck `[allCardTypes]`                      | Input `0`: inserts top card at the top (index 0)                        | :white_check_mark: | buryCardImplementation_insertAtTop_insertsCorrectly       |
+| Test Case 2 | Deck `[card1, card2, card3, card4, card5]` | Input `5`: inserts top card at bottom (index = size)                    |                    | buryCardImplementation_insertAtBottom_insertsCorrectly    |
+| Test Case 3 | Deck `[card1, card2, card3, card4, card5]` | Input `-1`: out of bounds → triggers retry or validation                |                    | buryCardImplementation_invalidLowInput_retriesUntilValid  |
+| Test Case 4 | Deck `[card1, card2, card3, card4, card5]` | Input `6` (deck size + 1): out of bounds → triggers retry or validation |                    | buryCardImplementation_invalidHighInput_retriesUntilValid |
+| Test Case 5 | Deck `[card1, card2, card3, card4, card5]` | Input `2`: inserts card at index 2 (middle of deck)                     |                    | buryCardImplementation_insertInMiddle_insertsInMiddle     |
+| Test Case 6 | Deck `[]` (empty, size 0)                  | Input `0`: allowed → card becomes only card in deck                     |                    | buryCardImplementation_insertIntoEmptyDeck_deckNowHasOne  |

@@ -1,7 +1,5 @@
 package domain;
 
-//import java.util.Objects;
-
 public class ExpoldingKittenCard extends Card {
 	public ExpoldingKittenCard() {
 		super(CardType.EXPLODING_KITTEN);
