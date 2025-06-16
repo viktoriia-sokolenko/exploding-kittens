@@ -22,11 +22,11 @@
 
 ##### Each-choice strategy (covering main scenarios)
 
-|             | System under test                      | Expected output                                    | Implemented? | Test name                                                             |
-|-------------|----------------------------------------|----------------------------------------------------|--------------|-----------------------------------------------------------------------|
-| Test Case 1 | `setPlayerManager(null)`               | throws NullPointerException                        | ✓            | `setPlayerManager_withNullPlayerManager_throwsNullPointerException`   |
-| Test Case 2 | `setPlayerManager(emptyPlayerManager)` | throws IllegalArgumentException("No players")      | ✓            | `setPlayerManager_withEmptyPlayerList_throwsIllegalArgumentException` |
-| Test Case 3 | `setPlayerManager(validPlayerManager)` | initializes queue and sets first player as current | ✓            | `setPlayerManager_withValidPlayers_initializesCurrentPlayer`          |
+|             | System under test                      | Expected output                                    | Implemented?       | Test name                                                             |
+|-------------|----------------------------------------|----------------------------------------------------|--------------------|-----------------------------------------------------------------------|
+| Test Case 1 | `setPlayerManager(null)`               | throws NullPointerException                        | :white_check_mark: | `setPlayerManager_withNullPlayerManager_throwsNullPointerException`   |
+| Test Case 2 | `setPlayerManager(emptyPlayerManager)` | throws IllegalArgumentException("No players")      | :white_check_mark: | `setPlayerManager_withEmptyPlayerList_throwsIllegalArgumentException` |
+| Test Case 3 | `setPlayerManager(validPlayerManager)` | initializes queue and sets first player as current | :white_check_mark: | `setPlayerManager_withValidPlayers_initializesCurrentPlayer`          |
 
 ## Method 2: `public Player getCurrentActivePlayer()`
 
@@ -42,10 +42,10 @@
 
 ##### Each-choice strategy
 
-|             | System under test           | Expected output                                 | Implemented? | Test name                                                        |
-|-------------|-----------------------------|-------------------------------------------------|--------------|------------------------------------------------------------------|
-| Test Case 1 | Before initialization       | throws IllegalStateException("not initialized") | ✓            | `getCurrentActivePlayer_beforeSetup_throwsIllegalStateException` |
-| Test Case 2 | After proper initialization | returns first player from queue                 | ✓            | `getCurrentActivePlayer_afterSetup_returnsFirstPlayer`           |
+|             | System under test           | Expected output                                 | Implemented?       | Test name                                                        |
+|-------------|-----------------------------|-------------------------------------------------|--------------------|------------------------------------------------------------------|
+| Test Case 1 | Before initialization       | throws IllegalStateException("not initialized") | :white_check_mark: | `getCurrentActivePlayer_beforeSetup_throwsIllegalStateException` |
+| Test Case 2 | After proper initialization | returns first player from queue                 | :white_check_mark: | `getCurrentActivePlayer_afterSetup_returnsFirstPlayer`           |
 
 ## Method 3: `public void endTurnWithoutDraw()`
 
@@ -61,12 +61,12 @@
 
 ##### Each-choice strategy
 
-|             | System under test             | Expected output                            | Implemented? | Test name                                                           |
-|-------------|-------------------------------|--------------------------------------------|--------------|---------------------------------------------------------------------|
-| Test Case 1 | Before initialization         | throws IllegalStateException("No players") | ✓            | `endTurnWithoutDraw_beforeSetup_throwsIllegalStateException`        |
-| Test Case 2 | Two players, not under attack | Advances to next player                    | ✓            | `endTurnWithoutDraw_withTwoPlayersNotAttacked_advancesToNextPlayer` |
-| Test Case 3 | One player, not under attack  | Stays on same player                       | ✓            | `endTurnWithoutDraw_withOnePlayerNotAttacked_staysOnSamePlayer`     |
-| Test Case 4 | Under attack                  | Increments turns taken                     | ✓            | `endTurnWithoutDraw_underAttack_callsIncrementTurnsTaken`           |
+|             | System under test             | Expected output                            | Implemented?       | Test name                                                           |
+|-------------|-------------------------------|--------------------------------------------|--------------------|---------------------------------------------------------------------|
+| Test Case 1 | Before initialization         | throws IllegalStateException("No players") | :white_check_mark: | `endTurnWithoutDraw_beforeSetup_throwsIllegalStateException`        |
+| Test Case 2 | Two players, not under attack | Advances to next player                    | :white_check_mark: | `endTurnWithoutDraw_withTwoPlayersNotAttacked_advancesToNextPlayer` |
+| Test Case 3 | One player, not under attack  | Stays on same player                       | :white_check_mark: | `endTurnWithoutDraw_withOnePlayerNotAttacked_staysOnSamePlayer`     |
+| Test Case 4 | Under attack                  | Increments turns taken                     | :white_check_mark: | `endTurnWithoutDraw_underAttack_callsIncrementTurnsTaken`           |
 
 ## Method 4: `public boolean isUnderAttack()`
 
@@ -82,14 +82,14 @@
 
 ##### All-combination strategy
 
-|             | System under test                          | Expected output | Implemented? | Test name                                            |
-|-------------|--------------------------------------------|-----------------|--------------|------------------------------------------------------|
-| Test Case 1 | Default turn (required=1, taken=0)         | false           | ✓            | `isUnderAttack_defaultTurn_returnsFalse`             |
-| Test Case 2 | Attack start (required=2, taken=0)         | true            | ✓            | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
-| Test Case 3 | Mid-attack (required=2, taken=1)           | true            | ✓            | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
-| Test Case 4 | Attack complete (required=2, taken=2)      | false           | ✓            | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
-| Test Case 5 | Long attack complete (required=3, taken=3) | false           | ✓            | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
-| Test Case 6 | Long attack ongoing (required=3, taken=1)  | true            | ✓            | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
+|             | System under test                          | Expected output | Implemented?       | Test name                                            |
+|-------------|--------------------------------------------|-----------------|--------------------|------------------------------------------------------|
+| Test Case 1 | Default turn (required=1, taken=0)         | false           | :white_check_mark: | `isUnderAttack_defaultTurn_returnsFalse`             |
+| Test Case 2 | Attack start (required=2, taken=0)         | true            | :white_check_mark: | `isUnderAttack_requiredTwoTakenZero_returnsTrue`     |
+| Test Case 3 | Mid-attack (required=2, taken=1)           | true            | :white_check_mark: | `isUnderAttack_requiredTwoTakenOne_returnsTrue`      |
+| Test Case 4 | Attack complete (required=2, taken=2)      | false           | :white_check_mark: | `isUnderAttack_requiredTwoTakenTwo_returnsFalse`     |
+| Test Case 5 | Long attack complete (required=3, taken=3) | false           | :white_check_mark: | `isUnderAttack_requiredThreeTakenThree_returnsFalse` |
+| Test Case 6 | Long attack ongoing (required=3, taken=1)  | true            | :white_check_mark: | `isUnderAttack_requiredThreeTakenOne_returnsTrue`    |
 
 ## Method 5: `public int getTurnsCountFor(Player player)`
 
