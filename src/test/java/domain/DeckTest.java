@@ -1128,4 +1128,30 @@ public class DeckTest {
 		assertEquals(explodingKitten, deck.peekTop());
 	}
 
+	@Test
+	public void
+	moveAllExplodingKittensTop_deckWithMultipleExplodingKittens_allKittenTop() {
+		Card defuseCard = mockCard(CardType.DEFUSE);
+		Card kitten1 = mockCard(CardType.EXPLODING_KITTEN);
+		Card shuffleCard = mockCard(CardType.SHUFFLE);
+		Card kitten2 = mockCard(CardType.EXPLODING_KITTEN);
+		Card favorCard = mockCard(CardType.FAVOR);
+		List<Card> cardsList = new ArrayList<>(List.of
+				(defuseCard, kitten1, shuffleCard, kitten2, favorCard));
+		final int EXPECTED_SIZE = 5;
+
+		Deck deck = new Deck(cardsList);
+		deck.moveAllExplodingKittensToTop();
+		final int CARD_AT_INDEX_ZERO = 0;
+		final int CARD_AT_INDEX_ONE = 1;
+		final int CARD_AT_INDEX_TWO = 2;
+		final int CARD_AT_INDEX_THREE = 3;
+		assertEquals(EXPECTED_SIZE, deck.getDeckSize());
+		assertEquals(defuseCard, deck.getCardAt(CARD_AT_INDEX_ZERO));
+		assertEquals(shuffleCard, deck.getCardAt(CARD_AT_INDEX_ONE));
+		assertEquals(favorCard, deck.getCardAt(CARD_AT_INDEX_TWO));
+		assertEquals(kitten1, deck.getCardAt(CARD_AT_INDEX_THREE));
+		assertEquals(kitten2, deck.peekTop());
+	}
+
 }
