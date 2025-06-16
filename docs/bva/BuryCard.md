@@ -36,4 +36,4 @@ Within the BuryCard class, there is also an BuryEffect instance within that is u
 
 |             | System under test | Expected output / state transition         | Implemented?       | Test name                                          |
 |-------------|-------------------|--------------------------------------------|--------------------|----------------------------------------------------|
-| Test Case 1 | gameContext       | calls gameContext.buryCardImplementation() | :white_check_mark: | execute_buryCardEffect_callsburyCardImplementation |
+| Test Case 1 | gameContext       | calls gameContext.buryCardImplementation() | :white_check_mark: | execute_buryCardEffect_callsBuryCardImplementation |

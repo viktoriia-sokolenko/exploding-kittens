@@ -27,5 +27,16 @@ public class BuryCardTest {
 		assertNotNull(effect, "Effect cannot be null");
 	}
 
+	@Test
+	void execute_buryCardEffect_callsBuryCardImplementation() {
+		GameContext gameContext = EasyMock.createMock(GameContext.class);
+		CardEffect cardEffect = buryCard.createEffect();
 
+		gameContext.buryCardImplementation();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(gameContext);
+
+		cardEffect.execute(gameContext);
+		EasyMock.verify(gameContext);
+	}
 }
