@@ -21,7 +21,8 @@ public class GameSetupIntegrationTest {
 	@BeforeEach
 	public void setUp() {
 		outContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(outContent));
+		System.setOut(new PrintStream(outContent,
+				true, StandardCharsets.UTF_8));
 	}
 
 	@AfterEach
