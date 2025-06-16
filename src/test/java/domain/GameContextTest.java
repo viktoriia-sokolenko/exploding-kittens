@@ -24,7 +24,6 @@ public class GameContextTest {
 	private CardFactory mockCardFactory;
 	private static final int DEFAULT_PLAYERS = 3;
 
-
 	@BeforeEach
 	public void setUp() {
 		mockCurrentPlayer = EasyMock.createMock(Player.class);
@@ -125,7 +124,6 @@ public class GameContextTest {
 		EasyMock.replay(mockTurnManager);
 
 		fullGameContext.addTurnForCurrentPlayer();
-
 		EasyMock.verify(mockTurnManager);
 	}
 
@@ -145,7 +143,6 @@ public class GameContextTest {
 		EasyMock.replay(mockTurnManager);
 
 		fullGameContext.endTurnWithoutDrawing();
-
 		EasyMock.verify(mockTurnManager);
 	}
 
@@ -160,7 +157,6 @@ public class GameContextTest {
 		EasyMock.replay(mockTurnManager);
 
 		fullGameContext.endTurnWithoutDrawingForAttacks();
-
 		EasyMock.verify(mockTurnManager);
 	}
 
@@ -253,7 +249,6 @@ public class GameContextTest {
 		EasyMock.replay(mockDeck);
 
 		fullGameContext.shuffleDeckFromDeck();
-
 		EasyMock.verify(mockDeck);
 	}
 
@@ -600,14 +595,16 @@ public class GameContextTest {
 
 		userInterface.displaySuccess(EasyMock.contains("Player"));
 		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockDeck, userInterface);
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck, userInterface, mockTurnManager);
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
-		fullGameContext.buryCardImplementation();
 
-		EasyMock.verify(mockDeck, userInterface);
+		fullGameContext.buryCardImplementation();
+		EasyMock.verify(mockDeck, userInterface, mockTurnManager);
 	}
 
 	@ParameterizedTest
@@ -632,14 +629,16 @@ public class GameContextTest {
 
 		userInterface.displaySuccess(EasyMock.contains("Player"));
 		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockDeck, userInterface);
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck, userInterface, mockTurnManager);
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
-		fullGameContext.buryCardImplementation();
 
-		EasyMock.verify(mockDeck, userInterface);
+		fullGameContext.buryCardImplementation();
+		EasyMock.verify(mockDeck, userInterface, mockTurnManager);
 	}
 
 	@ParameterizedTest
@@ -665,14 +664,16 @@ public class GameContextTest {
 
 		userInterface.displaySuccess(EasyMock.contains("Player"));
 		EasyMock.expectLastCall().once();
-		EasyMock.replay(mockDeck, userInterface);
+		mockTurnManager.endTurnWithoutDraw();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck, userInterface, mockTurnManager);
 
 		GameContext fullGameContext = new GameContext(mockTurnManager,
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
-		fullGameContext.buryCardImplementation();
 
-		EasyMock.verify(mockDeck, userInterface);
+		fullGameContext.buryCardImplementation();
+		EasyMock.verify(mockDeck, userInterface, mockTurnManager);
 	}
 
 

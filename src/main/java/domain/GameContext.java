@@ -111,6 +111,7 @@ public class GameContext {
 
 		deck.insertCardAt(topCard, insertIndex);
 		userInterface.displaySuccess("Player " + currentPlayer + " has buried a card.");
+		endTurnWithoutDrawing();
 	}
 
 	private Card getCardFromUserInput(String message, Player player) {
