@@ -577,7 +577,7 @@ public class GameEngineTest {
 		// targetNumberOfCards = 56 - 50 = 6
 		// numberOfCardsNeeded = 20 - 6 = 14
 		EasyMock.expect(mockFactory.createCards(CardType.NORMAL, FOURTEEN_CARDS))
-				.andReturn(createMockCardList(CardType.NORMAL, TWELVE_CARDS));
+				.andReturn(createMockCardList(CardType.NORMAL, FOURTEEN_CARDS));
 
 		EasyMock.replay(mockFactory);
 
