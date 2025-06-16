@@ -33,10 +33,11 @@ available card types.
 
 ### Step 4:
 
-|             | System under test                                                     | Expected output / state transition                                      | Implemented?       | Test name                                                                   |
-|-------------|-----------------------------------------------------------------------|-------------------------------------------------------------------------|--------------------|-----------------------------------------------------------------------------|
-| Test Case 1 | Card `[testCard]`, playerGiver hand `without testCard`, currentPlayer | `IllegalArgumentException` (“Card not in hand: can not remove card”)    | :white_check_mark: | transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException |
-| Test Case 2 | Card `[testCard]`, playerGiver hand `[...testCard]`, currentPlayer    | playerGiver hand `without testCard`, currentPlayer hand `[...testCard]` | :white_check_mark: | transferCardBetweenPlayers_withCardInHand_transfersCard                     |
+|             | System under test                                                     | Expected output / state transition                                                 | Implemented?       | Test name                                                                     |
+|-------------|-----------------------------------------------------------------------|------------------------------------------------------------------------------------|--------------------|-------------------------------------------------------------------------------|
+| Test Case 1 | Card `[testCard]`, playerGiver hand `without testCard`, currentPlayer | `IllegalArgumentException` (“Card not in hand: can not remove card”)               | :white_check_mark: | transferCardBetweenPlayers_withCardNotInHand_throwsIllegalArgumentException   |
+| Test Case 2 | Card `[testCard]`, playerGiver hand `[...testCard]`, currentPlayer    | playerGiver hand `without testCard`, currentPlayer hand `[...testCard]`            | :white_check_mark: | transferCardBetweenPlayers_withCardInHand_transfersCard                       |
+| Test Case 3 | User inputs invalid card type                                         | IllegalArgumentException("Inputted card type is invalid or was not found in Hand") | :white_check_mark: | transferCardBetweenPlayers_withInvalidCardType_throwsIllegalArgumentException |
 
 ## Method 3: `public List<Card> viewTopTwoCardsFromDeck()`
 
