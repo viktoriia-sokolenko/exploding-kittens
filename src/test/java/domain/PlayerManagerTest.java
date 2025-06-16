@@ -7,12 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 public class PlayerManagerTest {
-	private static final int NUM_CARDS = 20;
-	private static final int TOO_MANY_PLAYERS = 6;
-	private static final int DEFAULT_PLAYERS = 3;
-	private static final int FOUR_PLAYERS = 4;
-	private static final int MAX_NUMBER_OF_PLAYERS = 5;
-	private static final int MIN_NUMBER_OF_PLAYERS = 2;
+	private static final int NUM_CARDS				 = 20;
+	private static final int TOO_MANY_PLAYERS		 = 6;
+	private static final int DEFAULT_PLAYERS		 = 3;
+	private static final int FOUR_PLAYERS			 = 4;
+	private static final int MAX_NUMBER_OF_PLAYERS	 = 5;
+	private static final int MIN_NUMBER_OF_PLAYERS	 = 2;
+
+	private static final int ZERO_INDEX				 = 0;
+	private static final int NEGATIVE_INDEX			 = -1;
 
 	private PlayerManager playerManager;
 	private Deck mockDeck;
@@ -208,6 +211,50 @@ public class PlayerManagerTest {
 	public void getNumberOfPlayers_withMaxPlayers_returnsFive() {
 		playerManager.addPlayers(MAX_NUMBER_OF_PLAYERS);
 		assertEquals(MAX_NUMBER_OF_PLAYERS, playerManager.getNumberOfPlayers());
+	}
+
+	@Test
+	public void isIndexOutOfBounds_returnValueMutations() {
+		IndexOutOfBoundsException ex1 = assertThrows(
+				IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(ZERO_INDEX)
+		);
+		assertNotNull(ex1);
+
+		playerManager.addPlayers(DEFAULT_PLAYERS);
+		assertDoesNotThrow(() -> {
+			for (int i = ZERO_INDEX; i < DEFAULT_PLAYERS; i++) {
+				playerManager.getPlayerByIndex(i);
+			}
+		});
+		assertThrows(IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(NEGATIVE_INDEX));
+		assertThrows(IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(DEFAULT_PLAYERS));
+		assertThrows(IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(FOUR_PLAYERS));
+	}
+
+	@Test
+	public void
+	getPlayerByIndex_negativeIndex_throwsIndexOutOfBoundsException() {
+		playerManager.addPlayers(DEFAULT_PLAYERS);
+
+		IndexOutOfBoundsException ex = assertThrows(
+				IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(NEGATIVE_INDEX)
+		);
+		assertEquals("Index out of bounds", ex.getMessage());
+	}
+
+	@Test
+	public void
+	getPlayerByIndex_emptyList_throwsIndexOutOfBoundsException() {
+		IndexOutOfBoundsException ex = assertThrows(
+				IndexOutOfBoundsException.class,
+				() -> playerManager.getPlayerByIndex(ZERO_INDEX)
+		);
+		assertEquals("Index out of bounds", ex.getMessage());
 	}
 
 	private Deck mockDeck() {

@@ -10,6 +10,7 @@ import ui.UserInterface;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,6 +61,26 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void displayWelcome_mustPrintExactlyThreeLines() {
+		EasyMock.expect(localeManager.get("exploding.kittens"))
+				.andReturn("\tEXPLODING KITTENS");
+		EasyMock.replay(localeManager);
+
+		UserInterface ui = new UserInterface(localeManager);
+		ui.displayWelcome();
+
+		String[] lines = outContent.toString
+				(StandardCharsets.UTF_8).split("\\R");
+		final int EXPEPECTED_LINE_COUNT = 3;
+		assertEquals(EXPEPECTED_LINE_COUNT, lines.length);
+		assertEquals("=================================",
+				lines[0]);
+		assertEquals("\tEXPLODING KITTENS",       lines[1]);
+		assertEquals("=================================",
+				lines[2].trim());
+	}
+
+	@Test
 	public void displayHelp_printsAllCommands() {
 		UserInterface ui = new UserInterface(localeManager);
 		EasyMock.expect(localeManager.get("commands.available"))
@@ -89,6 +110,40 @@ public class UserInterfaceTest {
 		assertTrue(out.contains("status"));
 		assertTrue(out.contains("help"));
 		assertTrue(out.contains("quit"));
+	}
+
+	@Test
+	public void displayHelp_mustIncludeHandCommand() {
+		EasyMock.expect(localeManager.get("commands.available"))
+				.andReturn("Available commands:");
+		EasyMock.expect(localeManager.get("command.play"))
+				.andReturn("  play <index>\t- Play a card");
+		EasyMock.expect(localeManager.get("command.draw"))
+				.andReturn("  draw\t\t- Draw a card");
+		EasyMock.expect(localeManager.get("command.hand"))
+				.andReturn("  hand\t\t- Show your current hand");
+		EasyMock.expect(localeManager.get("command.status"))
+				.andReturn("  status\t\t- Show game status");
+		EasyMock.expect(localeManager.get("command.help"))
+				.andReturn("  help\t\t- Show this help message");
+		EasyMock.expect(localeManager.get("command.quit"))
+				.andReturn("  quit\t\t- Exit the game");
+		EasyMock.replay(localeManager);
+
+		UserInterface ui = new UserInterface(localeManager);
+		ui.displayHelp();
+
+		String[] lines = outContent
+				.toString(StandardCharsets.UTF_8).split("\\R");
+		long count = Arrays.stream(lines)
+				.filter(l -> l.contains("hand")
+						&& l.contains("Show your current hand"))
+				.count();
+		assertEquals(1,
+				count,
+				"displayHelp() must print the " +
+						"'hand - Show your current hand' " +
+						"line exactly once");
 	}
 
 	@Test
@@ -153,6 +208,27 @@ public class UserInterfaceTest {
 		assertEquals(NUM_OF_OCCURRENCES, occurrences);
 	}
 
+
+	@Test
+	public void getNumberOfPlayers_mustUsePrintNotPrintlnForPrompt() {
+		EasyMock.expect(localeManager.get("how.many.players"))
+				.andReturn("How many players? (2-5)");
+		EasyMock.replay(localeManager);
+
+		System.setIn(new ByteArrayInputStream("3\n".getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface(localeManager);
+		ui.getNumberOfPlayers();
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("How many players? (2-5)"),
+				"getNumberOfPlayers() must call System.out" +
+						".print(\"How many players? (2-5)\")");
+		assertFalse(out.startsWith("How many players? (2-5)" +
+						System.lineSeparator()),
+				"getNumberOfPlayers() should use print()," +
+						" not println, for the prompt");
+	}
+
 	@Test
 	public void displayPlayerHand_emptyHand_showsEmptyMessage() {
 		UserInterface ui = new UserInterface(localeManager);
@@ -178,6 +254,32 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void displayPlayerHand_mustPrintFourSeparators() {
+		EasyMock.expect(localeManager.get("hand.title"))
+				.andReturn("YOUR HAND");
+		EasyMock.expect(localeManager.get("hand.cards"))
+				.andReturn("cards");
+		EasyMock.expect(localeManager.get("hand.empty"))
+				.andReturn("(empty)");
+		EasyMock.expect(localeManager.get("hand.usage"))
+				.andReturn("");
+		EasyMock.replay(localeManager);
+
+		UserInterface ui = new UserInterface(localeManager);
+		Player p = new Player(new Hand());
+		ui.displayPlayerHand(p);
+		final int EXPECTED_NUMBER_OF_DASHES = 40;
+		final String sep = "─".repeat(EXPECTED_NUMBER_OF_DASHES);
+		long count = outContent.toString(StandardCharsets.UTF_8).lines()
+				.filter(l -> l.contains(sep)).count();
+		final int EXPECTED_OUTCOME = 4;
+		assertEquals(EXPECTED_OUTCOME, count,
+				"displayPlayerHand() " +
+						"should print the 40-dash " +
+						"separator exactly 4 times");
+	}
+
+	@Test
 	public void displayCardPlayed_showCorrectText() {
 		UserInterface ui = new UserInterface(localeManager);
 		Card card = new SkipCard();
@@ -194,6 +296,27 @@ public class UserInterfaceTest {
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).
 				contains("You played: Skip"));
 		outContent.reset();
+	}
+
+	@Test
+	public void displayCardPlayed_trailingBlankLine() {
+		EasyMock.expect(localeManager.get("card.played"))
+				.andReturn("You played: ");
+		EasyMock.expect(localeManager.get("card.name.skip"))
+				.andReturn("Skip").anyTimes();
+		EasyMock.expect(localeManager.get("card.effect.skip"))
+				.andReturn("");
+		EasyMock.replay(localeManager);
+
+		UserInterface ui = new UserInterface(localeManager);
+		Card card = new CardFactory().createCard(CardType.SKIP);
+		ui.displayCardPlayed(card);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.endsWith(System.lineSeparator() +
+						System.lineSeparator()),
+				"displayCardPlayed() must leave " +
+						"a trailing blank line");
 	}
 
 	@Test
@@ -326,6 +449,26 @@ public class UserInterfaceTest {
 		assertTrue(out.contains("OH NO! You drew: Exploding Kitten"));
 	}
 
+	@Test
+	public void displayDrawnCard_mustAlwaysEndWithBlankLine() {
+		EasyMock.expect(localeManager.get("card.drawn"))
+				.andReturn("You drew: ");
+		EasyMock.expect(localeManager.get("card.name.normal"))
+				.andReturn("Normal Cat")
+				.anyTimes();
+		EasyMock.replay(localeManager);
+
+		UserInterface ui = new UserInterface(localeManager);
+		Card normal = new CardFactory().createCard(CardType.NORMAL);
+		ui.displayDrawnCard(normal);
+
+		String out1 = outContent.toString
+				(StandardCharsets.UTF_8);
+		assertTrue(out1.endsWith(System.lineSeparator() +
+				System.lineSeparator()));
+	}
+
+
 
 	@Test
 	public void displayCardPlayed_printsCardWithEffect() {
@@ -450,6 +593,22 @@ public class UserInterfaceTest {
 				.contains(" → Draw a card and secretly " +
 						"put into anywhere in draw pile"));
 	}
+
+	@Test
+	public void displayCardEffect_mustHandleSwapTopAndBottom() {
+		EasyMock.expect(localeManager.get("card.effect.swap_top_and_bottom"))
+				.andReturn("→ Swap the top and bottom cards of the deck");
+		EasyMock.replay(localeManager);
+
+		UserInterface ui = new UserInterface(localeManager);
+		ui.displayCardEffect(CardType.SWAP_TOP_AND_BOTTOM);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains("→ Swap the top and bottom cards of the deck"),
+				"displayCardEffect() " +
+						"must print the SWAP_TOP_AND_BOTTOM message");
+	}
+
 
 	@Test
 	public void formatCardName_allCardTypes_returnsCorrectFormat() {
@@ -627,6 +786,31 @@ public class UserInterfaceTest {
 		assertTrue(out.contains("Thanks for playing Exploding Kittens!"));
 		assertTrue(out.contains("=".repeat(NUMBER_OF_EQUAL_SIGNS)));
 	}
+
+	@Test
+	public void displayGameEnd_false_printsThreeBorders() {
+		EasyMock.expect(localeManager.get("game.lose"))
+				.andReturn("GAME OVER!");
+		EasyMock.expect(localeManager.get("game.lose.exploded"))
+				.andReturn("Everyone exploded!");
+		EasyMock.expect(localeManager.get("game.quit.thanks"))
+				.andReturn("Thanks for playing Exploding Kittens!");
+		EasyMock.replay(localeManager);
+
+		UserInterface ui = new UserInterface(localeManager);
+		ui.displayGameEnd(false);
+
+		final int EXPECTED_NUMBER_OF_EQUAL_SIGNS = 50;
+		String full = outContent.toString(StandardCharsets.UTF_8);
+		long count = full.lines()
+				.filter(l -> l.contains("=".repeat(
+						EXPECTED_NUMBER_OF_EQUAL_SIGNS
+				)))
+				.count();
+		final int EXPECTED_OUTCOME = 3;
+		assertEquals(EXPECTED_OUTCOME, count);
+	}
+
 
 	@Test
 	public void displayGameEnd_noWinner_printsGameOverMessage() {
@@ -1184,6 +1368,71 @@ public class UserInterfaceTest {
 		assertEquals("hello world", result);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains("> "));
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).contains(message));
+	}
+
+	@Test
+	public void getNumericUserInput_outOfRange_invokesDisplayErrorOnce() {
+		EasyMock.expect(localeManager.get("error.limit.number"))
+				.andReturn("Please enter a number between %d and %d.")
+				.anyTimes();
+		EasyMock.expect(localeManager.get("error"))
+				.andReturn("Error: ").anyTimes();
+		EasyMock.replay(localeManager);
+		String simulated = "0\n2\n";
+		System.setIn(new ByteArrayInputStream
+				(simulated.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface(localeManager);
+		final int MIN = 1;
+		final int MAX = 5;
+		final int EXPECTED_PROMPTS = 2;
+
+		int picked = ui.getNumericUserInput("Pick a number:", MIN, MAX);
+		assertEquals(EXPECTED_PROMPTS, picked,
+				"Should return the second, valid entry");
+
+		long count = errContent.toString(StandardCharsets.UTF_8).lines()
+				.filter(l ->
+						l.contains
+								("Please enter a number " +
+										"between 1 and 5."))
+				.count();
+		assertEquals(1L, count,
+				"getNumericUserInput() must call displayError(...) " +
+						"exactly once for out-of-range input");
+	}
+
+
+	@Test
+	public void getNumericUserInput_nonNumeric_invokesDisplayErrorOnce() {
+		EasyMock.expect(localeManager.get("error.limit.number"))
+				.andReturn("Please enter a number between %d and %d.").anyTimes();
+		EasyMock.expect(localeManager.get("error"))
+				.andReturn("Error: ").anyTimes();
+		EasyMock.replay(localeManager);
+
+		final int MIN = 1;
+		final int MAX = 5;
+		final int EXPECTED_PROMPTS = 4;
+		final int ONE = 1;
+		String simulated = "foo\n4\n";
+		System.setIn(new ByteArrayInputStream(simulated
+				.getBytes(StandardCharsets.UTF_8)));
+		UserInterface ui = new UserInterface(localeManager);
+
+		int result = ui.getNumericUserInput
+				("Enter number:", MIN, MAX);
+		assertEquals(EXPECTED_PROMPTS, result,
+				"Should return the valid integer after the bad input");
+
+		long errors = errContent.toString(StandardCharsets.UTF_8).lines()
+				.filter(l -> l.contains("Please enter a " +
+						"number between 1 and 5."))
+				.count();
+		assertEquals(ONE, errors,
+				"getNumericUserInput() must call " +
+						"displayError(...) " +
+						"exactly once for non-numeric input");
 	}
 
 	@Test
