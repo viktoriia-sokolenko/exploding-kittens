@@ -614,6 +614,20 @@ public class DeckTest {
 		assertEquals(expectedMessage, actualMessage);
 	}
 
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void swapTopAndBottom_deckWithOneCard_orderRemainsTheSame
+			(CardType testCardType) {
+		Card mockCard = mockCard(testCardType);
+		List<Card> cardsList = new ArrayList<>(List.of(mockCard));
+		Deck deck = new Deck(cardsList);
+
+		Card expectedCard = deck.getCardAt(0);
+		deck.swapTopAndBottom();
+		Card actualCard = deck.getCardAt(0);
+		assertEquals(expectedCard, actualCard);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
