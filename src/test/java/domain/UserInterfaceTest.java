@@ -435,6 +435,20 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void displayGameEnd_false_printsThreeBorders() {
+		UserInterface ui = new UserInterface();
+		ui.displayGameEnd(false);
+
+		String full = outContent.toString(StandardCharsets.UTF_8);
+		String border = "=".repeat(50);
+		long count = full.lines().filter(l -> l.contains(border)).count();
+		assertEquals(3, count,
+				"displayGameEnd(false) must print " +
+						"the 50-'=' border exactly 3 times");
+	}
+
+
+	@Test
 	public void displayGameEnd_noWinner_printsGameOverMessage() {
 		UserInterface ui = new UserInterface();
 		final int NUMBER_OF_EQUAL_SIGNS = 50;
