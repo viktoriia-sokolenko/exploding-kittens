@@ -4,6 +4,7 @@ package ui;
 import domain.CardType;
 import domain.Player;
 import domain.Card;
+import locale.LocaleManager;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -13,39 +14,42 @@ public class UserInterface {
 	private final Scanner scanner;
 	private static final int MAX_NUMBER_OF_PLAYERS = 5;
 	private static final int MIN_NUMBER_OF_PLAYERS = 2;
+	private LocaleManager localeManager;
 
-	public UserInterface() {
+	public UserInterface(LocaleManager localeManager) {
 		this.scanner = new Scanner(System.in, StandardCharsets.UTF_8);
+		this.localeManager = localeManager;
 	}
 
 	public void displayWelcome() {
 		final String border = "=================================";
 		System.out.println(border);
-		System.out.println("\tEXPLODING KITTENS");
+		System.out.println(getMessage("exploding.kittens"));
 		System.out.println(border + "\n");
 	}
 
 	public void displayHelp() {
-		System.out.println("\nAvailable commands:");
-		System.out.println("  play <index>	- Play a card from your hand " +
-				"(0-based index)");
-		System.out.println("  draw			- Draw a card and end your turn");
-		System.out.println("  hand			- Show your current hand");
-		System.out.println("  status		- Show game status");
-		System.out.println("  help			- Show this help message");
-		System.out.println("  quit			- Exit the game\n");
+		System.out.println();
+		System.out.println(getMessage("commands.available"));
+		System.out.println(getMessage("command.play"));
+		System.out.println(getMessage("command.draw"));
+		System.out.println(getMessage("command.hand"));
+		System.out.println(getMessage("command.status"));
+		System.out.println(getMessage("command.help"));
+		System.out.println(getMessage("command.quit"));
+		System.out.println();
 	}
 
 	public void displayError(String message) {
-		System.err.println("Error: " + message);
+		System.err.println(getMessage("error") + message);
 	}
 
 	public void displaySuccess(String message) {
-		System.out.println("Success: " + message);
+		System.out.println(getMessage("success") + message);
 	}
 
 	public void displayWarning(String message) {
-		System.err.println("Warning: " + message);
+		System.err.println(getMessage("warning") + message);
 	}
 
 	public String getUserInput() {
@@ -55,7 +59,7 @@ public class UserInterface {
 
 	public int getNumberOfPlayers() {
 		while (true) {
-			System.out.print("How many players? (2-5)");
+			System.out.print(getMessage("how.many.players"));
 			String input = scanner.nextLine();
 			try {
 				int numberOfPlayers = Integer.parseInt(input);
@@ -63,10 +67,10 @@ public class UserInterface {
 						numberOfPlayers <= MAX_NUMBER_OF_PLAYERS) {
 					return numberOfPlayers;
 				} else {
-					displayError("Please enter a number between 2 and 5");
+					displayError(getMessage("error.players.number"));
 				}
 			} catch (NumberFormatException ignored) {
-				displayError("Please enter a number between 2 and 5");
+				displayError(getMessage("error.players.number"));
 			}
 		}
 	}
@@ -78,11 +82,13 @@ public class UserInterface {
 		final int NUMBER_OF_DASHES = 40;
 		final int NO_CARDS = 0;
 		System.out.println("\n" + "─".repeat(NUMBER_OF_DASHES));
-		System.out.println("YOUR HAND (" + total + " cards):");
+		System.out.println(getMessage("hand.title") +
+				" (" + total + " " +
+				getMessage("hand.cards") + "):");
 		System.out.println("─".repeat(NUMBER_OF_DASHES));
 
 		if (total == NO_CARDS) {
-			System.out.println("  (empty hand)");
+			System.out.println("  " + getMessage("hand.empty"));
 		} else {
 			for (CardType type : CardType.values()) {
 				Integer countInteger = player.getCardTypeCount(type);
@@ -93,164 +99,98 @@ public class UserInterface {
 					String typeName = type.name().toLowerCase()
 							.replace("_", " ");
 					if (count == 1) {
-						System.out.printf("	 %s (type: %s)%n",
-								cardDisplay, typeName);
+						System.out.printf("	 %s (%s: %s)%n",
+								cardDisplay,
+								getMessage("hand.type"),
+								typeName);
 					} else {
-						System.out.printf("	 %s x%d (type: %s)%n",
-								cardDisplay, count, typeName);
+						System.out.printf("	 %s x%d (%s: %s)%n",
+								cardDisplay,
+								count,
+								getMessage("hand.type"),
+								typeName);
 					}
 				}
 			}
 		}
 
 		System.out.println("─".repeat(NUMBER_OF_DASHES));
-		System.out.println("Use 'play <type>' to play a card (e.g., 'play skip')");
+		System.out.println(getMessage("hand.usage"));
 		System.out.println("─".repeat(NUMBER_OF_DASHES) + "\n");
 	}
 
 
 	public void displayCardPlayed(Card card) {
-		System.out.println("You played: " + card.getCardType() + "\n");
+		System.out.println(getMessage("card.played")
+				+ formatCardName(card.getCardType())
+				+ "\n");
 		displayCardEffect(card.getCardType());
 		System.out.println();
 	}
 
 	public void displayDrawnCard(Card card) {
 		if (card.getCardType() == CardType.EXPLODING_KITTEN) {
-			System.out.println("OH NO! You drew: " +
+			System.out.println(
+					getMessage("card.drawn.exploding") +
 					formatCardName(card.getCardType()));
 		}
 
-		System.out.println("You drew: " + formatCardName(card.getCardType()));
+		System.out.println(getMessage("card.drawn") +
+				formatCardName(card.getCardType()));
 		System.out.println();
 	}
 
 	public void displayCardEffect(CardType cardType) {
-		switch (cardType) {
-			case ATTACK:
-				System.out.println("   " +
-						"→ End your turn without drawing," +
-						" next player takes 2 turns");
-				break;
-			case SKIP:
-				System.out.println("   → End your turn without drawing a card");
-				break;
-			case SEE_THE_FUTURE:
-				System.out.println("   → Peek at the top cards of the deck");
-				break;
-			case SHUFFLE:
-				System.out.println("   → Shuffle the deck");
-				break;
-			case FAVOR:
-				System.out.println("   " +
-						"→ Force another player to give you a card");
-				break;
-			case ALTER_THE_FUTURE:
-				System.out.println("   " +
-						"→ Rearrange the top cards of the deck");
-				break;
-			case DEFUSE:
-				System.out.println("   → " +
-						"Used automatically when you draw an " +
-						"Exploding Kitten");
-				break;
-			case NUKE:
-				System.out.println("   " +
-						"→ Nuclear option - ends the game!");
-				break;
-			case REVERSE:
-				System.out.println("   " +
-						"→ Reverse the order of play " +
-						"and end your turn without drawing a card");
-				break;
-			case SWAP_TOP_AND_BOTTOM:
-				System.out.println("   " +
-						"→ Swap the top and bottom cards of the deck");
-				break;
-			case BURY:
-				System.out.println("   " +
-						"→ Draw a card and secretly " +
-						"into anywhere in draw pile");
-				break;
-			case NORMAL:
-				System.out.println("   " +
-						"→ Just a cute cat - no special effect");
-				break;
-			default:
-				break;
+		String key = "card.effect." + cardType.name().toLowerCase();
+		String effect = getMessage(key);
+		if (!effect.isBlank()) {
+			System.out.println("   " + effect);
 		}
 	}
 
 	public String formatCardName(CardType cardType) {
-		switch (cardType) {
-			case EXPLODING_KITTEN:
-				return "Exploding Kitten";
-			case DEFUSE:
-				return "Defuse";
-			case ATTACK:
-				return "Attack";
-			case SKIP:
-				return "Skip";
-			case FAVOR:
-				return "Favor";
-			case SHUFFLE:
-				return "Shuffle";
-			case SEE_THE_FUTURE:
-				return "See the Future";
-			case ALTER_THE_FUTURE:
-				return "Alter the Future";
-			case NUKE:
-				return "Nuke";
-			case REVERSE:
-				return "Reverse";
-			case SWAP_TOP_AND_BOTTOM:
-				return "Swap Top and Bottom";
-			case BURY:
-				return "Bury";
-			case NORMAL:
-				return "Normal Cat";
-			default:
-				return cardType.toString();
-		}
+		String key = "card.name." + cardType.name().toLowerCase();
+		if (getMessage(key).isBlank()) {
+			return cardType.toString();
+		};
+		return getMessage(key);
 	}
 
 	public void displayTurnStart(int playerNumber, int totalPlayers) {
-		System.out.println("\n" + "Player " + playerNumber + "'s" +
-				"turn (Player " +
-				playerNumber + " of " + totalPlayers + ")");
+		String message = getMessage("turn.start");
+		System.out.println("\n" +
+				String.format(message, playerNumber, playerNumber, totalPlayers));
 	}
 
 	public void displayDeckEmpty() {
-		displayWarning("The deck is empty! No more cards to draw.");
+		displayWarning(getMessage("deck.empty"));
 	}
 
 	public void displayDefuseUsed() {
-		System.out.println("You used a Defuse card!");
-		System.out.println("Now pick where to put the Exploding Kitten card" +
-				"back into the deck" +
-				".\n");
+		System.out.println(getMessage("card.defuse.used"));
+		System.out.println(getMessage("card.defuse.place.kitten"));
 	}
 
 
 	public void displayPlayerEliminated() {
-		System.out.println("You have been eliminated from the game!");
-		System.out.println("Better luck next time!\n");
+		System.out.println(getMessage("player.eliminated"));
+		System.out.println(getMessage("better.luck.wishes"));
 	}
 
 	public void displayGameEnd(boolean isThereGameWinner) {
 		final int NUMBER_OF_EQUAL_SIGNS = 50;
 		System.out.println("\n" + "=".repeat(NUMBER_OF_EQUAL_SIGNS));
 		if (isThereGameWinner) {
-			System.out.println("CONGRATULATIONS! YOU WON!");
-			System.out.println("You survived the exploding kittens!");
+			System.out.println(getMessage("game.win"));
+			System.out.println(getMessage("game.win.survive.exploding"));
 		} else {
-			// this realistically though, wouldn't happen
-			System.out.println("GAME OVER!");
-			System.out.println("Everyone exploded!");
+			System.out.println(getMessage("game.lose"));
+			System.out.println(getMessage("game.lose.exploded"));
+
 		}
 
 		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS));
-		System.out.println("Thanks for playing Exploding Kittens!");
+		System.out.println(getMessage("game.quit.thanks"));
 		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS) + "\n");
 	}
 
@@ -270,8 +210,9 @@ public class UserInterface {
 			System.out.println(message);
 			System.out.print("> ");
 			String input = scanner.nextLine();
-			String errorMessage = "Please enter a number between "
-					+ min + " and " + max + ".";
+			String errorMessage = String.format(
+					getMessage("error.limit.number"), min, max
+			);
 			try {
 				int inputInt = Integer.parseInt(input);
 				if (inputInt < min || inputInt > max) {
@@ -294,16 +235,35 @@ public class UserInterface {
 					"deckSize is less than number of cards to display");
 		}
 		if (cards.isEmpty()) {
-			System.out.println("No cards to view");
+			System.out.println(getMessage("no.cards.view"));
 			return;
 		}
-		System.out.println("\n" + ":Top of deck:");
+		System.out.println("\n" + getMessage("deck.view.top"));
 		for (int i = 0; i < cards.size(); i++) {
 			Card card = cards.get(i);
 			CardType cardTypeToDisplay = card.getCardType();
 			int index = deckSize - i - 1;
-			System.out.println(formatCardName(cardTypeToDisplay)
-					+ ", index: " + index);
+			System.out.println(String.format(
+					getMessage("deck.view.entry"),
+					formatCardName(cardTypeToDisplay), index));
 		}
+	}
+
+	public String getRearrangePrompt(int position, int minIndex, int maxIndex) {
+		String format = getMessage("rearrange.card.prompt");
+		return String.format(format, position, minIndex, maxIndex);
+	}
+
+	public String getPlayerIndexPrompt(int maxPlayerIndex) {
+		String format = localeManager.get("player.index.prompt");
+		return String.format(format, maxPlayerIndex);
+	}
+
+	public String getCardTransferPrompt() {
+		return localeManager.get("card.transfer.prompt");
+	}
+
+	private String getMessage(String key) {
+		return localeManager.get(key);
 	}
 }

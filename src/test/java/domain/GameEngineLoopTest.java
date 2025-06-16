@@ -1,5 +1,6 @@
 package domain;
 
+import locale.LocaleManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.easymock.EasyMock;
@@ -33,10 +34,11 @@ public class GameEngineLoopTest {
 				Deck deck,
 				UserInterface userInterface,
 				CardFactory cardFactory,
-				SecureRandom secureRandom
+				SecureRandom secureRandom,
+				LocaleManager localeManager
 		) {
 			super(turnManager, playerManager, deck, userInterface, cardFactory,
-					secureRandom);
+					secureRandom, localeManager);
 		}
 
 		@Override
@@ -77,10 +79,11 @@ public class GameEngineLoopTest {
 				Deck deck,
 				UserInterface userInterface,
 				CardFactory cardFactory,
-				SecureRandom secureRandom
+				SecureRandom secureRandom,
+				LocaleManager localeManager
 		) {
 			super(turnManager, playerManager, deck,
-					userInterface, cardFactory, secureRandom);
+					userInterface, cardFactory, secureRandom, localeManager);
 		}
 
 		@Override
@@ -100,6 +103,7 @@ public class GameEngineLoopTest {
 	private Deck mockDeck;
 	private CardFactory mockFactory;
 	private SecureRandom mockRandom;
+	private LocaleManager mockLocaleManager;
 
 	@BeforeEach
 	public void setUp() {
@@ -109,6 +113,7 @@ public class GameEngineLoopTest {
 		mockDeck = EasyMock.createMock(Deck.class);
 		mockFactory = EasyMock.createMock(CardFactory.class);
 		mockRandom = EasyMock.createMock(SecureRandom.class);
+		mockLocaleManager = EasyMock.createMock(LocaleManager.class);
 	}
 
 	@Test
@@ -127,7 +132,7 @@ public class GameEngineLoopTest {
 
 		TestableGameEngine engine = new TestableGameEngine(
 				mockTurnManager, mockPlayerManager, mockDeck, mockUI,
-				mockFactory, mockRandom
+				mockFactory, mockRandom, mockLocaleManager
 		);
 
 		engine.invokeRunGameLoop();
@@ -154,7 +159,7 @@ public class GameEngineLoopTest {
 
 		TestableGameEngine engine = new TestableGameEngine(
 				mockTurnManager, mockPlayerManager, mockDeck, mockUI,
-				mockFactory, mockRandom
+				mockFactory, mockRandom, mockLocaleManager
 		);
 
 		engine.invokeRunGameLoop();
@@ -207,7 +212,7 @@ public class GameEngineLoopTest {
 
 		TestableGameEngine engine = new TestableGameEngine(
 				mockTurnManager, mockPlayerManager, mockDeck,
-				mockUI, mockFactory, mockRandom
+				mockUI, mockFactory, mockRandom, mockLocaleManager
 		);
 
 		engine.initializeGame();
@@ -223,7 +228,7 @@ public class GameEngineLoopTest {
 	public void gameFlow_successPath_callsInitializeAndLoop() {
 		TestableMainEngine engine = new TestableMainEngine(
 				mockTurnManager, mockPlayerManager, mockDeck,
-				mockUI, mockFactory, mockRandom
+				mockUI, mockFactory, mockRandom, mockLocaleManager
 		);
 		engine.initializeGame();
 		engine.runGameLoop();
@@ -238,7 +243,7 @@ public class GameEngineLoopTest {
 	public void gameFlow_initializeThrows_handlesException() {
 		TestableMainEngine engine = new TestableMainEngine(
 				mockTurnManager, mockPlayerManager, mockDeck,
-				mockUI, mockFactory, mockRandom
+				mockUI, mockFactory, mockRandom, mockLocaleManager
 		) {
 			@Override
 			public void initializeGame() {
@@ -262,7 +267,7 @@ public class GameEngineLoopTest {
 		PrintStream originalOut = System.out;
 
 		try {
-			String input = "2\nquit\n";
+			String input = "1\n2\nquit\n";
 			System.setIn(new ByteArrayInputStream
 					(input.getBytes(StandardCharsets.UTF_8)));
 
