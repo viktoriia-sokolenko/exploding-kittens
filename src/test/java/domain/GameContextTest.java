@@ -623,6 +623,20 @@ public class GameContextTest {
 		EasyMock.verify(mockDeck, userInterface);
 	}
 
+	@Test
+	public void swapTopAndBottomDeckCards_withFullContext_callsSwapTopAndBottom() {
+		mockDeck.swapTopAndBottom();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+		fullGameContext.swapTopAndBottomDeckCards();
+
+		EasyMock.verify(mockDeck);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);

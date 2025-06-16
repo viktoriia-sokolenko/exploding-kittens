@@ -103,6 +103,10 @@ public class GameContext {
 		deck.rearrangeTopThreeCards(indices);
 	}
 
+	public void swapTopAndBottomDeckCards() {
+		deck.swapTopAndBottom();
+	}
+
 	private Card getCardFromUserInput(String message, Player player) {
 		String cardTypeInput = userInterface.getUserInput(message);
 		CardType cardType = player.parseCardType(cardTypeInput);

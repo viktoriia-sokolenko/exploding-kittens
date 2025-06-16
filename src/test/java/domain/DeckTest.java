@@ -603,6 +603,67 @@ public class DeckTest {
 	}
 
 	@Test
+	public void swapTopAndBottom_emptyDeck_throwsNoSuchElementException() {
+		List<Card> emptyCardList = new ArrayList<>();
+		Deck deck = new Deck(emptyCardList);
+
+		String expectedMessage = "Deck is empty";
+		Exception exception = assertThrows(NoSuchElementException.class,
+				deck::swapTopAndBottom);
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void swapTopAndBottom_deckWithOneCard_orderRemainsTheSame
+			(CardType testCardType) {
+		Card mockCard = mockCard(testCardType);
+		List<Card> cardsList = new ArrayList<>(List.of(mockCard));
+		Deck deck = new Deck(cardsList);
+
+		Card expectedCard = deck.getCardAt(0);
+		deck.swapTopAndBottom();
+		Card actualCard = deck.getCardAt(0);
+		assertEquals(expectedCard, actualCard);
+	}
+
+	@ParameterizedTest
+	@MethodSource("nonEmptyCardListsWithTwoCards")
+	public void swapTopAndBottom_deckWithTwoCards_swapsCards
+			(List<Card> cards) {
+		Deck deck = new Deck(cards);
+		Card card1BeforeSwapping = deck.getCardAt(0);
+		Card card2BeforeSwapping = deck.getCardAt(1);
+
+		deck.swapTopAndBottom();
+		Card card1AfterSwapping = deck.getCardAt(0);
+		Card card2AfterSwapping = deck.getCardAt(1);
+
+		assertEquals(card1BeforeSwapping, card2AfterSwapping);
+		assertEquals(card2BeforeSwapping, card1AfterSwapping);
+
+	}
+
+	@Test
+	public void swapTopAndBottom_deckWithThreeCardsAndDuplicate_swapsCards() {
+		Deck deck = deckWithThreeCardsAndDuplicate();
+		Card card1BeforeSwapping = deck.getCardAt(0);
+		Card card2BeforeSwapping = deck.getCardAt(1);
+		Card card3BeforeSwapping = deck.getCardAt(2);
+
+		deck.swapTopAndBottom();
+
+		Card card1AfterSwapping = deck.getCardAt(0);
+		Card card2AfterSwapping = deck.getCardAt(1);
+		Card card3AfterSwapping = deck.getCardAt(2);
+
+		assertEquals(card1BeforeSwapping, card3AfterSwapping);
+		assertEquals(card2BeforeSwapping, card2AfterSwapping);
+		assertEquals(card3BeforeSwapping, card1AfterSwapping);
+	}
+
+	@Test
 	public void peekTopThreeCards_emptyDeck_throwsNoSuchElementException() {
 		List<Card> emptyCardList = new ArrayList<>();
 
