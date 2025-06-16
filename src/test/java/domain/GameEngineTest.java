@@ -590,7 +590,7 @@ public class GameEngineTest {
 		final int FOUR_CARDS = 4;
 		final int FIVE_CARDS = 5;
 		final int SIXTEEN_CARDS = 16;
-    
+
 		// user interface wouldn't let this go through
 		// but this is for some of the mutation test
 		final int FIFTY_PLAYERS = 50;
