@@ -200,7 +200,7 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 3 | Deck `[card1, card2, card3]`            | Returns `[card1, card2, card3]`;           | :white_check_mark: | peekTopThreeCards_deckWithThreeCards_returnsThreeLastCards                |
 | Test Case 4 | Deck `[card1, card2, card3.1, card3.2]` | Returns `[card3, card4.1, card4.2]`;       | :white_check_mark: | peekTopThreeCards_deckWithFourCardsAndDuplicate_returnsLastDuplicateCards |
 
-## Method 7: `public void rearrangeTopThreeCards(List<int> newIndices)`
+## Method 9: `public void rearrangeTopThreeCards(List<int> newIndices)`
 
 ### Step 1-3 Results
 
@@ -233,6 +233,25 @@ but please do recall that Parameterized testing is used to ensure all Cards and 
 | Test Case 17 | Deck `[card1, card2, card3.1, card3.2]`, indices `3, 2, 1` | Deck `[card1, card2, card3.1, card3.2]`                                       | :white_check_mark: | rearrangeTopThreeCards_deckWithFourCardsAndSameIndices_orderRemainsTheSame      |
 | Test Case 18 | Deck `[card1, card2, card3.1, card3.2]`, indices `2, 1, 3` | Deck `[card1, card3.2, card2, card3.1]`                                       | :white_check_mark: | rearrangeTopThreeCards_deckWithFourCardsAndThreeDifferentIndices_changesOrder   |
 | Test Case 19 | Deck `[card1, card2, card3.1, card3.2]`, indices `1, 2, 3` | Deck `[card1, card3.2, card3.1, card2]`                                       | :white_check_mark: | rearrangeTopThreeCards_deckWithFourCardsAndTwoDifferentIndices_reversesCards    |
+
+## Method 10: `public void swapTopAndBottom()`
+
+### Step 1-3 Results
+
+|        | Input                                                                                                 | Output                                                                                                             |
+|--------|-------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| Step 1 | Deck of Cards                                                                                         | Deck of Cards with top and bottom cards swapped                                                                    |
+| Step 2 | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates) | Collection (Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates) or Exception |
+| Step 3 | `[]`, `[card1]`, `[card1, card2]`, duplicates `[card1, card2.1, card2.2]`                             | `[card1]`, `[card2, card1]`, duplicates `[card2.2, card2.1, card1]` or `NoSuchElementException`                    |
+
+### Step 4:
+
+|             | System under test                | Expected output / state transition         | Implemented?       | Test name                                                  |
+|-------------|----------------------------------|--------------------------------------------|--------------------|------------------------------------------------------------|
+| Test Case 1 | Deck `[]`                        | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | swapTopAndBottom_emptyDeck_throwsNoSuchElementException    |
+| Test Case 2 | Deck `[card1]`                   | Deck `[card1]`;                            | :white_check_mark: | swapTopAndBottom_deckWithOneCard_orderRemainsTheSame       |
+| Test Case 3 | Deck `[card1, card2]`            | Deck `[card1, card2]`;                     | :white_check_mark: | swapTopAndBottom_deckWithTwoCards_swapsCards               |
+| Test Case 4 | Deck `[card1, card2.1, card2.2]` | Deck `[card2.2, card2.1, card1]`;          | :white_check_mark: | swapTopAndBottom_deckWithThreeCardsAndDuplicate_swapsCards |
 
 ## Method under test: `giveCardToPlayer(Player p)`
 

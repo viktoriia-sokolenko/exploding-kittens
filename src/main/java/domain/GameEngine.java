@@ -177,9 +177,11 @@ public class GameEngine {
 	public void displayGameState(Player currentPlayer) {
 		final int NUMBER_OF_EQUAL_SIGNS = 40;
 		System.out.println("\n" + "=".repeat(NUMBER_OF_EQUAL_SIGNS));
-		System.out.println("Current Player's Turn");
+		int currentPlayerIndex = playerManager.getPlayers().indexOf(currentPlayer);
+		System.out.println("Turn of player " + currentPlayerIndex);
 		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS));
 		System.out.println("Players remaining: " + playerManager.getActivePlayers().size());
+		displayIndexesOfActivePlayers();
 		System.out.println("Cards in deck: " + deck.getDeckSize());
 		userInterface.displayPlayerHand(currentPlayer);
 	}
@@ -221,7 +223,8 @@ public class GameEngine {
 	public void handleDrawCommand(Player currentPlayer) {
 		Objects.requireNonNull(currentPlayer, "Player cannot be null");
 
-		if (deck.getDeckSize() == 0) {
+		final int DECK_SIZE_OF_ZERO = 0;
+		if (deck.getDeckSize() == DECK_SIZE_OF_ZERO) {
 			userInterface.displayError("Deck is empty!");
 			return;
 		}
@@ -229,25 +232,39 @@ public class GameEngine {
 		Card drawnCard = deck.draw();
 		userInterface.displayDrawnCard(drawnCard);
 
-
 		if (drawnCard.getCardType() == CardType.EXPLODING_KITTEN) {
-			if (currentPlayer.hasCardType(CardType.DEFUSE)) {
-				System.out.println("You drew an Exploding " +
-						"Kitten but used a Defuse card!");
-				currentPlayer.removeDefuseCard();
-				deck.insertCardAt(drawnCard, secureRandom.
-						nextInt(deck.getDeckSize()));
-			} else {
-				System.out.println("BOOM! You drew an " +
-						"Exploding Kitten and had no Defuse card!");
-				playerManager.removePlayerFromGame(currentPlayer);
-				return;
-			}
+			handleExplodingKittenDrawWithUI(currentPlayer, drawnCard);
 		} else {
 			currentPlayer.addCardToHand(drawnCard);
+			turnManager.advanceToNextPlayer();
 		}
+	}
 
-		turnManager.advanceToNextPlayer();
+	private void handleExplodingKittenDrawWithUI
+			(Player currentPlayer, Card explodingKitten) {
+		if (currentPlayer.hasCardType(CardType.DEFUSE)) {
+			currentPlayer.removeDefuseCard();
+			userInterface.displayDefuseUsed();
+			int position = getPlayerChoiceForKittenPlacement();
+			deck.insertCardAt(explodingKitten, position);
+
+			userInterface.displaySuccess("Exploding Kitten placed" +
+					" back in the deck at position " + position);
+			turnManager.advanceToNextPlayer();
+		} else {
+			System.out.println("BOOM! You drew an Exploding Kitten and " +
+					"had no Defuse card!");
+			playerManager.removePlayerFromGame(currentPlayer);
+		}
+	}
+
+	public int getPlayerChoiceForKittenPlacement() {
+		int deckSize = deck.getDeckSize();
+		String message = "Choose a position to insert the Exploding Kitten " +
+				"(0 = bottom, "
+				+ deckSize + " = top of deck)";
+		final int MIN = 0;
+		return userInterface.getNumericUserInput(message, MIN, deckSize);
 	}
 
 	public void processCommand(String input, Player currentPlayer) {
@@ -257,7 +274,7 @@ public class GameEngine {
 							"Type 'help' for available commands.");
 			return;
 		}
-		String cleanedInput = input.trim().replaceAll("\\s+", " ");
+		String cleanedInput	 = input.trim().replaceAll("\\s+", " ");
 		String[] parts = cleanedInput.split(" ");
 		String command = parts[0];
 
@@ -282,9 +299,12 @@ public class GameEngine {
 					handleQuitCommand();
 					break;
 				default:
-					userInterface.displayError(
-						"Unknown command: " + command + ". Type 'help' for available commands."
-					);
+					userInterface
+							.displayError
+							("Unknown command: " + command	+
+									". " +
+									"Type 'help' " +
+									"for available commands.");
 			}
 		} catch (Exception e) {
 			userInterface.displayError("Error executing command: " +
@@ -348,4 +368,22 @@ public class GameEngine {
 					secureRandom.nextInt(deck.getDeckSize()));
 		}
 	}
+
+	private void displayIndexesOfActivePlayers() {
+		List<Player> allPlayers = playerManager.getPlayers();
+		List<Integer> activePlayerIndexes = new ArrayList<>();
+		for (int i = 0; i < allPlayers.size(); i++) {
+			if (allPlayers.get(i).isInGame()) {
+				activePlayerIndexes.add(i);
+			}
+		}
+		System.out.println("Active players indices: " + activePlayerIndexes);
+	}
+
+	public static void main(String[] args) {
+		GameEngine game = createNewGame();
+		game.initializeGame();
+		game.runGameLoop();
+	}
+
 }
