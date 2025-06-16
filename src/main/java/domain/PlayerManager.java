@@ -67,6 +67,9 @@ public class PlayerManager {
 	}
 
 	private boolean isIndexOutOfBounds(int index) {
-		return index < 0 || index >= players.size();
+		if (index < 0) {
+			return true;
+		}
+		return index >= players.size();
 	}
 }
