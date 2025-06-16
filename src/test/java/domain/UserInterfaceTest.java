@@ -380,6 +380,9 @@ public class UserInterfaceTest {
 				.andReturn("");
 		EasyMock.expect(localeManager.get("card.effect.normal"))
 				.andReturn("→ Just a cute cat - no special effect");
+		EasyMock.expect(localeManager.get("card.effect.bury"))
+				.andReturn("→ Draw a card and secretly put into " +
+						"anywhere in draw pile");
 		EasyMock.replay(localeManager);
 
 		ui.displayCardEffect(CardType.ATTACK);
@@ -445,7 +448,7 @@ public class UserInterfaceTest {
 		ui.displayCardEffect(CardType.BURY);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8)
 				.contains(" → Draw a card and secretly " +
-						"into anywhere in draw pile"));
+						"put into anywhere in draw pile"));
 	}
 
 	@Test
@@ -477,6 +480,8 @@ public class UserInterfaceTest {
 				.andReturn("Reverse").anyTimes();
 		EasyMock.expect(localeManager.get("card.name.swap_top_and_bottom"))
 				.andReturn("Swap Top and Bottom").anyTimes();
+		EasyMock.expect(localeManager.get("card.name.bury"))
+				.andReturn("Bury").anyTimes();
 		EasyMock.replay(localeManager);
 
 		assertEquals("Exploding Kitten",
@@ -899,6 +904,8 @@ public class UserInterfaceTest {
 				.andReturn("Reverse").anyTimes();
 		EasyMock.expect(localeManager.get("card.name.swap_top_and_bottom"))
 				.andReturn("Swap Top and Bottom").anyTimes();
+		EasyMock.expect(localeManager.get("card.name.bury"))
+				.andReturn("Bury").anyTimes();
 		EasyMock.replay(localeManager);
 
 		for (CardType type : CardType.values()) {
@@ -952,6 +959,8 @@ public class UserInterfaceTest {
 				.andReturn("Favor").anyTimes();
 		EasyMock.expect(localeManager.get("card.name.unknown_card_for_test"))
 				.andReturn("").anyTimes();
+		EasyMock.expect(localeManager.get("card.name.bury"))
+				.andReturn("Bury").anyTimes();
 		EasyMock.replay(localeManager);
 
 
@@ -1421,6 +1430,8 @@ public class UserInterfaceTest {
 				.andReturn(":Top of deck:");
 		EasyMock.expect(localeManager.get("deck.view.entry"))
 				.andReturn("%s, index: %d").anyTimes();
+		EasyMock.expect(localeManager.get("card.name.bury"))
+				.andReturn("Bury").anyTimes();
 		EasyMock.replay(localeManager);
 
 		Card testCard = mockCard(testCardType);
