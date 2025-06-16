@@ -179,6 +179,7 @@ public class GameEngine {
 		System.out.println("Turn of player " + currentPlayerIndex);
 		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS));
 		System.out.println("Players remaining: " + playerManager.getActivePlayers().size());
+		displayIndexesOfActivePlayers();
 		System.out.println("Cards in deck: " + deck.getDeckSize());
 		userInterface.displayPlayerHand(currentPlayer);
 	}
@@ -339,6 +340,17 @@ public class GameEngine {
 			deck.insertCardAt(cardFactory.createCard(CardType.EXPLODING_KITTEN),
 					secureRandom.nextInt(deck.getDeckSize()));
 		}
+	}
+
+	private void displayIndexesOfActivePlayers() {
+		List<Player> allPlayers = playerManager.getPlayers();
+		List<Integer> activePlayerIndexes = new ArrayList<>();
+		for (int i = 0; i < allPlayers.size(); i++) {
+			if (allPlayers.get(i).isInGame()) {
+				activePlayerIndexes.add(i);
+			}
+		}
+		System.out.println("Active players indices: " + activePlayerIndexes);
 	}
 
 	private void main(String[] args) {
