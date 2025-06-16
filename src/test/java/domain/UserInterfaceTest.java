@@ -909,7 +909,8 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	public void displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException() {
+	public void displayCardsFromDeck_withTwoCardsAndDeckSizeOne_throwsIllegalArgumentException()
+	{
 		UserInterface ui = new UserInterface();
 
 		Card testCard1 = mockCard(CardType.NORMAL);
@@ -949,7 +950,8 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	public void displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex() {
+	public void displayCardsFromDeck_withThreeCardsAndDuplicate_printCardTypeAndIndex()
+	{
 		UserInterface ui = new UserInterface();
 
 		Card testCard1 = mockCard(CardType.SEE_THE_FUTURE);
