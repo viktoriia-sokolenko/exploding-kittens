@@ -589,6 +589,54 @@ public class GameEngineTest {
 	}
 
 	@Test
+	public void
+	createInitialDeck_whenExactlyEnoughCards_doesNotAddNormalCards() {
+		CardFactory mockFactory = EasyMock.createMock(CardFactory.class);
+
+		final int ONE_CARD = 1;
+		final int TWO_CARDS = 2;
+		final int FOUR_CARDS = 4;
+		final int FIVE_CARDS = 5;
+		EasyMock.expect(mockFactory.createCards(CardType.ATTACK, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.ATTACK, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SKIP, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SKIP, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.FAVOR, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.FAVOR, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.SHUFFLE, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.REVERSE, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.REVERSE, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE,
+						FIVE_CARDS))
+				.andReturn(createMockCardList(CardType.SEE_THE_FUTURE,
+						FIVE_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.ALTER_THE_FUTURE,
+						FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.ALTER_THE_FUTURE,
+						FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.NUKE, ONE_CARD))
+				.andReturn(createMockCardList(CardType.NUKE, ONE_CARD));
+		EasyMock.expect(mockFactory.createCards(CardType.DEFUSE, TWO_CARDS))
+				.andReturn(createMockCardList(CardType.DEFUSE, TWO_CARDS));
+
+		EasyMock.replay(mockFactory);
+		final int TWENTY_FOUR_PLAYERS = 24;
+
+		List<Card> deck = GameEngine.createInitialDeck(mockFactory,
+			TWENTY_FOUR_PLAYERS);
+
+		long normalCardCount = deck.stream()
+				.filter(card -> card.getCardType() == CardType.NORMAL)
+				.count();
+		assertEquals(0, normalCardCount);
+		assertEquals(32, deck.size());
+
+		// This will fail if createCards(NORMAL, 0) is called
+		EasyMock.verify(mockFactory);
+	}
+
+	@Test
 	public void handleDrawCommand_withNullPlayer_throwsNullPointerException() {
 		gameEngine = createValidGameEngine();
 
