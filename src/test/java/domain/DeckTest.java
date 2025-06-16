@@ -1070,7 +1070,7 @@ public class DeckTest {
 
 		Deck deck = new Deck(emptyCardList);
 		deck.moveAllExplodingKittensToTop();
-
-		assertEquals(0, deck.getDeckSize());
+		final int ZERO_DECK_SIZE = 0;
+		assertEquals(ZERO_DECK_SIZE, deck.getDeckSize());
 	}
 }

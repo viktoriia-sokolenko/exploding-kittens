@@ -150,4 +150,8 @@ public class Deck {
 						indexForThirdCardFromTop));
 		return !allowedIndices.contains(index);
 	}
+
+	public void moveAllExplodingKittensToTop() {
+		return;
+	}
 }
