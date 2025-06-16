@@ -587,7 +587,6 @@ public class GameEngineTest {
 		long normalCardCount = deck.stream()
 				.filter(card -> card.getCardType() == CardType.NORMAL)
 				.count();
-    
 		assertEquals(FOURTEEN_CARDS, normalCardCount);
 		EasyMock.verify(mockFactory);
 	}
@@ -744,8 +743,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public
-	void
+	public void
 	handleDrawCommand_withExplodingKittenAndDefuse_usesDefuseAndReinsertsAndAdvancesTurn() {
 		Card kitten = createMockCard(CardType.EXPLODING_KITTEN);
 		final int DECK_SIZE = 5;
@@ -789,8 +787,7 @@ public class GameEngineTest {
 	}
 
 	@Test
-	public void getPlayerChoiceForKittenPlacement_promptsWithDeckSizeAndReturnsChoice()
-			{
+	public void getPlayerChoiceForKittenPlacement_promptsWithDeckSizeAndReturnsChoice() {
 		final int EXPECTED_RETURN_FOUR = 4;
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(EXPECTED_RETURN_FOUR)
 				.once();
@@ -854,7 +851,6 @@ public class GameEngineTest {
 
 		EasyMock.verify(mockPlayerManager, mockDeck, mockTurnManager, mockCurrentPlayer);
 	}
-
 
 
 	@Test
