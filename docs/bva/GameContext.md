@@ -154,3 +154,54 @@ available card types.
 | Test Case 1 | Deck = 1, `[allCardTypes]`  | Input `0`: inserts top card at the top (index 0)     | :white_check_mark: | buryCardImplementation_insertAtTop_insertsAtTop       |
 | Test Case 2 | Deck Size = 5, allCardTypes | Input `5`: inserts top card at bottom (index = size) | :white_check_mark: | buryCardImplementation_insertAtBottom_insertsAtBottom |
 | Test Case 3 | Deck Size = 5, allCardTypes | Input `2`: inserts card at index 2 (middle of deck)  | :white_check_mark: | buryCardImplementation_insertAtMiddle_insertsAtMiddle |
+
+## Method 9: `public void endTurnWithoutDrawing()`
+
+### Step 1-3 Results
+
+|        | Input                 | Output                                             |
+|--------|-----------------------|----------------------------------------------------|
+| Step 1 | Game Context          | calls `endTurnWithoutDrawing` from TurnManager     |
+| Step 2 | Game Context Object   | Boolean                                            |
+| Step 3 | Game Context Instance | True (must call TurnManager.endTurnWithoutDrawing) |
+
+### Step 4:
+
+|             | System under test         | Expected output / state transition             | Implemented?       | Test name                                              |
+|-------------|---------------------------|------------------------------------------------|--------------------|--------------------------------------------------------|
+| Test Case 1 | Context fully initialized | calls `endTurnWithoutDrawing` from TurnManager | :white_check_mark: | endTurnWithoutDrawing_withFullContext_callsTurnManager |
+
+## Method 10: `public void addTurnForCurrentPlayer()`
+
+### Step 1-3 Results
+
+|        | Input                 | Output                                                            |
+|--------|-----------------------|-------------------------------------------------------------------|
+| Step 1 | Game Context          | calls `addTurnForCurrentPlayer` from TurnManager                  |
+| Step 2 | Game Context Object   | Boolean                                                           |
+| Step 3 | Game Context Instance | True (must be true that deck.addTurnForCurrentPlayer() is called) |
+
+### Step 4:
+
+|             | System under test         | Expected output / state transition               | Implemented?       | Test name                                                       |
+|-------------|---------------------------|--------------------------------------------------|--------------------|-----------------------------------------------------------------|
+| Test Case 1 | Context fully initialized | calls `addTurnForCurrentPlayer` from TurnManager | :white_check_mark: | addTurnForCurrentPlayer_withFullContext_callsTurnManager        |
+| Test Case 2 | Simple context            | Does not throw exception                         | :white_check_mark: | addTurnForCurrentPlayer_withSimpleContext_doesNotThrowException |
+
+## Method 11: `public void moveAllExplodingKittensToTop()`
+
+### Step 1-3 Results
+
+|        | Input 1        | Input 2  | Output                                                      |
+|--------|----------------|----------|-------------------------------------------------------------|
+| Step 1 | Deck Object    | UI object | All exploding kittens moved to top of deck                  |
+| Step 2 | Case           | Case     | Boolean                                                     |
+| Step 3 | null, not null | not null | True (must move all exploding kittens to top if they exist) |
+
+### Step 4:
+
+|             | System under test | Expected output / state transition     | Implemented?       | Test name                                                           |
+|-------------|-------------------|----------------------------------------|--------------------|---------------------------------------------------------------------|
+| Test Case 1 | Deck is null      | No action taken                        | :white_check_mark: | moveAllExplodingKittensToTop_deckIsNull_noActionTaken               |
+| Test Case 2 | UI is null        | No action taken                        | :white_check_mark: | moveAllExplodingKittensToTop_uiIsNull_noActionTaken                 |
+| Test Case 3 | Deck is not null  | Calls deck method and displays success | :white_check_mark: | moveAllExplodingKittensToTop_deckIsNotNull_callsDeckDisplaysSuccess |
