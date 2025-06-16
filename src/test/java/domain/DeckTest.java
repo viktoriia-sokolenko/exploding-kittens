@@ -645,6 +645,24 @@ public class DeckTest {
 
 	}
 
+	@Test
+	public void swapTopAndBottom_deckWithThreeCardsAndDuplicate_swapsCards() {
+		Deck deck = deckWithThreeCardsAndDuplicate();
+		Card card1BeforeSwapping = deck.getCardAt(0);
+		Card card2BeforeSwapping = deck.getCardAt(1);
+		Card card3BeforeSwapping = deck.getCardAt(2);
+
+		deck.swapTopAndBottom();
+
+		Card card1AfterSwapping = deck.getCardAt(0);
+		Card card2AfterSwapping = deck.getCardAt(1);
+		Card card3AfterSwapping = deck.getCardAt(2);
+
+		assertEquals(card1BeforeSwapping, card3AfterSwapping);
+		assertEquals(card2BeforeSwapping, card2AfterSwapping);
+		assertEquals(card3BeforeSwapping, card1AfterSwapping);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),
