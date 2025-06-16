@@ -11,7 +11,7 @@ public class GameEngine {
 	private final TurnManager turnManager;
 	private final PlayerManager playerManager;
 	private final Deck deck;
-	private static UserInterface userInterface;
+	private final UserInterface userInterface;
 	private final CardFactory cardFactory;
 	private final SecureRandom secureRandom;
 	private boolean gameRunning = true;
@@ -282,12 +282,8 @@ public class GameEngine {
 					handleQuitCommand();
 					break;
 				default:
-					userInterface
-							.displayError
-									("Unknown command: " + command +
-											". " +
-											"Type 'help' " +
-											"for available commands.");
+					userInterface.displayError("Unknown command: "
+							+ command + ". Type 'help' for available commands.");
 			}
 		} catch (Exception e) {
 			userInterface.displayError("Error executing command: " +
@@ -320,12 +316,7 @@ public class GameEngine {
 			game.initializeGame();
 			game.runGameLoop();
 		} catch (Exception e) {
-			if (userInterface != null) {
-				userInterface.displayError("Error executing command: " + e.getMessage());
-			} else {
-				System.err.println("Fatal error: " + e.getMessage());
-				e.printStackTrace();
-			}
+			System.err.println("Error: " + e.getMessage());
 		}
 	}
 

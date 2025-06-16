@@ -140,7 +140,7 @@ public class TurnManagerTest {
 		turnManager.setCurrentPlayerTurnsTaken(0);
 		turnManager.endTurnWithoutDraw();
 
-		assertEquals(1, turnManager.getCurrentPlayerTurnsTaken()); // no advance
+		assertEquals(1, turnManager.getCurrentPlayerTurnsTaken());
 		EasyMock.verify(playerManagerWithTwoPlayers);
 	}
 
@@ -172,20 +172,22 @@ public class TurnManagerTest {
 
 	@Test
 	public void endTurnWithoutDrawForAttacks_underAttack_addsTwoTurnsAndAdvances() {
+		final int THREE_TURNS = 3;
+		final int FOUR_TURNS = 4;
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
-		turnManager.setRequiredTurns(3);
+		turnManager.setRequiredTurns(THREE_TURNS);
 		turnManager.setCurrentPlayerTurnsTaken(1);
 		List<Player> players = playerManagerWithTwoPlayers.getPlayers();
 		Player firstPlayer = players.get(0);
 		Player secondPlayer = players.get(1);
-		assertEquals(3, turnManager.getRequiredTurns());
+		assertEquals(THREE_TURNS, turnManager.getRequiredTurns());
 		assertEquals(1, turnManager.getCurrentPlayerTurnsTaken());
 		assertEquals(firstPlayer, turnManager.getCurrentActivePlayer());
 
 		turnManager.endTurnWithoutDrawForAttacks();
 
-		assertEquals(4, turnManager.getRequiredTurns());
+		assertEquals(FOUR_TURNS, turnManager.getRequiredTurns());
 		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
 		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
 		EasyMock.verify(playerManagerWithTwoPlayers);
@@ -193,6 +195,7 @@ public class TurnManagerTest {
 
 	@Test
 	public void endTurnWithoutDrawForAttacks_almostDoneUnderAttack_addsTwoTurnsCorrectly() {
+		final int THREE_TURNS = 3;
 		PlayerManager playerManagerWithTwoPlayers = mockPlayerManager(2);
 		turnManager.setPlayerManager(playerManagerWithTwoPlayers);
 		turnManager.setRequiredTurns(2);
@@ -204,7 +207,7 @@ public class TurnManagerTest {
 
 		turnManager.endTurnWithoutDrawForAttacks();
 
-		assertEquals(3, turnManager.getRequiredTurns());
+		assertEquals(THREE_TURNS, turnManager.getRequiredTurns());
 		assertEquals(0, turnManager.getCurrentPlayerTurnsTaken());
 		assertEquals(secondPlayer, turnManager.getCurrentActivePlayer());
 		EasyMock.verify(playerManagerWithTwoPlayers);
