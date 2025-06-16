@@ -175,7 +175,8 @@ public class GameEngine {
 	public void displayGameState(Player currentPlayer) {
 		final int NUMBER_OF_EQUAL_SIGNS = 40;
 		System.out.println("\n" + "=".repeat(NUMBER_OF_EQUAL_SIGNS));
-		System.out.println("Current Player's Turn");
+		int currentPlayerIndex = playerManager.getPlayers().indexOf(currentPlayer);
+		System.out.println("Turn of player " + currentPlayerIndex);
 		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS));
 		System.out.println("Players remaining: " + playerManager.getActivePlayers().size());
 		System.out.println("Cards in deck: " + deck.getDeckSize());

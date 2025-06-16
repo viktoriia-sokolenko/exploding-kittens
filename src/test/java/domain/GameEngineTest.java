@@ -919,6 +919,7 @@ public class GameEngineTest {
 		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer,
 				EasyMock.createMock(Player.class));
 		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 20;
@@ -944,7 +945,7 @@ public class GameEngineTest {
 					output.contains
 							("=========================" +
 									"==============="));
-			assertTrue(output.contains("Current Player's Turn"));
+			assertTrue(output.contains("Turn of player 0"));
 			assertTrue(output.contains("Players remaining: 2"));
 			assertTrue(output.contains("Cards in deck: 20"));
 		} finally {
@@ -961,6 +962,8 @@ public class GameEngineTest {
 
 		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer);
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
+				.andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers())
 				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
@@ -1006,6 +1009,8 @@ public class GameEngineTest {
 		);
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
 				.andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 35;
@@ -1043,6 +1048,8 @@ public class GameEngineTest {
 		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer);
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
 				.andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers())
+				.andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 0;
@@ -1079,6 +1086,7 @@ public class GameEngineTest {
 
 		List<Player> activePlayers = Arrays.asList(mockCurrentPlayer);
 		EasyMock.expect(mockPlayerManager.getActivePlayers()).andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 8;
@@ -1117,6 +1125,7 @@ public class GameEngineTest {
 		}
 		EasyMock.expect(mockPlayerManager.getActivePlayers())
 				.andReturn(activePlayers);
+		EasyMock.expect(mockPlayerManager.getPlayers()).andReturn(activePlayers);
 		EasyMock.replay(mockPlayerManager);
 
 		final int NUMBER_OF_CARDS_IN_DECK = 54;
