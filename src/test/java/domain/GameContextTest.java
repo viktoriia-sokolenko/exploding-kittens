@@ -369,12 +369,13 @@ public class GameContextTest {
 		Card card1 = mockCard(CardType.NORMAL);
 		Card card2 = mockCard(CardType.ATTACK);
 		List<Card> twoCardList = new ArrayList<>(List.of(card1, card2));
+		int deckSize = twoCardList.size();
 
 		EasyMock.expect(mockDeck.peekTopThreeCards())
 				.andReturn(twoCardList);
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(2).anyTimes();
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(deckSize).anyTimes();
 
-		userInterface.displayCardsFromDeck(twoCardList, 2);
+		userInterface.displayCardsFromDeck(twoCardList, deckSize);
 		EasyMock.expectLastCall().once();
 
 		String message1 = "Enter the index of a card " +
@@ -402,9 +403,58 @@ public class GameContextTest {
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 
-		assertThrows(IllegalArgumentException.class, () -> {
-			fullGameContext.rearrangeTopThreeCardsFromDeck();
-		});
+		assertThrows(IllegalArgumentException.class,
+				fullGameContext::rearrangeTopThreeCardsFromDeck);
+		EasyMock.verify(mockDeck, userInterface);
+	}
+
+	@Test
+	public void rearrangeTopThreeCardsFromDeck_threeCards_callsRearrangeTopThreeCards() {
+		Card card1 = mockCard(CardType.NORMAL);
+		Card card2 = mockCard(CardType.ATTACK);
+		Card card3 = mockCard(CardType.SEE_THE_FUTURE);
+		List<Card> threeCardList = new ArrayList<>(List.of(card1, card2, card3));
+		int deckSize = threeCardList.size();
+
+		EasyMock.expect(mockDeck.peekTopThreeCards())
+				.andReturn(threeCardList);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(deckSize).anyTimes();
+
+		userInterface.displayCardsFromDeck(threeCardList, deckSize);
+		EasyMock.expectLastCall().once();
+
+		String message1 = "Enter the index of a card " +
+				"that you want to put in position 0 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indexes are from 0 to 2.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message1, 0, 2)).andReturn(2);
+
+		String message2 = "Enter the index of a card " +
+				"that you want to put in position 1 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indexes are from 0 to 2.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message2, 0, 2)).andReturn(0);
+
+		String message3 = "Enter the index of a card " +
+				"that you want to put in position 2 " +
+				"starting from the top of the Deck.\n" +
+				"Only possible indexes are from 0 to 2.";
+		EasyMock.expect(userInterface.getNumericUserInput(
+				message3, 0, 2)).andReturn(1);
+
+		List<Integer> duplicateIndices = List.of(2, 0, 1);
+		mockDeck.rearrangeTopThreeCards(duplicateIndices);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+
+		fullGameContext.rearrangeTopThreeCardsFromDeck();
 		EasyMock.verify(mockDeck, userInterface);
 	}
 
