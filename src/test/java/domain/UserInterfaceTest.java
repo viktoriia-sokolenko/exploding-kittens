@@ -867,6 +867,35 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void getNumericUserInput_outOfRange_invokesDisplayErrorOnce() {
+		String simulated = "0\n2\n";
+		System.setIn(new ByteArrayInputStream(simulated
+				.getBytes(StandardCharsets.UTF_8)));
+
+		UserInterface ui = new UserInterface();
+		final int MIN = 1;
+		final int MAX  = 5;
+		final int EXPECTED_PROMPTS = 2;
+		int picked = ui.getNumericUserInput("Pick a number:"
+				, MIN, MAX);
+		assertEquals(EXPECTED_PROMPTS,
+				picked, "Should return the second, valid entry");
+		String err = errContent.toString(StandardCharsets.UTF_8);
+		long count = err.lines()
+				.filter(l -> l.contains
+						("Please enter a number between 1 and 5."))
+				.count();
+		final int EXPECTS_ONE_PROMPT = 1;
+		assertEquals(
+				EXPECTS_ONE_PROMPT,
+				count,
+
+				"getNumericUserInput() must call displayError(...)" +
+						" exactly once for the out-of-range input"
+		);
+	}
+
+	@Test
 	public void getNumericUserInput_withNullMessage_returnsConsoleInput() {
 		System.setIn(new ByteArrayInputStream("1\n"
 				.getBytes(StandardCharsets.UTF_8)));
