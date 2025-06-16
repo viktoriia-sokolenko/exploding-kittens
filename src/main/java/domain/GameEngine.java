@@ -340,13 +340,9 @@ public class GameEngine {
 		}
 	}
 
-	private void main(String[] args) {
-		try {
-			this.initializeGame();
-			this.runGameLoop();
-		} catch (Exception e) {
-			userInterface.displayError("Game encountered an error: "
-					+ e.getMessage());
+	public static void main(String[] args) {
+		GameEngine game = createNewGame();
+		game.initializeGame();
+		game.runGameLoop();
 		}
-	}
 }
