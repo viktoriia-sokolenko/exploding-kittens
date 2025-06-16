@@ -106,6 +106,8 @@ public class GameEngine {
 		deck.addAll(cardFactory
 				.createCards(CardType.SHUFFLE, NUMBER_OF_ESSENTIAL_CARDS));
 		deck.addAll(cardFactory
+				.createCards(CardType.BURY, NUMBER_OF_ESSENTIAL_CARDS));
+		deck.addAll(cardFactory
 				.createCards(CardType.SEE_THE_FUTURE,
 				NUMBER_OF_SEE_THE_CARDS));
 		deck.addAll(cardFactory

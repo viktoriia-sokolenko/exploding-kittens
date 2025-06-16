@@ -949,7 +949,10 @@ public class UserInterfaceTest {
 				"Alter the Future, index: 0";
 
 		assertFalse(out.contains("No cards to view"));
-		assertTrue(out.contains(expectedCardInfo));
+
+		String normalizedOut = normalizeOutputForAssertion(out);
+		String normalizedExpected = normalizeOutputForAssertion(expectedCardInfo);
+		assertTrue(normalizedOut.contains(normalizedExpected));
 	}
 
 	@Test
@@ -975,7 +978,16 @@ public class UserInterfaceTest {
 						"Exploding Kitten, index: 1";
 
 		assertFalse(out.contains("No cards to view"));
-		assertTrue(out.contains(expectedCardInfo));
+
+		String normalizedOut = normalizeOutputForAssertion(out);
+		String normalizedExpected = normalizeOutputForAssertion(expectedCardInfo);
+		assertTrue(normalizedOut.contains(normalizedExpected));
+	}
+
+	private String normalizeOutputForAssertion(String rawOutput) {
+		return rawOutput
+				.replace("\r\n", "\n")
+				.replace("\r", "\n");
 	}
 
 	private Card mockCard(CardType cardType) {
