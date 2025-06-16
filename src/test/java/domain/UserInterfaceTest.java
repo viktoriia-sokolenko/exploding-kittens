@@ -750,18 +750,22 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayGameEnd_false_printsThreeBorders() {
+		EasyMock.expect(localeManager.get("game.lose"))
+				.andReturn("GAME OVER!");
+		EasyMock.expect(localeManager.get("game.lose.exploded"))
+				.andReturn("Everyone exploded!");
+		EasyMock.expect(localeManager.get("game.quit.thanks"))
+				.andReturn("Thanks for playing Exploding Kittens!");
+		EasyMock.replay(localeManager);
+
 		UserInterface ui = new UserInterface(localeManager);
 		ui.displayGameEnd(false);
 
-		String full = outContent.toString(StandardCharsets.UTF_8);
-		final int NUMBER_OF_EQUAL_SIGNS = 50;
-		String border = "=".repeat(NUMBER_OF_EQUAL_SIGNS);
-		long count = full.lines().filter(l -> l
-				.contains(border)).count();
-		final int EXPECTED_COUNT = 3;
-		assertEquals(EXPECTED_COUNT, count,
-				"displayGameEnd(false) must print " +
-						"the 50-'=' border exactly 3 times");
+		String full = outContent.toString();
+		long count = full.lines()
+				.filter(l -> l.contains("=".repeat(50)))
+				.count();
+		assertEquals(3, count);
 	}
 
 
