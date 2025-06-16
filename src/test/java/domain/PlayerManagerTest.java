@@ -150,12 +150,12 @@ public class PlayerManagerTest {
 		assertEquals(0, playerManager.getActivePlayers().size());
 	}
 
-//	@Test
-//	public void getActivePlayers_allPlayersActive_returnsAllPlayers() {
-//		playerManager.addPlayers(MAX_NUMBER_OF_PLAYERS);
-//		assertEquals(MAX_NUMBER_OF_PLAYERS, playerManager.getActivePlayers().size());
-//	}
-//
+	@Test
+	public void getActivePlayers_allPlayersActive_returnsAllPlayers() {
+		playerManager.addPlayers(MAX_NUMBER_OF_PLAYERS);
+		assertEquals(MAX_NUMBER_OF_PLAYERS, playerManager.getActivePlayers().size());
+	}
+
 //	@Test
 //	public void getActivePlayers_withOneActivePlayer_returnsOnePlayer() {
 //		playerManager.addPlayers(MAX_NUMBER_OF_PLAYERS);
