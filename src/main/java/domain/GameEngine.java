@@ -219,7 +219,8 @@ public class GameEngine {
 	public void handleDrawCommand(Player currentPlayer) {
 		Objects.requireNonNull(currentPlayer, "Player cannot be null");
 
-		if (deck.getDeckSize() == 0) {
+		final int DECK_SIZE_OF_ZERO = 0;
+		if (deck.getDeckSize() == DECK_SIZE_OF_ZERO) {
 			userInterface.displayError("Deck is empty!");
 			return;
 		}
@@ -227,25 +228,30 @@ public class GameEngine {
 		Card drawnCard = deck.draw();
 		userInterface.displayDrawnCard(drawnCard);
 
-
 		if (drawnCard.getCardType() == CardType.EXPLODING_KITTEN) {
-			if (currentPlayer.hasCardType(CardType.DEFUSE)) {
-				System.out.println("You drew an Exploding " +
-						"Kitten but used a Defuse card!");
-				currentPlayer.removeDefuseCard();
-				deck.insertCardAt(drawnCard, secureRandom.
-						nextInt(deck.getDeckSize()));
-			} else {
-				System.out.println("BOOM! You drew an " +
-						"Exploding Kitten and had no Defuse card!");
-				playerManager.removePlayerFromGame(currentPlayer);
-				return;
-			}
+			handleExplodingKittenDrawWithUI(currentPlayer, drawnCard);
 		} else {
 			currentPlayer.addCardToHand(drawnCard);
+			turnManager.advanceToNextPlayer();
 		}
+	}
 
-		turnManager.advanceToNextPlayer();
+	private void handleExplodingKittenDrawWithUI
+			(Player currentPlayer, Card explodingKitten) {
+		if (currentPlayer.hasCardType(CardType.DEFUSE)) {
+			currentPlayer.removeDefuseCard();
+			userInterface.displayDefuseUsed();
+			int position = getPlayerChoiceForKittenPlacement();
+			deck.insertCardAt(explodingKitten, position);
+
+			userInterface.displaySuccess("Exploding Kitten placed" +
+					" back in the deck at position " + position);
+			turnManager.advanceToNextPlayer();
+		} else {
+			System.out.println("BOOM! You drew an Exploding Kitten and " +
+					"had no Defuse card!");
+			playerManager.removePlayerFromGame(currentPlayer);
+		}
 	}
 
 	public int getPlayerChoiceForKittenPlacement() {
