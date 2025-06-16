@@ -7,7 +7,8 @@ input as the variable under test and identify numeric and non‑numeric boundary
 `displayWelcome`, `displayHelp`, etc.) do not produce functional *outputs* beyond printing, so their BVAs focus on the
 *state variations* that influence what is printed (e.g., empty vs. non‑empty hands).
 
-I am using Parametrized Testing, so whenever I use `testCardType` or `testCard`, it means that the test runs for all the possible card types or for cards with all the card types.
+I am using Parametrized Testing, so whenever I use `testCardType` or `testCard`, it means that the test runs for all the
+possible card types or for cards with all the card types.
 
 ## Method under test: `public int getNumberOfPlayers()`
 
@@ -23,96 +24,133 @@ The console prompt accepts **strings** that are parsed into integers. Valid inpu
 
 ### Step-4
 
-|             | System under test                              | Expected output / state transition                                        | Implemented? | Test name                                              |
-|-------------|------------------------------------------------|---------------------------------------------------------------------------|--------------|--------------------------------------------------------|
-| Test Case 1 | `"3"`                                          | returns **3** on first attempt; **no** error printed                      | ✅            | `getNumberOfPlayers_validFirst_tryReturnsImmediately`  |
-| Test Case 2 | `"foo"`, `"6"`, `"2"`                          | returns **2** after two invalid attempts; error message printed **twice** | ✅            | `getNumberOfPlayers_invalidThenValid_promptsUntilGood` |
-| Test Case 3 | `"2"`                                          | returns **2** (lower bound)                                               | ❌            | *not yet implemented*                                  |
-| Test Case 4 | `"5"`                                          | returns **5** (upper bound)                                               | ❌            | *not yet implemented*                                  |
-| Test Case 5 | `"1"`, `"4"`, `"5"` (below‑min then mid‑range) | returns **5**; error message printed **two** times                        | ❌            | *not yet implemented*                                  |
+|             | System under test                 | Expected output                         | Implemented?       | Test name                                                |
+|-------------|-----------------------------------|-----------------------------------------|--------------------|----------------------------------------------------------|
+| Test Case 1 | Valid input "3"                   | Returns 3, no error message             | :white_check_mark: | `getNumberOfPlayers_validFirst_tryReturnsImmediately`    |
+| Test Case 2 | Below minimum "1", then valid "2" | Error message, then accepts 2           | :white_check_mark: | `getNumberOfPlayers_belowMinimum_rejectsAndPrompts`      |
+| Test Case 3 | Above maximum "6", then valid     | Error message, then accepts valid input | :white_check_mark: | `getNumberOfPlayers_aboveMaximum_rejectsAndPrompts`      |
+| Test Case 4 | Invalid "foo", valid "2"          | Error message, then accepts 2           | :white_check_mark: | `getNumberOfPlayers_invalidThenValid_promptsUntilGood`   |
+| Test Case 5 | Minimum boundary "2"              | Returns 2                               | :white_check_mark: | `getNumberOfPlayers_minimumBoundary_acceptsMinimumValue` |
+| Test Case 6 | Maximum boundary "5"              | Returns 5                               | :white_check_mark: | `getNumberOfPlayers_maximumBoundary_acceptsMaximumValue` |
 
 ---
 
-## Method under test: `public void displayPlayerHand(Player player)`
+### Step 1-3 Results
 
-The printed output varies with **hand size** and **card composition**.
+|        | Input                         | Output                          |
+|--------|-------------------------------|---------------------------------|
+| Step 1 | Player with card collection   | Formatted display of cards      |
+| Step 2 | Collection                    | String output                   |
+| Step 3 | Empty, Single, Multiple cards | Empty message or formatted list |
 
-### Step-1‑3-Results
+### Step 4:
 
-|        | Input 1                                      | Input 2                                         | Expected result / state change                                  |
-|--------|----------------------------------------------|-------------------------------------------------|-----------------------------------------------------------------|
-| Step 1 | Number of Cards: integer `n` (0-–-hand-size) | Card Distribution multiset of `CardType` counts | Printed Hand listing: formatted list, or "(empty)" when `n-=-0` |
-| Step 2 | **Cases**                                    | **Cases**                                       | **Printed result**                                              |
-| Step 3 | `0`, `1`, `2+`                               | single type, multiple types                     | "(empty)"; single line; multiple lines                          |
+##### All-combination strategy
 
-### Step-4
-
-|             | System under test                                      | Expected output / state transition                        | Implemented? | Test name                                       |
-|-------------|--------------------------------------------------------|-----------------------------------------------------------|--------------|-------------------------------------------------|
-| Test Case 1 | Hand size **0**                                        | prints "(empty)"                                          | ✅            | `displayPlayerHand_emptyHand_showsEmptyMessage` |
-| Test Case 2 | Hand size **2**, both `SKIP`                           | prints indices **0** and **1**, each labelled `SKIP`      | ✅            | `displayPlayerHand_withThreeCards_listsAll`     |
-| Test Case 3 | Hand size **1**, card type `DEFUSE`                    | prints exactly one line labelled `DEFUSE`                 | ❌            | *not yet implemented*                           |
-| Test Case 4 | Hand size **3**, mixed types (`SKIP`,`ATTACK`,`FAVOR`) | prints three lines in correct order with matching indices | ❌            | *not yet implemented*                           |
+|             | System under test             | Expected output                    | Implemented?       | Test name                                              |
+|-------------|-------------------------------|------------------------------------|--------------------|--------------------------------------------------------|
+| Test Case 1 | Empty hand                    | "(empty)" message                  | :white_check_mark: | `displayPlayerHand_emptyHand_showsEmptyMessage`        |
+| Test Case 2 | Single card                   | Single line without count          | :white_check_mark: | `displayPlayerHand_singleCard_showsCardWithoutCount`   |
+| Test Case 3 | Multiple same type cards      | Shows cards with count             | :white_check_mark: | `displayPlayerHand_multipleCardsOfSameType_showsCount` |
+| Test Case 4 | Multiple different cards      | Shows all cards individually       | :white_check_mark: | `displayPlayerHand_multipleDifferentCards_showsAll`    |
+| Test Case 5 | Mixed cards with counts       | Shows correct counts for each type | :white_check_mark: | `displayPlayerHand_mixedCards_showsCorrectCounts`      |
+| Test Case 6 | Hand with null count          | Handles null count properly        | :white_check_mark: | `displayPlayerHand_verifyNullCountHandling`            |
+| Test Case 7 | Hand with specific null count | Prints correct hand                | :white_check_mark: | `displayPlayerHand_countIntegerNullHandling_specific`  |
+| Test Case 8 | Hand with null card type      | Prints correct hand                | :white_check_mark: | `displayPlayerHand_nullCardType_printsCorrectHand`     |
 
 ---
 
 ## Method under test: `public void displayError(String message)`
 
-### Step-1‑3-Results
+### Step 1-3 Results
 
-|        | Input            | Expected result / state change          |
-|--------|------------------|-----------------------------------------|
-| Step 1 | arbitrary string | "Error: "-+-`message` printed to stderr |
-| Step 2 | **Cases**        | **Printed result**                      |
-| Step 3 | non‑empty, empty | prepended with "Error: "                |
+|        | Input          | Output                           |
+|--------|----------------|----------------------------------|
+| Step 1 | String message | Error message in stderr          |
+| Step 2 | String         | String with "Error: " prefix     |
+| Step 3 | non-empty      | Prefixed error message in stderr |
 
-### Step-4
+### Step 4:
 
-|             | System under test    | Expected output / state transition | Implemented? | Test name                     |
-|-------------|----------------------|------------------------------------|--------------|-------------------------------|
-| Test Case 1 | message = "oops"     | stderr contains "Error: oops"      | ✅            | `displayError_printsToStderr` |
-| Test Case 2 | message = "" (empty) | stderr contains "Error: "          | ❌            | *not yet implemented*         |
+##### Each-choice strategy
+
+|             | System under test | Expected output               | Implemented?       | Test name                     |
+|-------------|-------------------|-------------------------------|--------------------|-------------------------------|
+| Test Case 1 | "oops" message    | stderr contains "Error: oops" | :white_check_mark: | `displayError_printsToStderr` |
 
 ---
 
 ## Method under test: `public String getUserInput()`
 
-### Step-1‑3-Results
+### Step 1-3 Results
 
-|        | Input                            | Expected result / state change       |
-|--------|----------------------------------|--------------------------------------|
-| Step 1 | arbitrary line                   | same string without newline with ">" |
-| Step 2 | **Cases**                        | Printed with ">"                     |
-| Step 3 | "hello world" (non-empty), empty | "> hello world"                      |
+|        | Input 1             | Input 2       | Output            |
+|--------|---------------------|---------------|-------------------|
+| Step 1 | Message             | Console input | Formatted input   |
+| Step 2 | String              | String        | String            |
+| Step 3 | null, "", "message" | any string    | Input with prompt |
 
-### Step-4
+### Step 4:
 
-|             | System under test         | Expected output / state transition          | Implemented? | Test name                          |
-|-------------|---------------------------|---------------------------------------------|--------------|------------------------------------|
-| Test Case 1 | input = "hello world"     | returns "hello world"; stdout contains "> " | ✅            | `getUserInput_readsLineAndPrompts` |
-| Test Case 2 | input = "" (empty string) | returns ""; stdout contains "> "            | ❌            | *not yet implemented*              |
+##### All-combination strategy
+
+|             | System under test               | Expected output                         | Implemented?       | Test name                                                                   |
+|-------------|---------------------------------|-----------------------------------------|--------------------|-----------------------------------------------------------------------------|
+| Test Case 1 | Null message, non-empty input   | Returns input with prompt               | :white_check_mark: | `getUserInput_withNullMessageAndNonEmptyConsoleInput_returnsConsoleInput`   |
+| Test Case 2 | Empty message, non-empty input  | Returns input with prompt               | :white_check_mark: | `getUserInput_withEmptyMessageAndNonEmptyConsoleInput_returnsConsoleInput`  |
+| Test Case 3 | Message, empty then valid input | Keeps asking until valid input received | :white_check_mark: | `getUserInput_withNonEmptyMessageAndEmptyConsoleInput_keepsAskingForInput`  |
+| Test Case 4 | Message, valid input            | Returns input with message and prompt   | :white_check_mark: | `getUserInput_withValidMessageAndInput_returnsConsoleInputAndPrintsMessage` |
 
 ---
 
-## Method under test: `public void displayCardPlayed(Card card)` & `public void displayDrawnCard(Card card)`
+## Method under test: `public void displayCardPlayed(Card card)`
 
 These methods share the same structure: they print a line referencing the card’s type.
 
-### Step-1‑3-Results
+### Step 1-3 Results
 
-|        | Input                  | Expected result / state change           |
-|--------|------------------------|------------------------------------------|
-| Step 1 | any `CardType`         | "You played: TYPE" *or* "You drew: TYPE" |
-| Step 2 | **Cases**              | **Printed**                              |
-| Step 3 | `SKIP`, `DEFUSE`, etc. | corresponding message                    |
+|        | Input         | Output                               |
+|--------|---------------|--------------------------------------|
+| Step 1 | Card          | "You played/drew: TYPE" message      |
+| Step 2 | CardType      | Formatted string output              |
+| Step 3 | Any card type | Corresponding message with card type |
 
-### Step-4
+### Step 4:
 
-|             | System under test         | Expected output / state transition   | Implemented? | Test name                                        |
-|-------------|---------------------------|--------------------------------------|--------------|--------------------------------------------------|
-| Test Case 1 | card type `SKIP`          | stdout contains "You played: SKIP"   | ✅            | `displayCardPlayed_showCorrectText`              |
-| Test Case 2 | card type `SKIP` drawn    | stdout contains "You drew: SKIP"     | ✅            | `displayCardPlayed_andDrawnCard_showCorrectText` |
-| Test Case 3 | card type `DEFUSE` played | stdout contains "You played: DEFUSE" | ❌            | *not yet implemented*                            |
+##### Each-choice strategy
+
+|             | System under test       | Expected output                        | Implemented?       | Test name                                        |
+|-------------|-------------------------|----------------------------------------|--------------------|--------------------------------------------------|
+| Test Case 1 | Card played             | Shows "You played: [card type]"        | :white_check_mark: | `displayCardPlayed_showCorrectText`              |
+| Test Case 2 | Card drawn and played   | Shows correct message for both actions | :white_check_mark: | `displayCardPlayed_andDrawnCard_showCorrectText` |
+| Test Case 3 | Card played with effect | Shows card type and effect             | :white_check_mark: | `displayCardPlayed_printsCardWithEffect`         |
+
+## Method: `public void displayDrawnCard(Card card)`
+
+### Step 1-3 Results
+
+|        | Input                                 | Output                                     |
+|--------|---------------------------------------|--------------------------------------------|
+| Step 1 | Card object                           | Formatted message about drawn card         |
+| Step 2 | CardType                              | String output (regular or special message) |
+| Step 3 | EXPLODING_KITTEN, any other card type | Regular or special message                 |
+
+### Step 4:
+
+##### Each-choice strategy
+
+|             | System under test            | Expected output                      | Implemented?       | Test name                                               |
+|-------------|------------------------------|--------------------------------------|--------------------|---------------------------------------------------------|
+| Test Case 1 | Card type EXPLODING_KITTEN   | Special message + "You drew: [card]" | :white_check_mark: | `displayDrawnCard_explodingKitten_printsSpecialMessage` |
+| Test Case 2 | Regular card (non-exploding) | Standard "You drew: [card]" message  | :white_check_mark: | `displayCardPlayed_andDrawnCard_showCorrectText`        |
+
+Notes:
+
+- The method has special handling for EXPLODING_KITTEN cards, printing an additional warning message
+- Regular cards only get the standard "You drew: [card]" message
+- Test coverage verifies both the special case (EXPLODING_KITTEN) and regular case
+- The formatting of the card name is handled by the `formatCardName` method
+- Both test cases verify the exact output message format and content
 
 ## Method under test: `String getUserInput(String message)`
 
