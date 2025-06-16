@@ -170,6 +170,18 @@ public class UserInterfaceTest {
 	}
 
 	@Test
+	public void displayCardPlayed_trailingBlankLine() {
+		UserInterface ui = new UserInterface();
+		Card card = new CardFactory().createCard(CardType.SKIP);
+		ui.displayCardPlayed(card);
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.endsWith(System.lineSeparator()
+						+ System.lineSeparator()),
+				"displayCardPlayed() must leave a " +
+						"trailing blank line");
+	}
+	@Test
 	public void displayPlayerHand_singleCard_showsCardWithoutCount() {
 		UserInterface ui = new UserInterface();
 		Hand hand = new Hand();
