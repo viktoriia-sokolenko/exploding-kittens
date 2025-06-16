@@ -74,7 +74,7 @@ available card types.
 |-------------|---------------------------|------------------------------------|--------------------|-------------------------------------------------------|
 | Test Case 1 | Context fully initialized | calls `shuffleDeck` from Deck      | :white_check_mark: | shuffleDeckFromDeck_withFullContext_callShuffleDeck() |
 
-## Method 9: `public void reverseOrderPreservingAttackState()`
+## Method 5: `public void reverseOrderPreservingAttackState()`
 
 ### Step 1-3 Results
 
@@ -97,7 +97,7 @@ available card types.
 |-------------|---------------------------|------------------------------------|--------------------|--------------------------------------------------------|
 | Test Case 1 | Context fully initialized | calls `shuffleDeck` from Deck      | :white_check_mark: | shuffleDeckFromDeck_withFullContext_callShuffleDeck()  |
 
-## Method 5: `public void rearrangeTopThreeCardsFromDeck()`
+## Method 6: `public void rearrangeTopThreeCardsFromDeck()`
 
 ### Step 1-3 Results
 
@@ -115,3 +115,19 @@ available card types.
 | Test Case 2 | Deck `[card1, card2]`, indices `[1, 1]`                    | Only asks player for 2 indexes with minIndex `0` and maxIndex `1`, `IllegalArgumentException` (Duplicate indices are not allowed) | :white_check_mark: | rearrangeTopThreeCardsFromDeck_sameIndices_throwsIllegalArgumentException |
 | Test Case 3 | Deck `[card1, card2, card3]`, indices `2, 0, 1`            | Asks player for 3 indexes with minIndex `0` and maxIndex `2`, passes those to Deck.rearrangeTopThreeCards                         | :white_check_mark: | rearrangeTopThreeCardsFromDeck_threeCards_callsRearrangeTopThreeCards     |
 | Test Case 4 | Deck `[card1, card2, card3.1, card3.2]`, indices `1, 2, 3` | Asks player for 3 indexes with minIndex `1` and maxIndex `3`, passes those to Deck.rearrangeTopThreeCards                         | :white_check_mark: | rearrangeTopThreeCardsFromDeck_fourCards_callsRearrangeTopThreeCards      |
+
+## Method 7: `public void swapTopAndBottomDeckCards()`
+
+### Step 1-3 Results
+
+|        | Input                                                                                    | Output                                                     |
+|--------|------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| Step 1 | Deck of cards                                                                            | Calls deck.swapTopAndBottom()                              |
+| Step 2 | Collection                                                                               | Boolean                                                    |
+| Step 3 | Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates | True (must be true that deck.swapTopAndBottom() is called) |
+
+### Step 4:
+
+|             | System under test | Expected output / state transition | Implemented?       | Test name                                                       |
+|-------------|-------------------|------------------------------------|--------------------|-----------------------------------------------------------------|
+| Test Case 1 | Deck              | deck.swapTopAndBottom() is called  | :white_check_mark: | swapTopAndBottomDeckCards_withFullContext_callsSwapTopAndBottom |

@@ -93,7 +93,7 @@
 | Test Case 5 | index `1`, players `[player1, player2]`  | `player2`                   | :white_check_mark: | getPlayerByIndex_twoPlayersWithOneIndex_returnsSecondPlayer                 |
 | Test Case 6 | index `3`, players `[player1, player2]`  | `IndexOutOfBoundsException` | :white_check_mark: | getPlayerByIndex_twoPlayersWithThreeIndex_throwsIndexOutOfBoundsException   |
 
-## Method under test: `getNumberOfPlayers()`
+## Method 5: `getNumberOfPlayers()`
 
 ### Step 1-3 Results
 
