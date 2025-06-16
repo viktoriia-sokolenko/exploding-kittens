@@ -191,23 +191,30 @@ public class GameEngine {
 	public void displayGameState(Player currentPlayer) {
 		final int NUMBER_OF_EQUAL_SIGNS = 40;
 		System.out.println("\n" + "=".repeat(NUMBER_OF_EQUAL_SIGNS));
+
 		int currentPlayerIndex = playerManager.getPlayers().indexOf(currentPlayer);
-		System.out.println("Turn of player " + currentPlayerIndex);
+		System.out.println(getMessage("turn.of.player") + currentPlayerIndex);
 		System.out.println("=".repeat(NUMBER_OF_EQUAL_SIGNS));
-		System.out.println("Players remaining: " + playerManager.getActivePlayers().size());
+
+		System.out.println(getMessage("players.remaining")
+				+ playerManager.getActivePlayers().size());
 		displayIndexesOfActivePlayers();
-		System.out.println("Cards in deck: " + deck.getDeckSize());
+
+		System.out.println(getMessage("cards.in.deck")
+				+ deck.getDeckSize());
 		userInterface.displayPlayerHand(currentPlayer);
 	}
 
 	public void displayGameStatus() {
-		System.out.println("\n=== GAME STATUS ===");
+		System.out.println("\n" +
+				getMessage("status.title"));
 		List<Player> activePlayers = playerManager.getActivePlayers();
-		System.out.println("Active players: " + activePlayers.size());
-		System.out.println("Cards in deck: " + deck.getDeckSize());
+		System.out.println(getMessage("active.players") + activePlayers.size());
+		System.out.println(getMessage("cards.in.deck") + deck.getDeckSize());
 		Player current = turnManager.getCurrentActivePlayer();
-		System.out.println("Current player has " + current.getNumberOfCards()
-				+ " cards");
+		System.out.printf(getMessage("status.current.player.cards")
+				+ "%n", current.getNumberOfCards());
+
 		System.out.println("==================\n");
 	}
 
@@ -219,9 +226,7 @@ public class GameEngine {
 		final int MINIMUM_NUMBER_OF_PARTS = 2;
 		if (parts.length < MINIMUM_NUMBER_OF_PARTS) {
 			userInterface.displayError
-					("Usage: play <card_type> " +
-							"(e.g., 'play skip'" +
-							" or 'play attack')");
+					(getMessage("command.play.usage"));
 			return;
 		}
 
@@ -262,21 +267,20 @@ public class GameEngine {
 			int position = getPlayerChoiceForKittenPlacement();
 			deck.insertCardAt(explodingKitten, position);
 
-			userInterface.displaySuccess("Exploding Kitten placed" +
-					" back in the deck at position " + position);
+			userInterface.displaySuccess(
+					getMessage("exploding.kitten.placed") +
+							position);
 			turnManager.advanceToNextPlayer();
 		} else {
-			System.out.println("BOOM! You drew an Exploding Kitten and " +
-					"had no Defuse card!");
+			System.out.println(getMessage("exploding.kitten.no.defuse"));
 			playerManager.removePlayerFromGame(currentPlayer);
 		}
 	}
 
 	public int getPlayerChoiceForKittenPlacement() {
 		int deckSize = deck.getDeckSize();
-		String message = "Choose a position to insert the Exploding Kitten " +
-				"(0 = bottom, "
-				+ deckSize + " = top of deck)";
+		String message = String.format(
+				getMessage("exploding.kitten.insert.prompt"), deckSize);
 		final int MIN = 0;
 		return userInterface.getNumericUserInput(message, MIN, deckSize);
 	}
@@ -284,8 +288,7 @@ public class GameEngine {
 	public void processCommand(String input, Player currentPlayer) {
 		if (input == null || input.trim().isEmpty()) {
 			userInterface.
-					displayError("Please enter a command. " +
-							"Type 'help' for available commands.");
+					displayError(getMessage("command.error.empty"));
 			return;
 		}
 		String cleanedInput	 = input.trim().replaceAll("\\s+", " ");
@@ -313,16 +316,18 @@ public class GameEngine {
 					handleQuitCommand();
 					break;
 				default:
+					String unknownMessage = String.format(
+							getMessage("command.error.unknown"),
+							command);
 					userInterface
 							.displayError
-							("Unknown command: " + command	+
-									". " +
-									"Type 'help' " +
-									"for available commands.");
+							(unknownMessage);
 			}
 		} catch (Exception e) {
-			userInterface.displayError("Error executing command: " +
+			String errorMessage = String.format(
+					getMessage("command.error.exception"),
 					e.getMessage());
+			userInterface.displayError(errorMessage);
 		}
 
 	}
@@ -338,9 +343,9 @@ public class GameEngine {
 		if (activePlayers.size() <= 1) {
 			gameRunning = false;
 			if (activePlayers.size() == 1) {
-				System.out.println("\nGAME OVER! The last player standing wins!");
+				System.out.println(getMessage("game.over.win"));
 			} else {
-				System.out.println("\nGAME OVER! Everyone exploded!");
+				System.out.println(getMessage("game.over.lose"));
 			}
 		}
 	}
@@ -381,7 +386,8 @@ public class GameEngine {
 				activePlayerIndexes.add(i);
 			}
 		}
-		System.out.println("Active players indices: " + activePlayerIndexes);
+		System.out.println(getMessage("active.players.indices")
+				+ activePlayerIndexes);
 	}
 
 	private String getMessage(String key) {

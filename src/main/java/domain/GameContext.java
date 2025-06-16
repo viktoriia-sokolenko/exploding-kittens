@@ -66,10 +66,9 @@ public class GameContext {
 	public void transferCardBetweenPlayers() {
 		int maxPlayerIndex = playerManager.getNumberOfPlayers() - 1;
 
-		String playerMessage = "Enter the index [0, " + maxPlayerIndex +
-				"] of a player you want to get card from";
+		String playerMessage = userInterface.getPlayerIndexPrompt(maxPlayerIndex);
 		Player playerGiver = getPlayerFromUserInput(playerMessage, maxPlayerIndex);
-		String cardMessage = "Enter card type you want to give to current player";
+		String cardMessage = userInterface.getCardTransferPrompt();
 		Card cardToTransfer = getCardFromUserInput(cardMessage, playerGiver);
 		playerGiver.removeCardFromHand(cardToTransfer);
 		currentPlayer.addCardToHand(cardToTransfer);
@@ -133,15 +132,8 @@ public class GameContext {
 		List<Integer> indices = new ArrayList<>();
 
 		for (int i = 0; i < cardsToRearrange; i++) {
-			String messageForPlayer =
-					"Enter the index of a card " +
-							"that you want to put in position " +
-							i +
-							" starting from the top of the Deck.\n" +
-							"Only possible indices are from " +
-							minCardIndex +
-							" to " + maxCardIndex + "." +
-							" Indices can not repeat.";
+			String messageForPlayer = userInterface
+					.getRearrangePrompt(i, minCardIndex, maxCardIndex);
 			indices.add(userInterface.getNumericUserInput
 					(messageForPlayer, minCardIndex, maxCardIndex));
 		}

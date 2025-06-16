@@ -6,21 +6,19 @@ public class LocaleManager {
 	private ResourceBundle messages;
 
 	public LocaleManager() {
-		Locale selectedLocale = Locale.getDefault();
+		Locale selectedLocale = new Locale("en");
 		messages = ResourceBundle.getBundle("messages", selectedLocale);
 	}
 
 	public void chooseLocale(int choice) {
 		Locale selectedLocale;
 		switch (choice) {
-			case 1:
-				selectedLocale = new Locale("en");
-				break;
 			case 2:
 				selectedLocale = new Locale("en", "US");
 				break;
 			default:
-				selectedLocale = Locale.getDefault();
+				selectedLocale = new Locale("en");
+				break;
 		};
 		messages = ResourceBundle.getBundle("messages", selectedLocale);
 	}

@@ -249,6 +249,20 @@ public class UserInterface {
 		}
 	}
 
+	public String getRearrangePrompt(int position, int minIndex, int maxIndex) {
+		String format = getMessage("rearrange.card.prompt");
+		return String.format(format, position, minIndex, maxIndex);
+	}
+
+	public String getPlayerIndexPrompt(int maxPlayerIndex) {
+		String format = localeManager.get("player.index.prompt");
+		return String.format(format, maxPlayerIndex);
+	}
+
+	public String getCardTransferPrompt() {
+		return localeManager.get("card.transfer.prompt");
+	}
+
 	private String getMessage(String key) {
 		return localeManager.get(key);
 	}
