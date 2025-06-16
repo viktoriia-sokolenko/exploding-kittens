@@ -53,14 +53,10 @@ public class TurnManager {
 		if (turnQueue.isEmpty()) {
 			throw new IllegalStateException("No players to manage");
 		}
-
-		if (isUnderAttack()) {
-			requiredTurns += 2;
-		} else {
-			requiredTurns = 3;
-		}
-		currentPlayerTurnsTaken = 0;
+		int remainingTurns = requiredTurns - currentPlayerTurnsTaken;
 		advanceToNextPlayer();
+		requiredTurns = remainingTurns + 2;
+		currentPlayerTurnsTaken = 0;
 	}
 
 	public void advanceToNextPlayer() {
