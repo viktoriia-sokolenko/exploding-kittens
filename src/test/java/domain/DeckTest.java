@@ -602,6 +602,18 @@ public class DeckTest {
 		assertEquals(expectedCardList, actualCardList);
 	}
 
+	@Test
+	public void swapTopAndBottom_emptyDeck_throwsNoSuchElementException() {
+		List<Card> emptyCardList = new ArrayList<>();
+		Deck deck = new Deck(emptyCardList);
+
+		String expectedMessage = "Deck is empty";
+		Exception exception = assertThrows(NoSuchElementException.class,
+				deck::swapTopAndBottom);
+		String actualMessage = exception.getMessage();
+		assertEquals(expectedMessage, actualMessage);
+	}
+
 	Stream<List<Card>> nonEmptyCardListsWithTwoCards() {
 		return Stream.of(
 				List.of(mockCard(CardType.NORMAL),

@@ -67,6 +67,10 @@ public class Deck {
 		}
 	}
 
+	public void swapTopAndBottom() {
+		throw new NoSuchElementException("Deck is empty");
+	}
+
 	private boolean isIndexOutOfBounds(int index) {
 		return index < 0 || index > this.deck.size();
 	}
