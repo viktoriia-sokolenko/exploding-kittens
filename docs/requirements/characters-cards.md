@@ -91,3 +91,5 @@ The team should list all the different characters or cards and briefly describe 
 
 ---
 
+## 13. Normal Card
+- **No Effect**
