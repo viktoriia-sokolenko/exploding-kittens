@@ -74,6 +74,7 @@ public class UserInterface {
 			}
 		}
 
+	}
 
 	public void displayPlayerHand(Player player) {
 		int total = player.getNumberOfCards();
