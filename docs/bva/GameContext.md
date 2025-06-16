@@ -132,9 +132,9 @@ Each of the card below will be using paramaterized testing to ensure that all ca
 
 |             | System under test              | Expected output / state transition                                      | Implemented?        | Test name                                                 |
 |-------------|--------------------------------|-------------------------------------------------------------------------|---------------------|-----------------------------------------------------------|
-| Test Case 1 | Deck = 1, `[allCardTypes]`     | Input `0`: inserts top card at the top (index 0)                        | :white_check_mark:  | buryCardImplementation_insertAtTop_insertsCorrectly       |
-| Test Case 2 | Deck Size = 5                  | Input `5`: inserts top card at bottom (index = size)                    | :white_check_mark:  | buryCardImplementation_insertAtBottom_insertsCorrectly    |
+| Test Case 1 | Deck = 1, `[allCardTypes]`     | Input `0`: inserts top card at the top (index 0)                        | :white_check_mark:  | buryCardImplementation_insertAtTop_insertsAtTop           |
+| Test Case 2 | Deck Size = 5                  | Input `5`: inserts top card at bottom (index = size)                    | :white_check_mark:  | buryCardImplementation_insertAtBottom_insertsAtBottom     |
 | Test Case 3 | Deck Size = 5                  | Input `-1`: out of bounds → triggers retry or validation                |                     | buryCardImplementation_invalidLowInput_retriesUntilValid  |
 | Test Case 4 | Deck Size = 5                  | Input `6` (deck size + 1): out of bounds → triggers retry or validation |                     | buryCardImplementation_invalidHighInput_retriesUntilValid |
-| Test Case 5 | Deck Size = 5                  | Input `2`: inserts card at index 2 (middle of deck)                     |                     | buryCardImplementation_insertInMiddle_insertsInMiddle     |
+| Test Case 5 | Deck Size = 5                  | Input `2`: inserts card at index 2 (middle of deck)                     |                     | buryCardImplementation_insertAtMiddle_insertsAtMiddle     |
 | Test Case 6 | Deck Size = 0  (empty, size 0) | Input `0`: allowed → card becomes only card in deck                     |                     | buryCardImplementation_insertIntoEmptyDeck_deckNowHasOne  |

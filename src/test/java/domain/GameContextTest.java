@@ -581,7 +581,7 @@ public class GameContextTest {
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	public void buryCardImplementation_insertAtTop_insertsCorrectly(CardType testCardType) {
+	public void buryCardImplementation_insertAtTop_insertsAtTop(CardType testCardType) {
 		Card mockCard = mockCard(testCardType);
 
 		EasyMock.expect(mockDeck.draw()).andReturn(mockCard).once();
@@ -612,21 +612,55 @@ public class GameContextTest {
 
 	@ParameterizedTest
 	@EnumSource(CardType.class)
-	public void buryCardImplementation_insertAtBottom_insertsCorrectly(CardType testCardType) {
+	public void buryCardImplementation_insertAtBottom_insertsAtBottom(CardType testCardType) {
+		final int MAX_INDEX = 5;
 		Card mockCard = mockCard(testCardType);
 		EasyMock.expect(mockDeck.draw()).andReturn(mockCard).once();
 
 		userInterface.displayDrawnCard(mockCard);
 		EasyMock.expectLastCall().once();
 
-		EasyMock.expect(mockDeck.getDeckSize()).andReturn(5).once();
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(MAX_INDEX).once();
 
 		EasyMock.expect(userInterface.getNumericUserInput(
 				EasyMock.contains("Where would you like to bury this card?"),
-				EasyMock.eq(0), EasyMock.eq(5)
-		)).andReturn(5).once(); // inserting at bottom
+				EasyMock.eq(0), EasyMock.eq(MAX_INDEX)
+		)).andReturn(MAX_INDEX).once(); // inserting at bottom
 
-		mockDeck.insertCardAt(mockCard, 5);
+		mockDeck.insertCardAt(mockCard, MAX_INDEX);
+		EasyMock.expectLastCall().once();
+
+		userInterface.displaySuccess(EasyMock.contains("Player"));
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(mockDeck, userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+		fullGameContext.buryCardImplementation();
+
+		EasyMock.verify(mockDeck, userInterface);
+	}
+
+	@ParameterizedTest
+	@EnumSource(CardType.class)
+	public void buryCardImplementation_insertAtMiddle_insertsAtMiddle(CardType testCardType) {
+		final int MAX_INDEX = 5;
+		final int MIDDLE_INDEX = 3;
+		Card mockCard = mockCard(testCardType);
+		EasyMock.expect(mockDeck.draw()).andReturn(mockCard).once();
+
+		userInterface.displayDrawnCard(mockCard);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(MAX_INDEX).once();
+
+		EasyMock.expect(userInterface.getNumericUserInput(
+				EasyMock.contains("Where would you like to bury this card?"),
+				EasyMock.eq(0), EasyMock.eq(MAX_INDEX)
+		)).andReturn(MIDDLE_INDEX).once(); // inserting at bottom
+
+		mockDeck.insertCardAt(mockCard, MIDDLE_INDEX);
 		EasyMock.expectLastCall().once();
 
 		userInterface.displaySuccess(EasyMock.contains("Player"));
