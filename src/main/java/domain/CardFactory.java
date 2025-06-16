@@ -26,6 +26,8 @@ public class CardFactory {
 				return new NukeCard();
 			case FAVOR:
 				return new FavorCard();
+			case REVERSE:
+				return new ReverseCard();
 			default: throw new IllegalArgumentException("Unknown card type: " + type);
 		}
 	}

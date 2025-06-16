@@ -114,11 +114,13 @@ public class GameEngine {
 		deck.addAll(cardFactory
 				.createCards(CardType.SHUFFLE, NUMBER_OF_ESSENTIAL_CARDS));
 		deck.addAll(cardFactory
+				.createCards(CardType.REVERSE, NUMBER_OF_ESSENTIAL_CARDS));
+		deck.addAll(cardFactory
 				.createCards(CardType.SEE_THE_FUTURE,
-				NUMBER_OF_SEE_THE_CARDS));
+						NUMBER_OF_SEE_THE_CARDS));
 		deck.addAll(cardFactory
 				.createCards(CardType.ALTER_THE_FUTURE,
-				NUMBER_OF_ESSENTIAL_CARDS));
+						NUMBER_OF_ESSENTIAL_CARDS));
 		deck.addAll(cardFactory
 				.createCards(CardType.NUKE, NUMBER_OF_NUKE_CARDS));
 		// We're giving the players two extra defusing in the deck
@@ -162,7 +164,7 @@ public class GameEngine {
 		deck.shuffleDeck(secureRandom);
 
 		PlayerManager playerManager = new PlayerManager(deck);
-		TurnManager turnManager = new TurnManager(deck);
+		TurnManager turnManager = new TurnManager();
 		playerManager.addPlayers(numberOfPlayers);
 		turnManager.setPlayerManager(playerManager);
 

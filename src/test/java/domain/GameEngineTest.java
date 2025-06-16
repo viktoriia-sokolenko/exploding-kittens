@@ -546,6 +546,8 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.FAVOR, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SHUFFLE, FOUR_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.REVERSE, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.REVERSE, FOUR_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE,
 						FIVE_CARDS))
 				.andReturn(createMockCardList(CardType.SEE_THE_FUTURE,
@@ -581,7 +583,7 @@ public class GameEngineTest {
 		final int THREE_CARDS = 3;
 		final int FOUR_CARDS = 4;
 		final int FIVE_CARDS = 5;
-		final int TEN_CARDS = 10;
+		final int TWELEVE_CARDS = 12;
 		// user interface wouldn't let this go through
 		// but this is for some of the mutation test
 		final int FIFTY_PLAYERS = 50;
@@ -593,6 +595,8 @@ public class GameEngineTest {
 				.andReturn(createMockCardList(CardType.FAVOR, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SHUFFLE, FOUR_CARDS))
 				.andReturn(createMockCardList(CardType.SHUFFLE, TWO_CARDS));
+		EasyMock.expect(mockFactory.createCards(CardType.REVERSE, FOUR_CARDS))
+				.andReturn(createMockCardList(CardType.REVERSE, TWO_CARDS));
 		EasyMock.expect(mockFactory.createCards(CardType.SEE_THE_FUTURE,
 						FIVE_CARDS))
 				.andReturn(createMockCardList(CardType.
@@ -606,11 +610,11 @@ public class GameEngineTest {
 		EasyMock.expect(mockFactory.createCards(CardType.DEFUSE, TWO_CARDS))
 				.andReturn(createMockCardList(CardType.DEFUSE, TWO_CARDS));
 
-		// currentCards = 2+2+2+2+3+2+1+2 = 16
+		// currentCards = 2+2+2+2+3+2+1+2+2 = 18
 		// targetNumberOfCards = 56 - 50 = 6
-		// numberOfCardsNeeded = 16 - 6 = 10
-		EasyMock.expect(mockFactory.createCards(CardType.NORMAL, TEN_CARDS))
-				.andReturn(createMockCardList(CardType.NORMAL, TEN_CARDS));
+		// numberOfCardsNeeded = 18 - 6 = 12
+		EasyMock.expect(mockFactory.createCards(CardType.NORMAL, TWELEVE_CARDS))
+				.andReturn(createMockCardList(CardType.NORMAL, TWELEVE_CARDS));
 
 		EasyMock.replay(mockFactory);
 
@@ -620,7 +624,7 @@ public class GameEngineTest {
 		long normalCardCount = deck.stream()
 				.filter(card -> card.getCardType() == CardType.NORMAL)
 				.count();
-		assertEquals(TEN_CARDS, normalCardCount);
+		assertEquals(TWELEVE_CARDS, normalCardCount);
 
 		EasyMock.verify(mockFactory);
 	}

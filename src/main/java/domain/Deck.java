@@ -165,4 +165,21 @@ public class Deck {
 						indexForThirdCardFromTop));
 		return !allowedIndices.contains(index);
 	}
+
+	public void moveAllExplodingKittensToTop() {
+		List<Card> explodingKittens = new ArrayList<>();
+		List<Card> otherCards = new ArrayList<>();
+
+		for (Card card : deck) {
+			if (card.getCardType() == CardType.EXPLODING_KITTEN) {
+				explodingKittens.add(card);
+			} else {
+				otherCards.add(card);
+			}
+		}
+
+		deck.clear();
+		deck.addAll(otherCards);
+		deck.addAll(explodingKittens);
+	}
 }
