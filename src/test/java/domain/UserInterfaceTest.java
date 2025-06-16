@@ -70,7 +70,8 @@ public class UserInterfaceTest {
 		ui.displayWelcome();
 
 		String[] lines = outContent.toString().split("\\R");
-		assertEquals(3, lines.length);
+		final int EXPEPECTED_LINE_COUNT = 3;
+		assertEquals(EXPEPECTED_LINE_COUNT, lines.length);
 		assertEquals("=================================",
 				lines[0]);
 		assertEquals("\tEXPLODING KITTENS",       lines[1]);
@@ -137,9 +138,11 @@ public class UserInterfaceTest {
 				.filter(l -> l.contains("hand")
 						&& l.contains("Show your current hand"))
 				.count();
-		assertEquals(1, count,
+		assertEquals(1,
+				count,
 				"displayHelp() must print the " +
-						"'hand - Show your current hand' line exactly once");
+						"'hand - Show your current hand' " +
+						"line exactly once");
 	}
 
 	@Test
@@ -264,13 +267,15 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface(localeManager);
 		Player p = new Player(new Hand());
 		ui.displayPlayerHand(p);
-
-		final String sep = "─".repeat(40);
+		final int EXPECTED_NUMBER_OF_DASHES = 40;
+		final String sep = "─".repeat(EXPECTED_NUMBER_OF_DASHES);
 		long count = outContent.toString(StandardCharsets.UTF_8).lines()
 				.filter(l -> l.contains(sep)).count();
-		assertEquals(4, count,
+		final int EXPECTED_OUTCOME = 4;
+		assertEquals(EXPECTED_OUTCOME, count,
 				"displayPlayerHand() " +
-						"should print the 40-dash separator exactly 4 times");
+						"should print the 40-dash " +
+						"separator exactly 4 times");
 	}
 
 	@Test
@@ -793,11 +798,15 @@ public class UserInterfaceTest {
 		UserInterface ui = new UserInterface(localeManager);
 		ui.displayGameEnd(false);
 
+		final int EXPECTED_NUMBER_OF_EQUAL_SIGNS = 50;
 		String full = outContent.toString();
 		long count = full.lines()
-				.filter(l -> l.contains("=".repeat(50)))
+				.filter(l -> l.contains("=".repeat(
+						EXPECTED_NUMBER_OF_EQUAL_SIGNS
+				)))
 				.count();
-		assertEquals(3, count);
+		final int EXPECTED_OUTCOME = 3;
+		assertEquals(EXPECTED_OUTCOME, count);
 	}
 
 
@@ -1361,32 +1370,34 @@ public class UserInterfaceTest {
 
 	@Test
 	public void getNumericUserInput_outOfRange_invokesDisplayErrorOnce() {
+		EasyMock.expect(localeManager.get("error.limit.number"))
+				.andReturn("Please enter a number between %d and %d.")
+				.anyTimes();
+		EasyMock.expect(localeManager.get("error"))
+				.andReturn("Error: ").anyTimes();
+		EasyMock.replay(localeManager);
 		String simulated = "0\n2\n";
-		System.setIn(new ByteArrayInputStream(simulated
-				.getBytes(StandardCharsets.UTF_8)));
+		System.setIn(new ByteArrayInputStream
+				(simulated.getBytes(StandardCharsets.UTF_8)));
 
 		UserInterface ui = new UserInterface(localeManager);
 		final int MIN = 1;
-		final int MAX  = 5;
+		final int MAX = 5;
 		final int EXPECTED_PROMPTS = 2;
-		int picked = ui.getNumericUserInput("Pick a number:"
-				, MIN, MAX);
-		assertEquals(EXPECTED_PROMPTS,
-				picked, "Should return the second, valid entry");
-		String err = errContent.toString(StandardCharsets.UTF_8);
-		long count = err.lines()
-				.filter(l -> l.contains
-						("Please enter a number between 1 and 5."))
-				.count();
-		final int EXPECTS_ONE_PROMPT = 1;
-		assertEquals(
-				EXPECTS_ONE_PROMPT,
-				count,
 
-				"getNumericUserInput() must call displayError(...)" +
-						" exactly once for the out-of-range input"
-		);
+		int picked = ui.getNumericUserInput("Pick a number:", MIN, MAX);
+		assertEquals(EXPECTED_PROMPTS, picked,
+				"Should return the second, valid entry");
+
+		long count = errContent.toString(StandardCharsets.UTF_8).lines()
+				.filter(l ->
+						l.contains("Please enter a number between 1 and 5."))
+				.count();
+		assertEquals(1L, count,
+				"getNumericUserInput() must call displayError(...) " +
+						"exactly once for out-of-range input");
 	}
+
 
 	@Test
 	public void getNumericUserInput_nonNumeric_invokesDisplayErrorOnce() {
