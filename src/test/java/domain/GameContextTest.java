@@ -174,7 +174,7 @@ public class GameContextTest {
 				.andThrow(new NoSuchElementException("Deck is empty"));
 		EasyMock.replay(mockDeck);
 		assertThrows(NoSuchElementException.class,
-				() -> fullGameContext.viewTopTwoCardsFromDeck());
+				fullGameContext::viewTopTwoCardsFromDeck);
 		EasyMock.verify(mockDeck);
 	}
 
@@ -186,11 +186,17 @@ public class GameContextTest {
 				mockPlayerManager,
 				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
 		List<Card> expectedCardList = List.of(mockCard(testCardType));
+
 		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
-		EasyMock.replay(mockDeck);
-		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
-		assertEquals(expectedCardList, actualCardList);
-		EasyMock.verify(mockDeck);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(1).anyTimes();
+
+		userInterface.displayCardsFromDeck(expectedCardList, 1);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		fullGameContext.viewTopTwoCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
 	}
 
 	@Test
@@ -201,11 +207,17 @@ public class GameContextTest {
 		Card card1 = mockCard(CardType.NORMAL);
 		Card card2 = mockCard(CardType.FAVOR);
 		List<Card> expectedCardList = List.of(card1, card2);
+
 		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
-		EasyMock.replay(mockDeck);
-		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
-		assertEquals(expectedCardList, actualCardList);
-		EasyMock.verify(mockDeck);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(2).anyTimes();
+
+		userInterface.displayCardsFromDeck(expectedCardList, 2);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		fullGameContext.viewTopTwoCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
 	}
 
 	@Test
@@ -216,11 +228,18 @@ public class GameContextTest {
 		Card duplicateCard1 = mockCard(CardType.SKIP);
 		Card duplicateCard2 = mockCard(CardType.SKIP);
 		List<Card> expectedCardList = List.of(duplicateCard1, duplicateCard2);
+
+		final int deckSize = 3;
 		EasyMock.expect(mockDeck.peekTopTwoCards()).andReturn(expectedCardList);
-		EasyMock.replay(mockDeck);
-		List<Card> actualCardList = fullGameContext.viewTopTwoCardsFromDeck();
-		assertEquals(expectedCardList, actualCardList);
-		EasyMock.verify(mockDeck);
+		EasyMock.expect(mockDeck.getDeckSize()).andReturn(deckSize).anyTimes();
+
+		userInterface.displayCardsFromDeck(expectedCardList, deckSize);
+		EasyMock.expectLastCall().once();
+
+		EasyMock.replay(mockDeck, userInterface);
+
+		fullGameContext.viewTopTwoCardsFromDeck();
+		EasyMock.verify(mockDeck, userInterface);
 	}
 
 	@Test

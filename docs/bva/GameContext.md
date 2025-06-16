@@ -42,20 +42,20 @@ available card types.
 
 ### Step 1-3 Results
 
-|        | Input                                                                                    | Output                                                        |
-|--------|------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| Step 1 | Deck of Cards                                                                            | Two Cards on top of deck, i.e last index from deck            |
-| Step 2 | Collection                                                                               | Collections of 1-2 Card objects or Exception                  |
-| Step 3 | Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates | 1 Element, 2 Elements, Duplicates or `NoSuchElementException` |
+|        | Input                                                                                    | Output                                                                                                                             |
+|--------|------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| Step 1 | Deck of Cards                                                                            | Calls deck.peekTopTwoCards and then passes those cards to userInterface.displayCardsFromDeck                                       |
+| Step 2 | Collection                                                                               | Cases or Exception                                                                                                                 |
+| Step 3 | Empty, Exactly 1 Element, Exactly 2 Elements, More than 2 Elements containing Duplicates | Calls deck.peekTopTwoCards and userInterface.displayCardsFromDeck or only deck.peekTopTwoCards and throws `NoSuchElementException` |
 
 ### Step 4:
 
-|             | System under test        | Expected output / state transition         | Implemented?       | Test name                                                                |
-|-------------|--------------------------|--------------------------------------------|--------------------|--------------------------------------------------------------------------|
-| Test Case 1 | Deck `[]`                | `NoSuchElementException` (“Deck is empty”) | :white_check_mark: | viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException           |
-| Test Case 2 | Deck `[testCard]`        | Returns `[testCard]`;                      | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithOneCard_returnsTheOnlyCard               |
-| Test Case 3 | Deck `[NORMAL, FAVOR]`   | Returns `[NORMAL, FAVOR]`;                 | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithTwoCards_returnsTwoLastCards             |
-| Test Case 4 | Deck `[..., SKIP, SKIP]` | Returns `[SKIP, SKIP]`;                    | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_returnsDuplicates |
+|             | System under test        | Expected output / state transition                                                                                         | Implemented?       | Test name                                                                   |
+|-------------|--------------------------|----------------------------------------------------------------------------------------------------------------------------|--------------------|-----------------------------------------------------------------------------|
+| Test Case 1 | Deck `[]`                | `NoSuchElementException` (“Deck is empty”)                                                                                 | :white_check_mark: | viewTopTwoCardsFromDeck_emptyDeck_throwsNoSuchElementException              |
+| Test Case 2 | Deck `[testCard]`        | Gets `[testCard]` from deck.peekTopTwoCards and then passes it to userInterface.displayCardsFromDeck with deck size 1      | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithOneCard_callsPeekTopTwoCards                |
+| Test Case 3 | Deck `[NORMAL, FAVOR]`   | Gets `[NORMAL, FAVOR]` from deck.peekTopTwoCards and then passes it to userInterface.displayCardsFromDeck with deck size 2 | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithTwoCards_callsPeekTopTwoCards               |
+| Test Case 4 | Deck `[..., SKIP, SKIP]` | Gets `[SKIP, SKIP]` from deck.peekTopTwoCards and then passes it to userInterface.displayCardsFromDeck with deck size 3    | :white_check_mark: | viewTopTwoCardsFromDeck_deckWithThreeCardsAndDuplicate_callsPeekTopTwoCards |
 
 ## Method 4: `public void shuffleDeckFromDeck()`
 

@@ -74,8 +74,10 @@ public class GameContext {
 		currentPlayer.addCardToHand(cardToTransfer);
 	}
 
-	public List<Card> viewTopTwoCardsFromDeck() {
-		return deck.peekTopTwoCards();
+	public void viewTopTwoCardsFromDeck() {
+		List<Card> topTwoCards = deck.peekTopTwoCards();
+		int deckSize = deck.getDeckSize();
+		userInterface.displayCardsFromDeck(topTwoCards, deckSize);
 	}
 
 	public void shuffleDeckFromDeck() {
