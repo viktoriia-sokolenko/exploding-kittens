@@ -58,7 +58,8 @@ public class UserInterfaceTest {
 
 		String[] lines = outContent.toString(StandardCharsets.UTF_8)
 				.split("\\R");
-		assertEquals(3, lines.length,
+		final int EXPECTED_LINES = 3;
+		assertEquals(EXPECTED_LINES, lines.length,
 				"displayWelcome() should print exactly 3 lines");
 		assertEquals("=================================", lines[0]);
 		assertEquals("\tEXPLODING KITTENS",       lines[1]);
@@ -217,6 +218,7 @@ public class UserInterfaceTest {
 				"displayCardPlayed() must leave a " +
 						"trailing blank line");
 	}
+
 	@Test
 	public void displayPlayerHand_singleCard_showsCardWithoutCount() {
 		UserInterface ui = new UserInterface();
@@ -289,6 +291,29 @@ public class UserInterfaceTest {
 
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("OH NO! You drew: Exploding Kitten"));
+	}
+
+	@Test
+	public void displayDrawnCard_mustAlwaysEndWithBlankLine() {
+		UserInterface ui = new UserInterface();
+		Card normal = new CardFactory().createCard(CardType.NORMAL);
+		ui.displayDrawnCard(normal);
+		String out1 = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(
+				out1.endsWith(System.lineSeparator() + System.lineSeparator()),
+				"displayDrawnCard(NORMAL) " +
+						"must leave a blank line after the message"
+		);
+
+		outContent.reset();
+		Card ek = new CardFactory().createCard(CardType.EXPLODING_KITTEN);
+		ui.displayDrawnCard(ek);
+		String out2 = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(
+				out2.endsWith(System.lineSeparator() + System.lineSeparator()),
+				"displayDrawnCard(EXPLODING_KITTEN) " +
+						"must leave a blank line after the messages"
+		);
 	}
 
 
@@ -488,9 +513,12 @@ public class UserInterfaceTest {
 		ui.displayGameEnd(false);
 
 		String full = outContent.toString(StandardCharsets.UTF_8);
-		String border = "=".repeat(50);
-		long count = full.lines().filter(l -> l.contains(border)).count();
-		assertEquals(3, count,
+		final int NUMBER_OF_EQUAL_SIGNS = 50;
+		String border = "=".repeat(NUMBER_OF_EQUAL_SIGNS);
+		long count = full.lines().filter(l -> l
+				.contains(border)).count();
+		final int EXPECTED_COUNT = 3;
+		assertEquals(EXPECTED_COUNT, count,
 				"displayGameEnd(false) must print " +
 						"the 50-'=' border exactly 3 times");
 	}
