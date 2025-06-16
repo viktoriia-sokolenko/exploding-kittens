@@ -3,7 +3,9 @@ package domain;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.List;
 
 public class PlayerManagerTest {
@@ -147,6 +149,31 @@ public class PlayerManagerTest {
 	}
 
 	@Test
+	public void getActivePlayers_withNoPlayers_returnsEmptyList() {
+		assertEquals(0, playerManager.getActivePlayers().size());
+	}
+
+	@Test
+	public void getActivePlayers_allPlayersActive_returnsAllPlayers() {
+		playerManager.addPlayers(MAX_NUMBER_OF_PLAYERS);
+		assertEquals(MAX_NUMBER_OF_PLAYERS, playerManager.getActivePlayers().size());
+	}
+
+	@Test
+	public void getActivePlayers_withOneActivePlayer_returnsOnePlayer() {
+		playerManager.addPlayers(MAX_NUMBER_OF_PLAYERS);
+		List<Player> players = playerManager.getPlayers();
+
+		// Remove all but one player
+		for (int i = 0; i < players.size() - 1; i++) {
+			playerManager.removePlayerFromGame(players.get(i));
+		}
+
+		assertEquals(1, playerManager.getActivePlayers().size());
+		assertTrue(playerManager.getActivePlayers().get(0).isInGame());
+	}
+
+	@Test
 	public void getPlayerByIndex_withNegativeIndex_throwsIndexOutOfBoundsException() {
 		playerManager.addPlayers(2);
 		assertThrows(IndexOutOfBoundsException.class,
@@ -169,7 +196,7 @@ public class PlayerManagerTest {
 	@Test
 	public void getPlayerByIndex_twoPlayersWithZeroIndex_returnsFirstPlayer() {
 		playerManager.addPlayers(2);
-		List <Player> allPlayers = playerManager.getPlayers();
+		List<Player> allPlayers = playerManager.getPlayers();
 		assertDoesNotThrow(() -> {
 			Player expectedPlayer = allPlayers.get(0);
 			Player actualPlayer = playerManager.getPlayerByIndex(0);
@@ -180,7 +207,7 @@ public class PlayerManagerTest {
 	@Test
 	public void getPlayerByIndex_twoPlayersWithOneIndex_returnsSecondPlayer() {
 		playerManager.addPlayers(2);
-		List <Player> allPlayers = playerManager.getPlayers();
+		List<Player> allPlayers = playerManager.getPlayers();
 		assertDoesNotThrow(() -> {
 			Player expectedPlayer = allPlayers.get(1);
 			Player actualPlayer = playerManager.getPlayerByIndex(1);
