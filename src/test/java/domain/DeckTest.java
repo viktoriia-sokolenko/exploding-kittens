@@ -1062,4 +1062,15 @@ public class DeckTest {
 		EasyMock.replay(card);
 		return card;
 	}
+
+
+	@Test
+	public void moveAllExplodingKittensToTop_emptyDeck_deckRemainsEmpty() {
+		List<Card> emptyCardList = new ArrayList<>();
+
+		Deck deck = new Deck(emptyCardList);
+		deck.moveAllExplodingKittensToTop();
+
+		assertEquals(0, deck.getDeckSize());
+	}
 }
