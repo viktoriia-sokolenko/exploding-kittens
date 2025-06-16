@@ -162,6 +162,10 @@ public class UserInterface {
 						"→ Reverse the order of play " +
 						"and end your turn without drawing a card");
 				break;
+			case SWAP_TOP_AND_BOTTOM:
+				System.out.println("   " +
+						"→ Swap the top and bottom cards of the deck");
+				break;
 			case NORMAL:
 				System.out.println("   " +
 						"→ Just a cute cat - no special effect");
@@ -193,6 +197,8 @@ public class UserInterface {
 				return "Nuke";
 			case REVERSE:
 				return "Reverse";
+			case SWAP_TOP_AND_BOTTOM:
+				return "Swap Top and Bottom";
 			case NORMAL:
 				return "Normal Cat";
 			default:
