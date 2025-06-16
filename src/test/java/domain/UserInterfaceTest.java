@@ -112,19 +112,34 @@ public class UserInterfaceTest {
 
 	@Test
 	public void displayHelp_mustIncludeHandCommand() {
+		EasyMock.expect(localeManager.get("commands.available"))
+				.andReturn("Available commands:");
+		EasyMock.expect(localeManager.get("command.play"))
+				.andReturn("  play <index>\t- Play a card");
+		EasyMock.expect(localeManager.get("command.draw"))
+				.andReturn("  draw\t\t- Draw a card");
+		EasyMock.expect(localeManager.get("command.hand"))
+				.andReturn("  hand\t\t- Show your current hand");
+		EasyMock.expect(localeManager.get("command.status"))
+				.andReturn("  status\t\t- Show game status");
+		EasyMock.expect(localeManager.get("command.help"))
+				.andReturn("  help\t\t- Show this help message");
+		EasyMock.expect(localeManager.get("command.quit"))
+				.andReturn("  quit\t\t- Exit the game");
+		EasyMock.replay(localeManager);
+
 		UserInterface ui = new UserInterface(localeManager);
 		ui.displayHelp();
 
-		String[] lines = outContent.toString(StandardCharsets.UTF_8)
-				.split("\\R");
-		boolean found = Arrays.stream(lines)
-				.filter(l ->
-						l.contains("hand") && l.contains
-								("Show your current hand"))
-				.count() == 1;
-		assertTrue(found,
-				"displayHelp() must print the 'hand - " +
-						"Show your current hand' line exactly once");
+		String[] lines = outContent
+				.toString(StandardCharsets.UTF_8).split("\\R");
+		long count = Arrays.stream(lines)
+				.filter(l -> l.contains("hand")
+						&& l.contains("Show your current hand"))
+				.count();
+		assertEquals(1, count,
+				"displayHelp() must print the " +
+						"'hand - Show your current hand' line exactly once");
 	}
 
 	@Test
