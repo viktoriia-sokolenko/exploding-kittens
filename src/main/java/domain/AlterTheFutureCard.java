@@ -14,7 +14,7 @@ public class AlterTheFutureCard extends Card {
 	private static class AlterTheFutureEffect implements CardEffect {
 		@Override
 		public void execute(GameContext context) {
-			return;
+			context.rearrangeTopThreeCardsFromDeck();
 		}
 	}
 }
