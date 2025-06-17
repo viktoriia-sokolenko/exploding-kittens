@@ -27,16 +27,7 @@ have an effect. Thank you for your understanding.
 ### Mutation Testing
 
 Thank you for all that you have done Professor Zhang throughout the process of this project. This group has been trying
-our very best tp have 100% Mutation and Code Coverage
-since we were aiming for a A throughout. Initially, all seemed to be going well with 100% Code Coverage and Mutation
-testing. However, once we started during Internalization, all
-our hardwork crumbled. Things started to break. previous good working stopped working. We were able to fix many of the
-issues. However, unfortunately, due to time constraints and personal committments conflicts, we were unable to fully
-complete and address the difference in the new mutation test, and test that were failing, and so we were only able to
-have about 99% mutation testing and code coverage. If we had time, we could have dedicated more time to figure out the
-small things that are failing such as `localeManager.chooseLocale(locale)` (from GameEngine) and `System.out.println();`
-(from UI).
-As a result, we ask for your understanding in this. Please and thank you.
+our very best tp have 100% Mutation and Code Coverage, and we finally did it.
 
 ### GameEngine
 
