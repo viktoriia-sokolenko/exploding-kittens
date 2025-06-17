@@ -19,10 +19,7 @@ Below I have included some notes we would like you to keep in mind during the gr
 
 
 ### Code Coverage
-We currently have a 99% Code Coverage Test but it should be 100% if we don't count the `null` effect for `Exploding Kitten `
-card, `Defuse Card`, and `Normal Card`. We could make a filler test for it, but thought that would be unncessary since
-the effect isn't supposed to do anything, as shown by return `null`. We needed it there since each card is supposed to
-have an effect. Thank you for your understanding.
+We currently have a 100% Code Coverage Test.
 
 ### Mutation Testing
 
