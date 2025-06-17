@@ -7,7 +7,6 @@ public class ExpoldingKittenCard extends Card {
 
 	@Override
 	public CardEffect createEffect() {
-		// Temporary empty implementation
 		return null;
 	}
 }

@@ -4,7 +4,6 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.easymock.EasyMock.*;
 
 public class CardEffectTests {
 

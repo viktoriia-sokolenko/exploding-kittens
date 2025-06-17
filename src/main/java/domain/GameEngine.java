@@ -4,9 +4,6 @@ package domain;
 import java.util.*;
 import java.security.SecureRandom;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-
 import locale.LocaleManager;
 import ui.UserInterface;
 
