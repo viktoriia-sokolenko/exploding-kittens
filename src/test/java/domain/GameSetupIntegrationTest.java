@@ -57,7 +57,7 @@ public class GameSetupIntegrationTest {
 	}
 
 	private void checkForGameTitleDisplayed(String output) {
-		assertTrue(output.contains("EXPLODING KITTENS"));
+		assertTrue(output.contains("EXPLODING KITTENS US VERSION"));
 	}
 
 	private void checkForLocaleChoiceDisplayed(String output) {
