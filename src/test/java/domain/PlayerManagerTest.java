@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 public class PlayerManagerTest {
-	private static final int NUM_CARDS				 = 20;
 	private static final int TOO_MANY_PLAYERS		 = 6;
 	private static final int DEFAULT_PLAYERS		 = 3;
 	private static final int FOUR_PLAYERS			 = 4;

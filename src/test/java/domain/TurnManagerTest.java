@@ -4,8 +4,6 @@ import org.easymock.EasyMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.plaf.TableHeaderUI;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;

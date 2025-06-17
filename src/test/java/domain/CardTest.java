@@ -2,7 +2,6 @@ package domain;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import org.easymock.EasyMock;
 
 public class CardTest {
 
@@ -91,7 +90,6 @@ public class CardTest {
 	public void equals_nullCheckComesBefore_CheckIfClassesNotEqual() {
 		Card card = new TestCard(CardType.NORMAL);
 
-		assertFalse(card.equals(null));
 		boolean result = card.equals(null);
 		assertFalse(result);
 	}

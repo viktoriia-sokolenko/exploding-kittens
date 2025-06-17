@@ -2280,17 +2280,6 @@ public class GameEngineTest {
 				mockSecureRandom, mockLocaleManager);
 	}
 
-	private Player createMockPlayer() {
-		Player mockPlayer = EasyMock.createMock(Player.class);
-		final int NUMBER_OF_CARDS = 5;
-		EasyMock.expect(mockPlayer
-						.getNumberOfCards())
-				.andStubReturn(NUMBER_OF_CARDS);
-		EasyMock.expect(mockPlayer.isInGame()).andStubReturn(true);
-		EasyMock.replay(mockPlayer);
-		return mockPlayer;
-	}
-
 	private Card createMockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
