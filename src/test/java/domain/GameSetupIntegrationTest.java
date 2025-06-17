@@ -57,7 +57,7 @@ public class GameSetupIntegrationTest {
 	}
 
 	private void checkForGameTitleDisplayed(String output) {
-		assertTrue(output.contains("EXPLODING KITTENS"));
+		assertTrue(output.contains("EXPLODING KITTENS US VERSION"));
 	}
 
 	private void checkForLocaleChoiceDisplayed(String output) {
@@ -66,13 +66,13 @@ public class GameSetupIntegrationTest {
 	}
 
 	private void checkForHelpDisplayed(String output) {
-		assertTrue(output.contains("Available commands:"));
+		assertTrue(output.contains("\nAvailable commands:"));
 		assertTrue(output.contains("play"));
 		assertTrue(output.contains("draw"));
 		assertTrue(output.contains("hand"));
 		assertTrue(output.contains("status"));
 		assertTrue(output.contains("help"));
-		assertTrue(output.contains("quit"));
+		assertTrue(output.contains("quit		- Exit the game\n\n"));
 	}
 
 	private void checkForGameStateForFirstPlayer(String output) {

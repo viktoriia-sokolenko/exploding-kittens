@@ -293,8 +293,10 @@ public class UserInterfaceTest {
 		EasyMock.replay(localeManager);
 
 		ui.displayCardPlayed(card);
-		assertTrue(outContent.toString(StandardCharsets.UTF_8).
-				contains("You played: Skip"));
+		String output = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(output.contains("You played: Skip"));
+		assertTrue(output.contains("End your turn without " +
+				"drawing a card\n\n"));
 		outContent.reset();
 	}
 
