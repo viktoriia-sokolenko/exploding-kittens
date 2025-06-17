@@ -18,13 +18,13 @@ Below I have included some notes we would like you to keep in mind during the gr
 ## Special Designs/ Exceptions
 
 
-## Code Coverage
+### Code Coverage
 We currently have a 99% Code Coverage Test but it should be 100% if we don't count the `null` effect for `Exploding Kitten `
 card, `Defuse Card`, and `Normal Card`. We could make a filler test for it, but thought that would be unncessary since
 the effect isn't supposed to do anything, as shown by return `null`. We needed it there since each card is supposed to
 have an effect. Thank you for your understanding.
 
-## Mutation Testing
+### Mutation Testing
 
 Thank you for all that you have done Professor Zhang throughout the process of this project. This group has been trying
 our very best tp have 100% Mutation and Code Coverage
@@ -72,7 +72,7 @@ As a result, both solutions required both violated Uncle Bob clean code,
 so we decided to just use the best solution from
 the worst cases above and use the Exception Note since there weren't any other solutions to go alongside it.
 
-## Integration Testing
+### Integration Testing
 
 We have many integration testing in our Project. We also have an additional extra one that Viktoriia has worked on for game setup feature. Thanks for your understanding.
 
