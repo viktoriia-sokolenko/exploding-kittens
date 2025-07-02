@@ -307,9 +307,13 @@ public class GameContextTest {
 						playerMessage,
 						0, 2))
 				.andReturn(playerIndex);
+		userInterface.displayPlayerChangeMessage(playerIndex);
+		EasyMock.expectLastCall();
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
 
+		userInterface.displayPlayerHand(mockPlayerGiver);
+		EasyMock.expectLastCall();
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
@@ -320,6 +324,7 @@ public class GameContextTest {
 						"Enter card type you want to give to current player"
 				)
 		).andReturn(cardTypeInput);
+
 		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
 				.andReturn(testCardType);
 		EasyMock.expect(mockCardFactory.createCard(testCardType))
@@ -359,9 +364,15 @@ public class GameContextTest {
 						playerMessage,
 						0, 2))
 				.andReturn(playerIndex);
+
+		userInterface.displayPlayerChangeMessage(playerIndex);
+		EasyMock.expectLastCall();
+
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
 
+		userInterface.displayPlayerHand(mockPlayerGiver);
+		EasyMock.expectLastCall();
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
@@ -372,6 +383,7 @@ public class GameContextTest {
 						"Enter card type you want to give to current player"
 				)
 		).andReturn(cardTypeInput);
+
 		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
 				.andReturn(testCardType);
 		EasyMock.expect(mockCardFactory.createCard(testCardType))
@@ -412,9 +424,13 @@ public class GameContextTest {
 						playerMessage,
 						0, 2))
 				.andReturn(playerIndex);
+		userInterface.displayPlayerChangeMessage(playerIndex);
+		EasyMock.expectLastCall();
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
 
+		userInterface.displayPlayerHand(mockPlayerGiver);
+		EasyMock.expectLastCall();
 		String cardTypeInput = "invalidCardType";
 		EasyMock.expect(userInterface.getCardTransferPrompt())
 				.andReturn("Enter card type you want to give to current player");

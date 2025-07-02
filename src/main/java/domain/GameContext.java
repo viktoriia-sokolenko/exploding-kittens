@@ -127,6 +127,7 @@ public class GameContext {
 	}
 
 	private Card getCardFromUserInput(String message, Player player) {
+		userInterface.displayPlayerHand(player);
 		String cardTypeInput = userInterface.getUserInput(message);
 		CardType cardType = player.parseCardType(cardTypeInput);
 		if (cardType == null) {
@@ -138,6 +139,7 @@ public class GameContext {
 
 	private Player getPlayerFromUserInput(String message, int maxPlayerIndex) {
 		int playerIndex = userInterface.getNumericUserInput(message, 0, maxPlayerIndex);
+		userInterface.displayPlayerChangeMessage(playerIndex);
 		return playerManager.getPlayerByIndex(playerIndex);
 
 	}
