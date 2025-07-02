@@ -115,6 +115,10 @@ public class UserInterface {
 		}
 
 		System.out.println("─".repeat(NUMBER_OF_DASHES));
+	}
+
+	public void displayInstructions() {
+		final int NUMBER_OF_DASHES = 40;
 		System.out.println(getMessage("hand.usage"));
 		System.out.println("─".repeat(NUMBER_OF_DASHES) + "\n");
 	}

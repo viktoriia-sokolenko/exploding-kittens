@@ -241,8 +241,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.empty"))
 				.andReturn("(empty hand)");
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.replay(localeManager);
 
 		ui.displayPlayerHand(player);
@@ -250,7 +248,8 @@ public class UserInterfaceTest {
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("YOUR HAND (0 cards):"));
 		assertTrue(out.contains("(empty hand)"));
-		assertTrue(out.contains("Use 'play <type>' to play a card"));
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -261,8 +260,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.empty"))
 				.andReturn("(empty)");
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("");
 		EasyMock.replay(localeManager);
 
 		UserInterface ui = new UserInterface(localeManager);
@@ -272,15 +269,45 @@ public class UserInterfaceTest {
 		final String sep = "─".repeat(EXPECTED_NUMBER_OF_DASHES);
 		long count = outContent.toString(StandardCharsets.UTF_8).lines()
 				.filter(l -> l.contains(sep)).count();
-		final int EXPECTED_OUTCOME = 4;
+		final int EXPECTED_OUTCOME = 3;
 		assertEquals(EXPECTED_OUTCOME, count,
 				"displayPlayerHand() " +
 						"should print the 40-dash " +
 						"separator exactly 4 times");
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
-	public void displayCardPlayed_showCorrectText() {
+	public void displayInstructions_showsCorrectText() {
+		String instructions = "Use 'play <type>' to play a card " +
+				"(e.g., 'play skip').\nIf you already played a card " +
+				"or want to end your turn, use 'draw' to draw " +
+				"a new card.";
+		EasyMock.expect(localeManager.get("hand.usage"))
+				.andReturn(instructions);
+		EasyMock.replay(localeManager);
+		UserInterface ui = new UserInterface(localeManager);
+		ui.displayInstructions();
+
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains(instructions));
+
+		final int EXPECTED_NUMBER_OF_DASHES = 40;
+		final String sep = "─".repeat(EXPECTED_NUMBER_OF_DASHES);
+		long count = outContent.toString(StandardCharsets.UTF_8).lines()
+				.filter(l -> l.contains(sep)).count();
+		final int EXPECTED_OUTCOME = 1;
+		assertEquals(EXPECTED_OUTCOME, count,
+				"displayPlayerHand() " +
+						"should print the 40-dash " +
+						"separator once");
+
+		EasyMock.verify(localeManager);
+	}
+
+	@Test
+	public void displayCardPlayed_showsCorrectText() {
 		UserInterface ui = new UserInterface(localeManager);
 		Card card = new SkipCard();
 
@@ -334,8 +361,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.type"))
 				.andReturn("type").anyTimes();
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.expect(localeManager.get("card.name.skip"))
 				.andReturn("Skip").anyTimes();
 		EasyMock.replay(localeManager);
@@ -346,6 +371,8 @@ public class UserInterfaceTest {
 		assertTrue(out.contains("YOUR HAND (1 cards):"));
 		assertTrue(out.contains("Skip (type: skip)"));
 		assertFalse(out.contains("x2"));
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -363,8 +390,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.type"))
 				.andReturn("type").anyTimes();
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.expect(localeManager.get("card.name.skip"))
 				.andReturn("Skip").anyTimes();
 		EasyMock.replay(localeManager);
@@ -374,6 +399,8 @@ public class UserInterfaceTest {
 		String out = outContent.toString(StandardCharsets.UTF_8);
 		assertTrue(out.contains("YOUR HAND (3 cards):"));
 		assertTrue(out.contains("Skip x3 (type: skip)"));
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -391,8 +418,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.type"))
 				.andReturn("type").anyTimes();
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.expect(localeManager.get("card.name.attack"))
 				.andReturn("Attack").anyTimes();
 		EasyMock.expect(localeManager.get("card.name.skip"))
@@ -405,6 +430,8 @@ public class UserInterfaceTest {
 		assertTrue(out.contains("YOUR HAND (3 cards):"));
 		assertTrue(out.contains("Skip x2 (type: skip)"));
 		assertTrue(out.contains("Attack (type: attack)"));
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -430,6 +457,8 @@ public class UserInterfaceTest {
 		ui.displayDrawnCard(card);
 		assertTrue(outContent.toString(StandardCharsets.UTF_8).
 				contains("You drew: Skip"));
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -913,8 +942,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.type"))
 				.andReturn("type");
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.expect(localeManager.get("card.name.defuse"))
 				.andReturn("Defuse").anyTimes();
 		EasyMock.expect(localeManager.get("card.name.attack"))
@@ -934,6 +961,8 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Defuse"));
 		assertFalse(out.contains("Favor"));
 		assertFalse(out.contains("x0"));
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -951,8 +980,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.type"))
 				.andReturn("type").anyTimes();
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.expect(localeManager.get("card.name.attack"))
 				.andReturn("Attack").anyTimes();
 		EasyMock.expect(localeManager.get("card.name.skip"))
@@ -968,6 +995,8 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Favor"));
 		assertFalse(out.contains("Shuffle"));
 		assertFalse(out.contains("x0"));
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -986,8 +1015,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.type"))
 				.andReturn("type");
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.expect(localeManager.get("card.name.skip"))
 				.andReturn("Skip").anyTimes();
 		EasyMock.replay(localeManager);
@@ -1000,6 +1027,8 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Skip x1"));
 		assertFalse(out.contains("Skip x2"));
 		assertFalse(out.contains("Skip x3"));
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -1021,8 +1050,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.type"))
 				.andReturn("type").anyTimes();
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.expect(localeManager.get("card.name.skip"))
 				.andReturn("Skip").anyTimes();
 		EasyMock.expect(localeManager.get("card.name.attack"))
@@ -1040,6 +1067,8 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Favor"));
 		assertFalse(out.contains("Exploding Kitten"));
 		assertFalse(out.contains("x0"));
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -1117,8 +1146,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.empty"))
 				.andReturn("(empty hand)");
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.expect(localeManager.get("card.name.normal"))
 				.andReturn("Normal").anyTimes();
 		EasyMock.expect(localeManager.get("card.name.exploding_kitten"))
@@ -1162,6 +1189,8 @@ public class UserInterfaceTest {
 					"Should not display " +
 							formattedName + " when player has none");
 		}
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -1203,8 +1232,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.type"))
 				.andReturn("type").anyTimes();
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
 		EasyMock.expect(localeManager.get("card.name.skip"))
 				.andReturn("Skip").anyTimes();
 		EasyMock.replay(localeManager);
@@ -1219,6 +1246,8 @@ public class UserInterfaceTest {
 				"Should not show Defuse when player doesn't have any");
 		assertFalse(out.contains(" x0"),
 				"Cards with count 0 should not be displayed");
+
+		EasyMock.verify(localeManager);
 	}
 
 	@Test
@@ -1296,12 +1325,6 @@ public class UserInterfaceTest {
 				.andReturn("cards");
 		EasyMock.expect(localeManager.get("hand.type"))
 				.andReturn("type");
-		EasyMock.expect(localeManager.get("hand.usage"))
-				.andReturn("Use 'play <type>' to play a card (e.g., 'play skip')");
-		EasyMock.expect(localeManager.get("card.name.skip"))
-				.andReturn("Skip");
-		EasyMock.expect(localeManager.get("card.name.attack"))
-				.andReturn("Attack");
 		EasyMock.expect(localeManager.get("card.name.skip"))
 				.andReturn("Skip").anyTimes();
 		EasyMock.expect(localeManager.get("card.name.defuse"))
@@ -1316,6 +1339,7 @@ public class UserInterfaceTest {
 		assertFalse(out.contains("Attack"));
 
 		EasyMock.verify(mockPlayer);
+		EasyMock.verify(localeManager);
 	}
 
 	@Test

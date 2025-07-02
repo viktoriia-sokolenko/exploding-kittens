@@ -207,6 +207,7 @@ public class GameEngine {
 		System.out.println(getMessage("cards.in.deck")
 				+ deck.getDeckSize());
 		userInterface.displayPlayerHand(currentPlayer);
+		userInterface.displayInstructions();
 	}
 
 	public void displayGameStatus() {
