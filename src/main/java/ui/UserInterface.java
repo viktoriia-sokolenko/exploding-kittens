@@ -263,6 +263,12 @@ public class UserInterface {
 		return localeManager.get("card.transfer.prompt");
 	}
 
+	public void displayPlayerChangeMessage(int newPlayerIndex) {
+		String format = localeManager.get("player.change.message");
+		String message = String.format(format, newPlayerIndex);
+		System.out.println(message);
+	}
+
 	private String getMessage(String key) {
 		return localeManager.get(key);
 	}

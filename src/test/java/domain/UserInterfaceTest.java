@@ -1850,6 +1850,25 @@ public class UserInterfaceTest {
 		EasyMock.verify(localeManager);
 	}
 
+	@Test
+	public void displayPlayerChangeMessage_returnsCorrectFormattedMessage() {
+		UserInterface ui = new UserInterface(localeManager);
+
+		EasyMock.expect(localeManager.get("player.change.message"))
+				.andReturn("Current player should step away so that player %d can" +
+						" choose the card to give to the current player.");
+
+		EasyMock.replay(localeManager);
+
+		ui.displayPlayerChangeMessage(1);
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		String expectedMessage = "Current player should step away so that player 1" +
+				" can choose the card to give to the current player.";
+		assertTrue(out.contains(expectedMessage));
+
+		EasyMock.verify(localeManager);
+	}
+
 	private Card mockCard(CardType cardType) {
 		Card mockCard = EasyMock.createMock(Card.class);
 		EasyMock.expect(mockCard.getCardType()).andStubReturn(cardType);
