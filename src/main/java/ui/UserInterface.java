@@ -278,6 +278,10 @@ public class UserInterface {
 		return String.format(format, deckSize);
 	}
 
+	public void displayDefusePlayError() {
+		System.out.println(getMessage("defuse.play.error"));
+	}
+
 	private String getMessage(String key) {
 		return localeManager.get(key);
 	}

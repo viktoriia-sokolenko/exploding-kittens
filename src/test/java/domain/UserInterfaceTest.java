@@ -279,7 +279,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	public void displayInstructions_showsCorrectText() {
+	public void displayInstructions_printsCorrectText() {
 		String instructions = "Use 'play <type>' to play a card " +
 				"(e.g., 'play skip').\nIf you already played a card " +
 				"or want to end your turn, use 'draw' to draw " +
@@ -307,7 +307,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	public void displayCardPlayed_showsCorrectText() {
+	public void displayCardPlayed_printsCorrectText() {
 		UserInterface ui = new UserInterface(localeManager);
 		Card card = new SkipCard();
 
@@ -435,7 +435,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	public void displayCardPlayed_andDrawnCard_showCorrectText() {
+	public void displayCardPlayed_andDrawnCard_printsCorrectText() {
 		UserInterface ui = new UserInterface(localeManager);
 		Card card = new SkipCard();
 
@@ -1907,6 +1907,24 @@ public class UserInterfaceTest {
 		String expectedPrompt = "Where would you like to " +
 				"bury this card? (0 = top, 2 = bottom)";
 		assertEquals(expectedPrompt, actualPrompt);
+
+		EasyMock.verify(localeManager);
+	}
+
+	@Test
+	public void displayDefusePlayError_printsCorrectText() {
+		UserInterface ui = new UserInterface(localeManager);
+
+		String defuseErrorMessage = "You can't play Defuse" +
+				" Card unless you draw Exploding Kitten";
+
+		EasyMock.expect(localeManager.get("defuse.play.error"))
+				.andReturn(defuseErrorMessage);
+		EasyMock.replay(localeManager);
+
+		ui.displayDefusePlayError();
+		String out = outContent.toString(StandardCharsets.UTF_8);
+		assertTrue(out.contains(defuseErrorMessage));
 
 		EasyMock.verify(localeManager);
 	}
