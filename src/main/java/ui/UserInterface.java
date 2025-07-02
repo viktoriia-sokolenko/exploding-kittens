@@ -273,6 +273,11 @@ public class UserInterface {
 		System.out.println(message);
 	}
 
+	public String getBuryCardPrompt(int deckSize) {
+		String format = localeManager.get("bury.card.prompt");
+		return String.format(format, deckSize);
+	}
+
 	private String getMessage(String key) {
 		return localeManager.get(key);
 	}

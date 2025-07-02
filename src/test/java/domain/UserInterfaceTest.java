@@ -1875,7 +1875,7 @@ public class UserInterfaceTest {
 	}
 
 	@Test
-	public void displayPlayerChangeMessage_returnsCorrectFormattedMessage() {
+	public void displayPlayerChangeMessage_printsCorrectFormattedMessage() {
 		UserInterface ui = new UserInterface(localeManager);
 
 		EasyMock.expect(localeManager.get("player.change.message"))
@@ -1889,6 +1889,24 @@ public class UserInterfaceTest {
 		String expectedMessage = "Current player should step away so that player 1" +
 				" can choose the card to give to the current player.";
 		assertTrue(out.contains(expectedMessage));
+
+		EasyMock.verify(localeManager);
+	}
+
+	@Test
+	public void getBuryCardPrompt_returnsCorrectFormattedMessage() {
+		UserInterface ui = new UserInterface(localeManager);
+
+		EasyMock.expect(localeManager.get("bury.card.prompt"))
+				.andReturn("Where would you like to bury" +
+						" this card? (0 = top, %d = bottom)");
+
+		EasyMock.replay(localeManager);
+
+		String actualPrompt = ui.getBuryCardPrompt(2);
+		String expectedPrompt = "Where would you like to " +
+				"bury this card? (0 = top, 2 = bottom)";
+		assertEquals(expectedPrompt, actualPrompt);
 
 		EasyMock.verify(localeManager);
 	}
