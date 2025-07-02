@@ -886,4 +886,18 @@ public class GameContextTest {
 		EasyMock.verify(turnManager, playerManager, deck, currentPlayer,
 				userInterface, cardFactory);
 	}
+
+	@Test
+	public void handlePlayingDefuseCard_callsDisplayDefusePlayError() {
+		userInterface.displayDefusePlayError();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+		fullGameContext.handlePlayingDefuseCard();
+
+		EasyMock.verify(userInterface);
+	}
 }

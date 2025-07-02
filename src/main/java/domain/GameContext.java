@@ -123,6 +123,10 @@ public class GameContext {
 		}
 	}
 
+	public void handlePlayingDefuseCard() {
+		userInterface.displayDefusePlayError();
+	}
+
 	private Card getCardFromUserInput(String message, Player player) {
 		userInterface.displayPlayerHand(player);
 		String cardTypeInput = userInterface.getUserInput(message);
