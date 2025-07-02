@@ -7,6 +7,13 @@ public class DefuseCard extends Card {
 
 	@Override
 	public CardEffect createEffect() {
-		return null;
+		return new DefuseEffect();
+	}
+
+	private static class DefuseEffect implements CardEffect {
+		@Override
+		public void execute(GameContext context) {
+			context.handlePlayingDefuseCard();
+		}
 	}
 }
