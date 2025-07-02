@@ -111,18 +111,15 @@ public class GameContext {
 		userInterface.displayDrawnCard(topCard);
 
 		int deckSize = deck.getDeckSize();
-		int insertIndex = getNumericIndexFromUserInput(deckSize);
+		int insertIndex = getBuryCardIndexFromUserInput(deckSize);
 
 		deck.insertCardAt(topCard, insertIndex);
-		userInterface.displaySuccess("Player " + currentPlayer + " has buried a card.");
 		endTurnWithoutDrawing();
 	}
 
 	public void moveAllExplodingKittensToTop() {
 		if (deck != null && userInterface != null) {
 			deck.moveAllExplodingKittensToTop();
-			userInterface.displaySuccess
-					("All Exploding Kittens moved to the top of the deck!");
 		}
 	}
 
@@ -144,12 +141,9 @@ public class GameContext {
 
 	}
 
-	private int getNumericIndexFromUserInput(int deckSize) {
-		return userInterface.getNumericUserInput(
-				"Where would you like to bury this card? (0 = top, "
-						+ deckSize + " = bottom)",
-				0, deckSize
-		);
+	private int getBuryCardIndexFromUserInput(int deckSize) {
+		String message = userInterface.getBuryCardPrompt(deckSize);
+		return userInterface.getNumericUserInput(message, 0, deckSize);
 	}
 
 	private List<Integer> getIndicesFromUserInput(List<Card> topThreeCards) {

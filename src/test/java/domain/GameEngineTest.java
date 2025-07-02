@@ -808,13 +808,18 @@ public class GameEngineTest {
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(0);
 		EasyMock.replay(mockDeck);
 
-		mockUserInterface.displayError("Deck is empty!");
+		String emptyDeckMessage = "Deck is empty!";
+		EasyMock.expect(mockLocaleManager.get("deck.empty"))
+				.andReturn(emptyDeckMessage);
+		EasyMock.replay(mockLocaleManager);
+
+		mockUserInterface.displayError(emptyDeckMessage);
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
 		gameEngine.handleDrawCommand(mockPlayer);
 
-		EasyMock.verify(mockPlayer, mockDeck, mockUserInterface);
+		EasyMock.verify(mockPlayer, mockDeck, mockUserInterface, mockLocaleManager);
 	}
 
 

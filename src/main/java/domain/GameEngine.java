@@ -249,7 +249,8 @@ public class GameEngine {
 
 		final int DECK_SIZE_OF_ZERO = 0;
 		if (deck.getDeckSize() == DECK_SIZE_OF_ZERO) {
-			userInterface.displayError("Deck is empty!");
+			userInterface.displayError(
+					getMessage("deck.empty"));
 			return;
 		}
 
