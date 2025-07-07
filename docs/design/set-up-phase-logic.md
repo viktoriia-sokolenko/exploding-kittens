@@ -60,7 +60,7 @@ This document outlines the steps needed to initialize the Exploding Kittens game
 
 ### Step 6: Initialize Player State
 - Assign:
-  - Player ID or name
+  - Player index
   - Hand (cards)
   - `isTurn?` → `false` for all but first player
 - Set turn order (circular queue or linked list)
@@ -105,7 +105,7 @@ This document outlines the steps needed to initialize the Exploding Kittens game
 
 ### `Hand` Class
 - Fields:
-  - `Map Card Player`
+  - `Map CardType Count`
 - Methods:
   - `addCard()`
   - `removeCard()`

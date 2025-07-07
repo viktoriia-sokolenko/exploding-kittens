@@ -15,6 +15,12 @@
 - JUnit 5.10
 - Gradle 8.10
 
+- EasyMock 4.8.6
+- Spotbugs 4.8.6
+- Pitest 1.15.0
+- Jacoco 0.8.13
+- Checkstyle 10.18.2
+
 ## Note
 Please check the other README.md file under docs/design as it also contains important information
 
