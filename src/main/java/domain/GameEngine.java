@@ -207,6 +207,7 @@ public class GameEngine {
 		System.out.println(getMessage("cards.in.deck")
 				+ deck.getDeckSize());
 		userInterface.displayPlayerHand(currentPlayer);
+		userInterface.displayInstructions();
 	}
 
 	public void displayGameStatus() {
@@ -248,7 +249,8 @@ public class GameEngine {
 
 		final int DECK_SIZE_OF_ZERO = 0;
 		if (deck.getDeckSize() == DECK_SIZE_OF_ZERO) {
-			userInterface.displayError("Deck is empty!");
+			userInterface.displayError(
+					getMessage("deck.empty"));
 			return;
 		}
 

@@ -808,13 +808,18 @@ public class GameEngineTest {
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(0);
 		EasyMock.replay(mockDeck);
 
-		mockUserInterface.displayError("Deck is empty!");
+		String emptyDeckMessage = "Deck is empty!";
+		EasyMock.expect(mockLocaleManager.get("deck.empty"))
+				.andReturn(emptyDeckMessage);
+		EasyMock.replay(mockLocaleManager);
+
+		mockUserInterface.displayError(emptyDeckMessage);
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
 		gameEngine.handleDrawCommand(mockPlayer);
 
-		EasyMock.verify(mockPlayer, mockDeck, mockUserInterface);
+		EasyMock.verify(mockPlayer, mockDeck, mockUserInterface, mockLocaleManager);
 	}
 
 
@@ -1222,6 +1227,8 @@ public class GameEngineTest {
 
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
 		EasyMock.expectLastCall();
+		mockUserInterface.displayInstructions();
+		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -1271,6 +1278,8 @@ public class GameEngineTest {
 		EasyMock.replay(mockDeck);
 
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
+		EasyMock.expectLastCall();
+		mockUserInterface.displayInstructions();
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
@@ -1340,7 +1349,10 @@ public class GameEngineTest {
 
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
 		EasyMock.expectLastCall();
+		mockUserInterface.displayInstructions();
+		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
+
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(outputStream,
@@ -1379,6 +1391,8 @@ public class GameEngineTest {
 		EasyMock.replay(mockDeck);
 
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
+		EasyMock.expectLastCall();
+		mockUserInterface.displayInstructions();
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
@@ -1428,6 +1442,8 @@ public class GameEngineTest {
 		EasyMock.replay(mockDeck);
 
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
+		EasyMock.expectLastCall();
+		mockUserInterface.displayInstructions();
 		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
@@ -1489,6 +1505,8 @@ public class GameEngineTest {
 
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
 		EasyMock.expectLastCall();
+		mockUserInterface.displayInstructions();
+		EasyMock.expectLastCall();
 		EasyMock.replay(mockUserInterface);
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -1514,11 +1532,13 @@ public class GameEngineTest {
 		final int SEPERATOR_LENGTH           = 40;
 		final int EXPECTED_SEPERATOR_COUNT   = 2;
 		final int MOCK_DECK_SIZE             = 10;
+
 		Player mockCurrentPlayer = EasyMock.createMock(Player.class);
 		EasyMock.expect(mockCurrentPlayer.isInGame())
 				.andReturn(true)
 				.anyTimes();
 		EasyMock.replay(mockCurrentPlayer);
+
 		List<Player> players = Collections.singletonList(mockCurrentPlayer);
 		EasyMock.expect(mockPlayerManager.getPlayers())
 				.andReturn(players)
@@ -1527,13 +1547,18 @@ public class GameEngineTest {
 				.andReturn(players)
 				.anyTimes();
 		EasyMock.replay(mockPlayerManager);
+
 		EasyMock.expect(mockDeck.getDeckSize())
 				.andReturn(MOCK_DECK_SIZE)
 				.anyTimes();
 		EasyMock.replay(mockDeck);
+
 		mockUserInterface.displayPlayerHand(mockCurrentPlayer);
 		EasyMock.expectLastCall().once();
+		mockUserInterface.displayInstructions();
+		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockUserInterface);
+
 		EasyMock.expect(mockLocaleManager.get("turn.of.player"))
 				.andReturn("")
 				.anyTimes();
@@ -1547,6 +1572,7 @@ public class GameEngineTest {
 				.andReturn("")
 				.anyTimes();
 		EasyMock.replay(mockLocaleManager);
+
 		ByteArrayOutputStream capturedOut = new ByteArrayOutputStream();
 		PrintStream originalOut = System.out;
 		System.setOut(new PrintStream(capturedOut,

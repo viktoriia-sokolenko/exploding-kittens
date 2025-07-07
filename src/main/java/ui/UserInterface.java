@@ -115,6 +115,10 @@ public class UserInterface {
 		}
 
 		System.out.println("─".repeat(NUMBER_OF_DASHES));
+	}
+
+	public void displayInstructions() {
+		final int NUMBER_OF_DASHES = 40;
 		System.out.println(getMessage("hand.usage"));
 		System.out.println("─".repeat(NUMBER_OF_DASHES) + "\n");
 	}
@@ -261,6 +265,21 @@ public class UserInterface {
 
 	public String getCardTransferPrompt() {
 		return localeManager.get("card.transfer.prompt");
+	}
+
+	public void displayPlayerChangeMessage(int newPlayerIndex) {
+		String format = localeManager.get("player.change.message");
+		String message = String.format(format, newPlayerIndex);
+		System.out.println(message);
+	}
+
+	public String getBuryCardPrompt(int deckSize) {
+		String format = localeManager.get("bury.card.prompt");
+		return String.format(format, deckSize);
+	}
+
+	public void displayDefusePlayError() {
+		System.out.println(getMessage("defuse.play.error"));
 	}
 
 	private String getMessage(String key) {

@@ -307,9 +307,13 @@ public class GameContextTest {
 						playerMessage,
 						0, 2))
 				.andReturn(playerIndex);
+		userInterface.displayPlayerChangeMessage(playerIndex);
+		EasyMock.expectLastCall();
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
 
+		userInterface.displayPlayerHand(mockPlayerGiver);
+		EasyMock.expectLastCall();
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
@@ -320,6 +324,7 @@ public class GameContextTest {
 						"Enter card type you want to give to current player"
 				)
 		).andReturn(cardTypeInput);
+
 		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
 				.andReturn(testCardType);
 		EasyMock.expect(mockCardFactory.createCard(testCardType))
@@ -359,9 +364,15 @@ public class GameContextTest {
 						playerMessage,
 						0, 2))
 				.andReturn(playerIndex);
+
+		userInterface.displayPlayerChangeMessage(playerIndex);
+		EasyMock.expectLastCall();
+
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
 
+		userInterface.displayPlayerHand(mockPlayerGiver);
+		EasyMock.expectLastCall();
 
 		Card testCard = mockCard(testCardType);
 		String cardTypeInput = "testCardType";
@@ -372,6 +383,7 @@ public class GameContextTest {
 						"Enter card type you want to give to current player"
 				)
 		).andReturn(cardTypeInput);
+
 		EasyMock.expect(mockPlayerGiver.parseCardType(cardTypeInput))
 				.andReturn(testCardType);
 		EasyMock.expect(mockCardFactory.createCard(testCardType))
@@ -412,9 +424,13 @@ public class GameContextTest {
 						playerMessage,
 						0, 2))
 				.andReturn(playerIndex);
+		userInterface.displayPlayerChangeMessage(playerIndex);
+		EasyMock.expectLastCall();
 		EasyMock.expect(mockPlayerManager.getPlayerByIndex(playerIndex))
 				.andReturn(mockPlayerGiver);
 
+		userInterface.displayPlayerHand(mockPlayerGiver);
+		EasyMock.expectLastCall();
 		String cardTypeInput = "invalidCardType";
 		EasyMock.expect(userInterface.getCardTransferPrompt())
 				.andReturn("Enter card type you want to give to current player");
@@ -721,16 +737,16 @@ public class GameContextTest {
 
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(1).once();
 
-		EasyMock.expect(userInterface.getNumericUserInput(
-				EasyMock.contains("Where would you like to bury this card?"),
-				EasyMock.eq(0), EasyMock.eq(1)
-		)).andReturn(0).once();
+		String buryCardPrompt = "Where would you like to bury this card?";
+		EasyMock.expect(userInterface.getBuryCardPrompt(1))
+				.andReturn(buryCardPrompt);
+		EasyMock.expect(userInterface.getNumericUserInput(buryCardPrompt,
+						0, 1))
+				.andReturn(0).once();
 
 		mockDeck.insertCardAt(mockCard, 0);
 		EasyMock.expectLastCall().once();
 
-		userInterface.displaySuccess(EasyMock.contains("Player"));
-		EasyMock.expectLastCall().once();
 		mockTurnManager.endTurnWithoutDraw();
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockDeck, userInterface, mockTurnManager);
@@ -755,16 +771,16 @@ public class GameContextTest {
 
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(MAX_INDEX).once();
 
-		EasyMock.expect(userInterface.getNumericUserInput(
-				EasyMock.contains("Where would you like to bury this card?"),
-				EasyMock.eq(0), EasyMock.eq(MAX_INDEX)
-		)).andReturn(MAX_INDEX).once();
+		String buryCardPrompt = "Where would you like to bury this card?";
+		EasyMock.expect(userInterface.getBuryCardPrompt(MAX_INDEX))
+				.andReturn(buryCardPrompt);
+		EasyMock.expect(userInterface.getNumericUserInput(buryCardPrompt,
+						0, MAX_INDEX))
+				.andReturn(MAX_INDEX).once();
 
 		mockDeck.insertCardAt(mockCard, MAX_INDEX);
 		EasyMock.expectLastCall().once();
 
-		userInterface.displaySuccess(EasyMock.contains("Player"));
-		EasyMock.expectLastCall().once();
 		mockTurnManager.endTurnWithoutDraw();
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockDeck, userInterface, mockTurnManager);
@@ -790,16 +806,16 @@ public class GameContextTest {
 
 		EasyMock.expect(mockDeck.getDeckSize()).andReturn(MAX_INDEX).once();
 
-		EasyMock.expect(userInterface.getNumericUserInput(
-				EasyMock.contains("Where would you like to bury this card?"),
-				EasyMock.eq(0), EasyMock.eq(MAX_INDEX)
-		)).andReturn(MIDDLE_INDEX).once();
+		String buryCardPrompt = "Where would you like to bury this card?";
+		EasyMock.expect(userInterface.getBuryCardPrompt(MAX_INDEX))
+				.andReturn(buryCardPrompt);
+		EasyMock.expect(userInterface.getNumericUserInput(buryCardPrompt,
+						0, MAX_INDEX))
+				.andReturn(MIDDLE_INDEX).once();
 
 		mockDeck.insertCardAt(mockCard, MIDDLE_INDEX);
 		EasyMock.expectLastCall().once();
 
-		userInterface.displaySuccess(EasyMock.contains("Player"));
-		EasyMock.expectLastCall().once();
 		mockTurnManager.endTurnWithoutDraw();
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockDeck, userInterface, mockTurnManager);
@@ -855,13 +871,7 @@ public class GameContextTest {
 		UserInterface userInterface = EasyMock.createMock(UserInterface.class);
 		CardFactory cardFactory = EasyMock.createMock(CardFactory.class);
 
-		String expectedSuccessMessage =
-				"All Exploding Kittens moved to the top of the deck!";
-
 		deck.moveAllExplodingKittensToTop();
-		EasyMock.expectLastCall().once();
-
-		userInterface.displaySuccess(expectedSuccessMessage);
 		EasyMock.expectLastCall().once();
 
 		EasyMock.replay(turnManager, playerManager, deck, currentPlayer,
@@ -875,5 +885,19 @@ public class GameContextTest {
 
 		EasyMock.verify(turnManager, playerManager, deck, currentPlayer,
 				userInterface, cardFactory);
+	}
+
+	@Test
+	public void handlePlayingDefuseCard_callsDisplayDefusePlayError() {
+		userInterface.displayDefusePlayError();
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(userInterface);
+
+		GameContext fullGameContext = new GameContext(mockTurnManager,
+				mockPlayerManager,
+				mockDeck, mockCurrentPlayer, userInterface, mockCardFactory);
+		fullGameContext.handlePlayingDefuseCard();
+
+		EasyMock.verify(userInterface);
 	}
 }

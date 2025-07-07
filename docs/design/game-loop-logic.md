@@ -59,6 +59,12 @@ The game runs in a continuous loop that follows these steps:
 
 - Advances to next player's turn
 
+### Status Command
+- Displays number of active players, number of cards in deck, and number of cards in current player's hand
+
+### Help Command
+- Shows available commands
+
 ## Game State Management
 The loop maintains:
 - Active player tracking
